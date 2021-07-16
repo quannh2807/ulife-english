@@ -9,22 +9,23 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
-    {{--    <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}">--}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!-- AdminLTE Theme style -->
+    <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
     <!-- Navbar -->
-    @include('admin.layouts.navbar')
-    <!-- /.navbar -->
+@include('admin.layouts.navbar')
+<!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    @include('admin.layouts.sidebar')
+@include('admin.layouts.sidebar')
 
-    <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">
@@ -47,8 +48,8 @@
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
-                @yield('main')
-                <!-- /.row -->
+            @yield('main')
+            <!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content -->
@@ -73,5 +74,6 @@
 <!-- REQUIRED SCRIPTS -->
 
 @include('admin.layouts.script')
+@yield('custom-script')
 </body>
 </html>

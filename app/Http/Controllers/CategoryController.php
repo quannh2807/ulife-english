@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
-class VideoController extends Controller
+class CategoryController extends Controller
 {
     public function index () {
-        return view('admin.video.index');
+        return view('admin.categories.index');
     }
 
     public function create()
     {
-        return view('admin.video.create');
+        return view('admin.categories.create');
     }
 
     /**
@@ -26,7 +25,7 @@ class VideoController extends Controller
 
     public function update()
     {
-        return view('admin.video.create');
+        return view('admin.categories.create');
     }
 
     /**
