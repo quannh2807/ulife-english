@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 $(document).ready(() => {
     /*** add active class and stay opened when selected ***/
     var url = window.location;
@@ -17,12 +19,32 @@ $(document).ready(() => {
     }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
 });
 
-function getYoutubeId(url) {
-    let ytb_id = url.split("v=")[1];
+window.basicAlert = (msg) => {
+    Swal.fire(msg);
+};
 
-    let positionMoreData = ytb_id.indexOf("&");
-    if(positionMoreData !== -1) {
-        return ytb_id = ytb_id.substring(0, positionMoreData);
-    }
-    return ytb_id;
+window.confirmDelete = (id, route) => {
+    console.log(route)
+    $(id).click(event => {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (!result.isConfirmed) return
+
+
+            Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
+        })
+    })
 }

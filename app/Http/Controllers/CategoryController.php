@@ -2,30 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
+use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index () {
-        return view('admin.categories.index');
+    private $categoryRepository;
+
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
+    public function index()
+    {
+        $categories = $this->categoryRepository->fetchAll(["createdBy", "updatedBy"]);
+//        dd($categories);
+
+        return view('admin.categories.index', [
+            'categories' => $categories,
+        ]);
     }
 
     public function create()
     {
-        return view('admin.categories.create');
+        $categories = $this->categoryRepository->fetchAll([], ['id', 'name']);
+
+        return view('admin.categories.create', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
      * @param Request $request
      */
-    public function saveCreate(Request $request)
+    public function saveCreate(CategoryRequest $request)
     {
+        $data = $request->all();
 
+        $this->categoryRepository->storeNew($data);
+
+        return redirect()->route('admin.category.index');
     }
 
-    public function update()
+    public function update(Request $request)
     {
-        return view('admin.categories.create');
+        $categoryId = $request->id;
+        $categories = $this->categoryRepository->fetchAll([], ['id', 'name']);
+        $category = $this->categoryRepository->findById($categoryId, []);
+
+        return view('admin.categories.update', [
+            'categories' => $categories,
+            'category' => $category,
+        ]);
     }
 
     /**
@@ -33,11 +63,18 @@ class CategoryController extends Controller
      */
     public function saveUpdate(Request $request)
     {
+        $id = $request->id;
+        $data = $request->except(['_token', 'id']);
+        $this->categoryRepository->update($id, $data);
 
+        return redirect()->route('admin.category.index');
     }
 
-    public function remove()
+    public function remove(Request $request)
     {
-        echo 'Deleted';
+        $categoryId = $request->id;
+        $this->categoryRepository->deleteById($categoryId);
+
+        return redirect()->route('admin.category.index');
     }
 }

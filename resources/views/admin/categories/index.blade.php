@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @section('page-title', 'Danh mục video')
+@section('breadcrumb', 'Danh mục video')
 
 @section('main')
     <div class="col-12">
@@ -21,56 +22,54 @@
                 </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body table-responsive p-0" style="height: 300px;">
+            <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-wrap">
                     <thead>
                     <tr>
-                        <th>No</th>
+                        <th></th>
                         <th>Tên</th>
                         <th>Slug</th>
                         <th>Vị trí</th>
                         <th>Danh mục cha</th>
                         <th>Loại danh mục</th>
                         <th>Trạng thái</th>
+                        <th>Người tạo</th>
+                        <th>Người cập nhật</th>
                         <th class="row align-content-center justify-content-center">
-                            <button class="btn btn-primary">Thêm mới</button>
+                            <a href="{{ route('admin.category.create') }}" class="btn btn-primary">Thêm mới</a>
                         </th>
                     </tr>
                     </thead>
 
+                    @php
+                        $i = 1
+                    @endphp
+
                     <tbody>
+                    @foreach($categories as $index => $category)
                     <tr>
-                        <td>183</td>
-                        <td>John Doe</td>
-                        <td>11-7-2014</td>
-                        <td>11-7-2014</td>
-                        <td>11-7-2014</td>
-                        <td><span class="tag tag-success">Approved</span></td>
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                        <th>{{ $i ++ }}</th>
+                        <td>{{ $category->name }}</td>
+                        <td>{{ $category->slug}}</td>
+                        <td>{{ $category->position }}</td>
+                        <td>{{ $category->parent_id }}</td>
+                        <td>{{ $category->type }}</td>
+                        <td>{{ $category->status }}</td>
+                        <td>{{ $category->createdBy->acc_name }}</td>
+                        <td>{{ $category->updatedBy->acc_name }}</td>
                         <td class="row align-content-center justify-content-center">
-                            <button class="btn btn-warning"><i class="fas fa-pencil-alt"></i></button>
-                            <button class="btn btn-secondary ml-2"><i class="far fa-trash-alt"></i></button>
+                            <a href="{{ route('admin.category.update', ['id' => $category->id]) }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
+                            <a id="btn-delete" class="btn btn-secondary ml-2" onclick="confirmDelete('.btn-delete', '{{ route('admin.category.remove', ['id' => $category->id]) }}')">
+                                <i class="far fa-trash-alt"></i>
+                            </a>
                         </td>
                     </tr>
-                    <tr>
-                        <td>183</td>
-                        <td>John Doe</td>
-                        <td>11-7-2014</td>
-                        <td>11-7-2014</td>
-                        <td>11-7-2014</td>
-                        <td><span class="tag tag-success">Approved</span></td>
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                        <td>
-                            <div class="row align-content-center justify-content-center">
-                                <a href="{{ route('admin.category.update') }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
-                                <a href="{{ route('admin.category.remove') }}" class="btn btn-secondary ml-2"><i class="far fa-trash-alt"></i></a>
-                            </div>
-                        </td>
-                    </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
             <!-- /.card-body -->
+            <!--
             <div class="card-footer clearfix">
                 <ul class="pagination pagination-sm m-0 float-right">
                     <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
@@ -80,7 +79,14 @@
                     <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
                 </ul>
             </div>
+            -->
         </div>
         <!-- /.card -->
     </div>
+@endsection
+
+@section('custom-script')
+    <script>
+        confirmDelete('.btn-delete')
+    </script>
 @endsection

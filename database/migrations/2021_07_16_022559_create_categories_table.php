@@ -17,12 +17,12 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->string('position');
+            $table->integer('position')->default(1);
             $table->integer('parent_id')->default(0);
             $table->integer('type')->default(1);
             $table->integer('status')->default(1);
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->integer('created_by');
+            $table->integer('updated_by');
             $table->timestamps();
         });
     }

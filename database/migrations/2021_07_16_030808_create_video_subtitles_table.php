@@ -17,12 +17,13 @@ class CreateVideoSubtitlesTable extends Migration
             $table->id();
             $table->foreignId('video_id')->constrained('videos');
             $table->foreignId('lang_id')->constrained('languages');
-            $table->string('name');
+            $table->string('name_release');
+            $table->string('name_draft')->nullable();
             $table->integer('time_start');
             $table->integer('time_end');
             $table->integer('status')->default(1);
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->integer('created_by');
+            $table->integer('updated_by');
             $table->timestamps();
         });
     }
