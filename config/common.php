@@ -16,4 +16,15 @@ return [
         ],
         'default' => 20,
     ],
+    'question_type' => [
+        'Chọn một đáp án' => 1,
+        'Sắp xếp' => 2,
+        'Điền vào chỗ trống' => 2,
+    ],
+    'question_level' => [
+        'Dễ' => 1,
+        'Trung bình' => 2,
+        'Khó' => 3,
+        'Rất khó' => 4,
+    ]
 ];

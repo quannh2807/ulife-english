@@ -15,7 +15,8 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('level_id')->constrained('levels');
+            $table->integer('level'); // config common level 1, 2, 3, 4
+            $table->integer('type'); // config common level 1, 2, 3, 4
             $table->foreignId('sub_id')->constrained('video_subtitles');
             $table->foreignId('cate_id')->constrained('categories');
             $table->string('name');
