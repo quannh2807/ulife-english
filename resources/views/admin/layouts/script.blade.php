@@ -1,6 +1,3 @@
-<!-- jQuery -->
-<script src="{{ asset('js/jquery.min.js') }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('js/adminlte.min.js') }}"></script>
+{{--Laravel Mix - Include Bootstrap 4, jQuery, Admin LTE, see webpack.mix.js--}}
+<script src="{{ asset('js/all.min.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
