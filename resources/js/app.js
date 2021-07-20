@@ -16,13 +16,3 @@ $(document).ready(() => {
         }
     }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
 });
-
-function getYoutubeId(url) {
-    let ytb_id = url.split("v=")[1];
-
-    let positionMoreData = ytb_id.indexOf("&");
-    if(positionMoreData !== -1) {
-        return ytb_id = ytb_id.substring(0, positionMoreData);
-    }
-    return ytb_id;
-}

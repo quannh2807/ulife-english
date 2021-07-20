@@ -14,6 +14,14 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <!-- AdminLTE Theme style -->
     <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        ul.pagination {
+            margin: 0;
+            justify-content: flex-end;
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -36,8 +44,8 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Starter Page</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">@yield('breadcrumb')</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->

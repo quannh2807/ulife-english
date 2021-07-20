@@ -19,16 +19,16 @@ class CreateVideosTable extends Migration
             $table->foreignId('cate_id')->constrained('categories');
             $table->string('title');
             $table->string('description');
-            $table->text('thumbnails');
-            $table->string('custom_thumb')->nullable();
+            $table->text('ytb_thumbnails');
+            $table->string('custom_thumbnails')->nullable();
             $table->string('publish_at');
             $table->string('tags');
             $table->string('author');
             $table->string('channel_id');
             $table->string('channel_title');
             $table->integer('status')->default(1);
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->integer('created_by');
+            $table->integer('updated_by');
             $table->timestamps();
         });
     }

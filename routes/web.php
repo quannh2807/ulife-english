@@ -23,10 +23,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('category')->name('category.')->group(function () {
         Route::get('/', [\App\Http\Controllers\CategoryController::class, 'index'])->name('index');
         Route::get('/create', [\App\Http\Controllers\CategoryController::class, 'create'])->name('create');
-        Route::get('/save-create', [\App\Http\Controllers\CategoryController::class, 'saveCreate'])->name('saveCreate');
-        Route::get('/update', [\App\Http\Controllers\CategoryController::class, 'update'])->name('update');
-        Route::get('/save-update', [\App\Http\Controllers\CategoryController::class, 'saveUpdate'])->name('saveUpdate');
-        Route::get('/remove', [\App\Http\Controllers\CategoryController::class, 'remove'])->name('remove');
+        Route::post('/save-create', [\App\Http\Controllers\CategoryController::class, 'saveCreate'])->name('saveCreate');
+        Route::get('/update/{id}', [\App\Http\Controllers\CategoryController::class, 'update'])->name('update');
+        Route::post('/save-update', [\App\Http\Controllers\CategoryController::class, 'saveUpdate'])->name('saveUpdate');
+        Route::get('/remove/{id}', [\App\Http\Controllers\CategoryController::class, 'remove'])->name('remove');
     });
 
     Route::prefix('video')->name('video.')->group(function () {

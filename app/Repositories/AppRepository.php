@@ -3,9 +3,8 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
 
-abstract class AppRepository implements RepositoryInterface
+class AppRepository
 {
     /**
      * @var Model
@@ -30,119 +29,97 @@ abstract class AppRepository implements RepositoryInterface
     }
 
     /**
+     * @param array $relations
      * @param array|string[] $columns
-     * @param int $offset
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function fetchList(array $columns = ['*'], int $offset = 0): Collection
+    public function fetchAll(array $relations, array $columns = ['*'])
     {
-        $perPage = config('common.item_per_page');
+        $result = $this->model;
 
-        return $this->model
-            ->skip($offset)
-            ->limit($perPage)
-            ->get($columns);
-    }
+        if ($relations !== "" && $relations !== null) {
+            $result = $result->with($relations);
+        }
 
-    /**
-     * @param int|null $page
-     * @param array|string[] $columns
-     * @param string $orderBy
-     * @param string $orderDes
-     * @return mixed
-     */
-    public function paginateList(int $page = null, array $columns = ['*'], string $orderBy = 'updated_at', string $orderDes = 'desc'): Collection
-    {
-        $perPage = config('common.item_per_page');
-
-        return $this->model
-            ->orderBy('updated_at', $orderDes)
-            ->paginate($perPage, $columns, 'page', $page);
+        return $result->get($columns);
     }
 
     /**
      * @param int $id
+     * @param array $relations
      * @param array|string[] $columns
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
-    public function findById(int $id, array $columns = ['*'])
+    public function findById(int $id, array $relations, array $columns = ['*'])
     {
-        return $this->model
-            ->find($id, $columns);
+        $result = $this->model;
+
+        if ($relations !== "" && $relations !== null) {
+            $result = $result->with($relations);
+        }
+
+        return $result->findOrFail($id, $columns);
     }
 
     /**
-     * @param array $data
+     * @param $param
+     * @param $limit
+     */
+    public function fetchData($param, $limit)
+    {
+        $result = $this->model;
+
+        if (isset($param['orderBy'])) {
+            $result = $result->orderBy($param['orderBy']);
+        }
+
+        $result->paginate($limit);
+    }
+
+    /**
+     * @param $data
      * @return mixed
      */
-    public function store(array $data)
+    public function storeNew($data)
     {
         return $this->model->create($data);
     }
 
     /**
-     * @param int $id
-     * @param array $data
+     * @param $id
+     * @param $data
      * @return mixed
      */
-    public function update(int $id, array $data)
+    public function update($id, $data)
     {
-        return $this->model
-            ->where('id', $id)
-            ->update($data);
+        return $this->model->where('id', $id)->update($data);
     }
 
     /**
-     * @param int $id
+     * @param $id
      * @return mixed
      */
-    public function deleteById(int $id)
+    public function deleteById($id)
     {
-        return $this->model
-            ->where('id', $id)
-            ->delete();
+        return $this->model->where('id', $id)->delete();
     }
 
     /**
-     * @param array $data
+     * @param $data
      * @return mixed
      */
-    public function delete(array $data)
+    public function delete($data)
     {
-        return $this->model
-            ->whereIn('id', $data)
-            ->delete();
+        return $this->model->whereIn('id', $data)->delete();
     }
 
     /**
-     * @param array|string[] $columns
+     * @param string $param
+     * @param int $value
      * @return mixed
      */
-    public function fetchAll(array $columns = ['*'])
+    public function checkRecordExisted(string $param, int $value)
     {
-        return $this->model->get($columns);
-    }
-
-    /**
-     * @param array $data
-     * @return mixed
-     */
-    public function insert(array $data)
-    {
-        return $this->model->insert($data);
-    }
-
-    /**
-     * @param array $ids
-     * @param array|string[] $columns
-     * @param string $orderBy
-     * @param string $orderDes
-     * @return mixed
-     */
-    public function getListByIds(array $ids, array $columns = ['*'], string $orderBy = 'id', string $orderDes = 'ASC')
-    {
-        return $this->model->whereIn('id', $ids)
-            ->orderBy($orderBy, $orderDes)
-            ->get($columns);
+        return $this->model->where($param, $value)->exists();
     }
 }

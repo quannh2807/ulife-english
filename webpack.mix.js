@@ -18,5 +18,5 @@ mix.js('resources/js/app.js', 'public/js')
         'node_modules/bootstrap/dist/js/bootstrap.js',
         'resources/js/adminlte.min.js',
     ], 'public/js/all.min.js')
-    .styles(['resources/css/adminlte.min.css'], 'public/css/all.min.css')
+    .styles(['resources/css/adminlte.min.css', 'resources/css/fontawesome.min.css'], 'public/css/all.min.css')
     .sourceMaps();
