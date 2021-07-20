@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
+use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 
@@ -17,8 +18,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = $this->categoryRepository->fetchAll(["createdBy", "updatedBy"]);
-//        dd($categories);
+        $categories = Category::with('parent')->paginate(10);
 
         return view('admin.categories.index', [
             'categories' => $categories,

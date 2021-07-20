@@ -1,6 +1,8 @@
 {{--Laravel Mix - Include Bootstrap 4, jQuery, Admin LTE, see webpack.mix.js--}}
 <script src="{{ asset('js/all.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
     function getYoutubeId(url) {
@@ -43,4 +45,36 @@
         //In slug ra textbox có id “slug”
         return slug
     }
+
+    $('.btn-destroy').click(function (e) {
+        let form = $(this).closest("form");
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Bạn chắc chắn chưa?',
+            text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Huỷ',
+            confirmButtonText: 'Đồng ý xoá!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await form.submit();
+                Swal.fire(
+                    'Xoá thành công!',
+                    'Dữ liệu đã được xoá hoàn toàn.',
+                    'success'
+                )
+            } else {
+                Swal.fire(
+                    'Có vấn đề xảy ra',
+                    'Dữ liệu chưa được xoá',
+                    'question'
+                )
+            }
+        })
+    });
+
 </script>

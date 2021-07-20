@@ -34,6 +34,10 @@ class Category extends Model
         'updated_by' => 1,
     ];
 
+    public function parent() {
+        return $this->hasOne('App\Models\Category', 'parent_id', 'id');
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
