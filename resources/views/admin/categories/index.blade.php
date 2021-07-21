@@ -51,7 +51,7 @@
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->slug}}</td>
                             <td>{{ $category->position }}</td>
-                            <td>{{ $category->parent !== null ? $category->parent->name : 'Danh mục gốc' }}</td>
+                            <td>{{ $category->hasParentCate !== null ? $category->hasParentCate->name : 'Danh mục gốc' }}</td>
                             <td>{{ $category->type }}</td>
                             <td>{{ $category->status === 0 ? 'Không kích hoạt' : 'Kích hoạt' }}</td>
                             <td align="center" class="text-center">

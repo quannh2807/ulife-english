@@ -18,8 +18,8 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::with('parent')->paginate(10);
-        
+        $categories = Category::with('hasParentCate')->paginate(10);
+
         return view('admin.categories.index', [
             'categories' => $categories,
         ]);
@@ -27,7 +27,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        $categories = $this->categoryRepository->fetchAll([], ['id', 'name']);
+        $categories = $this->categoryRepository->fetchAll(['hasChildrenCateRecursive', 'hasParentCate'], ['id', 'name', 'parent_id']);
 
         return view('admin.categories.create', [
             'categories' => $categories,
@@ -49,7 +49,7 @@ class CategoryController extends Controller
     public function update(Request $request)
     {
         $categoryId = $request->id;
-        $categories = $this->categoryRepository->fetchAll([], ['id', 'name']);
+        $categories = $this->categoryRepository->fetchAll(['hasChildrenCateRecursive', 'hasParentCate'], ['id', 'name', 'parent_id']);
         $category = $this->categoryRepository->findById($categoryId, []);
 
         return view('admin.categories.update', [

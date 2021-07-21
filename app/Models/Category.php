@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -34,23 +36,29 @@ class Category extends Model
         'updated_by' => 1,
     ];
 
-    public function parent() {
-        return $this->hasOne('App\Models\Category', 'parent_id', 'id');
+    /**
+     * @return BelongsTo
+     * children -> parent
+     */
+    public function hasParentCate()
+    {
+        return $this->belongsTo(Category::class, 'parent_id', 'id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return HasMany
+     * parent -> children
      */
-    public function createdBy()
+    public function hasChildrenCate()
     {
-        return $this->belongsTo('App\Models\User', 'created_by', 'id');
+        return $this->hasMany(Category::class, 'parent_id', 'id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return HasMany
      */
-    public function updatedBy()
+    public function hasChildrenCateRecursive()
     {
-        return $this->belongsTo('App\Models\User', 'updated_by', 'id');
+        return $this->hasMany(Category::class, 'parent_id', 'id')->with('hasChildrenCate');
     }
 }

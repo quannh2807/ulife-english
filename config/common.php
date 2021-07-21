@@ -26,5 +26,5 @@ return [
         'Trung bình' => 2,
         'Khó' => 3,
         'Rất khó' => 4,
-    ]
+    ],
 ];

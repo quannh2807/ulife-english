@@ -38,7 +38,8 @@
                             <div class="form-group">
                                 <label for="cate-position">Vị trí</label>
                                 <input type="text" class="form-control" id="cate-position"
-                                       placeholder="Điền vị trí" name="position" value="{{ old('position') }}">
+                                       placeholder="Điền vị trí" name="position"
+                                       value="{{ old('position') ? old('position') : 1 }}">
                                 @error('position')
                                 <p style="color: red;">{{$message}}</p>
                                 @enderror
@@ -50,18 +51,19 @@
                                 <select name="parent_id" class="form-control" id="cate-parent">
                                     <option value="0" selected>Danh mục gốc</option>
                                     @foreach($categories as $index => $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @if($category->hasParentCate === null)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endif
+
+                                        @includeWhen(
+                                            count($category->hasChildrenCateRecursive) > 0,
+                                            'admin.categories.child_cate',
+                                            ['childCates' => $category->hasChildrenCateRecursive, 'space' => '--- ']
+                                        )
                                     @endforeach
                                 </select>
+
                                 @error('parent_id')
-                                <p style="color: red;">{{$message}}</p>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="cate-type">Loại danh mục</label>
-                                <input type="text" class="form-control" id="cate-type"
-                                       placeholder="Điền loại danh mục" name="type" value="{{ old('type') }}">
-                                @error('type')
                                 <p style="color: red;">{{$message}}</p>
                                 @enderror
                             </div>
