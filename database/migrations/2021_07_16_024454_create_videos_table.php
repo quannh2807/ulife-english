@@ -22,7 +22,7 @@ class CreateVideosTable extends Migration
             $table->text('ytb_thumbnails');
             $table->string('custom_thumbnails')->nullable();
             $table->string('publish_at');
-            $table->string('tags');
+            $table->text('tags');
             $table->string('author');
             $table->string('channel_id');
             $table->string('channel_title');
