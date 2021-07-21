@@ -32,9 +32,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('video')->name('video.')->group(function () {
         Route::get('/', [\App\Http\Controllers\VideoController::class, 'index'])->name('index');
         Route::get('/create', [\App\Http\Controllers\VideoController::class, 'create'])->name('create');
-        Route::get('/save-create', [\App\Http\Controllers\VideoController::class, 'saveCreate'])->name('saveCreate');
-        Route::get('/update', [\App\Http\Controllers\VideoController::class, 'update'])->name('update');
+        Route::post('/save-create', [\App\Http\Controllers\VideoController::class, 'saveCreate'])->name('saveCreate');
+        Route::get('/update/{id}', [\App\Http\Controllers\VideoController::class, 'update'])->name('update');
         Route::get('/save-update', [\App\Http\Controllers\VideoController::class, 'saveUpdate'])->name('saveUpdate');
-        Route::get('/remove', [\App\Http\Controllers\VideoController::class, 'remove'])->name('remove');
+        Route::get('/remove/{id}', [\App\Http\Controllers\VideoController::class, 'remove'])->name('remove');
     });
 });

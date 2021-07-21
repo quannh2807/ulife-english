@@ -27,4 +27,8 @@ return [
         'Khó' => 3,
         'Rất khó' => 4,
     ],
+    'video_status' => [
+        'hidden' => 0,
+        'show' => 1,
+    ]
 ];

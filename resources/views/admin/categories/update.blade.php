@@ -27,7 +27,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="cate-slug">Slug<span class="text-danger">&nbsp;*</span></label>
-                                <div class="row border rounded">
+                                <div class="d-flex border rounded">
                                     <input type="text" class="form-control col-10 border-0" id="cate-slug"
                                            placeholder="Điền slug" name="slug" value="{{ $category->slug }}">
                                     <button class="col-2 btn border-left" id="create-slug">Tạo slug</button>
@@ -49,7 +49,6 @@
                             <div class="form-group">
                                 <label for="cate-parent">Danh mục cha</label>
                                 <select name="parent_id" class="form-control" id="cate-parent">
-                                    <option value="0">Danh mục gốc</option>
                                     @foreach($categories as $index => $category)
                                         @if($category->hasParentCate === null)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>

@@ -3,6 +3,7 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src=""{{ asset('js/moment.js') }}></script>
 
 <script>
     function getYoutubeId(url) {
@@ -46,9 +47,10 @@
         return slug
     }
 
-    $('.btn-destroy').click(function (e) {
-        let form = $(this).closest("form");
-        event.preventDefault();
+    $('.btn-remove').click(function (e) {
+        e.preventDefault();
+
+        let id = $(this).attr('data-id');
 
         Swal.fire({
             title: 'Bạn chắc chắn chưa?',
@@ -61,18 +63,29 @@
             confirmButtonText: 'Đồng ý xoá!'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await form.submit();
-                Swal.fire(
-                    'Xoá thành công!',
-                    'Dữ liệu đã được xoá hoàn toàn.',
-                    'success'
-                )
-            } else {
-                Swal.fire(
-                    'Có vấn đề xảy ra',
-                    'Dữ liệu chưa được xoá',
-                    'question'
-                )
+                let url = $(this).attr('href');
+                $.ajax({
+                    url: `${url}`,
+                    type: 'GET',
+                    success: function () {
+                        Swal.fire(
+                            'Xoá thành công!',
+                            'Dữ liệu đã được xoá hoàn toàn.',
+                            'success'
+                        ).then(() => {
+                            $(`#row-${id}`).fadeOut(500, function () {
+                                $(this).remove();
+                            })
+                        })
+                    },
+                    fail: function () {
+                        Swal.fire(
+                            'Có vấn đề xảy ra',
+                            'Dữ liệu chưa được xoá',
+                            'question'
+                        )
+                    }
+                });
             }
         })
     });
