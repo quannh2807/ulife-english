@@ -49,7 +49,7 @@
                     @foreach($videos as $key => $video)
                         <tr id="row-{{$video->id}}">
                             <th>{{ $i ++ }}</th>
-                            <td><img src="{{ json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
+                            <td><img src="{{ $video->custom_thumbnails ? asset('storage/' . $video->custom_thumbnails) : json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
                                      class="rounded mx-auto"
                                      style="width: {{json_decode($video->ytb_thumbnails, true)['default']['width']}}px"
                                      alt=""></td>

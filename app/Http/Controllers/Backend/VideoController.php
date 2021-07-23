@@ -68,7 +68,15 @@ class VideoController extends Controller
      */
     public function saveUpdate(Request $request)
     {
-        dd($request->all());
+        $video = $request->except('_token');
+        if ($request->hasFile('custom_thumbnails')) {
+            $path = $request->file('custom_thumbnails')->store('thumbnails', 'public');
+
+            $video['custom_thumbnails'] = $path;
+        }
+        $this->videoRepository->update($video['id'], $video);
+
+        return redirect()->route('admin.video.index');
     }
 
     public function remove(Request $request)

@@ -30,7 +30,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/create', [\App\Http\Controllers\Backend\VideoController::class, 'create'])->name('create');
         Route::post('/save-create', [\App\Http\Controllers\Backend\VideoController::class, 'saveCreate'])->name('saveCreate');
         Route::get('/update/{id}', [\App\Http\Controllers\Backend\VideoController::class, 'update'])->name('update');
-        Route::get('/save-update', [\App\Http\Controllers\Backend\VideoController::class, 'saveUpdate'])->name('saveUpdate');
+        Route::post('/save-update', [\App\Http\Controllers\Backend\VideoController::class, 'saveUpdate'])->name('saveUpdate');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\VideoController::class, 'remove'])->name('remove');
     });
 });
