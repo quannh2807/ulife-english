@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoRequest;
+use App\Models\Video;
 use App\Repositories\CategoryRepository;
 use App\Repositories\VideoRepository;
 use Carbon\Carbon;
@@ -22,7 +23,7 @@ class VideoController extends Controller
 
     public function index()
     {
-        $videos = $this->videoRepository->fetchAll(['hasCategory']);
+        $videos = Video::with('hasCategory')->paginate(10);
 
         return view('admin.videos.index', [
             'videos' => $videos,
@@ -67,7 +68,7 @@ class VideoController extends Controller
      */
     public function saveUpdate(Request $request)
     {
-
+        dd($request->all());
     }
 
     public function remove(Request $request)

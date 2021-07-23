@@ -37,10 +37,10 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="video-url">Đường dẫn video<span class="text-danger">&nbsp;*</span></label>
-                                <div class="d-flex border rounded">
+                                <div class="d-flex align-items-center border rounded">
                                     <input type="text" class="form-control col-10 border-0" id="video-url"
-                                           placeholder="Youtube video url" name="ytb_url" value="">
-                                    <button class="col-2 btn border-left" id="btn-video-url">Kiểm tra video</button>
+                                           placeholder="Youtube video url" name="ytb_url" />
+                                    <button class="col-2 btn border-left" id="btn-video-url">Kiểm tra</button>
                                 </div>
                             </div>
 

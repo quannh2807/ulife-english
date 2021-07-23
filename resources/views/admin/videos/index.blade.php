@@ -75,7 +75,7 @@
                                    class="d-inline-block btn btn-sm btn-warning">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <a class="d-inline-block btn btn-sm btn-danger btn-remove"
+                                <a class="d-inline-block btn btn-sm btn-danger"
                                    data-id="{{ $video->id }}"
                                    href="{{ route('admin.video.remove', ['id' => $video->id]) }}">
                                     <i class="far fa-trash-alt"></i>
@@ -87,9 +87,9 @@
                 </table>
             </div>
             <!-- /.card-body -->
-            {{--            <div class="card-footer clearfix">--}}
-            {{--                {{ $videos->links() }}--}}
-            {{--            </div>--}}
+            <div class="card-footer clearfix">
+                {{ $videos->links() }}
+            </div>
         </div>
         <!-- /.card -->
     </div>

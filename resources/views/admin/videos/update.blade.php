@@ -11,7 +11,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="{{ route('admin.video.saveCreate') }}">
+            <form method="POST" action="{{ route('admin.video.saveUpdate') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -31,11 +31,6 @@
                                         )
                                     @endforeach
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="video-id">Youtube id<span class="text-danger">&nbsp;*</span></label>
-                                <input type="text" class="form-control" id="video-id"
-                                       placeholder="Youtube video id" name="ytb_id" value="{{ $video->ytb_id }}">
                             </div>
                             <div class="form-group">
                                 <label for="video-id">Tên video<span class="text-danger">&nbsp;*</span></label>
@@ -60,15 +55,6 @@
                             <div class="row">
                                 <div class="form-group col-6">
                                     <label for="ytb-thumb">Ảnh thumb<span class="text-danger">&nbsp;*</span></label>
-                                    <div>
-                                        <img src="{{ $video->ytb_thumbnails['url'] }}"
-                                             width="{{ $video->ytb_thumbnails['width'] }}"
-                                             height="{{ $video->ytb_thumbnails['height'] }}" alt=""/>
-                                    </div>
-                                </div>
-                                <div class="form-group col-6">
-                                    <label for="ytb-thumb">Chỉnh sửa thumb<span
-                                            class="text-danger">&nbsp;*</span></label>
                                     <div>
                                         <img src="{{ $video->ytb_thumbnails['url'] }}"
                                              width="{{ $video->ytb_thumbnails['width'] }}"
@@ -124,7 +110,7 @@
 
                 <div class="card-footer">
                     <div class="d-flex align-items-center justify-content-end">
-                        <button type="submit" class="btn btn-primary" id="btn-create" disabled>Tạo mới</button>
+                        <button type="submit" class="btn btn-primary" id="btn-create">Cập nhật</button>
                     </div>
                 </div>
             </form>
