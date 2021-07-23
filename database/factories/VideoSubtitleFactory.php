@@ -23,7 +23,7 @@ class VideoSubtitleFactory extends Factory
     {
         return [
             'lang_id' => $this->faker->numberBetween(1, 4),
-            'video_id' => $this->faker->numberBetween(1, 2),
+            'video_id' => $this->faker->numberBetween(1, 1),
             'name_release' => $this->faker->name,
             'time_start' => $this->faker->unixTime,
             'time_end' => $this->faker->unixTime,
