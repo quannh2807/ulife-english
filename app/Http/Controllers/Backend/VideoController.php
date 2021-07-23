@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoRequest;
 use App\Repositories\CategoryRepository;
 use App\Repositories\VideoRepository;
