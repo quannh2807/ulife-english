@@ -1,0 +1,24 @@
+label#status {
+    border-radius: 3px;
+    border-width: 1px;
+    padding: 3px 6px;
+    font-size: 10px;
+    line-height: 1.5;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+}
+
+label.active {
+    background-color: #11bc73;
+    color: white;
+}
+
+label.noActive {
+    background-color: #FF0000;
+    color: white;
+}
+
+.swal2-popup {
+    font-size: 0.65rem !important;
+}

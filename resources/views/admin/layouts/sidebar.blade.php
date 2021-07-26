@@ -80,6 +80,73 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-question"></i>
+                        <p>Quản lý câu hỏi<i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.question.index') }}" class="nav-link">
+                                <i class="fas fa-bars nav-icon"></i>
+                                <p>Danh sách câu hỏi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.question.create') }}" class="nav-link">
+                                <i class="fas fa-plus nav-icon"></i>
+                                <p>Thêm mới câu hỏi</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{--<li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p>Quản lý Topics<i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.topics.index') }}" class="nav-link">
+                                <i class="fas fa-bars nav-icon"></i>
+                                <p>Danh sách Topics</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.topics.create') }}" class="nav-link">
+                                <i class="fas fa-plus nav-icon"></i>
+                                <p>Thêm mới Topics</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>--}}
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-level-up-alt"></i>
+                        <p>Quản lý Level<i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.level.index') }}" class="nav-link">
+                                <i class="fas fa-bars nav-icon"></i>
+                                <p>Danh sách Level</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.level.create') }}" class="nav-link">
+                                <i class="fas fa-plus nav-icon"></i>
+                                <p>Thêm mới Level</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

@@ -33,4 +33,28 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/save-update', [\App\Http\Controllers\Backend\VideoController::class, 'saveUpdate'])->name('saveUpdate');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\VideoController::class, 'remove'])->name('remove');
     });
+
+    Route::prefix('question')->name('question.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Backend\QuestionController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\Backend\QuestionController::class, 'create'])->name('create');
+    });
+
+    Route::prefix('level')->name('level.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Backend\LevelsController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\Backend\LevelsController::class, 'create'])->name('create');
+        Route::post('/store', [\App\Http\Controllers\Backend\LevelsController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [\App\Http\Controllers\Backend\LevelsController::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Backend\LevelsController::class, 'update'])->name('update');
+        Route::get('/remove/{id}', [\App\Http\Controllers\Backend\LevelsController::class, 'remove'])->name('remove');
+    });
+
+    //Route::prefix('topics')->name('topics.')->group(function () {
+    //Route::get('/', [\App\Http\Controllers\Backend\TopicsController::class, 'index'])->name('index');
+    //Route::get('/create', [\App\Http\Controllers\Backend\TopicsController::class, 'create'])->name('create');
+    /*Route::post('/save-create', [\App\Http\Controllers\Backend\TopicsController::class, 'saveCreate'])->name('saveCreate');
+    Route::get('/update/{id}', [\App\Http\Controllers\Backend\TopicsController::class, 'update'])->name('update');
+    Route::get('/save-update', [\App\Http\Controllers\Backend\TopicsController::class, 'saveUpdate'])->name('saveUpdate');
+    Route::get('/remove/{id}', [\App\Http\Controllers\Backend\TopicsController::class, 'remove'])->name('remove');*/
+//});
+
 });

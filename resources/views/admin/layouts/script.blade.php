@@ -90,4 +90,48 @@
         })
     });
 
+    $('.btn-remove-level').click(function (e) {
+        e.preventDefault();
+
+        let id = $(this).attr('data-id');
+
+        Swal.fire({
+            title: 'Bạn chắc chắn chưa?',
+            text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Huỷ',
+            confirmButtonText: 'Đồng ý xoá!',
+            width: 350
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                let url = $(this).attr('href');
+                $.ajax({
+                    url: `${url}`,
+                    type: 'GET',
+                    success: function () {
+                        Swal.fire(
+                            'Xoá thành công!',
+                            'Dữ liệu đã được xoá hoàn toàn.',
+                            'success'
+                        ).then(() => {
+                            $(`#row-${id}`).fadeOut(500, function () {
+                                $(this).remove();
+                            })
+                        })
+                    },
+                    fail: function () {
+                        Swal.fire(
+                            'Có vấn đề xảy ra',
+                            'Dữ liệu chưa được xoá',
+                            'question'
+                        )
+                    }
+                });
+            }
+        })
+    });
+
 </script>
