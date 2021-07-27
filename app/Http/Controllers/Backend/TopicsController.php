@@ -3,24 +3,24 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LevelsRequest;
+use App\Http\Requests\TopicsRequest;
 use App\Models\Topics;
 use App\Repositories\TopicsRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TopicsController extends Controller
 {
 
-    private $dataRepository;
+    private $topicsRepository;
 
     public function __construct(TopicsRepository $repository)
     {
-        $this->dataRepository = $repository;
+        $this->topicsRepository = $repository;
     }
 
     public function index()
     {
-
         $data = Topics::paginate(10);
         return view('admin.topics.index', [
             'data' => $data,
@@ -29,13 +29,16 @@ class TopicsController extends Controller
 
     public function create()
     {
-        return view('admin.topics.create');
+        $levelData = DB::table('levels')->where('status', 1)->get();
+        return view('admin.topics.create', [
+            'levelData' => $levelData,
+        ]);
     }
 
-    public function store(LevelsRequest $request)
+    public function store(TopicsRequest $request)
     {
         $data = $request->all();
-        $this->dataRepository->storeNew($data);
+        $this->topicsRepository->storeNew($data);
         return redirect()->route('admin.topics.index')->with('success', 'Thêm mới Topics thành công');
     }
 
@@ -45,9 +48,11 @@ class TopicsController extends Controller
 
     public function edit($id)
     {
-        $data = $this->dataRepository->findById($id, []);
+        $data = $this->topicsRepository->findById($id, []);
+        $levelData = DB::table('levels')->where('status', 1)->get();
         return view('admin.topics.update', [
-            'data' => $data
+            'data' => $data,
+            'levelData' => $levelData
         ]);
     }
 
@@ -55,7 +60,7 @@ class TopicsController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
-        $this->dataRepository->update($id, $data);
+        $this->topicsRepository->update($id, $data);
         return redirect()->route('admin.topics.index');
     }
 
@@ -63,7 +68,7 @@ class TopicsController extends Controller
     public function remove(Request $request)
     {
         $id = $request->id;
-        $this->dataRepository->deleteById($id);
+        $this->topicsRepository->deleteById($id);
         return redirect()->route('admin.topics.index');
     }
 

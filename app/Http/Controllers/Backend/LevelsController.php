@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LevelsRequest;
-use App\Models\Category;
 use App\Models\Game;
 use App\Models\Levels;
 use App\Repositories\LevelRepository;

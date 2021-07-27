@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Language;
 use App\Models\Levels;
+use App\Models\Topics;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Video;
@@ -32,5 +33,6 @@ class DatabaseSeeder extends Seeder
         Levels::create(['id' => 5, 'name' => 'C', 'status' => 1, 'created_by' => 1, 'updated_by' => 1]);
         // Topics
 
+        Topics::created();
     }
 }

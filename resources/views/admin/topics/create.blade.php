@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="cate-name">Tên Level<span class="text-danger">&nbsp;*</span></label>
+                                <label for="cate-name">Tên Topics<span class="text-danger">&nbsp;*</span></label>
                                 <input type="text" class="form-control" id="cate-name"
                                        placeholder="Nhập vào tên" name="name" value="{{ old('name') }}">
                                 @error('name')
@@ -25,11 +25,30 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
+                                <label for="cate-level">Level<span class="text-danger">&nbsp;*</span></label>
+                                <select name="level_id" class="form-control" id="cate-level">
+                                    @foreach($levelData as $index => $item)
+                                        @if($item != null)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @error('level')
+                                <p style="color: red;">{{$message}}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label for="cate-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
                                 <select name="status" class="form-control" id="cate-status">
-                                    <option>Chọn trạng thái</option>
-                                    <option value="1">Kích hoạt</option>
-                                    <option value="0">Không kích hoạt</option>
+                                    <option>-- Chọn trạng thái --</option>
+                                    @foreach(config('common.status') as $key => $status)
+                                        <option
+                                            value="{{ $status }}">{{ $key }}</option>
+                                    @endforeach
                                 </select>
                                 @error('status')
                                 <p style="color: red;">{{$message}}</p>

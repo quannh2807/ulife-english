@@ -12,7 +12,7 @@ class Topics extends Model
     protected $table = 'topics';
 
     protected $fillable = [
-        'id', 'level_id', 'name', 'created_by', 'updated_by'
+        'id', 'level_id', 'name', 'status', 'created_by', 'updated_by'
     ];
 
     /**
@@ -21,9 +21,15 @@ class Topics extends Model
      * @var array
      */
     protected $attributes = [
-        'level_id' => 1,
+        'level_id' => 0,
         'name' => '',
+        'status' => 1,
         'created_by' => 1,
         'updated_by' => 1,
     ];
+
+    public function hasLevel()
+    {
+        return $this->belongsTo(Levels::class, 'level_id', 'id');
+    }
 }
