@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="video-cate">Danh mục<span class="text-danger">&nbsp;*</span></label>
                                 <select name="cate_id" class="form-control" id="video-cate">
                                     @foreach($categories as $index => $category)
@@ -31,7 +31,7 @@
                                         )
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="col-6">

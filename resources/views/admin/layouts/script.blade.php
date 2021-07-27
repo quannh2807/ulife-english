@@ -8,8 +8,17 @@
 <!-- Summernote -->
 {{--<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>--}}
 <script src="{{ asset('js/summernote-bs4.js') }}"></script>
+{{--Jquery validation--}}
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
 
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     function getYoutubeId(url) {
         let ytb_id = url.split("v=")[1];
 

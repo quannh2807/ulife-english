@@ -25,7 +25,6 @@ class VideoRequest extends FormRequest
     {
         return [
             'ytb_id' => 'required|unique:videos,ytb_id',
-            'cate_id' => 'required',
             'title' => 'required',
             'description' => 'required',
             'ytb_thumbnails' => 'required',

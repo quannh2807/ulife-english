@@ -45,7 +45,7 @@
                         $i = 1
                     @endphp
 
-                    <tbody>
+                    <tbody class="">
                     @foreach($videos as $key => $video)
                         <tr id="row-{{$video->id}}">
                             <th>{{ $i ++ }}</th>
@@ -55,7 +55,7 @@
                                      alt=""></td>
                             <td>{{ $video->title }}</td>
                             <td>{{ $video->channel_title }}</td>
-                            <td>{{ $video->hasCategory->name }}</td>
+                            <td>Sửa loại danh muc</td>
                             <td>
 {{--                                @if(count($video->hasSubLanguages) > 0)--}}
 {{--                                    @foreach($video->hasSubLanguages as $lang)--}}
@@ -67,7 +67,7 @@
                             </td>
                             <td>{{ $video->status === 1 ? 'Hiển thị' : 'Ẩn' }}</td>
                             <td align="center" class="text-center">
-                                <a href=""
+                                <a href="{{ route('admin.subtitle.index', ['video_id' => $video->id]) }}"
                                    class="d-inline-block btn btn-sm btn-info">
                                     <i class="far fa-closed-captioning"></i>
                                 </a>

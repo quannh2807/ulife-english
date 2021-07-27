@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Ulife english</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -24,6 +25,10 @@
             margin: 0;
             justify-content: flex-end;
         }
+        .error {
+            display: block!important;
+            color: red;
+        }
     </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -43,7 +48,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">@yield('page-title')</h1>
+                        <h3 class="m-0">@yield('page-title')</h3>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
