@@ -1,15 +1,15 @@
 @extends('admin.layouts.master')
 
-@section('page-title', 'Level')
-@section('breadcrumb', 'Cập nhật Level')
+@section('page-title', 'Topics')
+@section('breadcrumb', 'Cập nhật Topics')
 
 @section('main')
     <div class="col-12">
         <div class="card card-info">
             <div class="card-header">
-                <h3 class="card-title">Cập nhật Level</h3>
+                <h3 class="card-title">Cập nhật Topics</h3>
             </div>
-            <form action="{{ route('admin.level.update') }}" method="POST">
+            <form action="{{ route('admin.topics.update') }}" method="POST">
                 @csrf
                 <input type="hidden" name="id" value="{{ $data->id }}">
                 <div class="card-body">

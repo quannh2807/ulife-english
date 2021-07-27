@@ -103,7 +103,7 @@
                     </ul>
                 </li>
 
-                {{--<li class="nav-item">
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tasks"></i>
                         <p>Quản lý Topics<i class="right fas fa-angle-left"></i>
@@ -123,7 +123,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>--}}
+                </li>
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">

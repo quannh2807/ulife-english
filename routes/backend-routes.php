@@ -48,13 +48,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\LevelsController::class, 'remove'])->name('remove');
     });
 
-    //Route::prefix('topics')->name('topics.')->group(function () {
-    //Route::get('/', [\App\Http\Controllers\Backend\TopicsController::class, 'index'])->name('index');
-    //Route::get('/create', [\App\Http\Controllers\Backend\TopicsController::class, 'create'])->name('create');
-    /*Route::post('/save-create', [\App\Http\Controllers\Backend\TopicsController::class, 'saveCreate'])->name('saveCreate');
-    Route::get('/update/{id}', [\App\Http\Controllers\Backend\TopicsController::class, 'update'])->name('update');
-    Route::get('/save-update', [\App\Http\Controllers\Backend\TopicsController::class, 'saveUpdate'])->name('saveUpdate');
-    Route::get('/remove/{id}', [\App\Http\Controllers\Backend\TopicsController::class, 'remove'])->name('remove');*/
-//});
+    Route::prefix('topics')->name('topics.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Backend\TopicsController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\Backend\TopicsController::class, 'create'])->name('create');
+        Route::post('/store', [\App\Http\Controllers\Backend\TopicsController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [\App\Http\Controllers\Backend\TopicsController::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Backend\TopicsController::class, 'update'])->name('update');
+        Route::get('/remove/{id}', [\App\Http\Controllers\Backend\TopicsController::class, 'remove'])->name('remove');
+    });
 
 });

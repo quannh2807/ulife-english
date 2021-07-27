@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('page-title', 'Thêm mới Level')
+@section('page-title', 'Level')
 @section('breadcrumb', 'Thêm mới Level')
 
 @section('main')
@@ -28,8 +28,10 @@
                                 <label for="cate-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
                                 <select name="status" class="form-control" id="cate-status">
                                     <option>Chọn trạng thái</option>
-                                    <option value="1">Kích hoạt</option>
-                                    <option value="0">Không kích hoạt</option>
+                                    @foreach(config('common.status') as $key => $status)
+                                        <option
+                                            value="{{ $status }}">{{ $key }}</option>
+                                    @endforeach
                                 </select>
                                 @error('status')
                                 <p style="color: red;">{{$message}}</p>
