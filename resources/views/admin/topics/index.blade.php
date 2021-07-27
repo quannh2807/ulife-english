@@ -57,7 +57,13 @@
                                 <td>{{ $i ++ }}</td>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->hasLevel->name }}</td>
+                                <td>
+                                    @if($item->hasLevel)
+                                        {{ $item->hasLevel->name }}
+                                    @else
+                                        NO LEVEL
+                                    @endif
+                                </td>
                                 <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
                             : '<label id="status" class="active">Kích hoạt</label>' !!}
                                 </td>

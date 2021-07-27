@@ -15,7 +15,8 @@ class CreateTopicsTable extends Migration
     {
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('level_id')->constrained('levels');
+            //$table->foreignId('level_id')->constrained('levels');
+            $table->integer('level_id');
             $table->string('name');
             $table->integer('status')->default(1);
             $table->integer('created_by');
