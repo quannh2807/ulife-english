@@ -5,15 +5,14 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
 
-    private $categoryRepository;
 
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct()
     {
-        $this->categoryRepository = $categoryRepository;
     }
 
     public function index()
@@ -23,10 +22,12 @@ class QuestionController extends Controller
 
     public function create()
     {
-        $categories = $this->categoryRepository->fetchAll(['hasChildrenCateRecursive', 'hasParentCate'], ['id', 'name', 'parent_id']);
+        $levelData = DB::table('levels')->where('status', 1)->get();
+        $topicsData = DB::table('topics')->where('status', 1)->get();
 
         return view('admin.question.create', [
-            'categories' => $categories,
+            'levelData' => $levelData,
+            'topicsData' => $topicsData,
         ]);
     }
 

@@ -7,6 +7,7 @@
 
 <script>
     $('select').select2();
+    $('[data-toggle="tooltip"]').tooltip();
 
     function getYoutubeId(url) {
         let ytb_id = url.split("v=")[1];

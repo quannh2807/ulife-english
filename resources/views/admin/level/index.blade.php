@@ -60,12 +60,16 @@
                                 </td>
                                 <td align="center" class="text-center">
                                     <a href="{{ route('admin.level.edit', ['id' => $item->id]) }}"
-                                       class="d-inline-block btn btn-sm btn-warning">
+                                       class="d-inline-block btn btn-sm btn-warning"
+                                       data-toggle="tooltip" data-placement="top"
+                                       title="Sửa">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                     <a class="d-inline-block btn btn-sm btn-danger ml-2 btn-remove-level"
                                        data-id="{{ $item->id }}"
-                                       href="{{ route('admin.level.remove', ['id' => $item->id]) }}">
+                                       href="{{ route('admin.level.remove', ['id' => $item->id]) }}"
+                                       data-toggle="tooltip" data-placement="top"
+                                       title="Xóa">
                                         <i class="far fa-trash-alt"></i>
                                     </a>
                                 </td>

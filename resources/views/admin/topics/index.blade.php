@@ -59,9 +59,9 @@
                                 <td>{{ $item->name }}</td>
                                 <td>
                                     @if($item->hasLevel)
-                                        {{ $item->hasLevel->name }}
+                                        <label id="status" class="levels">{{ $item->hasLevel->name }}</label>
                                     @else
-                                        NO LEVEL
+                                        <label id="status" class="no-levels">NO LEVEL</label>
                                     @endif
                                 </td>
                                 <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
@@ -69,12 +69,16 @@
                                 </td>
                                 <td align="center" class="text-center">
                                     <a href="{{ route('admin.topics.edit', ['id' => $item->id]) }}"
-                                       class="d-inline-block btn btn-sm btn-warning">
-                                        <i class="fas fa-pencil-alt"></i>
+                                       class="d-inline-block btn btn-sm btn-warning"
+                                       data-toggle="tooltip" data-placement="top"
+                                       title="Sửa">
+                                        <i class="fas fa-edit"></i>
                                     </a>
                                     <a class="d-inline-block btn btn-sm btn-danger ml-2 btn-remove-topics"
                                        data-id="{{ $item->id }}"
-                                       href="{{ route('admin.topics.remove', ['id' => $item->id]) }}">
+                                       href="{{ route('admin.topics.remove', ['id' => $item->id]) }}"
+                                       data-toggle="tooltip" data-placement="top"
+                                       title="Xóa">
                                         <i class="far fa-trash-alt"></i>
                                     </a>
                                 </td>

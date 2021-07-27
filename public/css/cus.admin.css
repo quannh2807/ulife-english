@@ -19,6 +19,16 @@ label.noActive {
     color: white;
 }
 
+label.levels {
+    background-color: #3b6eff;
+    color: white;
+}
+
+label.no-levels {
+    background-color: #333333;
+    color: white;
+}
+
 .swal2-popup {
     font-size: 0.65rem !important;
 }
