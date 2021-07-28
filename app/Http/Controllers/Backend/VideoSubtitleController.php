@@ -56,10 +56,11 @@ class VideoSubtitleController extends Controller
     {
         $allData = $request->all();
         $this->videoSubtitleRepository->storeNew($allData);
+        $newData = $this->videoSubtitleRepository->fetchAll([]);
 
         return response()->json([
             'msg' => 'Thêm mới thành công!',
-            'newItem' => $allData,
+            'newItem' => $newData[count($newData) - 1],
         ]);
     }
 
@@ -69,9 +70,14 @@ class VideoSubtitleController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $id = $request->sub_id;
+        $selectedSub = $this->videoSubtitleRepository->findById($id, []);
+
+        return response()->json([
+            'selectedSub' => $selectedSub,
+        ]);
     }
 
     /**

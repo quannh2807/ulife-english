@@ -26,7 +26,7 @@
             justify-content: flex-end;
         }
         .error {
-            display: block!important;
+            font-weight: 500!important;
             color: red;
         }
     </style>

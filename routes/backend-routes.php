@@ -37,8 +37,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('subtitle')->name('subtitle.')->group(function () {
         Route::get('/{video_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'index'])->name('index');
         Route::post('/store', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'store'])->name('store');
-        Route::get('/update/{id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'update'])->name('update');
-        Route::post('/save-update', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'saveUpdate'])->name('saveUpdate');
-        Route::get('/remove/{id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'remove'])->name('remove');
+        Route::get('/show/{sub_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'show'])->name('show');
     });
 });
