@@ -1,9 +1,11 @@
 {{--Laravel Mix - Include Bootstrap 4, jQuery, Admin LTE, see webpack.mix.js--}}
+<script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/all.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src=""{{ asset('js/moment.js') }}></script>
+<script src="{{ asset('js/select2.min.js') }}"></script>
+<script src="{{ asset('js/moment.js') }}"></script>
+<script type="text/javascript" src="{{ asset('libs/html5lightbox/html5lightbox.js') }}"></script>
 
 <script>
     $('select').select2();
@@ -50,135 +52,275 @@
         return slug
     }
 
-    $('.btn-remove').click(function (e) {
-        e.preventDefault();
 
-        let id = $(this).attr('data-id');
+    if ($(".btn-remove").length > 0) {
+        $('.btn-remove').click(function (e) {
+            e.preventDefault();
 
-        Swal.fire({
-            title: 'Bạn chắc chắn chưa?',
-            text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Huỷ',
-            confirmButtonText: 'Đồng ý xoá!'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                let url = $(this).attr('href');
-                $.ajax({
-                    url: `${url}`,
-                    type: 'GET',
-                    success: function () {
-                        Swal.fire(
-                            'Xoá thành công!',
-                            'Dữ liệu đã được xoá hoàn toàn.',
-                            'success'
-                        ).then(() => {
-                            $(`#row-${id}`).fadeOut(500, function () {
-                                $(this).remove();
+            let id = $(this).attr('data-id');
+
+            Swal.fire({
+                title: 'Bạn chắc chắn chưa?',
+                text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Huỷ',
+                confirmButtonText: 'Đồng ý xoá!'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let url = $(this).attr('href');
+                    $.ajax({
+                        url: `${url}`,
+                        type: 'GET',
+                        success: function () {
+                            Swal.fire(
+                                'Xoá thành công!',
+                                'Dữ liệu đã được xoá hoàn toàn.',
+                                'success'
+                            ).then(() => {
+                                $(`#row-${id}`).fadeOut(500, function () {
+                                    $(this).remove();
+                                })
                             })
-                        })
-                    },
-                    fail: function () {
-                        Swal.fire(
-                            'Có vấn đề xảy ra',
-                            'Dữ liệu chưa được xoá',
-                            'question'
-                        )
-                    }
-                });
-            }
-        })
+                        },
+                        fail: function () {
+                            Swal.fire(
+                                'Có vấn đề xảy ra',
+                                'Dữ liệu chưa được xoá',
+                                'question'
+                            )
+                        }
+                    });
+                }
+            })
+        });
+    }
+
+    if ($(".btn-remove-level").length > 0) {
+        $('.btn-remove-level').click(function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+
+            Swal.fire({
+                title: 'Bạn muốn xóa level này?',
+                text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                cancelButtonText: 'Đóng',
+                confirmButtonText: 'Đồng ý xoá!',
+                width: 350
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let url = $(this).attr('href');
+                    $.ajax({
+                        url: `${url}`,
+                        type: 'GET',
+                        success: function () {
+                            Swal.fire(
+                                'Xoá thành công!',
+                                'Dữ liệu đã được xoá hoàn toàn.',
+                                'success'
+                            ).then(() => {
+                                $(`#row-${id}`).fadeOut(500, function () {
+                                    $(this).remove();
+                                })
+                            })
+                        },
+                        fail: function () {
+                            Swal.fire(
+                                'Có vấn đề xảy ra',
+                                'Dữ liệu chưa được xoá',
+                                'question'
+                            )
+                        }
+                    });
+                }
+            })
+        });
+    }
+
+    if ($(".btn-remove-topics").length > 0) {
+        $('.btn-remove-topics').click(function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+
+            Swal.fire({
+                title: 'Bạn muốn xóa Topics?',
+                text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                cancelButtonText: 'Đóng',
+                confirmButtonText: 'Đồng ý xoá!',
+                width: 350
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let url = $(this).attr('href');
+                    $.ajax({
+                        url: `${url}`,
+                        type: 'GET',
+                        success: function () {
+                            Swal.fire(
+                                'Xoá thành công!',
+                                'Dữ liệu đã được xoá hoàn toàn.',
+                                'success'
+                            ).then(() => {
+                                $(`#row-${id}`).fadeOut(500, function () {
+                                    $(this).remove();
+                                })
+                            })
+                        },
+                        fail: function () {
+                            Swal.fire(
+                                'Có vấn đề xảy ra',
+                                'Dữ liệu chưa được xoá',
+                                'question'
+                            )
+                        }
+                    });
+                }
+            })
+        });
+    }
+
+    if ($(".btn-remove-question").length > 0) {
+        $('.btn-remove-question').click(function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+
+            Swal.fire({
+                title: 'Bạn muốn xóa câu hỏi?',
+                text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                cancelButtonText: 'Đóng',
+                confirmButtonText: 'Đồng ý xoá!',
+                width: 350
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let url = $(this).attr('href');
+                    $.ajax({
+                        url: `${url}`,
+                        type: 'GET',
+                        success: function () {
+                            Swal.fire(
+                                'Xoá thành công!',
+                                'Dữ liệu đã được xoá hoàn toàn.',
+                                'success'
+                            ).then(() => {
+                                $(`#row-${id}`).fadeOut(500, function () {
+                                    $(this).remove();
+                                })
+                            })
+                        },
+                        fail: function () {
+                            Swal.fire(
+                                'Có vấn đề xảy ra',
+                                'Dữ liệu chưa được xoá',
+                                'question'
+                            )
+                        }
+                    });
+                }
+            })
+        });
+    }
+
+    function changeAnswer_1() {
+        let answerVal = $('#answer_1').val();
+        $('#lbl_answer_1').empty();
+        $('#lbl_answer_1').append('1. ' + answerVal);
+    }
+
+    function changeAnswer_2() {
+        let answerVal = $('#answer_2').val();
+        $('#lbl_answer_2').empty();
+        $('#lbl_answer_2').append('2. ' + answerVal);
+    }
+
+    function changeAnswer_3() {
+        let answerVal = $('#answer_3').val();
+        $('#lbl_answer_3').empty();
+        $('#lbl_answer_3').append('3. ' + answerVal);
+    }
+
+    function changeAnswer_4() {
+        let answerVal = $('#answer_4').val();
+        $('#lbl_answer_4').empty();
+        $('#lbl_answer_4').append('4. ' + answerVal);
+    }
+
+    // Question - Pick Video
+    if ($("#pick_video").length > 0) {
+        $('#pick_video').on('click', function () {
+            loadVideoList();
+        });
+    }
+
+    // keyup search modal video
+    $('#keyVideoSearch').keyup(function () {
+        console.log('search: ' + $(this).val());
+        let search = $(this).val();
+        if (search !== '') {
+            loadVideoList(search);
+            console.log('loadVideoList search: ' + $(this).val());
+        } else {
+            loadVideoList();
+            console.log('loadVideoList');
+        }
     });
 
-    $('.btn-remove-level').click(function (e) {
-        e.preventDefault();
+    function loadVideoList(keyName) {
+        let videoId = $('#video_id').val();
 
-        let id = $(this).attr('data-id');
-
-        Swal.fire({
-            title: 'Bạn muốn xóa level này?',
-            text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            cancelButtonText: 'Đóng',
-            confirmButtonText: 'Đồng ý xoá!',
-            width: 350
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                let url = $(this).attr('href');
-                $.ajax({
-                    url: `${url}`,
-                    type: 'GET',
-                    success: function () {
-                        Swal.fire(
-                            'Xoá thành công!',
-                            'Dữ liệu đã được xoá hoàn toàn.',
-                            'success'
-                        ).then(() => {
-                            $(`#row-${id}`).fadeOut(500, function () {
-                                $(this).remove();
-                            })
-                        })
-                    },
-                    fail: function () {
-                        Swal.fire(
-                            'Có vấn đề xảy ra',
-                            'Dữ liệu chưa được xoá',
-                            'question'
-                        )
-                    }
-                });
+        $.ajax({
+            type: "GET",
+            url: 'getVideos',
+            data: {id: videoId, keyName: keyName},
+            success: function (response) {
+                $('.result-content').html(response);
+                $('#videoListModal').modal('show');
             }
-        })
-    });
+        });
+    }
 
-    $('.btn-remove-topics').click(function (e) {
-        e.preventDefault();
+    $(document).on('click', '#videoList tr', function (event) {
+        let mCheckbox = $("[type='checkbox']", this);
+        let currentRow = $(this).closest("tr");
+        let id = currentRow.find('#check_video').val();
+        let thumb = currentRow.find('#imgThumb').attr('src');
+        let title = currentRow.find('td#title').text();
+        let ytbId = currentRow.find('#ytb_id').val();
 
-        let id = $(this).attr('data-id');
+        if (event.target.type !== 'checkbox') {
+            $(':checkbox', this).trigger('click');
+        }
 
-        Swal.fire({
-            title: 'Bạn muốn xóa Topics?',
-            text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            cancelButtonText: 'Đóng',
-            confirmButtonText: 'Đồng ý xoá!',
-            width: 350
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                let url = $(this).attr('href');
-                $.ajax({
-                    url: `${url}`,
-                    type: 'GET',
-                    success: function () {
-                        Swal.fire(
-                            'Xoá thành công!',
-                            'Dữ liệu đã được xoá hoàn toàn.',
-                            'success'
-                        ).then(() => {
-                            $(`#row-${id}`).fadeOut(500, function () {
-                                $(this).remove();
-                            })
-                        })
-                    },
-                    fail: function () {
-                        Swal.fire(
-                            'Có vấn đề xảy ra',
-                            'Dữ liệu chưa được xoá',
-                            'question'
-                        )
-                    }
-                });
-            }
-        })
+        $('#videoListModal').modal('toggle');
+        $("#keyNewsEvent").val('');
+
+        $('#video_id').val(id);
+        $('#yt_id').val(ytbId);
+        $('#ytb_link').val(title);
+
+        let playUrl = "https://www.youtube.com/watch?v=" + ytbId;
+        document.getElementById('divVideo').innerHTML = '<a id="viewVideo" title="Play Video" class="video html5lightbox" href="' + playUrl + '" data-width="640" data-height="360" ><span class="icon fa fa-play">&nbsp;&nbsp;Xem Video</span></a> ';
+        if (ytbId === "" || ytbId === null) {
+            $("#divVideo").hide(1000);
+        } else {
+            $("#divVideo").show("slow");
+        }
+        $(".html5lightbox").html5lightbox();
     });
 
 </script>

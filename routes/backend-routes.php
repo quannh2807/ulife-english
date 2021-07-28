@@ -36,7 +36,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('question')->name('question.')->group(function () {
         Route::get('/', [\App\Http\Controllers\Backend\QuestionController::class, 'index'])->name('index');
+        Route::get('/getVideos', [\App\Http\Controllers\Backend\QuestionController::class, 'getVideos'])->name('getVideos');
         Route::get('/create', [\App\Http\Controllers\Backend\QuestionController::class, 'create'])->name('create');
+        Route::post('/store', [\App\Http\Controllers\Backend\QuestionController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [\App\Http\Controllers\Backend\QuestionController::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Backend\QuestionController::class, 'update'])->name('update');
+        Route::get('/remove/{id}', [\App\Http\Controllers\Backend\QuestionController::class, 'remove'])->name('remove');
+
     });
 
     Route::prefix('level')->name('level.')->group(function () {

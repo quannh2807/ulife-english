@@ -46,3 +46,33 @@ label.no-levels {
 .select2-selection__arrow {
     height: calc(1.6em + 0.75rem + 2px) !important;
 }
+
+.result-content {
+    max-height: 68vh;
+    overflow-y: auto;
+}
+
+#videoList tbody {
+    border: 1px solid #EAEAEA;
+}
+
+#videoList tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+#videoList .checked {
+    background: #DDD;
+}
+
+.thumbList {
+    width: 80px;
+    height: 50px;
+    border: 1px solid #d9d9d9;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+#html5-watermark {
+    display: none !important;
+}

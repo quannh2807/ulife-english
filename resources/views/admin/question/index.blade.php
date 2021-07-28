@@ -7,76 +7,88 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Danh sách câu hỏi</h3>
-
+                    <h3 class="card-title">Danh sách</h3>
                     <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 200px;">
-                            <input type="text" name="table_search" class="form-control float-right"
-                                   placeholder="Search">
-
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
+                        <div>
+                            <a href="{{ route('admin.question.create') }}"
+                               class="d-inline-block btn btn-sm btn-primary"><i
+                                    class="fa fa-plus"></i>&nbsp;&nbsp;Thêm
+                                mới</a>
                         </div>
                     </div>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-wrap">
+                <div class="card-body">
+                    <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Tên</th>
-                            <th>Slug</th>
-                            <th>Vị trí</th>
-                            <th>Danh mục cha</th>
-                            <th>Loại danh mục</th>
-                            <th>Trạng thái</th>
-                            <th align="center" class="text-center">
-                                <a href="{{ route('admin.question.create') }}" class="d-inline-block btn btn-primary">Thêm
-                                    mới</a>
-                            </th>
+                            <th style="width: 50px;">STT</th>
+                            <th style="width: 50px;">#</th>
+                            <th>Nội dung câu hỏi</th>
+                            <th>Level</th>
+                            <th>Topics</th>
+                            <th align="center" class="text-center" style="width: 120px;">Trạng thái</th>
+                            <th align="right" class="text-center" style="width: 150px;">Thao tác</th>
                         </tr>
                         </thead>
-
-                        {{--@php
+                        <tbody>
+                        @php
                             $i = 1
                         @endphp
 
-                        <tbody>
-                        @foreach($categories as $index => $category)
-                            <tr id="row-{{ $category->id }}">
-                                <th>{{ $i ++ }}</th>
-                                <td>{{ $category->name }}</td>
-                                <td>{{ $category->slug}}</td>
-                                <td>{{ $category->position }}</td>
-                                <td>{{ $category->hasParentCate !== null ? $category->hasParentCate->name : '/' }}</td>
-                                <td>{{ $category->type }}</td>
-                                <td>{{ $category->status === 0 ? 'Không kích hoạt' : 'Kích hoạt' }}</td>
-                                <td align="center" class="text-center">
-                                    <a href="{{ route('admin.category.update', ['id' => $category->id]) }}"
-                                       class="d-inline-block btn btn-sm btn-warning">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </a>
-                                    <a class="d-inline-block btn btn-sm btn-danger ml-2 btn-remove"
-                                       data-id="{{ $category->id }}"
-                                       href="{{ route('admin.category.remove', ['id' => $category->id]) }}">
-                                        <i class="far fa-trash-alt"></i>
-                                    </a>
-                                </td>
+                        @if($data->isEmpty())
+                            <tr>
+                                <td colspan="7" align="center">Không có dữ liệu</td>
                             </tr>
-                        @endforeach
-                        </tbody>--}}
+                        @else
+                            @foreach($data as $index => $item)
+                                <tr id="row-{{ $item->id }}">
+                                    <td>{{ $i ++ }}</td>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>
+                                        @if($item->getLevel)
+                                            <label id="status" class="levels">{{ $item->getLevel->name }}</label>
+                                        @else
+                                            <label id="status" class="no-levels">No Level</label>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($item->getTopics)
+                                            <label id="status" class="levels">{{ $item->getTopics->name }}</label>
+                                        @else
+                                            <label id="status" class="no-levels">No Topics</label>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
+                            : '<label id="status" class="active">Kích hoạt</label>' !!}
+                                    </td>
+                                    <td align="center" class="text-center">
+                                        <a href="{{ route('admin.question.edit', ['id' => $item->id]) }}"
+                                           class="d-inline-block btn btn-sm btn-warning"
+                                           data-toggle="tooltip" data-placement="top"
+                                           title="Sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a class="d-inline-block btn btn-sm btn-danger ml-2 btn-remove-question"
+                                           data-id="{{ $item->id }}"
+                                           href="{{ route('admin.question.remove', ['id' => $item->id]) }}"
+                                           data-toggle="tooltip" data-placement="top"
+                                           title="Xóa">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                        </tbody>
                     </table>
                 </div>
                 <!-- /.card-body -->
-                {{--<div class="card-footer clearfix">
-                    {{ $categories->links() }}
-                </div>--}}
+                <div class="card-footer clearfix">
+                    {{ $data->links() }}
+                </div>
             </div>
-            <!-- /.card -->
         </div>
     </div>
 @endsection

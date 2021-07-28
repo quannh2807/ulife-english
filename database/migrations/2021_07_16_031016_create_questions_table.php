@@ -21,17 +21,18 @@ class CreateQuestionsTable extends Migration
             $table->string('answer_3');
             $table->string('answer_4');
             $table->string('answer_correct');
-            $table->string('selected_answer');
+            $table->string('selected_answer')->default(0);
             $table->integer('is_favorite')->default(0);
             $table->integer('status')->default(1);
             $table->integer('lang_id')->default(1);
-            $table->integer('video_id');
-            $table->integer('start_time');
-            $table->integer('end_time');
-            $table->foreignId('level_id')->constrained('levels');;
-            $table->integer('type'); // config common level 1, 2, 3, 4
-            $table->foreignId('sub_id')->constrained('video_subtitles');
-            $table->foreignId('cate_id')->constrained('categories');
+            $table->integer('video_id')->nullable();
+            $table->string('start_time')->nullable();
+            $table->string('end_time')->nullable();
+            $table->integer('type')->nullable();
+            $table->foreignId('topics_id')->default(0);
+            $table->foreignId('cate_id')->default(0);
+            $table->foreignId('level_id')->default(0);
+            $table->integer('level_type')->default(0); // config common level 1, 2, 3, 4
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();
