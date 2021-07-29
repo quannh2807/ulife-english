@@ -45,17 +45,17 @@
                         $i = 1
                     @endphp
 
-                    <tbody>
+                    <tbody class="">
                     @foreach($videos as $key => $video)
                         <tr id="row-{{$video->id}}">
                             <th>{{ $i ++ }}</th>
-                            <td><img src="{{ json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
+                            <td><img src="{{ $video->custom_thumbnails ? asset('storage/' . $video->custom_thumbnails) : json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
                                      class="rounded mx-auto"
                                      style="width: {{json_decode($video->ytb_thumbnails, true)['default']['width']}}px"
                                      alt=""></td>
                             <td>{{ $video->title }}</td>
                             <td>{{ $video->channel_title }}</td>
-                            <td>{{ $video->hasCategory->name }}</td>
+                            <td>Sửa loại danh muc</td>
                             <td>
 {{--                                @if(count($video->hasSubLanguages) > 0)--}}
 {{--                                    @foreach($video->hasSubLanguages as $lang)--}}
@@ -67,7 +67,7 @@
                             </td>
                             <td>{{ $video->status === 1 ? 'Hiển thị' : 'Ẩn' }}</td>
                             <td align="center" class="text-center">
-                                <a href=""
+                                <a href="{{ route('admin.subtitle.index', ['video_id' => $video->id]) }}"
                                    class="d-inline-block btn btn-sm btn-info">
                                     <i class="far fa-closed-captioning"></i>
                                 </a>
@@ -75,7 +75,7 @@
                                    class="d-inline-block btn btn-sm btn-warning">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <a class="d-inline-block btn btn-sm btn-danger btn-remove"
+                                <a class="d-inline-block btn btn-sm btn-danger"
                                    data-id="{{ $video->id }}"
                                    href="{{ route('admin.video.remove', ['id' => $video->id]) }}">
                                     <i class="far fa-trash-alt"></i>
@@ -87,9 +87,9 @@
                 </table>
             </div>
             <!-- /.card-body -->
-            {{--            <div class="card-footer clearfix">--}}
-            {{--                {{ $videos->links() }}--}}
-            {{--            </div>--}}
+            <div class="card-footer clearfix">
+                {{ $videos->links() }}
+            </div>
         </div>
         <!-- /.card -->
     </div>

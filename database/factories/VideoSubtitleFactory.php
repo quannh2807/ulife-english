@@ -22,11 +22,12 @@ class VideoSubtitleFactory extends Factory
     public function definition()
     {
         return [
-            'lang_id' => $this->faker->numberBetween(1, 4),
-            'video_id' => $this->faker->numberBetween(1, 2),
-            'name_release' => $this->faker->name,
+            'video_id' => $this->faker->numberBetween(1, 1),
             'time_start' => $this->faker->unixTime,
             'time_end' => $this->faker->unixTime,
+            'vi' => $this->faker->name,
+            'en' => $this->faker->name,
+            'ko' => $this->faker->name,
             'created_by' => $this->faker->numberBetween(1, 10),
             'updated_by' => $this->faker->numberBetween(1, 10),
         ];

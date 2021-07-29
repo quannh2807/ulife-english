@@ -23,6 +23,7 @@ class LanguageFactory extends Factory
     {
         return [
             'name' => 'English',
+            'locale' => 'en',
             'key' => $this->faker->uuid,
             'created_by' => $this->faker->numberBetween(1, 10),
             'updated_by' => $this->faker->numberBetween(1, 10),

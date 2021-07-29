@@ -15,12 +15,12 @@ class CreateVideoSubtitlesTable extends Migration
     {
         Schema::create('video_subtitles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lang_id')->constrained('languages');
             $table->foreignId('video_id')->constrained('videos');
-            $table->string('name_release');
-            $table->string('name_draft')->nullable();
             $table->integer('time_start');
             $table->integer('time_end');
+            $table->text('vi')->nullable();
+            $table->text('en')->nullable();
+            $table->text('ko')->nullable();
             $table->integer('status')->default(1);
             $table->integer('created_by');
             $table->integer('updated_by');
