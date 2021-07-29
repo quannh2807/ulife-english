@@ -16,7 +16,7 @@ class CreateVideosTable extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('ytb_id')->unique();
-            $table->foreignId('cate_id')->constrained('categories');
+            // $table->foreignId('cate_id')->constrained('categories');
             $table->string('title');
             $table->text('description');
             $table->text('ytb_thumbnails');

@@ -17,6 +17,7 @@ class CreateLanguagesTable extends Migration
             $table->id();
             $table->integer('type')->default(1);
             $table->string('name');
+            $table->string('locale');
             $table->string('key');
             $table->integer('status')->default(1);
             $table->integer('created_by');

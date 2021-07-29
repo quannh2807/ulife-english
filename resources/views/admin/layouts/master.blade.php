@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Ulife english</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -15,11 +16,18 @@
     <!-- AdminLTE Theme style -->
     <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- summernote -->
+{{--    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">--}}
+    <link rel="stylesheet" href="{{ asset('css/summernote-bs4.css') }}" />
 
     <style>
         ul.pagination {
             margin: 0;
             justify-content: flex-end;
+        }
+        .error {
+            font-weight: 500!important;
+            color: red;
         }
     </style>
 </head>
@@ -40,7 +48,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">@yield('page-title')</h1>
+                        <h3 class="m-0">@yield('page-title')</h3>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
