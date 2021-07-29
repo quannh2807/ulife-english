@@ -23,16 +23,15 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         Category::factory(10)->create();
         Video::factory(1)->create();
-        Language::factory(4)->create();
-        VideoSubtitle::factory(10)->create();
+
         // Levels
         Levels::create(['id' => 1, 'name' => 'A1', 'status' => 1, 'created_by' => 1, 'updated_by' => 1]);
         Levels::create(['id' => 2, 'name' => 'A2', 'status' => 1, 'created_by' => 1, 'updated_by' => 1]);
         Levels::create(['id' => 3, 'name' => 'B1', 'status' => 1, 'created_by' => 1, 'updated_by' => 1]);
         Levels::create(['id' => 4, 'name' => 'B2', 'status' => 1, 'created_by' => 1, 'updated_by' => 1]);
         Levels::create(['id' => 5, 'name' => 'C', 'status' => 1, 'created_by' => 1, 'updated_by' => 1]);
-        // Topics
 
+        // Topics
         Topics::create(['id' => 1, 'level_id' => 1, 'name' => 'Cấu trúc chung của một câu', 'status' => 1, 'created_by' => 1, 'updated_by' => 1]);
         Topics::create(['id' => 2, 'level_id' => 1, 'name' => 'Đại từ nhân xưng', 'status' => 1, 'created_by' => 1, 'updated_by' => 1]);
         Topics::create(['id' => 3, 'level_id' => 1, 'name' => 'Tính từ sở hữu', 'status' => 1, 'created_by' => 1, 'updated_by' => 1]);

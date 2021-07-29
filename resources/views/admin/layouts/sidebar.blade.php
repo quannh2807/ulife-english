@@ -35,48 +35,61 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-video"></i>
+                        <i class="nav-icon fas fa-circle"></i>
                         <p>
-                            Danh mục video
+                            Quản trị video
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        {{-- Category video--}}
                         <li class="nav-item">
-                            <a href="{{ route('admin.category.index') }}" class="nav-link">
-                                <i class="fas fa-bars nav-icon"></i>
-                                <p>Danh mục</p>
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-video nav-icon"></i>
+                                <p>
+                                    Danh mục video
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.category.index') }}" class="nav-link">
+                                        <i class="fas fa-bars nav-icon"></i>
+                                        <p>Danh sách</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.category.create') }}" class="nav-link">
+                                        <i class="fas fa-plus nav-icon"></i>
+                                        <p>Thêm danh mục</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.category.create') }}" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>Thêm danh mục</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-file-video"></i>
-                        <p>
-                            Quản lý Video
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
+                        {{-- Video youtube--}}
                         <li class="nav-item">
-                            <a href="{{ route('admin.video.index') }}" class="nav-link">
-                                <i class="fas fa-bars nav-icon"></i>
-                                <p>Danh sách video</p>
+                            <a href="#" class="nav-link">
+                                <i class="fab fa-youtube nav-icon"></i>
+                                <p>
+                                    Video youtube
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.video.create') }}" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>Thêm video mới</p>
-                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.video.index') }}" class="nav-link">
+                                        <i class="fas fa-bars nav-icon"></i>
+                                        <p>Danh sách</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.video.create') }}" class="nav-link">
+                                        <i class="fas fa-plus nav-icon"></i>
+                                        <p>Thêm video mới</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>

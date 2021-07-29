@@ -11,8 +11,9 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="{{ route('admin.video.saveCreate') }}">
+            <form method="POST" action="{{ route('admin.video.saveUpdate') }}" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="id" value="{{ $video->id }}">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
@@ -33,11 +34,6 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="video-id">Youtube id<span class="text-danger">&nbsp;*</span></label>
-                                <input type="text" class="form-control" id="video-id"
-                                       placeholder="Youtube video id" name="ytb_id" value="{{ $video->ytb_id }}">
-                            </div>
-                            <div class="form-group">
                                 <label for="video-id">Tên video<span class="text-danger">&nbsp;*</span></label>
                                 <input type="text" class="form-control" id="video-id"
                                        placeholder="Youtube video id" name="ytb_id" value="{{ $video->title }}">
@@ -49,14 +45,6 @@
                                     <option value="1" selected>Hiển thị</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="video-description">Mô tả<span class="text-danger">&nbsp;*</span></label>
-                                <textarea name="" id="video-description" class="form-control" cols="30"
-                                          rows="10">{!! $video->description !!}</textarea>
-                            </div>
                             <div class="row">
                                 <div class="form-group col-6">
                                     <label for="ytb-thumb">Ảnh thumb<span class="text-danger">&nbsp;*</span></label>
@@ -66,15 +54,31 @@
                                              height="{{ $video->ytb_thumbnails['height'] }}" alt=""/>
                                     </div>
                                 </div>
-                                <div class="form-group col-6">
-                                    <label for="ytb-thumb">Chỉnh sửa thumb<span
-                                            class="text-danger">&nbsp;*</span></label>
-                                    <div>
-                                        <img src="{{ $video->ytb_thumbnails['url'] }}"
-                                             width="{{ $video->ytb_thumbnails['width'] }}"
-                                             height="{{ $video->ytb_thumbnails['height'] }}" alt=""/>
+                                <div class="col-6">
+                                    <div class="custom-control custom-checkbox pb-1">
+                                        <input class="custom-control-input" type="checkbox" id="customCheckbox1">
+                                        <label for="customCheckbox1" class="custom-control-label">Tuỳ chọn ảnh
+                                            thumb</label>
+                                    </div>
+
+                                    <div class="form-group d-none" id="custom-thumb">
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="exampleInputFile"
+                                                       name="custom_thumbnails">
+                                                <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="video-description">Mô tả<span class="text-danger">&nbsp;*</span></label>
+                                <textarea name="description" class="form-control"
+                                          id="video-description">{!! $video->description !!}</textarea>
                             </div>
                         </div>
 
@@ -83,48 +87,12 @@
                         @enderror
                     </div>
                 </div>
-                <div class="row d-none" id="more-info">
-                    <input type="hidden" name="ytb_id"/>
-                    <input type="hidden" name="description"/>
-                    <input type="hidden" name="ytb_thumbnails"/>
-                    <input type="hidden" name="publish_at"/>
-                    <input type="hidden" name="tags"/>
-                    <input type="hidden" name="channel_id"/>
-
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="ytb-title">Title<span class="text-danger">&nbsp;*</span></label>
-                            <input type="text" class="form-control" id="ytb-title"
-                                   placeholder="Youtube video url" name="title"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
-                            <select name="status" id="ytb-status" class="form-control">
-                                <option value="0">Không hiển thị</option>
-                                <option value="1" selected>Hiển thị</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="ytb-channel">Channel<span class="text-danger">&nbsp;*</span></label>
-                            <input type="text" class="form-control" id="ytb-channel"
-                                   placeholder="Youtube video url" name="channel_title"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="ytb-thumb">Thumbnail</label>
-                            <div class="mt-1">
-                                <img src="" class="d-inline-block" id="ytb-thumb" style="" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- /.card-body -->
 
                 <div class="card-footer">
                     <div class="d-flex align-items-center justify-content-end">
-                        <button type="submit" class="btn btn-primary" id="btn-create" disabled>Tạo mới</button>
+                        <button type="submit" class="btn btn-primary" id="btn-create">Cập nhật</button>
                     </div>
                 </div>
             </form>
@@ -135,6 +103,20 @@
 @section('custom-script')
     <script>
         $(document).ready(function () {
+            // Summernote
+            $('#video-description').summernote();
+
+            // custom thubmnail
+            $('input[type=checkbox]#customCheckbox1').change(function (e) {
+                let isChecked = $(this).is(':checked');
+                if (isChecked) {
+                    $('#custom-thumb').removeClass('d-none')
+                } else if (!isChecked) {
+                    $('#custom-thumb').addClass('d-none')
+                }
+            })
+
+            // youtube url
             function getYoutubeId(url) {
                 let ytb_id = url.split("v=")[1];
 

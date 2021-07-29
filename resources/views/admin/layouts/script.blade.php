@@ -1,4 +1,5 @@
 {{--Laravel Mix - Include Bootstrap 4, jQuery, Admin LTE, see webpack.mix.js--}}
+{{--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>--}}
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/all.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
@@ -6,10 +7,23 @@
 <script src="{{ asset('js/select2.min.js') }}"></script>
 <script src="{{ asset('js/moment.js') }}"></script>
 <script type="text/javascript" src="{{ asset('libs/html5lightbox/html5lightbox.js') }}"></script>
+<script src=""{{ asset('js/moment.js') }}></script>
+<!-- Summernote -->
+{{--<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>--}}
+<script src="{{ asset('js/summernote-bs4.js') }}"></script>
+{{--Jquery validation--}}
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
 
 <script>
     $('select').select2();
     $('[data-toggle="tooltip"]').tooltip();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
     function getYoutubeId(url) {
         let ytb_id = url.split("v=")[1];

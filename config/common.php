@@ -30,5 +30,10 @@ return [
     'video_status' => [
         'hidden' => 0,
         'show' => 1,
-    ]
+    ],
+    'subtitle_status' => [
+        'pending' => 0, // chờ duyệt
+        'resolve' => 1, // đã duyệt
+        'reject' => 2, // không được duyệt
+    ],
 ];

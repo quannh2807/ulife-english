@@ -23,7 +23,7 @@ class VideoFactory extends Factory
     {
         return [
             'ytb_id' => '7wtfhZwyrcc',
-            'cate_id' => $this->faker->numberBetween(1, 10),
+            // 'cate_id' => $this->faker->numberBetween(1, 10),
             'title' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
             'description' => $this->faker->text($maxNbChars = 100),
             'ytb_thumbnails' => '{"default":{"url":"https://i.ytimg.com/vi/7wtfhZwyrcc/default.jpg","width": 120,"height": 90},"medium":{"url": "https://i.ytimg.com/vi/7wtfhZwyrcc/mqdefault.jpg","width": 320,"height": 180},"high":{"url":"https://i.ytimg.com/vi/7wtfhZwyrcc/hqdefault.jpg","width": 480,"height": 360},"standard":{"url": "https://i.ytimg.com/vi/7wtfhZwyrcc/sddefault.jpg","width": 640,"height": 480},"maxres":{"url": "https://i.ytimg.com/vi/7wtfhZwyrcc/maxresdefault.jpg","width": 1280,"height": 720}}',
