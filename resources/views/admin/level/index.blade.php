@@ -22,8 +22,8 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th style="width: 50px;">STT</th>
-                            <th style="width: 50px;">#</th>
+                            <th style="width: 30px;">STT</th>
+                            <th style="width: 30px;">#</th>
                             <th>Tên</th>
                             <th align="center" class="text-center" style="width: 120px;">Trạng thái</th>
                             <th align="right" class="text-center" style="width: 150px;">Thao tác</th>
@@ -49,12 +49,12 @@
                                     </td>
                                     <td align="center" class="text-center">
                                         <a href="{{ route('admin.level.edit', ['id' => $item->id]) }}"
-                                           class="d-inline-block btn btn-sm btn-warning"
+                                           class="btn btn-sm btn-primary"
                                            data-toggle="tooltip" data-placement="top"
                                            title="Sửa">
-                                            <i class="fas fa-pencil-alt"></i>
+                                            <i class="fas fa-edit"></i>
                                         </a>
-                                        <a class="d-inline-block btn btn-sm btn-danger ml-2 btn-remove-level"
+                                        <a class="btn btn-sm btn-danger btn-remove-level"
                                            data-id="{{ $item->id }}"
                                            href="{{ route('admin.level.remove', ['id' => $item->id]) }}"
                                            data-toggle="tooltip" data-placement="top"

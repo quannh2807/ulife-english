@@ -239,25 +239,25 @@
     function changeAnswer_1() {
         let answerVal = $('#answer_1').val();
         $('#lbl_answer_1').empty();
-        $('#lbl_answer_1').append('1. ' + answerVal);
+        $('#lbl_answer_1').append('<span class="badge badge-question margin-circle">1</span> ' + answerVal);
     }
 
     function changeAnswer_2() {
         let answerVal = $('#answer_2').val();
         $('#lbl_answer_2').empty();
-        $('#lbl_answer_2').append('2. ' + answerVal);
+        $('#lbl_answer_2').append('<span class="badge badge-question margin-circle">2</span> ' + answerVal);
     }
 
     function changeAnswer_3() {
         let answerVal = $('#answer_3').val();
         $('#lbl_answer_3').empty();
-        $('#lbl_answer_3').append('3. ' + answerVal);
+        $('#lbl_answer_3').append('<span class="badge badge-question margin-circle">3</span> ' + answerVal);
     }
 
     function changeAnswer_4() {
         let answerVal = $('#answer_4').val();
         $('#lbl_answer_4').empty();
-        $('#lbl_answer_4').append('4. ' + answerVal);
+        $('#lbl_answer_4').append('<span class="badge badge-question margin-circle">4</span> ' + answerVal);
     }
 
     // Question - Pick Video
@@ -285,7 +285,7 @@
 
         $.ajax({
             type: "GET",
-            url: 'getVideos',
+            url: '{{ route('admin.question.getVideos') }}',
             data: {id: videoId, keyName: keyName},
             success: function (response) {
                 $('.result-content').html(response);
@@ -314,7 +314,7 @@
         $('#ytb_link').val(title);
 
         let playUrl = "https://www.youtube.com/watch?v=" + ytbId;
-        document.getElementById('divVideo').innerHTML = '<a id="viewVideo" title="Play Video" class="video html5lightbox" href="' + playUrl + '" data-width="640" data-height="360" ><span class="icon fa fa-play">&nbsp;&nbsp;Xem Video</span></a> ';
+        document.getElementById('divVideo').innerHTML = '<a id="viewVideo" title="Play Video" class="video html5lightbox" href="' + playUrl + '" data-width="640" data-height="360" ><span class="icon fa fa-play">&nbsp;&nbsp;Xem Video</span></a>';
         if (ytbId === "" || ytbId === null) {
             $("#divVideo").hide(1000);
         } else {
@@ -322,5 +322,33 @@
         }
         $(".html5lightbox").html5lightbox();
     });
+
+    $("#question-check input:checkbox").on('click', function () {
+        let $box = $(this);
+        if ($box.is(":checked")) {
+            let group = "input:checkbox[name='" + $box.attr("name") + "']";
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+        } else {
+            $box.prop("checked", false);
+        }
+    });
+
+    $('.question-detail-view').on('click', function () {
+        let id = $(this).attr('data-id');
+        showDetailQuestion(id)
+    });
+
+    function showDetailQuestion(id) {
+        $.ajax({
+            type: "GET",
+            url: '{{ route('admin.question.detail') }}',
+            data: {id: id},
+            success: function (response) {
+                $('.result-content').html(response);
+                $('#questionDetailModal').modal('show');
+            }
+        });
+    }
 
 </script>

@@ -42,7 +42,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [\App\Http\Controllers\Backend\QuestionController::class, 'edit'])->name('edit');
         Route::post('/update', [\App\Http\Controllers\Backend\QuestionController::class, 'update'])->name('update');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\QuestionController::class, 'remove'])->name('remove');
-
+        Route::get('/ajax/detail', [\App\Http\Controllers\Backend\QuestionController::class, 'detail'])->name('detail');
     });
 
     Route::prefix('level')->name('level.')->group(function () {

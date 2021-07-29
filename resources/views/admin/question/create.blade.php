@@ -152,7 +152,8 @@
 
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="answer_1">Câu trả lời 1<span class="text-danger">&nbsp;*</span></label>
+                                    <label for="answer_1">Câu trả lời <span class="badge badge-question">1</span><span
+                                            class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_1"
                                            placeholder="Nhập câu trả lời" name="answer_1" value="{{ old('answer_1') }}"
                                            onkeyup="changeAnswer_1();">
@@ -161,7 +162,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="answer_2">Câu trả lời 2<span class="text-danger">&nbsp;*</span></label>
+                                    <label for="answer_2">Câu trả lời <span class="badge badge-question">2</span><span
+                                            class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_2"
                                            placeholder="Nhập câu trả lời" name="answer_2" value="{{ old('answer_2') }}"
                                            onkeyup="changeAnswer_2();">
@@ -170,7 +172,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="answer_3">Câu trả lời 3<span class="text-danger">&nbsp;*</span></label>
+                                    <label for="answer_3">Câu trả lời <span class="badge badge-question">3</span><span
+                                            class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_3"
                                            placeholder="Nhập câu trả lời" name="answer_3" value="{{ old('answer_3') }}"
                                            onkeyup="changeAnswer_3();">
@@ -179,7 +182,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="answer_4">Câu trả lời 4<span class="text-danger">&nbsp;*</span></label>
+                                    <label for="answer_4">Câu trả lời <span class="badge badge-question">4</span><span
+                                            class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_4"
                                            placeholder="Nhập câu trả lời" name="answer_4" value="{{ old('answer_4') }}"
                                            onkeyup="changeAnswer_4();">
@@ -190,32 +194,44 @@
                                 <div class="form-group">
                                     <label for="answer_correct">Chọn đáp án đúng<span
                                             class="text-danger">&nbsp;*</span></label>
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer_correct"
-                                                   id="answer_correct_1" value="1">
-                                            <label class="form-check-label" id="lbl_answer_1">1</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer_correct"
-                                                   id="answer_correct_2" value="2">
-                                            <label class="form-check-label" id="lbl_answer_2">2</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer_correct"
-                                                   id="answer_correct_3" value="3">
-                                            <label class="form-check-label" id="lbl_answer_3">3</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer_correct"
-                                                   id="answer_correct_4" value="4">
-                                            <label class="form-check-label" id="lbl_answer_4">4</label>
-                                        </div>
+                                    <div id="question-check" class="form-group">
                                         @error('answer_correct')
                                         <p style="color: red;">{{$message}}</p>
                                         @enderror
+                                        <div class="custom-control custom-checkbox">
+                                            <input
+                                                class="custom-control-input custom-control-input-success"
+                                                type="checkbox" value="1" id="answer_correct_1" name="answer_correct"
+                                                checked>
+                                            <label for="answer_correct_1" class="custom-control-label"
+                                                   id="lbl_answer_1"><span
+                                                    class="badge badge-question margin-circle">1</span></label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input
+                                                class="custom-control-input custom-control-input-success"
+                                                type="checkbox" value="2" id="answer_correct_2" name="answer_correct">
+                                            <label for="answer_correct_2" class="custom-control-label"
+                                                   id="lbl_answer_2"><span
+                                                    class="badge badge-question margin-circle">2</span></label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input
+                                                class="custom-control-input custom-control-input-success"
+                                                type="checkbox" value="3" id="answer_correct_3" name="answer_correct">
+                                            <label for="answer_correct_3" class="custom-control-label"
+                                                   id="lbl_answer_3"><span
+                                                    class="badge badge-question margin-circle">3</span></label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input
+                                                class="custom-control-input custom-control-input-success"
+                                                type="checkbox" value="4" id="answer_correct_4" name="answer_correct">
+                                            <label for="answer_correct_4" class="custom-control-label"
+                                                   id="lbl_answer_4"><span
+                                                    class="badge badge-question margin-circle">4</span></label>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -232,4 +248,4 @@
         </div>
     </div>
 @endsection
-@include('admin.modal.videolist')
+@include('admin.modal.video_list')
