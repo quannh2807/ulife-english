@@ -32,11 +32,13 @@
                         <th>Tên video</th>
                         <th>Kênh</th>
                         <th>Loại danh mục</th>
-                        <th>Phụ đề</th>
                         <th>Trạng thái</th>
                         <th align="center" class="text-center">
-                            <a href="{{ route('admin.video.create') }}" class="d-inline-block btn btn-primary fs-3">Thêm
-                                mới</a>
+                            <a
+                                href="{{ route('admin.video.create') }}"
+                                class="d-inline-block btn btn-primary fs-3">
+                                <i class="fas fa-plus"></i>
+                            </a>
                         </th>
                     </tr>
                     </thead>
@@ -49,33 +51,29 @@
                     @foreach($videos as $key => $video)
                         <tr id="row-{{$video->id}}">
                             <th>{{ $i ++ }}</th>
-                            <td><img src="{{ $video->custom_thumbnails ? asset('storage/' . $video->custom_thumbnails) : json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
-                                     class="rounded mx-auto"
-                                     style="width: {{json_decode($video->ytb_thumbnails, true)['default']['width']}}px"
-                                     alt=""></td>
+                            <td><img
+                                    src="{{ $video->custom_thumbnails ? asset('storage/' . $video->custom_thumbnails) : json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
+                                    class="rounded mx-auto"
+                                    style="width: {{json_decode($video->ytb_thumbnails, true)['default']['width']}}px"
+                                    alt=""></td>
                             <td>{{ $video->title }}</td>
                             <td>{{ $video->channel_title }}</td>
-                            <td>Sửa loại danh muc</td>
                             <td>
-{{--                                @if(count($video->hasSubLanguages) > 0)--}}
-{{--                                    @foreach($video->hasSubLanguages as $lang)--}}
-{{--                                        <p>{{ $lang->name }}</p>--}}
-{{--                                    @endforeach--}}
-{{--                                @else--}}
-                                    Chưa có phụ đề
-{{--                                @endif--}}
+                                @foreach($video->hasCategories as $cate)
+                                    <span class="d-inline-block px-1 m-1 bg-success rounded">{{ $cate->name }}</span>
+                                @endforeach
                             </td>
                             <td>{{ $video->status === 1 ? 'Hiển thị' : 'Ẩn' }}</td>
                             <td align="center" class="text-center">
                                 <a href="{{ route('admin.subtitle.index', ['video_id' => $video->id]) }}"
-                                   class="d-inline-block btn btn-sm btn-info">
+                                   class="d-inline-block btn btn-sm btn-info m-1">
                                     <i class="far fa-closed-captioning"></i>
                                 </a>
                                 <a href="{{ route('admin.video.update', ['id' => $video->id]) }}"
-                                   class="d-inline-block btn btn-sm btn-warning">
+                                   class="d-inline-block btn btn-sm btn-warning m-1">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <a class="d-inline-block btn btn-sm btn-danger"
+                                <a class="d-inline-block btn btn-sm btn-danger m-1"
                                    data-id="{{ $video->id }}"
                                    href="{{ route('admin.video.remove', ['id' => $video->id]) }}">
                                     <i class="far fa-trash-alt"></i>

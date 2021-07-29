@@ -19,17 +19,14 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="video-cate">Danh mục<span class="text-danger">&nbsp;*</span></label>
-                                <select name="cate_id" class="form-control" id="video-cate">
+                                <select name="categories[]" multiple class="form-control js-example-basic-multiple" id="video-cate">
                                     @foreach($categories as $index => $category)
-                                        @if($category->hasParentCate === null)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endif
-
-                                        @includeWhen(
-                                            count($category->hasChildrenCateRecursive) > 0,
-                                            'admin.categories.child_cate',
-                                            ['childCates' => $category->hasChildrenCateRecursive, 'space' => '--- ']
-                                        )
+                                        <option
+                                            value="{{ $category->id }}"
+                                            {{ $video->hasCategories->contains('id', $category->id) ? 'selected' : '' }}
+                                        >
+                                            {{ $category->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -103,6 +100,11 @@
 @section('custom-script')
     <script>
         $(document).ready(function () {
+            $('.js-example-basic-multiple').select2({
+                placeholder: "Chọn danh mục video",
+                theme: "classic"
+            });
+
             // Summernote
             $('#video-description').summernote();
 

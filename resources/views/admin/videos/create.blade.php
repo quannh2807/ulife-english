@@ -16,22 +16,14 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
-                            {{-- <div class="form-group">
+                            <div class="form-group">
                                 <label for="video-cate">Danh mục<span class="text-danger">&nbsp;*</span></label>
-                                <select name="cate_id" class="form-control" id="video-cate">
+                                <select name="categories[]" multiple class="form-control js-example-basic-multiple" id="video-cate">
                                     @foreach($categories as $index => $category)
-                                        @if($category->hasParentCate === null)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endif
-
-                                        @includeWhen(
-                                            count($category->hasChildrenCateRecursive) > 0,
-                                            'admin.categories.child_cate',
-                                            ['childCates' => $category->hasChildrenCateRecursive, 'space' => '--- ']
-                                        )
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
-                            </div> --}}
+                            </div>
                         </div>
 
                         <div class="col-6">
@@ -39,7 +31,7 @@
                                 <label for="video-url">Đường dẫn video<span class="text-danger">&nbsp;*</span></label>
                                 <div class="d-flex align-items-center border rounded">
                                     <input type="text" class="form-control col-10 border-0" id="video-url"
-                                           placeholder="Youtube video url" name="ytb_url" />
+                                           placeholder="Youtube video url" name="ytb_url"/>
                                     <button class="col-2 btn border-left" id="btn-video-url">Kiểm tra</button>
                                 </div>
                             </div>
@@ -101,6 +93,11 @@
 @section('custom-script')
     <script>
         $(document).ready(function () {
+            $('.js-example-basic-multiple').select2({
+                placeholder: "Chọn danh mục video",
+                theme: "classic"
+            });
+
             function getYoutubeId(url) {
                 let ytb_id = url.split("v=")[1];
 
@@ -132,6 +129,7 @@
                     $.ajax({
                         url: `https://www.googleapis.com/youtube/v3/videos?part=snippet&key=AIzaSyBM9q0VcZ_Gfp6FcdG56FSBZiEeDP-tWbk&id=${id}`,
                         type: 'GET',
+                        dataType: "jsonp",
                         success: async function (res) {
                             const ytb_info = res.items[0];
                             const snippet = ytb_info.snippet;
