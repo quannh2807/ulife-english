@@ -25,9 +25,9 @@ class Video extends Model
     /**
      * @return BelongsTo
      */
-    public function hasCategory()
+    public function hasCategories()
     {
-        return $this->belongsTo(Category::class, 'cate_id', 'id');
+        return $this->belongsToMany(Category::class, 'video_category','video_id', 'category_id');
     }
 
     public function hasVideoSub()
