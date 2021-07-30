@@ -1,46 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Ulife english</title>
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <!-- AdminLTE Theme style -->
-    <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/cus.admin.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
-    <!-- summernote -->
-    {{--    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">--}}
-    <link rel="stylesheet" href="{{ asset('css/summernote-bs4.css') }}"/>
-    <style>
-        ul.pagination {
-            margin: 0;
-            justify-content: flex-end;
-        }
-
-        .error {
-            font-weight: 500 !important;
-            color: red;
-        }
-    </style>
+    @include('admin.layouts.head')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <div class="wrapper">
-
-    <!-- Navbar -->
 @include('admin.layouts.navbar')
-<!-- /.navbar -->
-
-    <!-- Main Sidebar Container -->
+<!-- Main Sidebar Container -->
 @include('admin.layouts.sidebar')
-
 <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -58,9 +25,7 @@
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
+        </div><!-- /.content-header -->
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
@@ -69,9 +34,7 @@
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
+    </div><!-- /.content-wrapper -->
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->
@@ -79,16 +42,11 @@
             <h5>Title</h5>
             <p>Sidebar content</p>
         </div>
-    </aside>
-    <!-- /.control-sidebar -->
-
+    </aside><!-- /.control-sidebar -->
     <!-- Main Footer -->
     @include('admin.layouts.footer')
-</div>
-<!-- ./wrapper -->
-
+</div><!-- ./wrapper -->
 <!-- REQUIRED SCRIPTS -->
-
 @include('admin.layouts.script')
 @yield('custom-script')
 </body>

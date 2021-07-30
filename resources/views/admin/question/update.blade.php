@@ -1,8 +1,6 @@
 @extends('admin.layouts.master')
-
 @section('page-title', 'Câu hỏi')
 @section('breadcrumb', 'Cập nhật câu hỏi')
-
 @section('main')
     <div class="row">
         <div class="col-12">
@@ -260,5 +258,5 @@
             </div>
         </div>
     </div>
+    @include('admin.modal.video_list')
 @endsection
-@include('admin.modal.video_list')

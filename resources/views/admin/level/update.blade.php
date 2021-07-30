@@ -27,6 +27,25 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
+                                    <label for="sub-name">Sub Name</label>
+                                    <input type="text" class="form-control" id="sub-name"
+                                           placeholder="Nhập vào tên" name="sub_name" value="{{ $data->sub_name }}">
+                                    @error('sub_name')
+                                    <p style="color: red;">{{$message}}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="description">Mô tả</label>
+                                    <textarea name="description" class="form-control"
+                                              rows="4">{{ $data->description }}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
                                     <label for="cate-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
                                     <select name="status" class="form-control" id="cate-status">
                                         @foreach(config('common.status') as $key => $status)

@@ -1,23 +1,25 @@
-{{--Laravel Mix - Include Bootstrap 4, jQuery, Admin LTE, see webpack.mix.js--}}
-{{--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>--}}
-<script src="{{ asset('js/popper.min.js') }}"></script>
-<script src="{{ asset('js/all.min.js') }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script src="{{ asset('plugins/html5lightbox/html5lightbox.js') }}"></script>
+<script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="{{ asset('js/select2.min.js') }}"></script>
-<script src="{{ asset('js/moment.js') }}"></script>
-<script type="text/javascript" src="{{ asset('libs/html5lightbox/html5lightbox.js') }}"></script>
-<script src=""{{ asset('js/moment.js') }}></script>
-<!-- Summernote -->
-{{--<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>--}}
-<script src="{{ asset('js/summernote-bs4.js') }}"></script>
-{{--Jquery validation--}}
+<script src="{{ asset('js/popper.min.js') }}"></script>
+{{--<script src="{{ asset('js/all.min.js') }}"></script>--}}
+<script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
 
 <script>
+
     $('select').select2();
     $('[data-toggle="tooltip"]').tooltip();
+    if ($("#reservation").length > 0) {
+        $('#reservation').daterangepicker();
+    }
 
     $.ajaxSetup({
         headers: {
@@ -82,144 +84,6 @@
                 cancelButtonColor: '#d33',
                 cancelButtonText: 'Huỷ',
                 confirmButtonText: 'Đồng ý xoá!'
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    let url = $(this).attr('href');
-                    $.ajax({
-                        url: `${url}`,
-                        type: 'GET',
-                        success: function () {
-                            Swal.fire(
-                                'Xoá thành công!',
-                                'Dữ liệu đã được xoá hoàn toàn.',
-                                'success'
-                            ).then(() => {
-                                $(`#row-${id}`).fadeOut(500, function () {
-                                    $(this).remove();
-                                })
-                            })
-                        },
-                        fail: function () {
-                            Swal.fire(
-                                'Có vấn đề xảy ra',
-                                'Dữ liệu chưa được xoá',
-                                'question'
-                            )
-                        }
-                    });
-                }
-            })
-        });
-    }
-
-    if ($(".btn-remove-level").length > 0) {
-        $('.btn-remove-level').click(function (e) {
-            e.preventDefault();
-
-            let id = $(this).attr('data-id');
-
-            Swal.fire({
-                title: 'Bạn muốn xóa level này?',
-                text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                cancelButtonText: 'Đóng',
-                confirmButtonText: 'Đồng ý xoá!',
-                width: 350
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    let url = $(this).attr('href');
-                    $.ajax({
-                        url: `${url}`,
-                        type: 'GET',
-                        success: function () {
-                            Swal.fire(
-                                'Xoá thành công!',
-                                'Dữ liệu đã được xoá hoàn toàn.',
-                                'success'
-                            ).then(() => {
-                                $(`#row-${id}`).fadeOut(500, function () {
-                                    $(this).remove();
-                                })
-                            })
-                        },
-                        fail: function () {
-                            Swal.fire(
-                                'Có vấn đề xảy ra',
-                                'Dữ liệu chưa được xoá',
-                                'question'
-                            )
-                        }
-                    });
-                }
-            })
-        });
-    }
-
-    if ($(".btn-remove-topics").length > 0) {
-        $('.btn-remove-topics').click(function (e) {
-            e.preventDefault();
-
-            let id = $(this).attr('data-id');
-
-            Swal.fire({
-                title: 'Bạn muốn xóa Topics?',
-                text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                cancelButtonText: 'Đóng',
-                confirmButtonText: 'Đồng ý xoá!',
-                width: 350
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    let url = $(this).attr('href');
-                    $.ajax({
-                        url: `${url}`,
-                        type: 'GET',
-                        success: function () {
-                            Swal.fire(
-                                'Xoá thành công!',
-                                'Dữ liệu đã được xoá hoàn toàn.',
-                                'success'
-                            ).then(() => {
-                                $(`#row-${id}`).fadeOut(500, function () {
-                                    $(this).remove();
-                                })
-                            })
-                        },
-                        fail: function () {
-                            Swal.fire(
-                                'Có vấn đề xảy ra',
-                                'Dữ liệu chưa được xoá',
-                                'question'
-                            )
-                        }
-                    });
-                }
-            })
-        });
-    }
-
-    if ($(".btn-remove-question").length > 0) {
-        $('.btn-remove-question').click(function (e) {
-            e.preventDefault();
-
-            let id = $(this).attr('data-id');
-
-            Swal.fire({
-                title: 'Bạn muốn xóa câu hỏi?',
-                text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                cancelButtonText: 'Đóng',
-                confirmButtonText: 'Đồng ý xoá!',
-                width: 350
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     let url = $(this).attr('href');
