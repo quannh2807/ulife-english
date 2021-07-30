@@ -1,7 +1,8 @@
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+{{--<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>--}}
+<script src="{{ asset('plugins/moment/moment-with-locales.js') }}"></script>
 <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
 <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
 <script src="{{ asset('plugins/html5lightbox/html5lightbox.js') }}"></script>
@@ -227,6 +228,51 @@
                 $('#questionDetailModal').modal('show');
             }
         });
+    }
+
+    //Date range as a button
+    if ($("#daterange-btn").length > 0) {
+        moment.locale('vi');
+        $('#daterange-btn').daterangepicker(
+            {
+                locale: {
+                    "format": "MM/DD/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Chọn",
+                    "cancelLabel": "Hủy",
+                    "fromLabel": "Từ",
+                    "toLabel": "Đến",
+                    "customRangeLabel": "Tùy chỉnh",
+                },
+
+                ranges: {
+                    'Hôm nay': [moment(), moment()],
+                    'Hôm qua': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    '7 ngày trước': [moment().subtract(6, 'days'), moment()],
+                    '30 ngày trước': [moment().subtract(29, 'days'), moment()],
+                    'Tháng này': [moment().startOf('month'), moment().endOf('month')],
+                    'Tháng trước': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                    'Clear': [,]
+                },
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment()
+            },
+            function (start, end, label) {
+                if (label === 'Clear') {
+                    setTimeout(() => {
+                        this.setEndDate(this.endDate[
+                            this.endDate.valueOf() - this.startDate.valueOf() > 1440 ? 'subtract' : 'add'
+                            ](1, 'days'));
+                        $('#valRangeDate').val('');
+                        $('#txtDateRange').html('Từ ngày - Đến ngày');
+                    })
+                } else {
+                    let strDate = start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY');
+                    $('#valRangeDate').val(strDate);
+                    $('#txtDateRange').html(strDate);
+                }
+            }
+        );
     }
 
 </script>

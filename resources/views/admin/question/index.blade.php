@@ -27,15 +27,14 @@
                                        placeholder="Tìm kiếm với tiêu đề hoặc ID"
                                        value="">
                             </div>
-                            <div class="col-3">
+                            <div style="margin: 0px 6px;">
                                 <div class="input-group">
-                                    <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i class="far fa-calendar-alt"></i>
-                                  </span>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm float-right"
-                                           id="reservation">
+                                    <input id="valRangeDate" type="text" value="" hidden>
+                                    <button type="button" class="btn btn-sm btn-default float-right btn-block text-left"
+                                            id="daterange-btn">
+                                        <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;<span id="txtDateRange">Từ ngày - Đến ngày</span>
+                                        <i class="fas fa-caret-down"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div class="col-2">

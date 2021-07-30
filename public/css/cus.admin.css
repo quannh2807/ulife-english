@@ -8,6 +8,10 @@ ul.pagination {
     color: red;
 }
 
+.select2 {
+    width: 100% !important;
+}
+
 label#status {
     border-radius: 3px;
     border-width: 1px;
