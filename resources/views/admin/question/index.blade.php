@@ -19,27 +19,30 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form id="frmSearch" method="POST">
+                    <form action="{{ route('admin.question.search') }}" method="GET">
                         <div class="row">
                             <div class="col-3 item-search">
                                 <input type="text" class="form-control form-control-sm"
                                        id="keyword" name="keyword"
                                        placeholder="Tìm kiếm với tiêu đề hoặc ID"
-                                       value="">
+                                       value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
                             </div>
                             <div style="margin: 0px 6px;">
                                 <div class="input-group">
-                                    <input id="valRangeDate" type="text" value="" hidden>
+                                    <input id="valRangeDate" name="rangeDate" type="text"
+                                           value="{{ request()->has('rangeDate') ? request()->get('rangeDate') : '' }}"
+                                           hidden>
                                     <button type="button" class="btn btn-sm btn-default float-right btn-block text-left"
                                             id="daterange-btn">
-                                        <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;<span id="txtDateRange">Từ ngày - Đến ngày</span>
+                                        <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;<span
+                                            id="txtDateRange">{{ request()->has('rangeDate') && !empty(request()->get('rangeDate')) ? request()->get('rangeDate') : 'Từ ngày - Đến ngày' }}</span>
                                         <i class="fas fa-caret-down"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="col-2">
-                                <select class="form-control form-control-sm">
-                                    <option>--Chọn Level--</option>
+                                <select class="form-control form-control-sm" name="level">
+                                    <option value="">--Chọn Level--</option>
                                     @foreach($levelData as $index => $item)
                                         @if($item != null)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -48,8 +51,8 @@
                                 </select>
                             </div>
                             <div class="col-2">
-                                <select class="form-control form-control-sm">
-                                    <option value="0">--Chọn topics--</option>
+                                <select class="form-control form-control-sm" name="topics">
+                                    <option value="">--Chọn topics--</option>
                                     @foreach($topicsData as $index => $item)
                                         @if($item != null)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -58,8 +61,8 @@
                                 </select>
                             </div>
                             <div class="col-2">
-                                <select class="form-control form-control-sm">
-                                    <option>--Trạng thái--</option>
+                                <select class="form-control form-control-sm" name="status">
+                                    <option value="">--Trạng thái--</option>
                                     @foreach(config('common.status') as $key => $status)
                                         <option
                                             value="{{ $status }}">{{ $key }}</option>
@@ -67,7 +70,7 @@
                                 </select>
                             </div>
                             <div class="col-2">
-                                <button name="search" type="submit"
+                                <button type="submit"
                                         class="btn btn-sm btn-success"><i
                                         class="fa fa-search"></i><span>&nbsp; Tìm kiếm</span>
                                 </button>

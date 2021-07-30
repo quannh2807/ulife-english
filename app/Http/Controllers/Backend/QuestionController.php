@@ -33,6 +33,37 @@ class QuestionController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        //$keyword = $request->get('keyword');
+        //DB::enableQueryLog();
+        $question = Question::query();
+        if (!empty(request('keyword'))) {
+            $question->where('name', 'LIKE', '%' . request('keyword') . '%');
+        }
+        if (!empty(request('level'))) {
+            $question->where('level_id', request('level'));
+        }
+        if (!empty(request('topics'))) {
+            $question->where('topics_id', request('topics'));
+        }
+        if (!empty(request('status'))) {
+            $question->where('status', request('status'));
+        }
+        $data = $question->orderBy('id', 'DESC')->paginate(10);
+        //$queryLog = DB::getQueryLog();
+        //dd($queryLog);
+
+        $levelData = DB::table('levels')->where('status', 1)->get();
+        $topicsData = DB::table('topics')->where('status', 1)->get();
+
+        return view('admin.question.index', [
+            'data' => $data,
+            'levelData' => $levelData,
+            'topicsData' => $topicsData,
+        ]);
+    }
+
     public function create()
     {
         $levelData = DB::table('levels')->where('status', 1)->get();
@@ -77,7 +108,6 @@ class QuestionController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
-        //dd($id);
         $this->questionRepository->update($id, $data);
         return redirect()->route('admin.question.index');
     }
