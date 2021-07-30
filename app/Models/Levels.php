@@ -12,7 +12,7 @@ class Levels extends Model
     protected $table = 'levels';
 
     protected $fillable = [
-        'name', 'status', 'created_by', 'updated_by'
+        'name', 'sub_name', 'description', 'status', 'created_by', 'updated_by'
     ];
 
     /**
@@ -21,7 +21,9 @@ class Levels extends Model
      * @var array
      */
     protected $attributes = [
-        'name' => "",
+        'name' => '',
+        'sub_name' => '',
+        'description' => '',
         'status' => 1,
         'created_by' => 1,
         'updated_by' => 1,

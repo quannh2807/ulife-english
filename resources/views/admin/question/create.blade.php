@@ -1,8 +1,6 @@
 @extends('admin.layouts.master')
-
 @section('page-title', 'Câu hỏi')
 @section('breadcrumb', 'Thêm mới câu hỏi')
-
 @section('main')
     <div class="row">
         <div class="col-12">

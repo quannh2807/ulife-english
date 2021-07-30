@@ -19,6 +19,63 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <form id="frmSearch" method="POST">
+                        <div class="row">
+                            <div class="col-3 item-search">
+                                <input type="text" class="form-control form-control-sm"
+                                       id="keyword" name="keyword"
+                                       placeholder="Tìm kiếm với tiêu đề hoặc ID"
+                                       value="">
+                            </div>
+                            <div style="margin: 0px 6px;">
+                                <div class="input-group">
+                                    <input id="valRangeDate" type="text" value="" hidden>
+                                    <button type="button" class="btn btn-sm btn-default float-right btn-block text-left"
+                                            id="daterange-btn">
+                                        <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;<span id="txtDateRange">Từ ngày - Đến ngày</span>
+                                        <i class="fas fa-caret-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <select class="form-control form-control-sm">
+                                    <option>--Chọn Level--</option>
+                                    @foreach($levelData as $index => $item)
+                                        @if($item != null)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <select class="form-control form-control-sm">
+                                    <option value="0">--Chọn topics--</option>
+                                    @foreach($topicsData as $index => $item)
+                                        @if($item != null)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <select class="form-control form-control-sm">
+                                    <option>--Trạng thái--</option>
+                                    @foreach(config('common.status') as $key => $status)
+                                        <option
+                                            value="{{ $status }}">{{ $key }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <button name="search" type="submit"
+                                        class="btn btn-sm btn-success"><i
+                                        class="fa fa-search"></i><span>&nbsp; Tìm kiếm</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body">
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
@@ -29,6 +86,7 @@
                             <th class="text-center">Level</th>
                             <th>Topics</th>
                             <th align="center" class="text-center" style="width: 120px;">Trạng thái</th>
+                            <th class="text-center" style="width: 110px;">Ngày tạo</th>
                             <th align="right" class="text-center" style="width: 150px;">Thao tác</th>
                         </tr>
                         </thead>
@@ -39,7 +97,7 @@
 
                         @if($data->isEmpty())
                             <tr>
-                                <td colspan="8" align="center">Không có dữ liệu</td>
+                                <td colspan="9" align="center">Không có dữ liệu</td>
                             </tr>
                         @else
                             @foreach($data as $index => $item)
@@ -100,6 +158,7 @@
                                     <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
                             : '<label id="status" class="active">Kích hoạt</label>' !!}
                                     </td>
+                                    <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">
                                         <a class="btn btn-sm btn-info question-detail-view"
                                            data-id="{{ $item->id }}"
@@ -133,4 +192,53 @@
         </div>
     </div>
     @include('admin.modal.question_detail')
+@endsection
+@section('custom-script')
+    <script>
+        if ($(".btn-remove-question").length > 0) {
+            $('.btn-remove-question').click(function (e) {
+                e.preventDefault();
+
+                let id = $(this).attr('data-id');
+
+                Swal.fire({
+                    title: 'Bạn muốn xóa câu hỏi?',
+                    text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    cancelButtonText: 'Đóng',
+                    confirmButtonText: 'Đồng ý xoá!',
+                    width: 350
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        let url = $(this).attr('href');
+                        $.ajax({
+                            url: `${url}`,
+                            type: 'GET',
+                            success: function () {
+                                Swal.fire(
+                                    'Xoá thành công!',
+                                    'Dữ liệu đã được xoá hoàn toàn.',
+                                    'success'
+                                ).then(() => {
+                                    $(`#row-${id}`).fadeOut(500, function () {
+                                        $(this).remove();
+                                    })
+                                })
+                            },
+                            fail: function () {
+                                Swal.fire(
+                                    'Có vấn đề xảy ra',
+                                    'Dữ liệu chưa được xoá',
+                                    'question'
+                                )
+                            }
+                        });
+                    }
+                })
+            });
+        }
+    </script>
 @endsection

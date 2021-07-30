@@ -41,7 +41,7 @@
                         @else
                             @foreach($data as $index => $item)
                                 <tr id="row-{{ $item->id }}">
-                                    <td>{{ $i ++ }}</td>
+                                    <td class="text-center">{{ $i ++ }}</td>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
@@ -82,4 +82,53 @@
             </div>
         </div>
     </div>
+@endsection
+@section('custom-script')
+    <script>
+        if ($(".btn-remove-level").length > 0) {
+            $('.btn-remove-level').click(function (e) {
+                e.preventDefault();
+
+                let id = $(this).attr('data-id');
+
+                Swal.fire({
+                    title: 'Bạn muốn xóa level này?',
+                    text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    cancelButtonText: 'Đóng',
+                    confirmButtonText: 'Đồng ý xoá!',
+                    width: 350
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        let url = $(this).attr('href');
+                        $.ajax({
+                            url: `${url}`,
+                            type: 'GET',
+                            success: function () {
+                                Swal.fire(
+                                    'Xoá thành công!',
+                                    'Dữ liệu đã được xoá hoàn toàn.',
+                                    'success'
+                                ).then(() => {
+                                    $(`#row-${id}`).fadeOut(500, function () {
+                                        $(this).remove();
+                                    })
+                                })
+                            },
+                            fail: function () {
+                                Swal.fire(
+                                    'Có vấn đề xảy ra',
+                                    'Dữ liệu chưa được xoá',
+                                    'question'
+                                )
+                            }
+                        });
+                    }
+                })
+            });
+        }
+    </script>
 @endsection

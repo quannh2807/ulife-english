@@ -22,7 +22,9 @@ class LevelsRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'level',
+            'name' => 'Level',
+            'sub_name' => 'Sub Name',
+            'description' => 'Mô tả',
             'status' => 'trạng thái',
         ];
     }
@@ -35,7 +37,7 @@ class LevelsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:191',
+            'name' => 'required|min:1|max:191',
             'status' => 'required|size:1',
         ];
     }

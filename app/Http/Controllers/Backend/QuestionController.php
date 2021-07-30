@@ -9,7 +9,6 @@ use App\Models\Video;
 use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use function PHPUnit\Framework\isEmpty;
 
 class QuestionController extends Controller
 {
@@ -24,8 +23,13 @@ class QuestionController extends Controller
     public function index()
     {
         $data = Question::paginate(10);
+        $levelData = DB::table('levels')->where('status', 1)->get();
+        $topicsData = DB::table('topics')->where('status', 1)->get();
+
         return view('admin.question.index', [
             'data' => $data,
+            'levelData' => $levelData,
+            'topicsData' => $topicsData,
         ]);
     }
 
