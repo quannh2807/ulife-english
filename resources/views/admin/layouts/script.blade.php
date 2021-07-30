@@ -102,13 +102,13 @@
                                 })
                             })
                         },
-                        fail: function () {
+                        error: function (xhr, status, error) {
                             Swal.fire(
                                 'Có vấn đề xảy ra',
                                 'Dữ liệu chưa được xoá',
                                 'question'
                             )
-                        }
+                        },
                     });
                 }
             })
@@ -230,6 +230,23 @@
         });
     }
 
+    function encodeImageFileAsURL(element) {
+        let file = element.files[0];
+        if (file === undefined) {
+            $('#preview-img').attr('src', "{{ asset('images/online_course.jpg') }}");
+            return false;
+        }
+        let reader = new FileReader();
+        reader.onloadend = function () {
+            $('#preview-img').attr('src', reader.result)
+        }
+        reader.readAsDataURL(file);
+    }
+
+    $('#lesson-description').summernote({
+        placeholder: 'Nhập mô tả bài học',
+        height: 125,
+    });
     //Date range as a button
     if ($("#daterange-btn").length > 0) {
         moment.locale('vi');

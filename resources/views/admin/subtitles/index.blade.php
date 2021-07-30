@@ -114,11 +114,9 @@
     <script>
         $(document).ready(function () {
             function compareTwoTime(startTime, endTime) {
-                let result = new Date ('1/1/1999 ' + startTime) < new Date ('1/1/1999 ' + endTime)
+                let result = new Date('1/1/1999 ' + startTime) < new Date('1/1/1999 ' + endTime)
                 return result;
             }
-
-            console.log(compareTwoTime('00:00:10', '00:00:15'))
 
             $('#add-sub').validate({
                 errorPlacement: function (error, e) {
@@ -182,10 +180,13 @@
                 let ko = $('input#ko').val();
 
                 let valid = $('#add-sub').valid();
-                let compare = compareTwoTime(startTime, endTime)
+                let compare = compareTwoTime(startTime, endTime);
+
                 if (!compare) {
-                    $('input#start-time').parent('.form-group').append('<span class="error">Thời gian bắt đầu không được lơn hơn thời gian kết thúc</span>')
-                }else {
+                    if ($('input#start-time').siblings('span.error').length <= 0) {
+                        $('input#start-time').parent('.form-group').append('<span class="error">Thời gian bắt đầu không được lơn hơn thời gian kết thúc</span>')
+                    }
+                } else {
                     $('input#start-time').parent('.form-group').children('.error').remove();
                 }
 

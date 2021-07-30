@@ -29,13 +29,12 @@
                         <th>#</th>
                         <th>Tên</th>
                         <th>Slug</th>
-                        <th>Vị trí</th>
                         <th>Danh mục cha</th>
-                        <th>Loại danh mục</th>
                         <th>Trạng thái</th>
                         <th align="center" class="text-center">
-                            <a href="{{ route('admin.category.create') }}" class="d-inline-block btn btn-primary">Thêm
-                                mới</a>
+                            <a href="{{ route('admin.category.create') }}" class="d-inline-block btn btn-sm btn-primary">
+                                Thêm mới
+                            </a>
                         </th>
                     </tr>
                     </thead>
@@ -50,10 +49,9 @@
                             <th>{{ $i ++ }}</th>
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->slug}}</td>
-                            <td>{{ $category->position }}</td>
                             <td>{{ $category->hasParentCate !== null ? $category->hasParentCate->name : '/' }}</td>
-                            <td>{{ $category->type }}</td>
-                            <td>{{ $category->status === 0 ? 'Không kích hoạt' : 'Kích hoạt' }}</td>
+                            <td class="text-center">{!! $category->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
+                            : '<label id="status" class="active">Kích hoạt</label>' !!}</td>
                             <td align="center" class="text-center">
                                 <a href="{{ route('admin.category.update', ['id' => $category->id]) }}"
                                    class="d-inline-block btn btn-sm btn-warning">
