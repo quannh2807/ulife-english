@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course;
 use App\Models\Language;
 use App\Models\Levels;
 use App\Models\Topics;

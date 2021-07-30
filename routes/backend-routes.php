@@ -69,4 +69,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\TopicsController::class, 'remove'])->name('remove');
     });
 
+    Route::prefix('lesson')->name('lesson.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Backend\LessonController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\Backend\LessonController::class, 'create'])->name('create');
+        Route::post('/store', [\App\Http\Controllers\Backend\LessonController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [\App\Http\Controllers\Backend\LessonController::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Backend\LessonController::class, 'update'])->name('update');
+        Route::get('/remove/{id}', [\App\Http\Controllers\Backend\LessonController::class, 'destroy'])->name('remove');
+    });
 });

@@ -27,13 +27,13 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Ảnh</th>
-                    <th>Tên video</th>
-                    <th>Kênh</th>
-                    <th>Loại danh mục</th>
+                    <th>Tên bài học</th>
+                    <th>Trình độ</th>
                     <th>Trạng thái</th>
+                    <th>Thời gian tạo</th>
+                    <th>Ảnh</th>
                     <th align="center" class="text-center">
-                        <a href="{{ route('admin.video.create') }}" class="d-inline-block btn btn-sm btn-primary">
+                        <a href="{{ route('admin.lesson.create') }}" class="d-inline-block btn btn-sm btn-primary">
                             Thêm mới
                         </a>
                     </th>
@@ -45,46 +45,50 @@
                 @endphp
 
                 <tbody class="">
-                @foreach($videos as $key => $video)
-                    <tr id="row-{{$video->id}}">
+                @if($lessons->isEmpty())
+                    <tr>
+                        <td colspan="8" align="center">Không có dữ liệu</td>
+                    </tr>
+                @endif
+
+                @foreach($lessons as $key => $lesson)
+                    @php
+                        Carbon\Carbon::setLocale('vi');
+                        $now = Carbon\Carbon::now();
+                    @endphp
+
+
+                    <tr id="row-{{$lesson->id}}">
                         <th>{{ $i ++ }}</th>
-                        <td><img
-                                src="{{ $video->custom_thumbnails ? asset('storage/' . $video->custom_thumbnails) : json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
-                                class="rounded mx-auto"
-                                style="width: {{json_decode($video->ytb_thumbnails, true)['default']['width']}}px"
-                                alt=""></td>
-                        <td>{{ $video->title }}</td>
-                        <td>{{ $video->channel_title }}</td>
-                        <td>
-                            @foreach($video->hasCategories as $cate)
-                                <span class="d-inline-block px-1 m-1 bg-success rounded" style="font-size: 13px">{{ $cate->name }}</span>
-                            @endforeach
-                        </td>
-                        <td class="text-center">{!! $video->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
+                        <th>{{ $lesson->name }}</th>
+                        <th>{{ $lesson->hasLevel->name }}</th>
+                        <td>{!! $lesson->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
                             : '<label id="status" class="active">Kích hoạt</label>' !!}</td>
+                        <th>{{ $lesson->created_at->diffForHumans($now) }}</th>
+                        <th>
+                            <img src="{{ asset('storage/' . $lesson->thumb_img) }}" class="img-thumbnail"
+                                 style="width: 100px" alt="">
+                        </th>
                         <td align="center" class="text-center">
-                            <a href="{{ route('admin.subtitle.index', ['video_id' => $video->id]) }}"
-                               class="d-inline-block btn btn-sm btn-info m-1">
-                                <i class="far fa-closed-captioning"></i>
-                            </a>
-                            <a href="{{ route('admin.video.update', ['id' => $video->id]) }}"
+                            <a href="{{ route('admin.lesson.edit', ['id' => $lesson->id]) }}"
                                class="d-inline-block btn btn-sm btn-warning m-1">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
-                            <a class="d-inline-block btn btn-sm btn-danger m-1"
-                               data-id="{{ $video->id }}"
-                               href="{{ route('admin.video.remove', ['id' => $video->id]) }}">
+                            <a class="d-inline-block btn btn-sm btn-danger m-1 btn-remove"
+                               data-id="{{ $lesson->id }}"
+                               href="{{ route('admin.lesson.remove', ['id' => $lesson->id]) }}">
                                 <i class="far fa-trash-alt"></i>
                             </a>
                         </td>
                     </tr>
                 @endforeach
+
                 </tbody>
             </table>
         </div>
         <!-- /.card-body -->
         <div class="card-footer clearfix">
-            {{ $videos->links() }}
+            {{ $lessons->links() }}
         </div>
     </div>
     <!-- /.card -->

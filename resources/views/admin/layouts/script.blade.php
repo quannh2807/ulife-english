@@ -14,7 +14,6 @@
 {{--Jquery validation--}}
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
     $('select').select2();
@@ -100,13 +99,13 @@
                                 })
                             })
                         },
-                        fail: function () {
+                        error: function (xhr, status, error) {
                             Swal.fire(
                                 'Có vấn đề xảy ra',
                                 'Dữ liệu chưa được xoá',
                                 'question'
                             )
-                        }
+                        },
                     });
                 }
             })
@@ -366,4 +365,21 @@
         });
     }
 
+    function encodeImageFileAsURL(element) {
+        let file = element.files[0];
+        if (file === undefined) {
+            $('#preview-img').attr('src', "{{ asset('images/online_course.jpg') }}");
+            return false;
+        }
+        let reader = new FileReader();
+        reader.onloadend = function () {
+            $('#preview-img').attr('src', reader.result)
+        }
+        reader.readAsDataURL(file);
+    }
+
+    $('#lesson-description').summernote({
+        placeholder: 'Nhập mô tả bài học',
+        height: 125,
+    });
 </script>
