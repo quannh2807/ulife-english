@@ -247,5 +247,5 @@
             </div>
         </div>
     </div>
+    @include('admin.modal.video_list')
 @endsection
-@include('admin.modal.video_list')
