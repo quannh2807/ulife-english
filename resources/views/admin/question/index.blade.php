@@ -45,7 +45,8 @@
                                     <option value="">--Chọn Level--</option>
                                     @foreach($levelData as $index => $item)
                                         @if($item != null)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option
+                                                value="{{ $item->id }}" {{ request()->has('level') && request()->get('level') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -55,17 +56,18 @@
                                     <option value="">--Chọn topics--</option>
                                     @foreach($topicsData as $index => $item)
                                         @if($item != null)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option
+                                                value="{{ $item->id }}" {{ request()->has('topics') && request()->get('topics') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-2">
                                 <select class="form-control form-control-sm" name="status">
-                                    <option value="">--Trạng thái--</option>
+                                    <option value="-1">--Trạng thái--</option>
                                     @foreach(config('common.status') as $key => $status)
                                         <option
-                                            value="{{ $status }}">{{ $key }}</option>
+                                            value="{{ $status }}" {{ request()->has('status') && request()->get('status') == $status  ? 'selected' : '' }}>{{ $key }}</option>
                                     @endforeach
                                 </select>
                             </div>

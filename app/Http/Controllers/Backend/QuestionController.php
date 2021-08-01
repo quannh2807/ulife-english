@@ -7,6 +7,7 @@ use App\Http\Requests\QuestionRequest;
 use App\Models\Question;
 use App\Models\Video;
 use App\Repositories\QuestionRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -36,10 +37,22 @@ class QuestionController extends Controller
     public function search(Request $request)
     {
         //$keyword = $request->get('keyword');
-        //DB::enableQueryLog();
+        DB::enableQueryLog();
         $question = Question::query();
         if (!empty(request('keyword'))) {
             $question->where('name', 'LIKE', '%' . request('keyword') . '%');
+        }
+        if (!empty(request('rangeDate'))) {
+            $temp = explode('-', request('rangeDate'));
+            $startDate = trim($temp[0]);
+            $endDate = trim($temp[1]);
+            $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', $startDate)
+                ->format('Y-m-d 00:00:00');
+            $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', $endDate)
+                ->format('Y-m-d 23:59:59');
+
+            $question->where('created_at', '>=', $startDate)
+                ->where('created_at', '<=', $endDate);
         }
         if (!empty(request('level'))) {
             $question->where('level_id', request('level'));
@@ -47,7 +60,7 @@ class QuestionController extends Controller
         if (!empty(request('topics'))) {
             $question->where('topics_id', request('topics'));
         }
-        if (!empty(request('status'))) {
+        if (request('status') >= 0) {
             $question->where('status', request('status'));
         }
         $data = $question->orderBy('id', 'DESC')->paginate(10);
