@@ -23,7 +23,6 @@
                     <th>End-time</th>
                     <th>Tiếng việt</th>
                     <th>Tiếng anh</th>
-                    <th>Tiếng hàn</th>
                     <th>
                         <button class="btn btn-info btn-sm" id="create-sub">
                             <i class="fas fa-plus"></i>
@@ -48,20 +47,14 @@
                         <th key-data="index">{{ $i++ }}</th>
                         <td>{{ $subtitle->time_start }}</td>
                         <td>{{ $subtitle->time_end }}</td>
-                        <td>{{ $subtitle->vi }}</td>
-                        <td>{{ $subtitle->en }}</td>
-                        <td>{{ $subtitle->ko }}</td>
+                        <td>{!! $subtitle->vi ?  $subtitle->vi : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>' !!}</td>
+                        <td>{!! $subtitle->en ? $subtitle->en : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>' !!}</td>
                         <th>
                             <button
                                 data-id="{{ $subtitle->id }}"
                                 class="btn btn-sm btn-warning select-sub"
                             >
                                 <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button
-                                class="btn btn-sm btn-danger"
-                            >
-                                <i class="far fa-trash-alt"></i>
                             </button>
                         </th>
                     </tr>
@@ -96,11 +89,6 @@
                     <label for="en" class="pr-2">Tiếng anh</label>
                     <input type="text" name="en" id="en" class="flex-grow-1 form-control"
                            placeholder="Phụ đề tiếng Anh">
-                </div>
-                <div class="form-group">
-                    <label for="ko" class="pr-2">Tiếng Hàn</label>
-                    <input type="text" name="ko" id="ko" class="flex-grow-1 form-control"
-                           placeholder="Phụ đề tiếng Hàn">
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="btn-create">Tạo mới</button>
@@ -139,10 +127,6 @@
                     en: {
                         required: true,
                     },
-                    ko: {
-                        required: true,
-                    },
-
                 },
                 messages: {
                     start_time: {
@@ -161,9 +145,6 @@
                     en: {
                         required: 'Phụ đề tiếng anh không được bỏ trống'
                     },
-                    ko: {
-                        required: 'Phụ đề tiếng hàn không được bỏ trống'
-                    },
                 }
             });
 
@@ -177,7 +158,6 @@
                 let endTime = $('input#end-time').val();
                 let vi = $('input#vi').val();
                 let en = $('input#en').val();
-                let ko = $('input#ko').val();
 
                 let valid = $('#add-sub').valid();
                 let compare = compareTwoTime(startTime, endTime);
@@ -198,7 +178,6 @@
                     time_end: endTime,
                     vi: vi,
                     en: en,
-                    ko: ko,
                 }
 
                 $.ajax({
@@ -225,16 +204,22 @@
                                 <th>${$('th[key-data=index]').length + 1}</th>
                                 <td>${newItem.time_start}</td>
                                 <td>${newItem.time_end}</td>
-                                <td>${newItem.vi}</td>
-                                <td>${newItem.en}</td>
-                                <td>${newItem.ko}</td>
-                                <th></th>
+                                <td>${newItem.vi ? newItem.vi : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
+                                <td>${newItem.en ? newItem.en : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
+                                <th>
+                                    <button
+                                        data-id="${newItem.id}"
+                                        class="btn btn-sm btn-warning select-sub"
+                                    >
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                </th>
                             </tr>
                         `;
 
                         $('tbody').append(row);
                     },
-                    fail: function () {
+                    error: function () {
                         Swal.fire({
                             icon: 'error',
                             title: 'Có lỗi xảy ra',
@@ -245,6 +230,7 @@
             });
 
             $('.select-sub').click(function () {
+                document.querySelector('input#start-time').scrollIntoView({block: 'start', behavior: 'smooth'});
                 let sub_id = $(this).attr('data-id');
 
                 $.ajax({

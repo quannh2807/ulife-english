@@ -76,7 +76,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="lesson-thumb">Ảnh bài học <span class="text-danger">*</span></label>
+                                <label for="lesson-thumb">Ảnh bài học</label>
 
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="customFile" name="thumb_img"
