@@ -33,6 +33,7 @@ class VideoRequest extends FormRequest
             'channel_id' => 'required',
             'channel_title' => 'required',
             'status' => 'required',
+            'type' => 'required',
         ];
     }
 

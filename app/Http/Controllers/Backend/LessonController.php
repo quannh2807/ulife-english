@@ -7,54 +7,46 @@ use App\Http\Requests\LessonRequest;
 use App\Models\Lesson;
 use App\Repositories\LessonRepository;
 use App\Repositories\LevelRepository;
+use App\Repositories\VideoRepository;
 use Illuminate\Http\Request;
 
 class LessonController extends Controller
 {
     protected $lessonRepository;
     protected $levelRepository;
+    protected $videoRepository;
 
-    public function __construct(LessonRepository $lessonRepository, LevelRepository $levelRepository)
+    public function __construct(LessonRepository $lessonRepository, LevelRepository $levelRepository, VideoRepository $videoRepository)
     {
         $this->lessonRepository = $lessonRepository;
         $this->levelRepository = $levelRepository;
+        $this->videoRepository = $videoRepository;
     }
 
-    /**
-     * @return View
-     */
     public function index()
     {
-        $lessons = Lesson::with('hasLevel')->paginate(5);
+        $lessons = Lesson::with('hasLevel', 'hasVideos')->paginate(5);
 
         return view('admin.lessons.index', [
             'lessons' => $lessons,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $levels = $this->levelRepository->fetchAll([], ['id', 'name']);
+        $videos = $this->videoRepository->fetchAll([], ['id', 'title']);
 
         return view('admin.lessons.create', [
             'levels' => $levels,
+            'videos' => $videos,
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(LessonRequest $request)
     {
-        $data = $request->except('_token', 'files');
+        $data = $request->except('_token', 'files', 'videos');
+        $videos = $request->videos;
 
         if ($request->hasFile('thumb_img')) {
             $path = $request->file('thumb_img')->store('thumbnails', 'public');
@@ -62,48 +54,33 @@ class LessonController extends Controller
             $data['thumb_img'] = $path;
         }
 
-        $this->lessonRepository->storeNew($data);
+        $saveLesson = $this->lessonRepository->storeNew($data);
+        $saveLesson->hasVideos()->sync($videos);
 
         return redirect()->route('admin.lesson.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $lesson = $this->lessonRepository->findById($id, []);
+        $lesson = $this->lessonRepository->findById($id, ['hasVideos']);
         $levels = $this->levelRepository->fetchAll([]);
+        $videos = $this->videoRepository->fetchAll([], ['id', 'title']);
 
         return view('admin.lessons.update', [
             'lesson' => $lesson,
             'levels' => $levels,
+            'videos' => $videos,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
+    public function update(LessonRequest $request)
     {
-        $data = $request->except('_token', 'files');
+        $currentLesson = $this->lessonRepository->findById($request->id, []);
+        $videos = $request->videos;
+        $currentLesson->hasVideos()->detach($videos);
+        $currentLesson->hasVideos()->sync($videos);
+
+        $data = $request->except('_token', 'files', 'videos');
 
         if ($request->hasFile('thumb_img')) {
             $path = $request->file('thumb_img')->store('thumbnails', 'public');
@@ -115,12 +92,6 @@ class LessonController extends Controller
         return redirect()->route('admin.lesson.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $lesson = $this->lessonRepository->findById($id, []);
