@@ -18,7 +18,8 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="video-cate">Danh mục<span class="text-danger">&nbsp;*</span></label>
-                                <select name="categories[]" multiple class="form-control js-example-basic-multiple" id="video-cate">
+                                <select name="categories[]" multiple class="form-control js-example-basic-multiple"
+                                        id="video-cate">
                                     @foreach($categories as $index => $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
@@ -54,6 +55,14 @@
                                 <label for="ytb-title">Title<span class="text-danger">&nbsp;*</span></label>
                                 <input type="text" class="form-control" id="ytb-title"
                                        placeholder="Youtube video url" name="title"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="ytb-type">Loại video<span class="text-danger">&nbsp;*</span></label>
+                                <select name="type" id="ytb-type" class="form-control select-type">
+                                    @foreach(config('common.video_types') as $key => $type)
+                                        <option value="{{ $type }}">{{ $key }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
@@ -95,7 +104,6 @@
         $(document).ready(function () {
             $('.js-example-basic-multiple').select2({
                 placeholder: "Chọn danh mục video",
-                theme: "classic"
             });
 
             function getYoutubeId(url) {

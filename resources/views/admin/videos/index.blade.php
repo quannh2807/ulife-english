@@ -28,13 +28,17 @@
                 <tr>
                     <th>#</th>
                     <th>Ảnh</th>
-                    <th>Tên video</th>
-                    <th>Kênh</th>
+                    <th width="30%">Tên video</th>
+                    <th>Loại video</th>
                     <th>Loại danh mục</th>
                     <th>Trạng thái</th>
-                    <th align="center" class="text-center">
+                    <th align="center" class="text-center btn-group-sm">
                         <a href="{{ route('admin.video.create') }}" class="d-inline-block btn btn-sm btn-primary">
                             Thêm mới
+                        </a>
+
+                        <a href="{{ route('admin.video.importSub') }}" class="btn btn-sm btn-info my-1">
+                            Import sub
                         </a>
                     </th>
                 </tr>
@@ -48,30 +52,33 @@
                 @foreach($videos as $key => $video)
                     <tr id="row-{{$video->id}}">
                         <th>{{ $i ++ }}</th>
-                        <td><img
+                        <td>
+                            <img
                                 src="{{ $video->custom_thumbnails ? asset('storage/' . $video->custom_thumbnails) : json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
                                 class="rounded mx-auto"
-                                style="width: {{json_decode($video->ytb_thumbnails, true)['default']['width']}}px"
-                                alt=""></td>
+                                style="width: 100px"
+                                alt="">
+                        </td>
                         <td>{{ $video->title }}</td>
-                        <td>{{ $video->channel_title }}</td>
+                        <td>{!! $video->type == 1 ? '<span class="d-inline-block px-1 m-1 bg-success rounded" style="font-size: 13px">Grammar</span>' : '<span class="d-inline-block px-1 m-1 bg-info rounded" style="font-size: 13px">Lesson</span>' !!}</td>
                         <td>
                             @foreach($video->hasCategories as $cate)
-                                <span class="d-inline-block px-1 m-1 bg-success rounded" style="font-size: 13px">{{ $cate->name }}</span>
+                                <span class="d-inline-block px-1 m-1 bg-success rounded"
+                                      style="font-size: 13px">{{ $cate->name }}</span>
                             @endforeach
                         </td>
                         <td class="text-center">{!! $video->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
                             : '<label id="status" class="active">Kích hoạt</label>' !!}</td>
                         <td align="center" class="text-center">
                             <a href="{{ route('admin.subtitle.index', ['video_id' => $video->id]) }}"
-                               class="d-inline-block btn btn-sm btn-info m-1">
+                               class="d-inline-block btn btn-sm btn-info mb-1">
                                 <i class="far fa-closed-captioning"></i>
                             </a>
                             <a href="{{ route('admin.video.update', ['id' => $video->id]) }}"
-                               class="d-inline-block btn btn-sm btn-warning m-1">
+                               class="d-inline-block btn btn-sm btn-warning mb-1">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
-                            <a class="d-inline-block btn btn-sm btn-danger m-1"
+                            <a class="d-inline-block btn btn-sm btn-danger mb-1 btn-remove"
                                data-id="{{ $video->id }}"
                                href="{{ route('admin.video.remove', ['id' => $video->id]) }}">
                                 <i class="far fa-trash-alt"></i>

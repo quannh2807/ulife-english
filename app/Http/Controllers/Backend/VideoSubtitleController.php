@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadSubRequest;
 use App\Models\VideoSubtitle;
 use App\Repositories\LanguageRepository;
 use App\Repositories\VideoRepository;
 use App\Repositories\VideoSubtitleRepository;
+use Benlipp\SrtParser\Parser;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class VideoSubtitleController extends Controller
 {
@@ -27,11 +28,6 @@ class VideoSubtitleController extends Controller
         $this->languageRepository = $languageRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $video_id = $request->video_id;
@@ -46,12 +42,6 @@ class VideoSubtitleController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $allData = $request->all();
@@ -64,12 +54,6 @@ class VideoSubtitleController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Request $request)
     {
         $id = $request->sub_id;
@@ -80,37 +64,60 @@ class VideoSubtitleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
+    }
+
+    public function import()
+    {
+        $videos = $this->videoRepository->fetchAll([], ['id', 'title']);
+
+        return view('admin.videos.import', [
+            'videos' => $videos,
+        ]);
+    }
+
+    public function preview(UploadSubRequest $request)
+    {
+        $parser = new Parser();
+        $file = $request->file('file_upload');
+        $parser->loadFile($file->path());
+        $subtitles = $parser->parse();
+
+        return response()->json([
+            'subtitles' => $subtitles,
+        ]);
+    }
+
+    public function upload(UploadSubRequest $request)
+    {
+        $video_id = $request->video_id;
+        $lang = $request->lang;
+        $parser = new Parser();
+        $file = $request->file('file_upload');
+        $parser->loadFile($file->path());
+        $subtitles = $parser->parse();
+
+        foreach ($subtitles as $key => $sub) {
+            $this->videoSubtitleRepository->storeNew([
+                'video_id' => $video_id,
+                'time_start' => $sub->startTime,
+                'time_end' => $sub->endTime,
+                $lang => $sub->text,
+            ]);
+        }
+
+        return redirect()->route('admin.video.index');
     }
 }

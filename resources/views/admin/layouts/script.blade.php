@@ -305,4 +305,7 @@
             $('.input-file-dummy').val('');
         });
     }
+    $('.select-multiple').select2({
+        placeholder: "Chọn video bài học",
+    });
 </script>

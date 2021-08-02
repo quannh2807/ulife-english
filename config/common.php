@@ -31,9 +31,17 @@ return [
         'hidden' => 0,
         'show' => 1,
     ],
+    'video_types' => [
+        'Grammar' => 1,
+        'Lesson' => 2,
+    ],
     'subtitle_status' => [
         'pending' => 0, // chờ duyệt
         'resolve' => 1, // đã duyệt
         'reject' => 2, // không được duyệt
     ],
+    'languages' => [
+        'en' => 'Tiếng Anh',
+        'vi' => 'Tiếng Việt',
+    ]
 ];

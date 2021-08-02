@@ -19,9 +19,22 @@
                             <div class="form-group">
                                 <label for="lesson-name">Tên bài học <span class="text-danger">*</span></label>
                                 <input type="text" name="name" id="lesson-name" class="form-control"
-                                       value="{{ old('name') }}">
+                                       value="{{ old('name') }}" placeholder="Nhập tên bài học">
 
                                 @error('name')
+                                <p style="color: red;">{{$message}}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lesson-videos">Video <span class="text-danger">*</span></label>
+                                <select name="videos[]" multiple class="form-control select-multiple" id="lesson-videos">
+                                    @foreach($videos as $index => $video)
+                                        <option value="{{ $video->id }}">{{ $video->title }}</option>
+                                    @endforeach
+                                </select>
+
+                                @error('videos')
                                 <p style="color: red;">{{$message}}</p>
                                 @enderror
                             </div>
@@ -38,6 +51,17 @@
                             </div>--}}
 
                             <div class="form-group">
+                                <label for="lesson-description">Mô tả <span class="text-danger">*</span></label>
+                                <textarea name="description" id="lesson-description" class="form-control"
+                                          rows="10">{{ old('description') }}</textarea>
+
+                                @error('description')
+                                <p style="color: red;">{{$message}}</p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label for="lesson-level">Trình độ <span class="text-danger">*</span></label>
                                 <select name="level_id" id="lesson-level" class="form-control">
                                     <option selected>-- Chọn trình độ --</option>
@@ -51,17 +75,6 @@
                                 <p style="color: red;">{{$message}}</p>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="lesson-description">Mô tả <span class="text-danger">*</span></label>
-                                <textarea name="description" id="lesson-description" class="form-control"
-                                          rows="10">{{ old('description') }}</textarea>
-
-                                @error('description')
-                                <p style="color: red;">{{$message}}</p>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-6">
                             <div class="form-group">
                                 <label for="lesson-status">Trạng thái <span class="text-danger">*</span></label>
                                 <select name="status" id="lesson-status" class="form-control">
