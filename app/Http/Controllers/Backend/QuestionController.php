@@ -7,7 +7,6 @@ use App\Http\Requests\QuestionRequest;
 use App\Models\Question;
 use App\Models\Video;
 use App\Repositories\QuestionRepository;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +22,7 @@ class QuestionController extends Controller
 
     public function index()
     {
-        $data = Question::paginate(10);
+        $data = Question::orderBy('id', 'DESC')->paginate(10);
         $levelData = DB::table('levels')->where('status', 1)->get();
         $topicsData = DB::table('topics')->where('status', 1)->get();
 
@@ -41,6 +40,7 @@ class QuestionController extends Controller
         $question = Question::query();
         if (!empty(request('keyword'))) {
             $question->where('name', 'LIKE', '%' . request('keyword') . '%');
+            $question->orWhere('id', request('keyword'));
         }
         if (!empty(request('rangeDate'))) {
             $temp = explode('-', request('rangeDate'));

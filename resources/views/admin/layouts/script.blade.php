@@ -292,4 +292,19 @@
         );
     }
 
+    $(window).on('beforeunload', function () {
+        $('.input-file-dummy').val('');
+    });
+
+    function previewMultiple(event) {
+        $('.input-file-dummy').val($('#thumb').val());
+        $('#galleryPhotos').empty();
+        let urls = URL.createObjectURL(event.target.files[0]);
+        document.getElementById("galleryPhotos").innerHTML += '<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="removePhoto"><i class="fa fa-trash-alt"></i></a></div>';
+        $(".removePhoto").click(function () {
+            $(this).parent().fadeOut(300);
+            $('.input-file-dummy').val('');
+        });
+    }
+
 </script>

@@ -11,4 +11,4 @@
 <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
 {{--<link rel="stylesheet" href="{{ asset('css/all.min.css') }}">--}}
 <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
-<link rel="stylesheet" href="{{ asset('css/cus.admin.css') }}">
+<link rel="stylesheet" href="{{ asset('css/cus.admin.css') }}?v=1">

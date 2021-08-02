@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicsRequest;
+use App\Models\Levels;
 use App\Models\Topics;
 use App\Repositories\TopicsRepository;
 use Illuminate\Http\Request;
@@ -21,9 +22,47 @@ class TopicsController extends Controller
 
     public function index()
     {
-        $data = Topics::paginate(10);
+        $data = Topics::orderBy('id', 'DESC')->paginate(10);
+        $levelData = DB::table('levels')->where('status', 1)->get();
+
         return view('admin.topics.index', [
             'data' => $data,
+            'levelData' => $levelData,
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $question = Topics::query();
+        if (!empty(request('keyword'))) {
+            $question->where('name', 'LIKE', '%' . request('keyword') . '%');
+            $question->orWhere('id', request('keyword'));
+        }
+        if (!empty(request('rangeDate'))) {
+            $temp = explode('-', request('rangeDate'));
+            $startDate = trim($temp[0]);
+            $endDate = trim($temp[1]);
+            $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', $startDate)
+                ->format('Y-m-d 00:00:00');
+            $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', $endDate)
+                ->format('Y-m-d 23:59:59');
+
+            $question->where('created_at', '>=', $startDate)
+                ->where('created_at', '<=', $endDate);
+        }
+        if (!empty(request('level'))) {
+            $question->where('level_id', request('level'));
+        }
+        if (request('status') >= 0) {
+            $question->where('status', request('status'));
+        }
+
+        $data = $question->orderBy('id', 'DESC')->paginate(10);
+        $levelData = DB::table('levels')->where('status', 1)->get();
+
+        return view('admin.topics.index', [
+            'data' => $data,
+            'levelData' => $levelData,
         ]);
     }
 

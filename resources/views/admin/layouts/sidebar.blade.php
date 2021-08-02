@@ -118,6 +118,40 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-file-word"></i>
+                        <p>Quản lý Từ vựng<i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.vocabulary.index') }}" class="nav-link">
+                                <i class="fas fa-bars nav-icon"></i>
+                                <p>Danh sách từ vựng</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.vocabulary.create') }}" class="nav-link">
+                                <i class="fas fa-plus nav-icon"></i>
+                                <p>Thêm mới từ vựng</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.vocabularyCat.index') }}" class="nav-link">
+                                <i class="fas fa-bars nav-icon"></i>
+                                <p>Danh mục từ vựng</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.vocabularyCat.create') }}" class="nav-link">
+                                <i class="fas fa-plus nav-icon"></i>
+                                <p>Thêm mới danh mục</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tasks"></i>
                         <p>Quản lý Topics<i class="right fas fa-angle-left"></i>
                         </p>

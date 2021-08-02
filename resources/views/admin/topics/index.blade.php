@@ -19,6 +19,57 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <form action="{{ route('admin.topics.search') }}" method="GET">
+                        <div class="row">
+                            <div class="col-3 item-search">
+                                <input type="text" class="form-control form-control-sm"
+                                       id="keyword" name="keyword"
+                                       placeholder="Tìm kiếm với tiêu đề hoặc ID"
+                                       value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
+                            </div>
+                            <div style="margin: 0px 6px;">
+                                <div class="input-group">
+                                    <input id="valRangeDate" name="rangeDate" type="text"
+                                           value="{{ request()->has('rangeDate') ? request()->get('rangeDate') : '' }}"
+                                           hidden>
+                                    <button type="button" class="btn btn-sm btn-default float-right btn-block text-left"
+                                            id="daterange-btn">
+                                        <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;<span
+                                            id="txtDateRange">{{ request()->has('rangeDate') && !empty(request()->get('rangeDate')) ? request()->get('rangeDate') : 'Từ ngày - Đến ngày' }}</span>
+                                        <i class="fas fa-caret-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <select class="form-control form-control-sm" name="level">
+                                    <option value="">--Chọn Level--</option>
+                                    @foreach($levelData as $index => $item)
+                                        @if($item != null)
+                                            <option
+                                                value="{{ $item->id }}" {{ request()->has('level') && request()->get('level') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <select class="form-control form-control-sm" name="status">
+                                    <option value="-1">--Trạng thái--</option>
+                                    @foreach(config('common.status') as $key => $status)
+                                        <option
+                                            value="{{ $status }}" {{ request()->has('status') && request()->get('status') == $status  ? 'selected' : '' }}>{{ $key }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <button type="submit"
+                                        class="btn btn-sm btn-success"><i
+                                        class="fa fa-search"></i><span>&nbsp; Tìm kiếm</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body">
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
@@ -27,6 +78,7 @@
                             <th>Tên</th>
                             <th>Level</th>
                             <th align="center" class="text-center" style="width: 120px;">Trạng thái</th>
+                            <th class="text-center" style="width: 110px;">Ngày tạo</th>
                             <th align="right" class="text-center" style="width: 150px;">Thao tác</th>
                         </tr>
                         </thead>
@@ -37,7 +89,7 @@
 
                         @if($data->isEmpty())
                             <tr>
-                                <td colspan="6" align="center">Không có dữ liệu</td>
+                                <td colspan="7" align="center">Không có dữ liệu</td>
                             </tr>
                         @else
                             @foreach($data as $index => $item)
@@ -55,6 +107,7 @@
                                     <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
                             : '<label id="status" class="active">Kích hoạt</label>' !!}
                                     </td>
+                                    <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">
                                         <a href="{{ route('admin.topics.edit', ['id' => $item->id]) }}"
                                            class="btn btn-sm btn-primary"

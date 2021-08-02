@@ -54,6 +54,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('level')->name('level.')->group(function () {
         Route::get('/', [\App\Http\Controllers\Backend\LevelsController::class, 'index'])->name('index');
+        Route::get('/search', [\App\Http\Controllers\Backend\LevelsController::class, 'search'])->name('search');
         Route::get('/create', [\App\Http\Controllers\Backend\LevelsController::class, 'create'])->name('create');
         Route::post('/store', [\App\Http\Controllers\Backend\LevelsController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [\App\Http\Controllers\Backend\LevelsController::class, 'edit'])->name('edit');
@@ -63,6 +64,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('topics')->name('topics.')->group(function () {
         Route::get('/', [\App\Http\Controllers\Backend\TopicsController::class, 'index'])->name('index');
+        Route::get('/search', [\App\Http\Controllers\Backend\TopicsController::class, 'search'])->name('search');
         Route::get('/create', [\App\Http\Controllers\Backend\TopicsController::class, 'create'])->name('create');
         Route::post('/store', [\App\Http\Controllers\Backend\TopicsController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [\App\Http\Controllers\Backend\TopicsController::class, 'edit'])->name('edit');
@@ -78,4 +80,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/update', [\App\Http\Controllers\Backend\LessonController::class, 'update'])->name('update');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\LessonController::class, 'destroy'])->name('remove');
     });
+
+    Route::prefix('vocabulary')->name('vocabulary.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Backend\VocabularyController::class, 'index'])->name('index');
+        Route::get('/search', [\App\Http\Controllers\Backend\VocabularyController::class, 'search'])->name('search');
+        Route::get('/create', [\App\Http\Controllers\Backend\VocabularyController::class, 'create'])->name('create');
+        Route::post('/store', [\App\Http\Controllers\Backend\VocabularyController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [\App\Http\Controllers\Backend\VocabularyController::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Backend\VocabularyController::class, 'update'])->name('update');
+        Route::get('/remove/{id}', [\App\Http\Controllers\Backend\VocabularyController::class, 'remove'])->name('remove');
+    });
+
+    Route::prefix('vocabularyCat')->name('vocabularyCat.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'index'])->name('index');
+        Route::get('/search', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'search'])->name('search');
+        Route::get('/create', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'create'])->name('create');
+        Route::post('/store', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'update'])->name('update');
+        Route::get('/remove/{id}', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'remove'])->name('remove');
+    });
+
 });

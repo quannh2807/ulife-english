@@ -21,11 +21,38 @@ class LevelsController extends Controller
 
     public function index()
     {
-
-        $data = Levels::paginate(10);
-        //dd($data);
+        $data = Levels::orderBy('id', 'DESC')->paginate(10);
         return view('admin.level.index', [
             'data' => $data,
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $question = Levels::query();
+        if (!empty(request('keyword'))) {
+            $question->where('name', 'LIKE', '%' . request('keyword') . '%');
+            $question->orWhere('id', request('keyword'));
+        }
+        if (!empty(request('rangeDate'))) {
+            $temp = explode('-', request('rangeDate'));
+            $startDate = trim($temp[0]);
+            $endDate = trim($temp[1]);
+            $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', $startDate)
+                ->format('Y-m-d 00:00:00');
+            $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', $endDate)
+                ->format('Y-m-d 23:59:59');
+
+            $question->where('created_at', '>=', $startDate)
+                ->where('created_at', '<=', $endDate);
+        }
+        if (request('status') >= 0) {
+            $question->where('status', request('status'));
+        }
+        $data = $question->orderBy('id', 'DESC')->paginate(10);
+
+        return view('admin.level.index', [
+            'data' => $data
         ]);
     }
 

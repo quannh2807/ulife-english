@@ -144,3 +144,44 @@ label.no-levels {
 .item-search {
     margin-bottom: 10px;
 }
+
+#galleryPhotos {
+    display: flex;
+    margin-top: 10px;
+}
+
+#galleryPhotos img {
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+    opacity: 85%;
+    object-fit: cover;
+}
+
+.imagePhoto {
+    width: 200px;
+    height: 150px;
+    position: relative;
+    margin-right: 10px;
+}
+
+.removePhoto {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    cursor: pointer;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: .3rem;
+    background-color: rgba(0, 0, 0, .5);
+    -webkit-appearance: none;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+}
+
+.removePhoto i {
+    color: #FFF;
+}

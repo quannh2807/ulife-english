@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
-@section('page-title', 'Levels')
-@section('breadcrumb', 'Levels')
+@section('page-title', 'Danh mục từ vựng')
+@section('breadcrumb', 'Danh mục từ vựng')
 
 @section('main')
     <div class="row">
@@ -10,7 +10,7 @@
                     <h3 class="card-title">Danh sách</h3>
                     <div class="card-tools">
                         <div>
-                            <a href="{{ route('admin.level.create') }}"
+                            <a href="{{ route('admin.vocabularyCat.create') }}"
                                class="d-inline-block btn btn-sm btn-primary"><i
                                     class="fa fa-plus"></i>&nbsp;&nbsp;Thêm
                                 mới</a>
@@ -19,7 +19,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form action="{{ route('admin.level.search') }}" method="GET">
+                    <form action="{{ route('admin.vocabularyCat.search') }}" method="GET">
                         <div class="row">
                             <div class="col-3 item-search">
                                 <input type="text" class="form-control form-control-sm"
@@ -64,7 +64,9 @@
                         <tr>
                             <th style="width: 30px;">STT</th>
                             <th style="width: 30px;">#</th>
+                            <th style="width: 80px;">Ảnh</th>
                             <th>Tên</th>
+                            <th>Mô tả</th>
                             <th align="center" class="text-center" style="width: 120px;">Trạng thái</th>
                             <th class="text-center" style="width: 110px;">Ngày tạo</th>
                             <th align="right" class="text-center" style="width: 150px;">Thao tác</th>
@@ -77,28 +79,37 @@
 
                         @if($data->isEmpty())
                             <tr>
-                                <td colspan="6" align="center">Không có dữ liệu</td>
+                                <td colspan="8" align="center">Không có dữ liệu</td>
                             </tr>
                         @else
                             @foreach($data as $index => $item)
                                 <tr id="row-{{ $item->id }}">
                                     <td class="text-center">{{ $i ++ }}</td>
                                     <td>{{ $item->id }}</td>
+                                    <td>
+                                        <img class="thumbList" width="120" height="80"
+                                             src="{{ asset('storage/' . $item->thumb) }}"
+                                             src="{{ $item->thumb }}"
+                                             alt="{{ $item->name }}"
+                                             title="{{ $item->name }}"
+                                        />
+                                    </td>
                                     <td>{{ $item->name }}</td>
+                                    <td>{!! $item->description !!}</td>
                                     <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
                             : '<label id="status" class="active">Kích hoạt</label>' !!}
                                     </td>
                                     <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">
-                                        <a href="{{ route('admin.level.edit', ['id' => $item->id]) }}"
+                                        <a href="{{ route('admin.vocabularyCat.edit', ['id' => $item->id]) }}"
                                            class="btn btn-sm btn-primary"
                                            data-toggle="tooltip" data-placement="top"
                                            title="Sửa">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-danger btn-remove-level"
+                                        <a class="btn btn-sm btn-danger btn-remove-vocabulary-cat"
                                            data-id="{{ $item->id }}"
-                                           href="{{ route('admin.level.remove', ['id' => $item->id]) }}"
+                                           href="{{ route('admin.vocabularyCat.remove', ['id' => $item->id]) }}"
                                            data-toggle="tooltip" data-placement="top"
                                            title="Xóa">
                                             <i class="far fa-trash-alt"></i>
@@ -113,13 +124,6 @@
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
                     {{ $data->links() }}
-                    {{--<ul class="pagination pagination-sm m-0 float-right">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>--}}
                 </div>
             </div>
         </div>
@@ -127,50 +131,48 @@
 @endsection
 @section('custom-script')
     <script>
-        if ($(".btn-remove-level").length > 0) {
-            $('.btn-remove-level').click(function (e) {
-                e.preventDefault();
+        $('.btn-remove-vocabulary-cat').click(function (e) {
+            e.preventDefault();
 
-                let id = $(this).attr('data-id');
+            let id = $(this).attr('data-id');
 
-                Swal.fire({
-                    title: 'Bạn muốn xóa level này?',
-                    text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    cancelButtonText: 'Đóng',
-                    confirmButtonText: 'Đồng ý xoá!',
-                    width: 350
-                }).then(async (result) => {
-                    if (result.isConfirmed) {
-                        let url = $(this).attr('href');
-                        $.ajax({
-                            url: `${url}`,
-                            type: 'GET',
-                            success: function () {
-                                Swal.fire(
-                                    'Xoá thành công!',
-                                    'Dữ liệu đã được xoá hoàn toàn.',
-                                    'success'
-                                ).then(() => {
-                                    $(`#row-${id}`).fadeOut(500, function () {
-                                        $(this).remove();
-                                    })
+            Swal.fire({
+                title: 'Bạn muốn xóa bản ghi này?',
+                text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                cancelButtonText: 'Đóng',
+                confirmButtonText: 'Đồng ý xoá!',
+                width: 350
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let url = $(this).attr('href');
+                    $.ajax({
+                        url: `${url}`,
+                        type: 'GET',
+                        success: function () {
+                            Swal.fire(
+                                'Xoá thành công!',
+                                'Dữ liệu đã được xoá hoàn toàn.',
+                                'success'
+                            ).then(() => {
+                                $(`#row-${id}`).fadeOut(500, function () {
+                                    $(this).remove();
                                 })
-                            },
-                            fail: function () {
-                                Swal.fire(
-                                    'Có vấn đề xảy ra',
-                                    'Dữ liệu chưa được xoá',
-                                    'question'
-                                )
-                            }
-                        });
-                    }
-                })
-            });
-        }
+                            })
+                        },
+                        fail: function () {
+                            Swal.fire(
+                                'Có vấn đề xảy ra',
+                                'Dữ liệu chưa được xoá',
+                                'question'
+                            )
+                        }
+                    });
+                }
+            })
+        });
     </script>
 @endsection
