@@ -16,8 +16,8 @@ class CreateVideoSubtitlesTable extends Migration
         Schema::create('video_subtitles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('video_id')->constrained('videos');
-            $table->integer('time_start');
-            $table->integer('time_end');
+            $table->string('time_start');
+            $table->string('time_end');
             $table->text('vi')->nullable();
             $table->text('en')->nullable();
             $table->text('ko')->nullable();
