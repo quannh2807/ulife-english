@@ -40,4 +40,8 @@ return [
         'resolve' => 1, // đã duyệt
         'reject' => 2, // không được duyệt
     ],
+    'languages' => [
+        'en' => 'Tiếng Anh',
+        'vi' => 'Tiếng Việt',
+    ]
 ];
