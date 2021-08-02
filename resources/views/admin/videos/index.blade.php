@@ -78,7 +78,7 @@
                                class="d-inline-block btn btn-sm btn-warning mb-1">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
-                            <a class="d-inline-block btn btn-sm btn-danger mb-1"
+                            <a class="d-inline-block btn btn-sm btn-danger mb-1 btn-remove"
                                data-id="{{ $video->id }}"
                                href="{{ route('admin.video.remove', ['id' => $video->id]) }}">
                                 <i class="far fa-trash-alt"></i>
