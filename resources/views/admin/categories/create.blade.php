@@ -49,6 +49,7 @@
                             <div class="form-group">
                                 <label for="cate-parent">Danh mục cha</label>
                                 <select name="parent_id" class="form-control" id="cate-parent">
+                                    <option value="0" selected>-- Chọn danh mục cha --</option>
                                     @foreach($categories as $index => $category)
                                         @if($category->hasParentCate === null)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -70,8 +71,9 @@
                                 <label for="cate-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
                                 <select name="status" class="form-control" id="cate-status">
                                     <option>Chọn trạng thái</option>
-                                    <option value="0">Kích hoạt</option>
-                                    <option value="1">Không kích hoạt</option>
+                                    @foreach(config('common.status') as $key => $status)
+                                        <option value="{{ $status }}">{{ $key }}</option>
+                                    @endforeach
                                 </select>
                                 @error('status')
                                 <p style="color: red;">{{$message}}</p>

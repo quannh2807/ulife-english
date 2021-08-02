@@ -15,7 +15,6 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
 
 <script>
-
     $('select').select2();
     $('[data-toggle="tooltip"]').tooltip();
     if ($("#reservation").length > 0) {
@@ -306,5 +305,4 @@
             $('.input-file-dummy').val('');
         });
     }
-
 </script>

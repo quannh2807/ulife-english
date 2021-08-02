@@ -49,6 +49,7 @@
                             <div class="form-group">
                                 <label for="cate-parent">Danh mục cha</label>
                                 <select name="parent_id" class="form-control" id="cate-parent">
+                                    <option value="0" selected>-- Chọn danh mục cha --</option>
                                     @foreach($categories as $index => $category)
                                         @if($category->hasParentCate === null)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
