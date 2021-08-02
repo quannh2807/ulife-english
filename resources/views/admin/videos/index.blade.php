@@ -29,7 +29,7 @@
                     <th>#</th>
                     <th>Ảnh</th>
                     <th>Tên video</th>
-                    <th>Kênh</th>
+                    <th>Loại video</th>
                     <th>Loại danh mục</th>
                     <th>Trạng thái</th>
                     <th align="center" class="text-center">
@@ -54,7 +54,7 @@
                                 style="width: {{json_decode($video->ytb_thumbnails, true)['default']['width']}}px"
                                 alt=""></td>
                         <td>{{ $video->title }}</td>
-                        <td>{{ $video->channel_title }}</td>
+                        <td>{!! $video->type == 1 ? '<span class="d-inline-block px-1 m-1 bg-success rounded" style="font-size: 13px">Grammar</span>' : '<span class="d-inline-block px-1 m-1 bg-info rounded" style="font-size: 13px">Lesson</span>' !!}</td>
                         <td>
                             @foreach($video->hasCategories as $cate)
                                 <span class="d-inline-block px-1 m-1 bg-success rounded" style="font-size: 13px">{{ $cate->name }}</span>

@@ -290,4 +290,8 @@
             }
         );
     }
+
+    $('.select-multiple').select2({
+        placeholder: "Chọn video bài học",
+    });
 </script>

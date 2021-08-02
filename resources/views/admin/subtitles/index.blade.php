@@ -114,12 +114,12 @@
                     start_time: {
                         required: true,
                         maxlength: 8,
-                        pattern: '^([0-1]?[0-9]|2[0-3]):([0-1]?[0-9]|2[0-3]):([0-1]?[0-9]|2[0-3])$',
+                        pattern: '^([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3])$',
                     },
                     end_time: {
                         required: true,
                         maxlength: 8,
-                        pattern: '^([0-1]?[0-9]|2[0-3]):([0-1]?[0-9]|2[0-3]):([0-1]?[0-9]|2[0-3])$',
+                        pattern: '^([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3])$',
                     },
                     vi: {
                         required: true,
@@ -164,7 +164,9 @@
 
                 if (!compare) {
                     if ($('input#start-time').siblings('span.error').length <= 0) {
-                        $('input#start-time').parent('.form-group').append('<span class="error">Thời gian bắt đầu không được lơn hơn thời gian kết thúc</span>')
+                        $('input#start-time').parent('.form-group').append('<span class="error">Thời gian bắt đầu không được lớn hơn thời gian kết thúc</span>')
+
+                        return;
                     }
                 } else {
                     $('input#start-time').parent('.form-group').children('.error').remove();
@@ -187,10 +189,13 @@
                     data: data,
                     success: async function (data) {
                         await Swal.fire({
+                            position: 'top-end',
                             icon: 'success',
                             title: 'Thành công',
                             text: data.msg,
-                        });
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
 
                         if ($('#have-sub').length > 0) {
                             $('#have-sub').addClass('d-none')

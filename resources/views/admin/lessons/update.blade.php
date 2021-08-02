@@ -27,6 +27,25 @@
                                 @enderror
                             </div>
 
+                            <div class="form-group">
+                                <label for="lesson-videos">Video <span class="text-danger">*</span></label>
+                                <select name="videos[]" multiple class="form-control select-multiple"
+                                        id="lesson-videos">
+                                    @foreach($videos as $index => $video)
+                                        <option
+                                            value="{{ $video->id }}"
+                                            {{ $lesson->hasVideos->contains('id', $video->id) ? 'selected' : '' }}
+                                        >
+                                            {{ $video->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                @error('videos')
+                                <p style="color: red;">{{$message}}</p>
+                                @enderror
+                            </div>
+
                             {{--<div class="form-group">
                                 <label for="lesson-course">Khóa học <span class="text-danger">*</span></label>
                                 <select name="course_id" id="lesson-course" class="form-control">
@@ -38,6 +57,17 @@
                                 @enderror
                             </div>--}}
 
+                            <div class="form-group">
+                                <label for="lesson-description">Mô tả <span class="text-danger">*</span></label>
+                                <textarea name="description" id="lesson-description" class="form-control"
+                                          rows="10">{{  $lesson->description }}</textarea>
+
+                                @error('description')
+                                <p style="color: red;">{{$message}}</p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-6">
                             <div class="form-group">
                                 <label for="lesson-level">Trình độ <span class="text-danger">*</span></label>
                                 <select name="level_id" id="lesson-level" class="form-control">
@@ -52,18 +82,6 @@
                                 <p style="color: red;">{{$message}}</p>
                                 @enderror
                             </div>
-
-                            <div class="form-group">
-                                <label for="lesson-description">Mô tả <span class="text-danger">*</span></label>
-                                <textarea name="description" id="lesson-description" class="form-control"
-                                          rows="10">{{  $lesson->description }}</textarea>
-
-                                @error('description')
-                                <p style="color: red;">{{$message}}</p>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-6">
                             <div class="form-group">
                                 <label for="lesson-status">Trạng thái <span class="text-danger">*</span></label>
                                 <select name="status" id="lesson-status" class="form-control">
@@ -92,7 +110,8 @@
                             </div>
                             <div class="col form-group">
                                 <label for="" class="d-block">Xem trước</label>
-                                <img src="{{ $lesson->thumb_img }}" alt="" class="d-inline-block img-thumbnail" id="preview-img"
+                                <img src="{{ $lesson->thumb_img }}" alt="" class="d-inline-block img-thumbnail"
+                                     id="preview-img"
                                      style="max-height: 200px;"/>
                             </div>
                         </div>

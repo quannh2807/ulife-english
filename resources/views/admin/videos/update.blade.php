@@ -36,6 +36,14 @@
                                        placeholder="Youtube video id" name="ytb_id" value="{{ $video->title }}">
                             </div>
                             <div class="form-group">
+                                <label for="ytb-type">Loại video<span class="text-danger">&nbsp;*</span></label>
+                                <select name="type" id="ytb-type" class="form-control select-type">
+                                    @foreach(config('common.video_types') as $key => $type)
+                                        <option value="{{ $type }}" {{ $video->type === $type ? 'selected' : '' }}>{{ $key }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
                                 <select name="status" id="ytb-status" class="form-control">
                                     <option value="0">Không hiển thị</option>
@@ -102,7 +110,6 @@
         $(document).ready(function () {
             $('.js-example-basic-multiple').select2({
                 placeholder: "Chọn danh mục video",
-                theme: "classic"
             });
 
             // Summernote
