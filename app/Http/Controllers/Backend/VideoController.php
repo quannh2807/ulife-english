@@ -23,7 +23,7 @@ class VideoController extends Controller
 
     public function index()
     {
-        $videos = Video::with('hasCategory')->paginate(10);
+        $videos = Video::with('hasCategories')->paginate(10);
 
         return view('admin.videos.index', [
             'videos' => $videos,
@@ -44,8 +44,11 @@ class VideoController extends Controller
      */
     public function saveCreate(VideoRequest $request)
     {
-        $data = $request->all();
-        $this->videoRepository->storeNew($data);
+        $data = $request->except('categories');
+        $categories = $request->categories;
+        $saveVideo = $this->videoRepository->storeNew($data);
+        // luu record quan he n-n vao bang video_category
+        $saveVideo->hasCategories()->sync($categories);
 
         return redirect()->route('admin.video.index');
     }
@@ -54,7 +57,7 @@ class VideoController extends Controller
     {
         $id = $request->id;
         $categories = $this->categoryRepository->fetchAll(['hasChildrenCateRecursive', 'hasParentCate'], ['id', 'name', 'parent_id']);
-        $current_video = $this->videoRepository->findById($id, []);
+        $current_video = $this->videoRepository->findById($id, ['hasCategories']);
         $current_video->ytb_thumbnails = json_decode($current_video->ytb_thumbnails, true)['default'];
 
         return view('admin.videos.update', [
@@ -68,13 +71,19 @@ class VideoController extends Controller
      */
     public function saveUpdate(Request $request)
     {
-        $video = $request->except('_token');
+        $currentVideo = $this->videoRepository->findById($request->id, []);
+        // luu record quan he n-n vao bang video_category
+        $categories = $request->categories;
+        $currentVideo->hasCategories()->detach($categories);
+        $currentVideo->hasCategories()->sync($categories);
+
+        $video = $request->except('_token', 'categories');
         if ($request->hasFile('custom_thumbnails')) {
             $path = $request->file('custom_thumbnails')->store('thumbnails', 'public');
 
             $video['custom_thumbnails'] = $path;
         }
-        $this->videoRepository->update($video['id'], $video);
+        $updateVideo = $this->videoRepository->update($video['id'], $video);
 
         return redirect()->route('admin.video.index');
     }

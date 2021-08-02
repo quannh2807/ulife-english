@@ -17,9 +17,9 @@ class VideoSubtitleController extends Controller
     private $languageRepository;
 
     public function __construct(
-        VideoRepository $videoRepository,
+        VideoRepository         $videoRepository,
         VideoSubtitleRepository $videoSubtitleRepository,
-        LanguageRepository $languageRepository
+        LanguageRepository      $languageRepository
     )
     {
         $this->videoRepository = $videoRepository;

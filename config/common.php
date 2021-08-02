@@ -4,8 +4,8 @@ return [
     'item_per_page' => 12,
     'page_default' => 1,
     'status' => [
-        'Không kích hoạt' => 0,
         'Kích hoạt' => 1,
+        'Không kích hoạt' => 0,
     ],
     'paginate_size' => [
         'list' => [

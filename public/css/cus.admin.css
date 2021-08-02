@@ -1,0 +1,146 @@
+ul.pagination {
+    margin: 0;
+    justify-content: flex-end;
+}
+
+.error {
+    font-weight: 500 !important;
+    color: red;
+}
+
+.select2 {
+    width: 100% !important;
+}
+
+label#status {
+    border-radius: 3px;
+    border-width: 1px;
+    padding: 3px 6px;
+    font-size: 10px;
+    line-height: 1.5;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+}
+
+label.active {
+    background-color: #11bc73;
+    color: white;
+}
+
+label.noActive {
+    background-color: #FF0000;
+    color: white;
+}
+
+label.levels {
+    background-color: #3b6eff;
+    color: white;
+}
+
+label.no-levels {
+    background-color: #333333;
+    color: white;
+}
+
+.swal2-popup {
+    font-size: 0.65rem !important;
+}
+
+.result-content {
+    max-height: 68vh;
+    overflow-y: auto;
+}
+
+#videoList tbody {
+    border: 1px solid #EAEAEA;
+}
+
+#videoList tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+#videoList .checked {
+    background: #DDD;
+}
+
+.thumbList {
+    width: 80px;
+    height: 50px;
+    border: 1px solid #d9d9d9;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+#html5-watermark {
+    display: none !important;
+}
+
+.margin-circle {
+    margin: 4px;
+}
+
+.badge-question {
+    height: 18px;
+    width: 18px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: #5a6268;
+    color: #fff;
+    text-align: center;
+    font: 10px Arial, sans-serif;
+}
+
+.badge-correct {
+    background: #11bc73 !important;
+}
+
+#lbl_answer_1,
+#lbl_answer_2,
+#lbl_answer_3,
+#lbl_answer_4 {
+    font-weight: 500;
+}
+
+.form-group label {
+    font-weight: 500 !important;
+}
+
+
+.item-child-lbl {
+    color: #AAA;
+    font-size: 11px;
+    display: inline-block;
+    width: 68px;
+}
+
+.item-child-val {
+    color: #8e8e8e;
+    font-size: 12px;
+}
+
+.lbl-name {
+    color: #333333;
+    font-weight: 600;
+    display: inline-block;
+    width: 100%;
+    font-size: 14px;
+}
+
+.lbl-answer {
+    font-size: 13px;
+}
+
+.lbl-item {
+    color: #333333;
+    font-weight: 500;
+    display: inline-block;
+    width: 100%;
+    font-size: 14px;
+}
+
+.item-search {
+    margin-bottom: 10px;
+}
