@@ -19,13 +19,16 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form action="{{ route('admin.vocabulary.search') }}" method="GET">
+                    <form id="frmSearch" action="{{ route('admin.vocabulary.search') }}" method="GET">
                         <div class="row">
-                            <div class="col-3 item-search">
-                                <input type="text" class="form-control form-control-sm"
-                                       id="keyword" name="keyword"
-                                       placeholder="Tìm kiếm với tiêu đề hoặc ID"
-                                       value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
+                            <div class="item-search">
+                                <div class="btn-group" style="margin: 0px 10px">
+                                    <input type="search" class="form-control form-control-sm"
+                                           id="searchInput" name="keyword"
+                                           placeholder="Tìm kiếm với tiêu đề hoặc ID"
+                                           value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
+                                    <span id="searchClear" class="nav-icon fas fa-times-circle"></span>
+                                </div>
                             </div>
                             <div style="margin: 0px 6px;">
                                 <div class="input-group">
@@ -88,9 +91,11 @@
                                     <td>{{ $item->id }}</td>
                                     <td class="">
                                         <img class="thumbList" width="120" height="80"
+                                             @if(!empty($item->thumb))
                                              src="{{ asset('storage/' . $item->thumb) }}"
-                                             {{--src="{if !empty($news.thumb)}{$smarty.const.URL_NEWS_THUMB}{$news.thumb}{else}{$smarty.const.URL_IMAGE}no-image.png{/if}"--}}
-                                             src="{{ $item->thumb }}"
+                                             @else
+                                             src="{{ asset('images/no-image.png') }}"
+                                             @endif
                                              alt="{{ $item->name }}"
                                              title="{{ $item->name }}"
                                         />
@@ -102,6 +107,10 @@
                                     </td>
                                     <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">
+                                        <a class="btn btn-sm btn-info vocabulary-detail-view"
+                                           data-id="{{ $item->id }}"
+                                           data-toggle="tooltip" data-placement="top" title="Chi tiết"
+                                           href="javascript:void(0)"><i class="fa fa-eye"></i><span></span></a>
                                         <a href="{{ route('admin.vocabulary.edit', ['id' => $item->id]) }}"
                                            class="btn btn-sm btn-primary"
                                            data-toggle="tooltip" data-placement="top"
@@ -129,9 +138,28 @@
             </div>
         </div>
     </div>
+    @include('admin.modal.detail')
 @endsection
 @section('custom-script')
     <script>
+        $('.vocabulary-detail-view').on('click', function () {
+            let id = $(this).attr('data-id');
+            showDetail(id)
+        });
+
+        function showDetail(id) {
+            $.ajax({
+                type: "GET",
+                url: '{{ route('admin.vocabulary.detail') }}',
+                data: {id: id},
+                success: function (response) {
+                    $('.modal-title').html('Chi tiết Từ vựng');
+                    $('.result-content').html(response);
+                    $('#detailModal').modal('show');
+                }
+            });
+        }
+
         if ($(".vocabulary").length > 0) {
             $('.vocabulary').click(function (e) {
                 e.preventDefault();

@@ -102,7 +102,27 @@ class LevelsController extends Controller
         return redirect()->route('admin.level.index');
     }
 
-    public function destroy($id)
+    public function detail()
     {
+        $questionId = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
+        $detail = Levels::findOrFail($questionId);
+
+        $response = '<table class="table table-bordered table-hover"><tbody>';
+        if ($detail) {
+            $response .= '<tr><td style="width: 120px;">Tên</td><td>' . $detail->name . '</td></tr>';
+            $response .= '<tr><td style="width: 120px;">SubName</td><td>' . $detail->sub_name . '</td></tr>';
+            $response .= '<tr><td style="width: 120px;">Description</td><td>' . $detail->description . '</td></tr>';
+
+            $statusName = $detail->status == 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
+                : '<label id="status" class="active">Kích hoạt</label>';
+            $response .= '<tr><td style="width: 120px;">Trạng thái</td><td>' . $statusName . '</td></tr>';
+
+        } else {
+            $response .= '<tr>';
+            $response .= '<td align="center" colspan="2">Không có dữ liệu.</td>';
+            $response .= '</tr>';
+        }
+        $response .= '</tbody></table>';
+        return $response;
     }
 }

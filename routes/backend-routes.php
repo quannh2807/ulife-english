@@ -67,6 +67,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [\App\Http\Controllers\Backend\LevelsController::class, 'edit'])->name('edit');
         Route::post('/update', [\App\Http\Controllers\Backend\LevelsController::class, 'update'])->name('update');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\LevelsController::class, 'remove'])->name('remove');
+        Route::get('/ajax/detail', [\App\Http\Controllers\Backend\LevelsController::class, 'detail'])->name('detail');
     });
 
     Route::prefix('topics')->name('topics.')->group(function () {
@@ -77,6 +78,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [\App\Http\Controllers\Backend\TopicsController::class, 'edit'])->name('edit');
         Route::post('/update', [\App\Http\Controllers\Backend\TopicsController::class, 'update'])->name('update');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\TopicsController::class, 'remove'])->name('remove');
+        Route::get('/ajax/detail', [\App\Http\Controllers\Backend\TopicsController::class, 'detail'])->name('detail');
     });
 
     Route::prefix('lesson')->name('lesson.')->group(function () {
@@ -96,6 +98,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [\App\Http\Controllers\Backend\VocabularyController::class, 'edit'])->name('edit');
         Route::post('/update', [\App\Http\Controllers\Backend\VocabularyController::class, 'update'])->name('update');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\VocabularyController::class, 'remove'])->name('remove');
+        Route::get('/ajax/detail', [\App\Http\Controllers\Backend\VocabularyController::class, 'detail'])->name('detail');
     });
 
     Route::prefix('vocabularyCat')->name('vocabularyCat.')->group(function () {
@@ -106,6 +109,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'edit'])->name('edit');
         Route::post('/update', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'update'])->name('update');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'remove'])->name('remove');
+        Route::get('/ajax/detail', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'detail'])->name('detail');
     });
 
 });

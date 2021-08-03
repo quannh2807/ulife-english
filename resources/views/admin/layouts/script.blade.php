@@ -212,23 +212,6 @@
         }
     });
 
-    $('.question-detail-view').on('click', function () {
-        let id = $(this).attr('data-id');
-        showDetailQuestion(id)
-    });
-
-    function showDetailQuestion(id) {
-        $.ajax({
-            type: "GET",
-            url: '{{ route('admin.question.detail') }}',
-            data: {id: id},
-            success: function (response) {
-                $('.result-content').html(response);
-                $('#questionDetailModal').modal('show');
-            }
-        });
-    }
-
     function encodeImageFileAsURL(element) {
         let file = element.files[0];
         if (file === undefined) {
@@ -305,7 +288,23 @@
             $('.input-file-dummy').val('');
         });
     }
+
     $('.select-multiple').select2({
         placeholder: "Chọn video bài học",
     });
+
+    /* input search clear */
+    if ($("#searchInput").length > 0) {
+        $("#searchInput").keyup(function () {
+            $("#searchClear").toggle(Boolean($(this).val()));
+        });
+        $("#searchClear").toggle(Boolean($("#searchInput").val()));
+        $("#searchClear").click(function () {
+            $("#searchInput").val('').focus();
+            $('form#frmSearch').submit();
+            $(this).hide();
+        });
+    }
+    /* end input search clear */
+
 </script>

@@ -19,13 +19,16 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form action="{{ route('admin.question.search') }}" method="GET">
+                    <form id="frmSearch" action="{{ route('admin.question.search') }}" method="GET">
                         <div class="row">
-                            <div class="col-3 item-search">
-                                <input type="text" class="form-control form-control-sm"
-                                       id="keyword" name="keyword"
-                                       placeholder="Tìm kiếm với tiêu đề hoặc ID"
-                                       value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
+                            <div class="item-search">
+                                <div class="btn-group" style="margin: 0px 10px">
+                                    <input type="search" class="form-control form-control-sm"
+                                           id="searchInput" name="keyword"
+                                           placeholder="Tìm kiếm với tiêu đề hoặc ID"
+                                           value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
+                                    <span id="searchClear" class="nav-icon fas fa-times-circle"></span>
+                                </div>
                             </div>
                             <div style="margin: 0px 6px;">
                                 <div class="input-group">
@@ -200,6 +203,24 @@
 @endsection
 @section('custom-script')
     <script>
+
+        $('.question-detail-view').on('click', function () {
+            let id = $(this).attr('data-id');
+            showDetailQuestion(id)
+        });
+
+        function showDetailQuestion(id) {
+            $.ajax({
+                type: "GET",
+                url: '{{ route('admin.question.detail') }}',
+                data: {id: id},
+                success: function (response) {
+                    $('.result-content').html(response);
+                    $('#questionDetailModal').modal('show');
+                }
+            });
+        }
+
         if ($(".btn-remove-question").length > 0) {
             $('.btn-remove-question').click(function (e) {
                 e.preventDefault();

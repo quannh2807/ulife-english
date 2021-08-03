@@ -111,7 +111,27 @@ class TopicsController extends Controller
         return redirect()->route('admin.topics.index');
     }
 
-    public function destroy($id)
+    public function detail()
     {
+        $questionId = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
+        $detail = Topics::findOrFail($questionId);
+
+        $response = '<table class="table table-bordered table-hover"><tbody>';
+        if ($detail) {
+            $response .= '<tr><td style="width: 120px;">Tên</td><td>' . $detail->name . '</td></tr>';
+            $levelName = !empty($detail->hasLevel) ? '<label id="status" class="levels">' . $detail->hasLevel->name . '</label>' : '<label id="status" class="no-levels">No Level</label>';
+            $response .= '<tr><td style="width: 120px;">Level</td><td>' . $levelName . '</td></tr>';
+            $statusName = $detail->status == 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
+                : '<label id="status" class="active">Kích hoạt</label>';
+            $response .= '<tr><td style="width: 120px;">Trạng thái</td><td>' . $statusName . '</td></tr>';
+            $response .= '<tr><td style="width: 120px;">Ngày tạo</td><td>' . $detail->created_at . '</td></tr>';
+
+        } else {
+            $response .= '<tr>';
+            $response .= '<td align="center" colspan="2">Không có dữ liệu.</td>';
+            $response .= '</tr>';
+        }
+        $response .= '</tbody></table>';
+        return $response;
     }
 }
