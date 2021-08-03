@@ -23,7 +23,7 @@
                         <div class="row">
                             <div class="item-search">
                                 <div class="btn-group" style="margin: 0px 10px">
-                                    <input type="search" class="form-control form-control-sm"
+                                    <input type="text" class="form-control form-control-sm"
                                            id="searchInput" name="keyword"
                                            placeholder="Tìm kiếm với tiêu đề hoặc ID"
                                            value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
