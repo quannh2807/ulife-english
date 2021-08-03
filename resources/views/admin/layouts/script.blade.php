@@ -1,7 +1,6 @@
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-{{--<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>--}}
 <script src="{{ asset('plugins/moment/moment-with-locales.js') }}"></script>
 <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
 <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
@@ -9,7 +8,7 @@
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
-{{--<script src="{{ asset('js/all.min.js') }}"></script>--}}
+<script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
@@ -306,5 +305,18 @@
         });
     }
     /* end input search clear */
+
+    $('.toastrDefaultSuccess').click(function () {
+        toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.toastrDefaultInfo').click(function () {
+        toastr.info('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.toastrDefaultError').click(function () {
+        toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.toastrDefaultWarning').click(function () {
+        toastr.warning('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
 
 </script>

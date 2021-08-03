@@ -17,6 +17,22 @@
                         </div>
                     </div>
                 </div>
+                {{--<div>
+                    <div class="card-body">
+                        <button type="button" class="btn btn-success toastrDefaultSuccess">
+                            Launch Success Toast
+                        </button>
+                        <button type="button" class="btn btn-info toastrDefaultInfo">
+                            Launch Info Toast
+                        </button>
+                        <button type="button" class="btn btn-danger toastrDefaultError">
+                            Launch Error Toast
+                        </button>
+                        <button type="button" class="btn btn-warning toastrDefaultWarning">
+                            Launch Warning Toast
+                        </button>
+                    </div>
+                </div>--}}
                 <!-- /.card-header -->
                 <div class="card-body">
                     <form id="frmSearch" action="{{ route('admin.vocabulary.search') }}" method="GET">

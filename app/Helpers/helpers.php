@@ -26,3 +26,10 @@ function htmlStatus($status)
     return $status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
         : '<label id="status" class="active">Kích hoạt</label>';
 }
+
+function showToastMessage($index, $message)
+{
+    echo '<script language="javascript">';
+    echo 'alert("' . $message . '")';
+    echo '</script>';
+}

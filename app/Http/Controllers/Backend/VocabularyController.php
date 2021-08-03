@@ -92,8 +92,14 @@ class VocabularyController extends Controller
                 };
             }
         }
-        $this->vocabularyRepository->update($request->id, $data);
-        return redirect()->route('admin.vocabulary.index');
+        $is_update = $this->vocabularyRepository->update($request->id, $data);
+        if ($is_update) {
+            // success
+            //showToastMessage(1, "Cập nhật thành công.");
+            return redirect()->route('admin.vocabulary.index');
+        } else {
+            // failure
+        }
     }
 
     public function remove(Request $request)
