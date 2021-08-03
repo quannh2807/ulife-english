@@ -32,6 +32,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/update/{id}', [\App\Http\Controllers\Backend\VideoController::class, 'update'])->name('update');
         Route::post('/save-update', [\App\Http\Controllers\Backend\VideoController::class, 'saveUpdate'])->name('saveUpdate');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\VideoController::class, 'remove'])->name('remove');
+        Route::get('/search', [\App\Http\Controllers\Backend\VideoController::class, 'search'])->name('search');
 
         Route::prefix('/import')->group(function () {
             Route::get('/', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'import'])->name('importSub');

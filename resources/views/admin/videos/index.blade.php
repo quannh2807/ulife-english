@@ -6,19 +6,48 @@
 @section('main')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Đây sẽ là nơi đặt các filter</h3>
+            <div class="">
+                <form action="{{ route('admin.video.search') }}" method="GET" class="form-inline">
+                    <div class="col">
+                        <input type="text" name="keyword" class="form-control form-control-sm"
+                               placeholder="Tìm kiếm theo tên video" width="100%"
+                               value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
+                    </div>
+                    <div class="col">
+                        <select name="type" id="" class="form-control form-control-sm">
+                            <option value="">-- Chọn loại video --</option>
+                            @foreach(config('common.video_types') as $key => $value)
+                                <option
+                                    value="{{ $value }}" {{ request()->has('type') && request()->get('type') == $value ? 'selected' : '' }}>{{ $key }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select name="category" id="" class="form-control form-control-sm">
+                            <option value="">-- Chọn danh mục video --</option>
+                            @foreach($categories as $category)
+                                <option
+                                    value="{{ $category->id }}" {{ request()->has('category') && request()->get('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select name="status" class="form-control form-control-sm">
+                            <option value="">-- Chọn trạng thái video --</option>
+                            @foreach(config('common.status') as $key => $status)
+                                <option
+                                    value="{{ $status }}" {{ request()->has('status') && request()->get('status') == (string)$status ? 'selected' : '' }}>{{ $key }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-            <div class="card-tools">
-                <div class="input-group input-group-sm" style="width: 200px;">
-                    <input type="text" name="table_search" class="form-control float-right"
-                           placeholder="Search">
-
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-default">
+                    <div class="col">
+                        <button type="submit" class="btn btn-sm btn-success">
                             <i class="fas fa-search"></i>
+                            Tìm kiếm
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <!-- /.card-header -->
