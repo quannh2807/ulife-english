@@ -80,10 +80,17 @@ class VocabularyCatController extends Controller
 
     public function update(Request $request)
     {
+        $detail = VocabularyCat::find($request->id);
         $data = $request->except('_token', 'files');
         if ($request->hasFile('thumb')) {
             $path = $request->file('thumb')->store('thumbnails', 'public');
             $data['thumb'] = $path;
+            // remove old image
+            if (!empty($detail->thumb)) {
+                if (file_exists('storage/' . $detail->thumb)) {
+                    unlink('storage/' . $detail->thumb);
+                };
+            }
         }
         $this->vocabularyCatRepository->update($request->id, $data);
         return redirect()->route('admin.vocabularyCat.index');
@@ -104,11 +111,9 @@ class VocabularyCatController extends Controller
         $response = '<table class="table table-bordered table-hover"><tbody>';
         if ($detail) {
             $response .= '<tr><td style="width: 120px;">Tên</td><td>' . $detail->name . '</td></tr>';
-            $response .= '<tr><td style="width: 120px;">Ảnh</td><td><img src="' . asset('storage/' . $detail->thumb) . '" width="100px" height="80px"></td></tr>';
+            $response .= '<tr><td style="width: 120px;">Ảnh</td><td><img src="' . thumbImagePath($detail->thumb) . '" width="100px" height="80px"></td></tr>';
             $response .= '<tr><td style="width: 120px;">Mô tả</td><td>' . $detail->description . '</td></tr>';
-            $statusName = $detail->status == 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                : '<label id="status" class="active">Kích hoạt</label>';
-            $response .= '<tr><td style="width: 120px;">Trạng thái</td><td>' . $statusName . '</td></tr>';
+            $response .= '<tr><td style="width: 120px;">Trạng thái</td><td>' . htmlStatus($detail->status) . '</td></tr>';
             $response .= '<tr><td style="width: 120px;">Ngày tạo</td><td>' . $detail->created_at . '</td></tr>';
         } else {
             $response .= '<tr>';

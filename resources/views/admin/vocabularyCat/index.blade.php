@@ -91,20 +91,14 @@
                                     <td>{{ $item->id }}</td>
                                     <td>
                                         <img class="thumbList" width="120" height="80"
-                                             @if(!empty($item->thumb))
-                                             src="{{ asset('storage/' . $item->thumb) }}"
-                                             @else
-                                             src="{{ asset('images/no-image.png') }}"
-                                             @endif
+                                             src="{{ thumbImagePath($item->thumb) }}"
                                              alt="{{ $item->name }}"
                                              title="{{ $item->name }}"
                                         />
                                     </td>
                                     <td>{{ $item->name }}</td>
                                     <td>{!! $item->description !!}</td>
-                                    <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                            : '<label id="status" class="active">Kích hoạt</label>' !!}
-                                    </td>
+                                    <td class="text-center">{!! htmlStatus($item->status) !!}</td>
                                     <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">
                                         <a class="btn btn-sm btn-info vocabulary-cat-detail-view"
