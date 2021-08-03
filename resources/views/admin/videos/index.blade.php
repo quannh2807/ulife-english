@@ -65,10 +65,6 @@
                         <a href="{{ route('admin.video.create') }}" class="d-inline-block btn btn-sm btn-primary">
                             Thêm mới
                         </a>
-
-                        <a href="{{ route('admin.video.importSub') }}" class="btn btn-sm btn-info my-1">
-                            Import sub
-                        </a>
                     </th>
                 </tr>
                 </thead>

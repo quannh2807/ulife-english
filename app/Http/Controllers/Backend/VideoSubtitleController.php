@@ -88,16 +88,18 @@ class VideoSubtitleController extends Controller
         ]);
     }
 
-    public function preview(UploadSubRequest $request)
+    public function preview(Request $request)
     {
         $parser = new Parser();
-        $file = $request->file('file_upload');
-        $parser->loadFile($file->path());
-        $subtitles = $parser->parse();
+        if ($request->hasFile('file_sub')) {
+            $file = $request->file('file_sub');
+            $parser->loadFile($file->path());
+            $subtitles = $parser->parse();
 
-        return response()->json([
-            'subtitles' => $subtitles,
-        ]);
+            return response()->json([
+                'subtitles' => $subtitles,
+            ]);
+        }
     }
 
     public function upload(UploadSubRequest $request)
@@ -110,14 +112,27 @@ class VideoSubtitleController extends Controller
         $subtitles = $parser->parse();
 
         foreach ($subtitles as $key => $sub) {
-            $this->videoSubtitleRepository->storeNew([
+            $data = [
                 'video_id' => $video_id,
                 'time_start' => $sub->startTime,
                 'time_end' => $sub->endTime,
                 $lang => $sub->text,
-            ]);
+            ];
+            // check record existed
+            $currentSub = VideoSubtitle::where([
+                ['video_id', $video_id],
+                ['time_start', $sub->startTime],
+                ['time_end', $sub->endTime],
+            ])->first();
+            if ($currentSub) {
+                $this->videoSubtitleRepository->update($currentSub->id, $data);
+            } else {
+                $this->videoSubtitleRepository->storeNew($data);
+            }
         }
 
-        return redirect()->route('admin.video.index');
+        return redirect()->route('admin.subtitle.index', [
+            'video_id' => $video_id,
+        ]);
     }
 }

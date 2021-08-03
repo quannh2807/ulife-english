@@ -46,6 +46,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/{video_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'index'])->name('index');
         Route::post('/store', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'store'])->name('store');
         Route::get('/show/{sub_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'show'])->name('show');
+        Route::post('preview-sub', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'preview'])->name('previewSub');
     });
 
     Route::prefix('question')->name('question.')->group(function () {
