@@ -38,12 +38,29 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="description">Mô tả</label>
+                                    <label for="description">Mô tả<span class="text-danger">&nbsp;*</span></label>
                                     <textarea id="description" name="description" class="form-control"
                                               rows="10"></textarea>
+                                    @error('description')
+                                    <p style="color: red;">{{$message}}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-6">
+                                <div class="form-group">
+                                    <label for="cat_id">Danh mục<span class="text-danger">&nbsp;*</span></label>
+                                    <select name="cat_id" class="form-control" id="cat_id">
+                                        <option>--Chọn danh mục--</option>
+                                        @foreach($category as $index => $item)
+                                            @if($item != null)
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('cat_id')
+                                    <p style="color: red;">{{$message}}</p>
+                                    @enderror
+                                </div>
                                 <div class="form-group">
                                     <label for="cate-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
                                     <select name="status" class="form-control" id="cate-status">
@@ -66,6 +83,7 @@
                                           <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
                                             <input type="file" hidden
                                                    id="thumb" name="thumb"
+                                                   accept="image/*"
                                                    onchange="previewMultiple(event)">
                                         </span>
                                         </label>

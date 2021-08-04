@@ -57,6 +57,7 @@
                                           <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
                                             <input type="file" hidden
                                                    id="thumb" name="thumb"
+                                                   accept="image/*"
                                                    onchange="previewMultiple(event)">
                                         </span>
                                         </label>

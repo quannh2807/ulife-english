@@ -17,22 +17,6 @@
                         </div>
                     </div>
                 </div>
-                {{--<div>
-                    <div class="card-body">
-                        <button type="button" class="btn btn-success toastrDefaultSuccess">
-                            Launch Success Toast
-                        </button>
-                        <button type="button" class="btn btn-info toastrDefaultInfo">
-                            Launch Info Toast
-                        </button>
-                        <button type="button" class="btn btn-danger toastrDefaultError">
-                            Launch Error Toast
-                        </button>
-                        <button type="button" class="btn btn-warning toastrDefaultWarning">
-                            Launch Warning Toast
-                        </button>
-                    </div>
-                </div>--}}
                 <!-- /.card-header -->
                 <div class="card-body">
                     <form id="frmSearch" action="{{ route('admin.vocabulary.search') }}" method="GET">
@@ -86,6 +70,7 @@
                             <th style="width: 80px;">Ảnh</th>
                             <th>Tên</th>
                             <th>Phiên âm</th>
+                            <th align="center">Danh mục</th>
                             <th align="center" class="text-center" style="width: 120px;">Trạng thái</th>
                             <th class="text-center" style="width: 110px;">Ngày tạo</th>
                             <th align="right" class="text-center" style="width: 150px;">Thao tác</th>
@@ -114,6 +99,11 @@
                                     </td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->spelling }}</td>
+                                    <td class="text-center">
+                                        @if($item->category)
+                                            <label id="status" class="levels">{{ $item->category->name }}</label>
+                                        @endif
+                                    </td>
                                     <td class="text-center">{!! htmlStatus($item->status) !!}</td>
                                     <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">

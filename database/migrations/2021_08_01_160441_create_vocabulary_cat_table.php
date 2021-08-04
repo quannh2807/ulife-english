@@ -13,7 +13,7 @@ class CreateVocabularyCatTable extends Migration
      */
     public function up()
     {
-        Schema::create('vocabulary-cat', function (Blueprint $table) {
+        Schema::create('vocabulary_cat', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('thumb')->nullable();
@@ -34,6 +34,6 @@ class CreateVocabularyCatTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vocabulary-cat');
+        Schema::dropIfExists('vocabulary_cat');
     }
 }
