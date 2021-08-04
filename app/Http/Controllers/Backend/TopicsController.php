@@ -22,7 +22,7 @@ class TopicsController extends Controller
 
     public function index()
     {
-        $data = Topics::orderBy('id', 'DESC')->paginate(10);
+        $data = Topics::orderBy('id', 'DESC')->paginate(PAGE_SIZE);
         $levelData = DB::table('levels')->where('status', 1)->get();
 
         return view('admin.topics.index', [
@@ -77,8 +77,8 @@ class TopicsController extends Controller
     public function store(TopicsRequest $request)
     {
         $data = $request->all();
-        $this->topicsRepository->storeNew($data);
-        return redirect()->route('admin.topics.index')->with('success', 'Thêm mới Topics thành công');
+        $isSave = $this->topicsRepository->storeNew($data);
+        return redirect()->route('admin.topics.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
 
     public function show($id)
@@ -99,8 +99,8 @@ class TopicsController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
-        $this->topicsRepository->update($id, $data);
-        return redirect()->route('admin.topics.index');
+        $isSave = $this->topicsRepository->update($id, $data);
+        return redirect()->route('admin.topics.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
 
 

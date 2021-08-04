@@ -21,7 +21,7 @@ class LevelsController extends Controller
 
     public function index()
     {
-        $data = Levels::orderBy('id', 'DESC')->paginate(10);
+        $data = Levels::orderBy('id', 'DESC')->paginate(PAGE_SIZE);
         return view('admin.level.index', [
             'data' => $data,
         ]);
@@ -63,15 +63,9 @@ class LevelsController extends Controller
 
     public function store(LevelsRequest $request)
     {
-        /*  $validatedData = $request->validate([
-              'name' => 'required|max:255',
-              'status' => 'required',
-          ]);
-          $show = Levels::create($validatedData);
-          return redirect('admin.level.index')->with('success', 'Thêm mới level thành công');*/
         $data = $request->all();
-        $this->levelRepository->storeNew($data);
-        return redirect()->route('admin.level.index')->with('success', 'Thêm mới level thành công');
+        $isSave = $this->levelRepository->storeNew($data);
+        return redirect()->route('admin.level.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
 
     public function show($id)
@@ -90,8 +84,8 @@ class LevelsController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
-        $this->levelRepository->update($id, $data);
-        return redirect()->route('admin.level.index');
+        $isSave = $this->levelRepository->update($id, $data);
+        return redirect()->route('admin.level.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
 
 

@@ -22,7 +22,7 @@ class QuestionController extends Controller
 
     public function index()
     {
-        $data = Question::orderBy('id', 'DESC')->paginate(10);
+        $data = Question::orderBy('id', 'DESC')->paginate(PAGE_SIZE);
         $levelData = DB::table('levels')->where('status', 1)->get();
         $topicsData = DB::table('topics')->where('status', 1)->get();
 
@@ -91,8 +91,8 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request)
     {
         $data = $request->all();
-        $this->questionRepository->storeNew($data);
-        return redirect()->route('admin.question.index')->with('success', 'Thêm mới thành công');
+        $isSave = $this->questionRepository->storeNew($data);
+        return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
 
 
@@ -121,8 +121,8 @@ class QuestionController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
-        $this->questionRepository->update($id, $data);
-        return redirect()->route('admin.question.index');
+        $isSave = $this->questionRepository->update($id, $data);
+        return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
 
     public function remove(Request $request)

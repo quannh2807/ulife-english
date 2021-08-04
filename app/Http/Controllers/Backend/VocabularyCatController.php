@@ -20,7 +20,7 @@ class VocabularyCatController extends Controller
 
     public function index()
     {
-        $data = VocabularyCat::orderBy('id', 'DESC')->paginate(10);
+        $data = VocabularyCat::orderBy('id', 'DESC')->paginate(PAGE_SIZE);
         return view('admin.vocabularyCat.index', [
             'data' => $data,
         ]);
@@ -67,8 +67,8 @@ class VocabularyCatController extends Controller
             $path = $request->file('thumb')->store('thumbnails', 'public');
             $data['thumb'] = $path;
         }
-        $this->vocabularyCatRepository->storeNew($data);
-        return redirect()->route('admin.vocabularyCat.index')->with('success', 'Thêm mới thành công');
+        $isSave = $this->vocabularyCatRepository->storeNew($data);
+        return redirect()->route('admin.vocabularyCat.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
 
     public function edit($id)
@@ -93,8 +93,8 @@ class VocabularyCatController extends Controller
                 };
             }
         }
-        $this->vocabularyCatRepository->update($request->id, $data);
-        return redirect()->route('admin.vocabularyCat.index');
+        $isSave = $this->vocabularyCatRepository->update($request->id, $data);
+        return redirect()->route('admin.vocabularyCat.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
 
     public function remove(Request $request)

@@ -171,8 +171,8 @@
             });
         }
 
-        if ($(".vocabulary").length > 0) {
-            $('.vocabulary').click(function (e) {
+        if ($(".btn-remove-vocabulary").length > 0) {
+            $('.btn-remove-vocabulary').click(function (e) {
                 e.preventDefault();
 
                 let id = $(this).attr('data-id');

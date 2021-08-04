@@ -22,7 +22,7 @@ class VocabularyController extends Controller
     public function index()
     {
         $category = VocabularyCat::where('status', 1)->get();
-        $data = Vocabulary::orderBy('id', 'DESC')->paginate(10);
+        $data = Vocabulary::orderBy('id', 'DESC')->paginate(PAGE_SIZE);
         return view('admin.vocabulary.index', [
             'data' => $data,
             'category' => $category,
@@ -78,12 +78,8 @@ class VocabularyController extends Controller
             $path = $request->file('thumb')->store('thumbnails', 'public');
             $data['thumb'] = $path;
         }
-        $is_store = $this->vocabularyRepository->storeNew($data);
-        if ($is_store) {
-            return redirect()->route('admin.vocabulary.index')->with('success', 'Thêm mới thành công');
-        } else {
-            return redirect()->route('admin.vocabulary.index')->with('error', 'Thêm mới không thành công, vui lòng thử lại.');
-        }
+        $isSave = $this->vocabularyRepository->storeNew($data);
+        return redirect()->route('admin.vocabulary.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
 
     public function edit($id)
@@ -110,12 +106,8 @@ class VocabularyController extends Controller
                 };
             }
         }
-        $is_update = $this->vocabularyRepository->update($request->id, $data);
-        if ($is_update) {
-            return redirect()->route('admin.vocabulary.index')->with('success', 'Cập nhật thành công.');
-        } else {
-            return redirect()->route('admin.vocabulary.index')->with('error', 'Cập nhật không thành công, vui lòng thử lại.');
-        }
+        $isSave = $this->vocabularyRepository->update($request->id, $data);
+        return redirect()->route('admin.vocabulary.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
 
     public function remove(Request $request)
