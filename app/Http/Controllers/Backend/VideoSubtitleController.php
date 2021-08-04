@@ -126,15 +126,15 @@ class VideoSubtitleController extends Controller
         foreach ($subtitles as $key => $sub) {
             $data = [
                 'video_id' => $video_id,
-                'time_start' => $sub->startTime,
-                'time_end' => $sub->endTime,
+                'time_start' => (int)floor($sub->startTime),
+                'time_end' => (int)floor($sub->endTime),
                 $lang => $sub->text,
             ];
             // check record existed
             $currentSub = VideoSubtitle::where([
                 ['video_id', $video_id],
-                ['time_start', $sub->startTime],
-                ['time_end', $sub->endTime],
+                ['time_start', (int)floor($sub->startTime)],
+                ['time_end', (int)floor($sub->endTime)],
             ])->first();
             if ($currentSub) {
                 $this->videoSubtitleRepository->update($currentSub->id, $data);

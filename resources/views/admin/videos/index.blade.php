@@ -22,7 +22,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col">
+                    {{--<div class="col">
                         <select name="category" id="" class="form-control form-control-sm">
                             <option value="">-- Chọn danh mục video --</option>
                             @foreach($categories as $category)
@@ -30,7 +30,7 @@
                                     value="{{ $category->id }}" {{ request()->has('category') && request()->get('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div>--}}
                     <div class="col">
                         <select name="status" class="form-control form-control-sm">
                             <option value="">-- Chọn trạng thái video --</option>
