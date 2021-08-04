@@ -23,10 +23,27 @@ class VideoController extends Controller
 
     public function index()
     {
+        $categories = $this->categoryRepository->fetchAll([], ['id', 'name']);
         $videos = Video::with('hasCategories')->paginate(10);
 
         return view('admin.videos.index', [
             'videos' => $videos,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $categories = $this->categoryRepository->fetchAll([], ['id', 'name']);
+        $videos = Video::with('hasCategories')->where([
+            ['title', 'like', '%' . $request->keyword . '%'],
+            ['type', 'like', '%' . $request->type . '%'],
+            ['status', 'like', '%' . $request->status . '%'],
+        ])->paginate(10);
+
+        return view('admin.videos.index', [
+            'videos' => $videos,
+            'categories' => $categories,
         ]);
     }
 

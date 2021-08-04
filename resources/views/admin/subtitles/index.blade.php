@@ -6,15 +6,22 @@
 @section('main')
     <div class="card">
         <div class="card-header">
-            <h5>Video: {{ $video->title }}</h5>
+            <div class="row justify-content-between align-items-center">
+                <h5>Video: {{ $video->title }}</h5>
+
+                <button class="btn btn-sm btn-outline-primary btn-upload">
+                    Import phụ đề
+                </button>
+            </div>
             <div>
                 <img src="{{ $video->ytb_thumbnails->url }}" alt="" width="{{ $video->ytb_thumbnails->width }}"
                      height="{{ $video->ytb_thumbnails->height }}"/>
             </div>
+
         </div>
 
         <!-- /.card-header -->
-        <div class="card-body table-responsive p-0" style="height: 300px;">
+        <div class="card-body table-responsive p-0" style="height: 400px;">
             <table class="table table-head-fixed table-hover text-nowrap">
                 <thead>
                 <tr>
@@ -43,10 +50,10 @@
                 @endphp
 
                 @foreach($subtitles as $subtitle)
-                    <tr style="cursor: pointer">
+                    <tr style="cursor: pointer" data-id="{{ $subtitle->id }}">
                         <th key-data="index">{{ $i++ }}</th>
-                        <td>{{ $subtitle->time_start }}</td>
-                        <td>{{ $subtitle->time_end }}</td>
+                        <td>{{ \Carbon\Carbon::parse((int)$subtitle->time_start)->format('H:i:s') }}</td>
+                        <td>{{ \Carbon\Carbon::parse((int)$subtitle->time_end)->format('H:i:s') }}</td>
                         <td>{!! $subtitle->vi ?  $subtitle->vi : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>' !!}</td>
                         <td>{!! $subtitle->en ? $subtitle->en : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>' !!}</td>
                         <th>
@@ -96,14 +103,102 @@
         </div>
     </div>
     <!-- /.card -->
+
+    <div class="modal fade" id="upload_sub" tabindex="-1" role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="form-upload" action="{{ route('admin.video.uploadSub') }}" method="POST"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="video_id" value="{{ $video->id }}">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Import phụ đề</h4>
+                        <button type="button" class="close close-modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-result">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="upload-file">Upload phụ đề<span
+                                                class="text-danger">&nbsp;*</span></label>
+                                        <input type="file" name="file_upload" id="upload-file" class="form-control"
+                                               style="border: none"
+                                               value="{{ old('file_upload') }}">
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="sub-lang">Chọn ngôn ngữ<span
+                                                class="text-danger">&nbsp;*</span></label>
+                                        <select name="lang" id="lang">
+                                            <option value="">-- Chọn ngôn ngữ --</option>
+                                            @foreach(config('common.languages') as $key => $lang)
+                                                <option
+                                                    value="{{ $key }}" {{ old('lang') === $key ? 'selected' : ''}}>{{ $lang }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body d-none" id="preview">
+                        <div class="card-body table-responsive p-0" style="height: 300px;">
+                            <table class="table table-head-fixed table-hover text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Start-time</th>
+                                    <th>End-time</th>
+                                    <th>Phụ đề</th>
+                                </tr>
+                                </thead>
+
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default close-modal"><i class="fa fa-times"></i>&nbsp;Đóng
+                        </button>
+
+                        <div class="btn-group-sm">
+                            <button class="btn btn-sm btn-info btn-preview">
+                                Xem trước
+                            </button>
+
+                            <button class="btn btn-sm btn-primary" type="submit">
+                                Upload phụ đề
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 @endsection
 
 @section('custom-script')
     <script>
         $(document).ready(function () {
             function compareTwoTime(startTime, endTime) {
-                let result = new Date('1/1/1999 ' + startTime) < new Date('1/1/1999 ' + endTime)
+                let result = new Date(`1/1/1999 ${startTime}`) < new Date(`1/1/1999 ${endTime}`)
                 return result;
+            }
+
+            function convertTimeToSecond(time) {
+                let arr = time.split(':')
+
+                let seconds = (+arr[0]) * 60 * 60 + (+arr[1]) * 60 + (+arr[2]);
+                return seconds;
             }
 
             $('#add-sub').validate({
@@ -161,6 +256,7 @@
 
                 let valid = $('#add-sub').valid();
                 let compare = compareTwoTime(startTime, endTime);
+                console.log(compare)
 
                 if (!compare) {
                     if ($('input#start-time').siblings('span.error').length <= 0) {
@@ -176,8 +272,8 @@
 
                 let data = {
                     video_id: "{{ $video->id }}",
-                    time_start: startTime,
-                    time_end: endTime,
+                    time_start: convertTimeToSecond(startTime),
+                    time_end: convertTimeToSecond(endTime),
                     vi: vi,
                     en: en,
                 }
@@ -192,7 +288,6 @@
                             position: 'top-end',
                             icon: 'success',
                             title: 'Thành công',
-                            text: data.msg,
                             showConfirmButton: false,
                             timer: 1000
                         })
@@ -203,17 +298,17 @@
 
                         $('#add-sub')[0].reset();
 
-                        let newItem = await data.newItem;
+                        let item = await data.item;
                         let row = `
-                             <tr data-id="${newItem.id}" style="cursor: pointer">
+                             <tr data-id="${item.id}" style="cursor: pointer">
                                 <th>${$('th[key-data=index]').length + 1}</th>
-                                <td>${newItem.time_start}</td>
-                                <td>${newItem.time_end}</td>
-                                <td>${newItem.vi ? newItem.vi : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
-                                <td>${newItem.en ? newItem.en : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
+                                <td>${item.time_start}</td>
+                                <td>${item.time_end}</td>
+                                <td>${item.vi ? item.vi : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
+                                <td>${item.en ? item.en : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
                                 <th>
                                     <button
-                                        data-id="${newItem.id}"
+                                        data-id="${item.id}"
                                         class="btn btn-sm btn-warning select-sub"
                                     >
                                         <i class="fas fa-pencil-alt"></i>
@@ -222,7 +317,12 @@
                             </tr>
                         `;
 
-                        $('tbody').append(row);
+                        if ($(`tr[data-id=${item.id}]`).length = 0) {
+                            $('tbody').append(row);
+
+                        } else {
+                            $(`tr[data-id=${item.id}]`).replaceWith(row);
+                        }
                     },
                     error: function () {
                         Swal.fire({
@@ -242,8 +342,8 @@
                     url: `show/${sub_id}`,
                     method: "GET",
                     success: function ({selectedSub}) {
-                        $('input#start-time').val(selectedSub.time_start);
-                        $('input#end-time').val(selectedSub.time_end);
+                        $('input#start-time').val(new Date(selectedSub.time_start * 1000).toISOString().substr(11, 8));
+                        $('input#end-time').val(new Date(selectedSub.time_end * 1000).toISOString().substr(11, 8));
                         $('input#vi').val(selectedSub.vi);
                         $('input#en').val(selectedSub.en);
                         $('input#ko').val(selectedSub.ko);
@@ -256,6 +356,81 @@
                         })
                     }
                 })
+            })
+
+            $('#form-upload').validate({
+                errorPlacement: function (error, e) {
+                    e.parents('.form-group').append(error);
+                },
+                rules: {
+                    'file_upload': {
+                        required: true,
+                    },
+                    'lang': {
+                        required: true
+                    }
+                },
+                messages: {
+                    'file_upload': {
+                        required: 'Không được bỏ trống',
+                    },
+                    'lang': {
+                        required: 'Không được bỏ trống'
+                    }
+                }
+            });
+            $('.btn-upload').click(function () {
+                $('#upload_sub').modal('toggle');
+
+                $('.btn-preview').click(function (e) {
+                    e.preventDefault();
+                    let valid = $('#form-upload').valid();
+                    if (!valid) return;
+
+                    let file_sub = $('#upload-file')[0].files;
+
+                    if (file_sub.length > 0) {
+                        let form = new FormData();
+                        form.append('file_sub', file_sub[0]);
+
+                        $.ajax({
+                            url: "{{ route('admin.subtitle.previewSub') }}",
+                            method: 'POST',
+                            dataType: 'JSON',
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            data: form,
+                            success: function (res) {
+                                $('#preview').removeClass('d-none')
+
+                                let tbody = '';
+                                res.subtitles.map((element, index) => {
+                                    tbody += `
+                                         <tr style="cursor: pointer">
+                                            <th>${++index}</th>
+                                            <td>${new Date(element.startTime * 1000).toISOString().substr(11, 8)}</td>
+                                            <td>${new Date(element.endTime * 1000).toISOString().substr(11, 8)}</td>
+                                            <td>${element.text}</td>
+                                        </tr>
+                                    `;
+                                })
+
+                                $('#preview tbody').append(tbody);
+                            },
+                            error: function () {
+                                console.log('error')
+                            }
+                        })
+                    }
+                })
+            });
+            $('button.close-modal').on('click', function (e) {
+                // do something...
+                $('#form-upload').trigger("reset");
+                $('#upload_sub').modal('hide');
+                $('#preview tbody').empty();
+                $('#preview').addClass('d-none');
             })
         });
     </script>

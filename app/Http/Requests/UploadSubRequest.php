@@ -26,7 +26,7 @@ class UploadSubRequest extends FormRequest
         return [
             'video_id' => 'required',
             'lang' => 'required',
-            'file_upload' => 'required|mimes:srt'
+            'file_upload' => 'required'
         ];
     }
 

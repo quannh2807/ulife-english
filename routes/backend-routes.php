@@ -32,6 +32,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/update/{id}', [\App\Http\Controllers\Backend\VideoController::class, 'update'])->name('update');
         Route::post('/save-update', [\App\Http\Controllers\Backend\VideoController::class, 'saveUpdate'])->name('saveUpdate');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\VideoController::class, 'remove'])->name('remove');
+        Route::get('/search', [\App\Http\Controllers\Backend\VideoController::class, 'search'])->name('search');
 
         Route::prefix('/import')->group(function () {
             Route::get('/', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'import'])->name('importSub');
@@ -45,6 +46,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/{video_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'index'])->name('index');
         Route::post('/store', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'store'])->name('store');
         Route::get('/show/{sub_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'show'])->name('show');
+        Route::post('preview-sub', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'preview'])->name('previewSub');
     });
 
     Route::prefix('question')->name('question.')->group(function () {

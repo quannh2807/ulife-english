@@ -72,7 +72,7 @@
                             <a href="#" class="nav-link">
                                 <i class="fab fa-youtube nav-icon"></i>
                                 <p>
-                                    Video youtube
+                                    Video
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
