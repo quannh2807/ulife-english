@@ -50,10 +50,10 @@
                 @endphp
 
                 @foreach($subtitles as $subtitle)
-                    <tr style="cursor: pointer">
+                    <tr style="cursor: pointer" data-id="{{ $subtitle->id }}">
                         <th key-data="index">{{ $i++ }}</th>
-                        <td>{{ $subtitle->time_start }}</td>
-                        <td>{{ $subtitle->time_end }}</td>
+                        <td>{{ \Carbon\Carbon::parse((int)$subtitle->time_start)->format('H:i:s') }}</td>
+                        <td>{{ \Carbon\Carbon::parse((int)$subtitle->time_end)->format('H:i:s') }}</td>
                         <td>{!! $subtitle->vi ?  $subtitle->vi : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>' !!}</td>
                         <td>{!! $subtitle->en ? $subtitle->en : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>' !!}</td>
                         <th>
@@ -114,7 +114,7 @@
                     <input type="hidden" name="video_id" value="{{ $video->id }}">
                     <div class="modal-header">
                         <h4 class="modal-title">Import phụ đề</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close close-modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -134,7 +134,8 @@
 
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="sub-lang">Chọn ngôn ngữ<span class="text-danger">&nbsp;*</span></label>
+                                        <label for="sub-lang">Chọn ngôn ngữ<span
+                                                class="text-danger">&nbsp;*</span></label>
                                         <select name="lang" id="lang">
                                             <option value="">-- Chọn ngôn ngữ --</option>
                                             @foreach(config('common.languages') as $key => $lang)
@@ -164,7 +165,7 @@
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Đóng
+                        <button type="button" class="btn btn-default close-modal"><i class="fa fa-times"></i>&nbsp;Đóng
                         </button>
 
                         <div class="btn-group-sm">
@@ -189,8 +190,15 @@
     <script>
         $(document).ready(function () {
             function compareTwoTime(startTime, endTime) {
-                let result = new Date('1/1/1999 ' + startTime) < new Date('1/1/1999 ' + endTime)
+                let result = new Date(`1/1/1999 ${startTime}`) < new Date(`1/1/1999 ${endTime}`)
                 return result;
+            }
+
+            function convertTimeToSecond(time) {
+                let arr = time.split(':')
+
+                let seconds = (+arr[0]) * 60 * 60 + (+arr[1]) * 60 + (+arr[2]);
+                return seconds;
             }
 
             $('#add-sub').validate({
@@ -248,6 +256,7 @@
 
                 let valid = $('#add-sub').valid();
                 let compare = compareTwoTime(startTime, endTime);
+                console.log(compare)
 
                 if (!compare) {
                     if ($('input#start-time').siblings('span.error').length <= 0) {
@@ -263,8 +272,8 @@
 
                 let data = {
                     video_id: "{{ $video->id }}",
-                    time_start: startTime,
-                    time_end: endTime,
+                    time_start: convertTimeToSecond(startTime),
+                    time_end: convertTimeToSecond(endTime),
                     vi: vi,
                     en: en,
                 }
@@ -279,7 +288,6 @@
                             position: 'top-end',
                             icon: 'success',
                             title: 'Thành công',
-                            text: data.msg,
                             showConfirmButton: false,
                             timer: 1000
                         })
@@ -290,17 +298,17 @@
 
                         $('#add-sub')[0].reset();
 
-                        let newItem = await data.newItem;
+                        let item = await data.item;
                         let row = `
-                             <tr data-id="${newItem.id}" style="cursor: pointer">
+                             <tr data-id="${item.id}" style="cursor: pointer">
                                 <th>${$('th[key-data=index]').length + 1}</th>
-                                <td>${newItem.time_start}</td>
-                                <td>${newItem.time_end}</td>
-                                <td>${newItem.vi ? newItem.vi : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
-                                <td>${newItem.en ? newItem.en : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
+                                <td>${item.time_start}</td>
+                                <td>${item.time_end}</td>
+                                <td>${item.vi ? item.vi : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
+                                <td>${item.en ? item.en : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
                                 <th>
                                     <button
-                                        data-id="${newItem.id}"
+                                        data-id="${item.id}"
                                         class="btn btn-sm btn-warning select-sub"
                                     >
                                         <i class="fas fa-pencil-alt"></i>
@@ -309,7 +317,12 @@
                             </tr>
                         `;
 
-                        $('tbody').append(row);
+                        if ($(`tr[data-id=${item.id}]`).length = 0) {
+                            $('tbody').append(row);
+
+                        } else {
+                            $(`tr[data-id=${item.id}]`).replaceWith(row);
+                        }
                     },
                     error: function () {
                         Swal.fire({
@@ -329,8 +342,8 @@
                     url: `show/${sub_id}`,
                     method: "GET",
                     success: function ({selectedSub}) {
-                        $('input#start-time').val(selectedSub.time_start);
-                        $('input#end-time').val(selectedSub.time_end);
+                        $('input#start-time').val(new Date(selectedSub.time_start * 1000).toISOString().substr(11, 8));
+                        $('input#end-time').val(new Date(selectedSub.time_end * 1000).toISOString().substr(11, 8));
                         $('input#vi').val(selectedSub.vi);
                         $('input#en').val(selectedSub.en);
                         $('input#ko').val(selectedSub.ko);
@@ -345,14 +358,36 @@
                 })
             })
 
+            $('#form-upload').validate({
+                errorPlacement: function (error, e) {
+                    e.parents('.form-group').append(error);
+                },
+                rules: {
+                    'file_upload': {
+                        required: true,
+                    },
+                    'lang': {
+                        required: true
+                    }
+                },
+                messages: {
+                    'file_upload': {
+                        required: 'Không được bỏ trống',
+                    },
+                    'lang': {
+                        required: 'Không được bỏ trống'
+                    }
+                }
+            });
             $('.btn-upload').click(function () {
                 $('#upload_sub').modal('toggle');
 
-
                 $('.btn-preview').click(function (e) {
-                    e.preventDefault()
+                    e.preventDefault();
+                    let valid = $('#form-upload').valid();
+                    if (!valid) return;
+
                     let file_sub = $('#upload-file')[0].files;
-                    let CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 
                     if (file_sub.length > 0) {
                         let form = new FormData();
@@ -374,8 +409,8 @@
                                     tbody += `
                                          <tr style="cursor: pointer">
                                             <th>${++index}</th>
-                                            <td>${element.startTime}</td>
-                                            <td>${element.endTime}</td>
+                                            <td>${new Date(element.startTime * 1000).toISOString().substr(11, 8)}</td>
+                                            <td>${new Date(element.endTime * 1000).toISOString().substr(11, 8)}</td>
                                             <td>${element.text}</td>
                                         </tr>
                                     `;
@@ -390,6 +425,13 @@
                     }
                 })
             });
+            $('button.close-modal').on('click', function (e) {
+                // do something...
+                $('#form-upload').trigger("reset");
+                $('#upload_sub').modal('hide');
+                $('#preview tbody').empty();
+                $('#preview').addClass('d-none');
+            })
         });
     </script>
 @endsection

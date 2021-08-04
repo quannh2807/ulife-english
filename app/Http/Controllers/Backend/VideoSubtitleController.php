@@ -9,6 +9,7 @@ use App\Repositories\LanguageRepository;
 use App\Repositories\VideoRepository;
 use App\Repositories\VideoSubtitleRepository;
 use Benlipp\SrtParser\Parser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class VideoSubtitleController extends Controller
@@ -45,12 +46,23 @@ class VideoSubtitleController extends Controller
     public function store(Request $request)
     {
         $allData = $request->all();
-        $this->videoSubtitleRepository->storeNew($allData);
-        $newData = $this->videoSubtitleRepository->fetchAll([]);
+        $currentSub = VideoSubtitle::where([
+            ['video_id', $request->video_id],
+            ['time_start', $request->time_start],
+            ['time_end', $request->time_end],
+        ])->first();
+
+        if ($currentSub) {
+            $this->videoSubtitleRepository->update($currentSub->id, $allData);
+            $item = $this->videoSubtitleRepository->findById($currentSub->id, []);
+        }else {
+            $this->videoSubtitleRepository->storeNew($allData);
+            $newData = $this->videoSubtitleRepository->fetchAll([]);
+            $item = $newData[count($newData) - 1];
+        }
 
         return response()->json([
-            'msg' => 'Thêm mới thành công!',
-            'newItem' => $newData[count($newData) - 1],
+            'item' => $item,
         ]);
     }
 
