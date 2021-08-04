@@ -44,6 +44,17 @@
                                 </div>
                             </div>
                             <div class="col-2">
+                                <select class="form-control form-control-sm" name="category">
+                                    <option value="-1">--Danh mục--</option>
+                                    @foreach($category as $index => $item)
+                                        @if($item != null)
+                                            <option
+                                                value="{{ $item->id }}" {{ request()->has('category') && request()->get('category') == $item->id  ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-2">
                                 <select class="form-control form-control-sm" name="status">
                                     <option value="-1">--Trạng thái--</option>
                                     @foreach(config('common.status') as $key => $status)

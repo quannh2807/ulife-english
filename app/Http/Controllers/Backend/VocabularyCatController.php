@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VocabularyCatRequest;
+use App\Http\Requests\VocabularyCatRequestUpdate;
 use App\Models\VocabularyCat;
 use App\Repositories\VocabularyCatRepository;
 use Illuminate\Http\Request;
@@ -27,10 +28,10 @@ class VocabularyCatController extends Controller
 
     public function search(Request $request)
     {
-        $question = VocabularyCat::query();
+        $mSearch = VocabularyCat::query();
         if (!empty(request('keyword'))) {
-            $question->where('name', 'LIKE', '%' . request('keyword') . '%');
-            $question->orWhere('id', request('keyword'));
+            $mSearch->where('name', 'LIKE', '%' . request('keyword') . '%');
+            $mSearch->orWhere('id', request('keyword'));
         }
         if (!empty(request('rangeDate'))) {
             $temp = explode('-', request('rangeDate'));
@@ -41,13 +42,13 @@ class VocabularyCatController extends Controller
             $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', $endDate)
                 ->format('Y-m-d 23:59:59');
 
-            $question->where('created_at', '>=', $startDate)
+            $mSearch->where('created_at', '>=', $startDate)
                 ->where('created_at', '<=', $endDate);
         }
         if (request('status') >= 0) {
-            $question->where('status', request('status'));
+            $mSearch->where('status', request('status'));
         }
-        $data = $question->orderBy('id', 'DESC')->paginate(10);
+        $data = $mSearch->orderBy('id', 'DESC')->paginate(10);
 
         return view('admin.vocabularyCat.index', [
             'data' => $data
@@ -78,7 +79,7 @@ class VocabularyCatController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(VocabularyCatRequestUpdate $request)
     {
         $detail = VocabularyCat::find($request->id);
         $data = $request->except('_token', 'files');

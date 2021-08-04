@@ -17,7 +17,8 @@
                                 <div class="form-group">
                                     <label for="name">Nội dung câu hỏi<span class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="name"
-                                           placeholder="Nhập nội dung câu hỏi" name="name" value="{{ $detail->name }}">
+                                           placeholder="Nhập nội dung câu hỏi" name="name"
+                                           value="{{ $detail->name ? $detail->name : old('name') }}">
                                     @error('name')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
@@ -59,7 +60,7 @@
                                             <label for="start_time">Start time</label>
                                             <input type="text" class="form-control" id="start_time"
                                                    placeholder="00:00:00" name="start_time"
-                                                   value="{{ $detail->start_time }}">
+                                                   value="{{ $detail->start_time ? $detail->start_time : old('start_time') }}">
                                             @error('start_time')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror
@@ -70,7 +71,7 @@
                                             <label for="end_time">End time</label>
                                             <input type="text" class="form-control" id="end_time"
                                                    placeholder="00:00:00" name="end_time"
-                                                   value="{{ $detail->end_time }}">
+                                                   value="{{ $detail->end_time ? $detail->end_time : old('end_time') }}">
                                             @error('end_time')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror
@@ -156,7 +157,7 @@
                                             class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_1"
                                            placeholder="Nhập câu trả lời" name="answer_1"
-                                           value="{{ $detail->answer_1 }}"
+                                           value="{{ $detail->answer_1 ? $detail->answer_1 : old('answer_1') }}"
                                            onkeyup="changeAnswer_1();">
                                     @error('answer_1')
                                     <p style="color: red;">{{$message}}</p>
@@ -167,7 +168,7 @@
                                             class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_2"
                                            placeholder="Nhập câu trả lời" name="answer_2"
-                                           value="{{ $detail->answer_2 }}"
+                                           value="{{ $detail->answer_2 ? $detail->answer_2 : old('answer_2') }}"
                                            onkeyup="changeAnswer_2();">
                                     @error('answer_2')
                                     <p style="color: red;">{{$message}}</p>
@@ -178,7 +179,7 @@
                                             class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_3"
                                            placeholder="Nhập câu trả lời" name="answer_3"
-                                           value="{{ $detail->answer_3 }}"
+                                           value="{{ $detail->answer_3 ? $detail->answer_3 : old('answer_3') }}"
                                            onkeyup="changeAnswer_3();">
                                     @error('answer_3')
                                     <p style="color: red;">{{$message}}</p>
@@ -189,7 +190,7 @@
                                             class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_4"
                                            placeholder="Nhập câu trả lời" name="answer_4"
-                                           value="{{ $detail->answer_4 }}"
+                                           value="{{ $detail->answer_4 ? $detail->answer_4 : old('answer_4') }}"
                                            onkeyup="changeAnswer_4();">
                                     @error('answer_4')
                                     <p style="color: red;">{{$message}}</p>

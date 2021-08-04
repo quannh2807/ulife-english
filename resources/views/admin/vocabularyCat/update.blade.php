@@ -18,7 +18,8 @@
                                 <div class="form-group">
                                     <label for="cate-name">Tên<span class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="cate-name"
-                                           placeholder="Nhập vào tên" name="name" value="{{ $data->name }}">
+                                           placeholder="Nhập vào tên" name="name"
+                                           value="{{ $data->name ? $data->name : old('name') }}">
                                     @error('name')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
@@ -44,7 +45,7 @@
                                 <div class="form-group">
                                     <label for="description">Mô tả</label>
                                     <textarea id="description" name="description" class="form-control"
-                                              rows="10">{{ $data->description }}</textarea>
+                                              rows="10">{{ $data->description ? $data->description : old('description') }}</textarea>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -58,7 +59,6 @@
                                           <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
                                             <input type="file" hidden
                                                    id="thumb" name="thumb"
-                                                   accept="image/*"
                                                    onchange="previewMultiple(event)">
                                         </span>
                                         </label>

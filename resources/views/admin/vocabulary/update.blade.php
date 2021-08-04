@@ -18,7 +18,8 @@
                                 <div class="form-group">
                                     <label for="cate-name">Tên<span class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="cate-name"
-                                           placeholder="Nhập vào tên" name="name" value="{{ $data->name }}">
+                                           placeholder="Nhập vào tên" name="name"
+                                           value="{{ $data->name ? $data->name : old('name') }}">
                                     @error('name')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
@@ -29,7 +30,7 @@
                                     <label for="spelling">Phiên âm<span class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="spelling"
                                            placeholder="Nhập vào phiên âm" name="spelling"
-                                           value="{{ $data->spelling }}">
+                                           value="{{ $data->spelling ? $data->spelling : old('spelling') }}">
                                     @error('spelling')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
@@ -41,7 +42,7 @@
                                 <div class="form-group">
                                     <label for="description">Mô tả<span class="text-danger">&nbsp;*</span></label>
                                     <textarea id="description" name="description" class="form-control"
-                                              rows="4">{{ $data->description }}</textarea>
+                                              rows="4">{{ $data->description ? $data->description : old('description') }}</textarea>
                                     @error('description')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror

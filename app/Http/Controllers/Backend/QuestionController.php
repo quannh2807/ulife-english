@@ -117,7 +117,7 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(QuestionRequest $request)
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);

@@ -1,5 +1,4 @@
 @extends('admin.layouts.master')
-
 @section('page-title', 'Level')
 @section('breadcrumb', 'Cập nhật Level')
 
@@ -19,7 +18,8 @@
                                 <div class="form-group">
                                     <label for="cate-name">Tên Level<span class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="cate-name"
-                                           placeholder="Nhập vào tên" name="name" value="{{ $data->name }}">
+                                           placeholder="Nhập vào tên" name="name"
+                                           value="{{ $data->name ? $data->name : old('name') }}">
                                     @error('name')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
@@ -29,7 +29,8 @@
                                 <div class="form-group">
                                     <label for="sub-name">Sub Name</label>
                                     <input type="text" class="form-control" id="sub-name"
-                                           placeholder="Nhập vào tên" name="sub_name" value="{{ $data->sub_name }}">
+                                           placeholder="Nhập vào tên" name="sub_name"
+                                           value="{{ $data->sub_name ? $data->sub_name : old('sub_name') }}">
                                     @error('sub_name')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
@@ -41,7 +42,7 @@
                                 <div class="form-group">
                                     <label for="description">Mô tả</label>
                                     <textarea name="description" class="form-control"
-                                              rows="4">{{ $data->description }}</textarea>
+                                              rows="4">{{ $data->description ? $data->description : old('description') }}</textarea>
                                 </div>
                             </div>
                             <div class="col-6">
