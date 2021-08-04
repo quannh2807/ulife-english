@@ -256,7 +256,6 @@
 
                 let valid = $('#add-sub').valid();
                 let compare = compareTwoTime(startTime, endTime);
-                console.log(compare)
 
                 if (!compare) {
                     if ($('input#start-time').siblings('span.error').length <= 0) {
@@ -302,8 +301,8 @@
                         let row = `
                              <tr data-id="${item.id}" style="cursor: pointer">
                                 <th>${$('th[key-data=index]').length + 1}</th>
-                                <td>${item.time_start}</td>
-                                <td>${item.time_end}</td>
+                                <td>${convertTimeToSecond(item.time_start)}</td>
+                                <td>${convertTimeToSecond(item.time_end)}</td>
                                 <td>${item.vi ? item.vi : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
                                 <td>${item.en ? item.en : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>'}</td>
                                 <th>

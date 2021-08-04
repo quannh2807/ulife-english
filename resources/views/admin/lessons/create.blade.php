@@ -27,14 +27,26 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="lesson-videos">Video <span class="text-danger">*</span></label>
-                                <select name="videos[]" multiple class="form-control select-multiple" id="lesson-videos">
-                                    @foreach($videos as $index => $video)
-                                        <option value="{{ $video->id }}">{{ $video->title }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="lesson-videos">Video Grammar <span class="text-danger">*</span></label>
+                                <div class="d-flex border rounded">
+                                    <input type="text" class="rounded-0 form-control col-9 border-0" id="lesson-videos" disabled
+                                           placeholder="Chọn video ngữ pháp" name="grammar_video" value="{{ old('grammar_video') }}">
+                                    <button class="col-3 btn btn-info rounded-0" id="select-video">Chọn video</button>
+                                </div>
 
-                                @error('videos')
+                                @error('grammar_video')
+                                <p style="color: red;">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="grammar-videos">Video Bài học <span class="text-danger">*</span></label>
+                                <div class="d-flex border rounded">
+                                    <input type="text" class="rounded-0 form-control col-9 border-0" id="grammar-videos" disabled
+                                           placeholder="Chọn video cho bài học" name="lesson_video" value="{{ old('lesson_video') }}">
+                                    <button class="col-3 btn btn-info rounded-0" id="select-video">Chọn video</button>
+                                </div>
+
+                                @error('lesson_video')
                                 <p style="color: red;">{{$message}}</p>
                                 @enderror
                             </div>
@@ -120,4 +132,10 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('custom-script')
+    <script>
+
+    </script>
 @endsection
