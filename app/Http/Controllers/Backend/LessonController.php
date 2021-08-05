@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LessonRequest;
 use App\Models\Lesson;
+use App\Models\Video;
 use App\Repositories\LessonRepository;
 use App\Repositories\LevelRepository;
 use App\Repositories\VideoRepository;
@@ -107,5 +108,15 @@ class LessonController extends Controller
         return response()->json([
             'error' => 'Không tìm thấy bài học',
         ], 404);
+    }
+
+    public function getVideos(Request $request)
+    {
+        $type = $request->type;
+        $videos = Video::where('type', $type)->get();
+
+        return response()->json([
+           'videos' => $videos,
+        ]);
     }
 }
