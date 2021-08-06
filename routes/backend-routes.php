@@ -94,6 +94,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/update', [\App\Http\Controllers\Backend\LessonController::class, 'update'])->name('update');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\LessonController::class, 'destroy'])->name('remove');
         Route::get('/videos', [\App\Http\Controllers\Backend\LessonController::class, 'getVideos'])->name('getVideos');
+        Route::get('/refresh-lesson-training', [\App\Http\Controllers\Backend\LessonController::class, 'refreshLessonTraining'])->name('refreshLessonTraining');
     });
 
     Route::prefix('vocabulary')->name('vocabulary.')->group(function () {
@@ -118,4 +119,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/ajax/detail', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'detail'])->name('detail');
     });
 
+    Route::prefix('lesson-training')->name('lessonTraining.')->group(function () {
+        
+    });
 });

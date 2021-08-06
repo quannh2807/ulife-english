@@ -48,7 +48,7 @@
                 <tbody>
                 @if(count($subtitles) <= 0)
                     <tr id="have-sub">
-                        <td colspan="100%">Video này chưa có subtitles</td>
+                        <td colspan="100%" align="center">Video này chưa có phụ đề</td>
                     </tr>
                 @endif
 

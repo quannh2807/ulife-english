@@ -43,5 +43,9 @@ return [
     'languages' => [
         'en' => 'Tiếng Anh',
         'vi' => 'Tiếng Việt',
+    ],
+    'lesson_training_types' => [
+        'writing' => 1,
+        'speaking' => 2,
     ]
 ];

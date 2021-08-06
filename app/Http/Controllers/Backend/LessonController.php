@@ -119,4 +119,10 @@ class LessonController extends Controller
            'videos' => $videos,
         ]);
     }
+
+    public function refreshLessonTraining(Request $request)
+    {
+        dd($request->all());
+//        $lessonTrainings =
+    }
 }

@@ -69,7 +69,7 @@
                             </div>--}}
 
                             <div class="form-group">
-                                <label for="lesson-description">Mô tả <span class="text-danger">*</span></label>
+                                <label for="lesson-description">Mô tả</label>
                                 <textarea name="description" id="lesson-description" class="form-control"
                                           rows="10">{{ old('description') }}</textarea>
 
@@ -79,33 +79,56 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="form-group">
-                                <label for="lesson-level">Trình độ <span class="text-danger">*</span></label>
-                                <select name="level_id" id="lesson-level" class="form-control">
-                                    <option selected>-- Chọn trình độ --</option>
-                                    @foreach($levels as $key => $level)
-                                        <option
-                                            value="{{ $level->id }}" {{ old('level_id') ===  $level->id ? 'selected' : '' }}>{{ $level->name }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="lesson-level">Trình độ <span class="text-danger">*</span></label>
+                                    <select name="level_id" id="lesson-level" class="form-control">
+                                        <option selected>-- Chọn trình độ --</option>
+                                        @foreach($levels as $key => $level)
+                                            <option
+                                                value="{{ $level->id }}" {{ old('level_id') ===  $level->id ? 'selected' : '' }}>{{ $level->name }}</option>
+                                        @endforeach
+                                    </select>
 
-                                @error('level_id')
-                                <p style="color: red;">{{$message}}</p>
-                                @enderror
+                                    @error('level_id')
+                                    <p style="color: red;">{{$message}}</p>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="lesson-status">Trạng thái <span class="text-danger">*</span></label>
+                                    <select name="status" id="lesson-status" class="form-control">
+                                        @foreach(config('common.status') as $key => $value)
+                                            <option
+                                                value="{{ $value }}" {{ old('status') ===  $value ? 'selected' : '' }}>{{ $key }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('status')
+                                    <p style="color: red;">{{$message}}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Speaking<span class="text-danger">&nbsp;*</span></label>
+                                <div class="input-group input-group">
+                                    <input type="text" class="form-control" disabled value="Có 3 câu speaking">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-info btn-flat" id="btn-speaking">Danh sách</button>
+                                    </span>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="lesson-status">Trạng thái <span class="text-danger">*</span></label>
-                                <select name="status" id="lesson-status" class="form-control">
-                                    @foreach(config('common.status') as $key => $value)
-                                        <option
-                                            value="{{ $value }}" {{ old('status') ===  $value ? 'selected' : '' }}>{{ $key }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="">Writting<span class="text-danger">&nbsp;*</span></label>
 
-                                @error('status')
-                                <p style="color: red;">{{$message}}</p>
-                                @enderror
+                                <div class="input-group input-group">
+                                    <input type="text" class="form-control" disabled value="Có 3 câu writting">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-info btn-flat" id="btn-writting">Danh sách</button>
+                                    </span>
+                                </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="lesson-thumb">Ảnh bài học</label>
 
@@ -141,6 +164,7 @@
 
     @include('admin.lessons.list_grammar_video')
     @include('admin.lessons.list_lesson_video')
+    @include('admin.lessons.list_training')
 @endsection
 
 @section('custom-script')

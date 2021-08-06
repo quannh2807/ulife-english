@@ -307,4 +307,20 @@
     }
     /* end input search clear */
 
+    /* start lessons screen */
+    function refreshLessonTraining(type) {
+        $.ajax({
+
+        })
+    }
+
+    $('button#btn-writting').click(function (e) {
+        e.preventDefault();
+        $('#listTrainingModal').modal('toggle')
+    });
+    $('button#btn-speaking').click(function (e) {
+        e.preventDefault();
+        $('#listTrainingModal').modal('toggle')
+    });
+    /* end lessons screen */
 </script>
