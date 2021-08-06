@@ -35,7 +35,7 @@ class VideoSubtitleController extends Controller
         $video = $this->videoRepository->findById($video_id, [], ['id', 'title', 'ytb_thumbnails']);
         $thumbnails = json_decode($video->ytb_thumbnails);
         $video->ytb_thumbnails = $thumbnails->default;
-        $subtitles = VideoSubtitle::with('hasLanguage')->where('video_id', $video_id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
+        $subtitles = VideoSubtitle::where('video_id', $video_id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
 
         return view('admin.subtitles.index', [
             'video' => $video,
@@ -162,9 +162,10 @@ class VideoSubtitleController extends Controller
         ]);
     }
 
-    public function refresh()
+    public function refresh(Request $request)
     {
-        $subtitles = $this->videoSubtitleRepository->fetchAll([]);
+        $video_id = $request->video_id;
+        $subtitles =  $subtitles = VideoSubtitle::where('video_id', $video_id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
 
         return response()->json([
             'subtitles' => $subtitles,

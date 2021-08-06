@@ -43,7 +43,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('subtitle')->name('subtitle.')->group(function () {
-        Route::get('/refresh-sub', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'refresh'])->name('refresh');
+        Route::get('/refresh-sub/{video_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'refresh'])->name('refresh');
         Route::get('/{video_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'index'])->name('index');
         Route::post('/store', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'store'])->name('store');
         Route::get('/show/{sub_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'show'])->name('show');

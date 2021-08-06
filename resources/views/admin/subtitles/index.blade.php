@@ -224,7 +224,7 @@
         function refreshSub() {
             $.ajax({
                 method: 'GET',
-                url: "{{ route('admin.subtitle.refresh') }}",
+                url: "{{ route('admin.subtitle.refresh', ['video_id' => $video->id]) }}",
                 success: function (res) {
                     let subtitles = res.subtitles;
 
