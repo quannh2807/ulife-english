@@ -77,7 +77,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="lesson-thumb">Ảnh mô tả<span class="text-danger">*</span></label>
+                                    <label for="lesson-thumb">Ảnh mô tả</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control input-file-dummy"
                                                placeholder="Choose file" aria-describedby="fileHelp">
@@ -92,14 +92,14 @@
                                         </label>
                                     </div>
                                     <div id="galleryPhotos">
-                                        <div class="imagePhoto">
-                                            @if(!empty($data->thumb))
+                                        @if(!empty($data->thumb))
+                                            <div class="imagePhoto">
                                                 <img src="{{ asset('storage/' . $data->thumb) }}">
                                                 {{--<a href="javascript:void(0)" class="removePhoto">
                                                     <i class="fa fa-trash-alt"></i>
                                                 </a>--}}
-                                            @endif
-                                        </div>
+                                            </div>
+                                        @endif
                                     </div>
                                     @error('thumb')
                                     <p style="color: red;">{{$message}}</p>

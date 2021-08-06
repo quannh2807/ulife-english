@@ -13,7 +13,7 @@
                             <a href="{{ route('admin.vocabularyCat.create') }}"
                                class="d-inline-block btn btn-sm btn-primary"><i
                                     class="fa fa-plus"></i>&nbsp;&nbsp;Thêm
-                                mới</a>
+                                mới danh mục</a>
                         </div>
                     </div>
                 </div>
@@ -70,6 +70,7 @@
                             <th style="width: 80px;">Ảnh</th>
                             <th>Tên</th>
                             <th>Mô tả</th>
+                            <th align="center" class="text-center" style="width: 120px;">DS Từ tựng</th>
                             <th align="center" class="text-center" style="width: 120px;">Trạng thái</th>
                             <th class="text-center" style="width: 110px;">Ngày tạo</th>
                             <th align="right" class="text-center" style="width: 150px;">Thao tác</th>
@@ -82,7 +83,7 @@
 
                         @if($data->isEmpty())
                             <tr>
-                                <td colspan="8" align="center">Không có dữ liệu</td>
+                                <td colspan="100%" align="center">Không có dữ liệu</td>
                             </tr>
                         @else
                             @foreach($data as $index => $item)
@@ -98,6 +99,13 @@
                                     </td>
                                     <td>{{ $item->name }}</td>
                                     <td>{!! $item->description !!}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('admin.vocabulary.categoryList', ['catId' => $item->id]) }}">
+                                            <span
+                                                class="badge bg-info">@if($item->vocabulary) {{count($item->vocabulary)}} @else
+                                                    0 @endif &nbsp;Từ</span>
+                                        </a>
+                                    </td>
                                     <td class="text-center">{!! htmlStatus($item->status) !!}</td>
                                     <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">

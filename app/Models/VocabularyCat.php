@@ -30,4 +30,9 @@ class VocabularyCat extends Model
         'created_by' => 1,
         'updated_by' => 1,
     ];
+
+    public function vocabulary()
+    {
+        return $this->hasMany(Vocabulary::class, 'cat_id', 'id');
+    }
 }

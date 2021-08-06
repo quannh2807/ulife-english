@@ -8,10 +8,16 @@
         <div class="card-header">
             <div class="row justify-content-between align-items-center">
                 <h5>Video: {{ $video->title }}</h5>
-
-                <button class="btn btn-sm btn-outline-primary btn-upload">
-                    Import phụ đề
-                </button>
+                <div>
+                    <button class="btn btn-sm btn-outline-primary btn-upload">
+                        Import phụ đề
+                    </button>
+                    {{--@if($video->id >0 && count($subtitles) > 0)
+                        <a href="{{ route('admin.question.subtitle',['id' => $video->id]) }}"
+                           class="d-inline-block btn btn-sm btn-primary"><i
+                                class="fa fa-copy"></i>&nbsp;&nbsp;Tạo danh sách câu hỏi</a>
+                    @endif--}}
+                </div>
             </div>
             <div>
                 <img src="{{ $video->ytb_thumbnails->url }}" alt="" width="{{ $video->ytb_thumbnails->width }}"

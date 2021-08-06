@@ -94,7 +94,7 @@
 
                         @if($data->isEmpty())
                             <tr>
-                                <td colspan="8" align="center">Không có dữ liệu</td>
+                                <td colspan="100%" align="center">Không có dữ liệu</td>
                             </tr>
                         @else
                             @foreach($data as $index => $item)

@@ -1,25 +1,25 @@
 @extends('admin.layouts.master')
-@section('page-title', 'DS Trình độ')
-@section('breadcrumb', 'DS Trình độ')
+@section('page-title', 'DS Từ vựng')
+@section('breadcrumb', 'DS Từ vựng')
 
 @section('main')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Danh sách</h3>
+                    <h3 class="card-title">@if(!empty($category->name)) {{$category->name}} - @endif Từ vựng</h3>
                     <div class="card-tools">
                         <div>
-                            <a href="{{ route('admin.level.create') }}"
+                            <a href="{{ route('admin.vocabulary.categoryCreate', ['catId' => $catId]) }}"
                                class="d-inline-block btn btn-sm btn-primary"><i
                                     class="fa fa-plus"></i>&nbsp;&nbsp;Thêm
-                                mới</a>
+                                mới từ vựng</a>
                         </div>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form id="frmSearch" action="{{ route('admin.level.search') }}" method="GET">
+                    <form id="frmSearch" action="{{ route('admin.vocabulary.categorySearch', $catId) }}" method="GET">
                         <div class="row">
                             <div class="item-search">
                                 <div class="btn-group" style="margin: 0px 10px">
@@ -67,7 +67,10 @@
                         <tr>
                             <th style="width: 30px;">STT</th>
                             <th style="width: 30px;">#</th>
+                            <th style="width: 80px;">Ảnh</th>
                             <th>Tên</th>
+                            <th>Phiên âm</th>
+                            <th align="center">Danh mục</th>
                             <th align="center" class="text-center" style="width: 120px;">Trạng thái</th>
                             <th class="text-center" style="width: 110px;">Ngày tạo</th>
                             <th align="right" class="text-center" style="width: 150px;">Thao tác</th>
@@ -87,25 +90,36 @@
                                 <tr id="row-{{ $item->id }}">
                                     <td class="text-center">{{ $i ++ }}</td>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                            : '<label id="status" class="active">Kích hoạt</label>' !!}
+                                    <td class="">
+                                        <img class="thumbList" width="120" height="80"
+                                             src="{{ thumbImagePath($item->thumb) }}"
+                                             alt="{{ $item->name }}"
+                                             title="{{ $item->name }}"
+                                        />
                                     </td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->spelling }}</td>
+                                    <td class="text-center">
+                                        @if($item->category)
+                                            <label id="status" class="levels">{{ $item->category->name }}</label>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">{!! htmlStatus($item->status) !!}</td>
                                     <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">
-                                        <a class="btn btn-sm btn-info level-detail-view"
+                                        <a class="btn btn-sm btn-info vocabulary-detail-view"
                                            data-id="{{ $item->id }}"
                                            data-toggle="tooltip" data-placement="top" title="Chi tiết"
                                            href="javascript:void(0)"><i class="fa fa-eye"></i><span></span></a>
-                                        <a href="{{ route('admin.level.edit', ['id' => $item->id]) }}"
+                                        <a href="{{ route('admin.vocabulary.categoryEdit', ['catId' => $catId, 'id' => $item->id]) }}"
                                            class="btn btn-sm btn-primary"
                                            data-toggle="tooltip" data-placement="top"
                                            title="Sửa">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-danger btn-remove-level"
+                                        <a class="btn btn-sm btn-danger btn-remove-vocabulary"
                                            data-id="{{ $item->id }}"
-                                           href="{{ route('admin.level.remove', ['id' => $item->id]) }}"
+                                           href="{{ route('admin.vocabulary.remove', ['id' => $item->id]) }}"
                                            data-toggle="tooltip" data-placement="top"
                                            title="Xóa">
                                             <i class="far fa-trash-alt"></i>
@@ -120,13 +134,6 @@
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
                     {{ $data->links() }}
-                    {{--<ul class="pagination pagination-sm m-0 float-right">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>--}}
                 </div>
             </div>
         </div>
@@ -135,7 +142,7 @@
 @endsection
 @section('custom-script')
     <script>
-        $('.level-detail-view').on('click', function () {
+        $('.vocabulary-detail-view').on('click', function () {
             let id = $(this).attr('data-id');
             showDetail(id)
         });
@@ -143,24 +150,24 @@
         function showDetail(id) {
             $.ajax({
                 type: "GET",
-                url: '{{ route('admin.level.detail') }}',
+                url: '{{ route('admin.vocabulary.detail') }}',
                 data: {id: id},
                 success: function (response) {
-                    $('.modal-title').html('Chi tiết Level');
+                    $('.modal-title').html('Chi tiết Từ vựng');
                     $('.result-content').html(response);
                     $('#detailModal').modal('show');
                 }
             });
         }
 
-        if ($(".btn-remove-level").length > 0) {
-            $('.btn-remove-level').click(function (e) {
+        if ($(".btn-remove-vocabulary").length > 0) {
+            $('.btn-remove-vocabulary').click(function (e) {
                 e.preventDefault();
 
                 let id = $(this).attr('data-id');
 
                 Swal.fire({
-                    title: 'Bạn muốn xóa level này?',
+                    title: 'Bạn muốn xóa bản ghi này?',
                     text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
                     icon: 'warning',
                     showCancelButton: true,

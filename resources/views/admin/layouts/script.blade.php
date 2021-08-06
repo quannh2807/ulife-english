@@ -337,4 +337,32 @@
     @endif
     /* end toastr */
 
+    //if ($("#grpThumb").length > 0) {
+    $('#grpThumb input').on('change', function () {
+        $mValue = $('input[name=inlineRadioOptions]:checked', '#grpThumb').val()
+        // alert($('input[name=inlineRadioOptions]:checked', '#grpThumb').val());
+        if ($mValue == 1) {
+            $(".boxThumb").empty();
+            $(".boxThumb").append('<div class="input-group">\n' +
+                '                                            <input type="text" class="form-control input-file-dummy"\n' +
+                '                                                   placeholder="Choose file" aria-describedby="fileHelp">\n' +
+                '                                            <label class="input-group-append mb-0">\n' +
+                '                                        <span class="btn btn-info input-file-btn">\n' +
+                '                                          <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh\n' +
+                '                                            <input type="file" hidden\n' +
+                '                                                   id="thumb" name="thumb"\n' +
+                '                                                   accept="image/*"\n' +
+                '                                                   onchange="previewMultiple(event)">\n' +
+                '                                        </span>\n' +
+                '                                            </label>\n' +
+                '                                        </div>\n' +
+                '                                        <div id="galleryPhotos"></div>');
+        } else {
+            $(".boxThumb").empty();
+            $(".boxThumb").append('<input type="text" class="form-control input-file-dummy"\n' +
+                '                                                   placeholder="Link ảnh">');
+        }
+    });
+    // }
+
 </script>

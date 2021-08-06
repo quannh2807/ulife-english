@@ -43,5 +43,9 @@ return [
     'languages' => [
         'en' => 'Tiếng Anh',
         'vi' => 'Tiếng Việt',
-    ]
+    ],
+    'question_type' => [
+        0 => 'Question',
+        1 => 'Question Subtitle',
+    ],
 ];

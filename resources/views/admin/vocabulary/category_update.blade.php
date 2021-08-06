@@ -1,23 +1,26 @@
 @extends('admin.layouts.master')
 @section('page-title', 'Từ vựng')
-@section('breadcrumb', 'Thêm mới từ vựng')
+@section('breadcrumb', 'Cập nhật từ vựng')
 
 @section('main')
     <div class="row">
         <div class="col-12">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Thêm mới</h3>
+                    <h3 class="card-title">Cập nhật</h3>
                 </div>
-                <form action="{{ route('admin.vocabulary.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.vocabulary.categoryUpdate', $catId) }}" method="POST"
+                      enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="id" value="{{ $data->id }}">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="name">Tên<span class="text-danger">&nbsp;*</span></label>
-                                    <input type="text" class="form-control" id="name"
-                                           placeholder="Nhập vào tên" name="name" value="{{ old('name') }}">
+                                    <label for="cate-name">Tên<span class="text-danger">&nbsp;*</span></label>
+                                    <input type="text" class="form-control" id="cate-name"
+                                           placeholder="Nhập vào tên" name="name"
+                                           value="{{ $data->name ? $data->name : old('name') }}">
                                     @error('name')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
@@ -28,7 +31,7 @@
                                     <label for="spelling">Phiên âm<span class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="spelling"
                                            placeholder="Nhập vào phiên âm" name="spelling"
-                                           value="{{ old('spelling') }}">
+                                           value="{{ $data->spelling ? $data->spelling : old('spelling') }}">
                                     @error('spelling')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
@@ -40,7 +43,7 @@
                                 <div class="form-group">
                                     <label for="description">Mô tả<span class="text-danger">&nbsp;*</span></label>
                                     <textarea id="description" name="description" class="form-control"
-                                              rows="10"></textarea>
+                                              rows="4">{{ $data->description ? $data->description : old('description') }}</textarea>
                                     @error('description')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
@@ -53,7 +56,8 @@
                                         <option>--Chọn danh mục--</option>
                                         @foreach($category as $index => $item)
                                             @if($item != null)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                <option
+                                                    value="{{ $item->id }}" {{ $item->id == $data->cat_id ? 'selected' : '' }}>{{ $item->name }}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -66,7 +70,7 @@
                                     <select name="status" class="form-control" id="cate-status">
                                         @foreach(config('common.status') as $key => $status)
                                             <option
-                                                value="{{ $status }}">{{ $key }}</option>
+                                                value="{{ $status }}" {{ $status === $data->status ? 'selected' : '' }}>{{ $key }}</option>
                                         @endforeach
                                     </select>
                                     @error('status')
@@ -88,7 +92,16 @@
                                         </span>
                                         </label>
                                     </div>
-                                    <div id="galleryPhotos"></div>
+                                    <div id="galleryPhotos">
+                                        @if(!empty($data->thumb))
+                                            <div class="imagePhoto">
+                                                <img src="{{ asset('storage/' . $data->thumb) }}">
+                                                {{--<a href="javascript:void(0)" class="removePhoto">
+                                                    <i class="fa fa-trash-alt"></i>
+                                                </a>--}}
+                                            </div>
+                                        @endif
+                                    </div>
                                     @error('thumb')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
@@ -100,7 +113,7 @@
                     <div class="card-footer">
                         <div class="d-flex align-items-center justify-content-end">
                             <button type="submit" class="btn btn-primary"><i
-                                    class="fa fa-save"></i>&nbsp;&nbsp;Tạo mới
+                                    class="fa fa-edit"></i>&nbsp;&nbsp;Cập nhật
                             </button>
                         </div>
                     </div>

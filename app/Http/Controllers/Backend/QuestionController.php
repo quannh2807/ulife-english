@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
 use App\Models\Question;
 use App\Models\Video;
+use App\Models\VideoSubtitle;
 use App\Repositories\QuestionRepository;
+use App\Repositories\VideoRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,10 +16,12 @@ class QuestionController extends Controller
 {
 
     private $questionRepository;
+    private $videoRepository;
 
-    public function __construct(QuestionRepository $repository)
+    public function __construct(QuestionRepository $repository, VideoRepository $videoRepository)
     {
         $this->questionRepository = $repository;
+        $this->videoRepository = $videoRepository;
     }
 
     public function index()
@@ -204,6 +208,18 @@ class QuestionController extends Controller
         }
         $response .= '</tbody></table>';
         return $response;
+    }
+
+    public function subtitle($video_id)
+    {
+        $video = $this->videoRepository->findById($video_id, [], ['id', 'title', 'ytb_thumbnails']);
+        $thumbnails = json_decode($video->ytb_thumbnails);
+        $video->ytb_thumbnails = $thumbnails->default;
+        $subtitles = VideoSubtitle::with('hasLanguage')->where('video_id', $video_id)->get();
+        return view('admin.question.subtitle', [
+            //'video' => $video,
+            'subtitles' => $subtitles,
+        ]);
     }
 
 }

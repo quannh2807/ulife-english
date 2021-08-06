@@ -15,24 +15,29 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('answer_1');
-            $table->string('answer_2');
-            $table->string('answer_3');
-            $table->string('answer_4');
-            $table->string('answer_correct');
-            $table->string('selected_answer')->default(0);
+            $table->string('name_en');
+            $table->string('name_vi');
+            $table->string('answer_en_1');
+            $table->string('answer_en_2');
+            $table->string('answer_en_3');
+            $table->string('answer_en_4');
+            $table->string('answer_vi_1');
+            $table->string('answer_vi_2');
+            $table->string('answer_vi_3');
+            $table->string('answer_vi_4');
+            $table->string('answer_en_correct');
+            $table->string('answer_vi_correct');
             $table->integer('is_favorite')->default(0);
-            $table->integer('status')->default(1);
             $table->integer('lang_id')->default(1);
             $table->integer('video_id')->nullable();
             $table->string('start_time')->nullable();
             $table->string('end_time')->nullable();
-            $table->integer('type')->nullable();
             $table->foreignId('topics_id')->default(0);
             $table->foreignId('cate_id')->default(0);
             $table->foreignId('level_id')->default(0);
             $table->integer('level_type')->default(0); // config common level 1, 2, 3, 4
+            $table->integer('type')->default(0); // config common question_type
+            $table->integer('status')->default(1);
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();

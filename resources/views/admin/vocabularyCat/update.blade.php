@@ -64,14 +64,14 @@
                                         </label>
                                     </div>
                                     <div id="galleryPhotos">
-                                        <div class="imagePhoto">
-                                            @if(!empty($data->thumb))
+                                        @if(!empty($data->thumb))
+                                            <div class="imagePhoto">
                                                 <img src="{{ asset('storage/' . $data->thumb) }}">
                                                 {{--<a href="javascript:void(0)" class="removePhoto">
                                                     <i class="fa fa-trash-alt"></i>
                                                 </a>--}}
-                                            @endif
-                                        </div>
+                                            </div>
+                                        @endif
                                     </div>
                                     @error('thumb')
                                     <p style="color: red;">{{$message}}</p>

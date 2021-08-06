@@ -9,8 +9,10 @@
                 <div class="card-header">
                     <h3 class="card-title">Thêm mới</h3>
                 </div>
-                <form action="{{ route('admin.vocabulary.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.vocabulary.categoryStore') }}" method="POST"
+                      enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="catId" value="{{ $catId }}">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
@@ -49,11 +51,12 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="cat_id">Danh mục<span class="text-danger">&nbsp;*</span></label>
-                                    <select name="cat_id" class="form-control" id="cat_id">
+                                    <select name="cat_id" class="form-control select2-hidden-accessible" id="cat_id" readonly="">
                                         <option>--Chọn danh mục--</option>
                                         @foreach($category as $index => $item)
                                             @if($item != null)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                <option
+                                                    value="{{ $item->id }}" {{ $item->id == $catId ? 'selected' : '' }}>{{ $item->name }}</option>
                                             @endif
                                         @endforeach
                                     </select>

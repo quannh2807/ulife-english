@@ -139,4 +139,99 @@ class VocabularyController extends Controller
         $response .= '</tbody></table>';
         return $response;
     }
+
+    public function categoryList($catId)
+    {
+        $category = VocabularyCat::findOrFail($catId);
+        $data = Vocabulary::where('cat_id', $catId)->orderBy('id', 'DESC')->paginate(PAGE_SIZE);
+
+        return view('admin.vocabulary.category_list', [
+            'data' => $data,
+            'catId' => $catId,
+            'category' => $category,
+        ]);
+    }
+
+    public function categoryCreate($catId)
+    {
+        $category = VocabularyCat::where('status', 1)->get();
+        return view('admin.vocabulary.category_create', [
+            'catId' => $catId,
+            'category' => $category,
+        ]);
+    }
+
+    public function categoryStore(VocabularyRequest $request)
+    {
+        $catId = $request->catId ? $request->catId : 0;
+        $data = $request->except('_token', 'files');
+        if ($request->hasFile('thumb')) {
+            $path = $request->file('thumb')->store('thumbnails', 'public');
+            $data['thumb'] = $path;
+        }
+        $isSave = $this->vocabularyRepository->storeNew($data);
+        return redirect()->route('admin.vocabulary.categoryList', ['catId' => $catId])->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
+    }
+
+    public function categoryEdit($catId, $id)
+    {
+        $category = VocabularyCat::where('status', 1)->get();
+        $detail = $this->vocabularyRepository->findById($id, []);
+        return view('admin.vocabulary.category_update', [
+            'catId' => $catId,
+            'data' => $detail,
+            'category' => $category,
+        ]);
+    }
+
+    public function categoryUpdate(VocabularyRequestUpdate $request, $catId)
+    {
+        $detail = Vocabulary::find($request->id);
+        $data = $request->except('_token', 'files');
+        if ($request->hasFile('thumb')) {
+            $path = $request->file('thumb')->store('thumbnails', 'public');
+            $data['thumb'] = $path;
+            // remove old image
+            if (!empty($detail->thumb)) {
+                if (file_exists('storage/' . $detail->thumb)) {
+                    unlink('storage/' . $detail->thumb);
+                };
+            }
+        }
+        $isSave = $this->vocabularyRepository->update($request->id, $data);
+        return redirect()->route('admin.vocabulary.categoryList', ['catId' => $catId])->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
+    }
+
+    public function categorySearch(Request $request, $catId)
+    {
+        $category = VocabularyCat::where('status', 1)->get();
+        $mQuery = Vocabulary::query();
+        if (!empty(request('keyword'))) {
+            $mQuery->where('name', 'LIKE', '%' . request('keyword') . '%');
+            $mQuery->orWhere('id', request('keyword'));
+        }
+        if (!empty(request('rangeDate'))) {
+            $temp = explode('-', request('rangeDate'));
+            $startDate = trim($temp[0]);
+            $endDate = trim($temp[1]);
+            $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', $startDate)
+                ->format('Y-m-d 00:00:00');
+            $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', $endDate)
+                ->format('Y-m-d 23:59:59');
+
+            $mQuery->where('created_at', '>=', $startDate)
+                ->where('created_at', '<=', $endDate);
+        }
+        $mQuery->where('cat_id', $catId);
+        if (request('status') >= 0) {
+            $mQuery->where('status', request('status'));
+        }
+        $data = $mQuery->orderBy('id', 'DESC')->paginate(10);
+
+        return view('admin.vocabulary.category_list', [
+            'data' => $data,
+            'catId' => $catId,
+            'category' => $category,
+        ]);
+    }
 }
