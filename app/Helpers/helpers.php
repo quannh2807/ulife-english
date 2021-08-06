@@ -11,13 +11,26 @@ function changeDateFormat($date, $date_format)
 function thumbImagePath($thumb)
 {
     if (!empty($thumb)) {
-        if (file_exists('storage/' . $thumb)) {
-            return asset('storage/' . $thumb);
+        if (isUrl($thumb)) {
+            return $thumb;
         } else {
-            return asset('images/no-image-upload.png');
+            if (file_exists('storage/' . $thumb)) {
+                return asset('storage/' . $thumb);
+            } else {
+                return asset('images/no-image-upload.png');
+            }
         }
     } else {
         return asset('images/image-not-available.png');
+    }
+}
+
+function isUrl($text)
+{
+    if (filter_var($text, FILTER_VALIDATE_URL)) {
+        return true;
+    } else {
+        return false;
     }
 }
 

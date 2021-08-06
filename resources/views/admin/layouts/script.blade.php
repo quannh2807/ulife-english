@@ -337,32 +337,89 @@
     @endif
     /* end toastr */
 
-    //if ($("#grpThumb").length > 0) {
-    $('#grpThumb input').on('change', function () {
-        $mValue = $('input[name=inlineRadioOptions]:checked', '#grpThumb').val()
-        // alert($('input[name=inlineRadioOptions]:checked', '#grpThumb').val());
-        if ($mValue == 1) {
-            $(".boxThumb").empty();
-            $(".boxThumb").append('<div class="input-group">\n' +
-                '                                            <input type="text" class="form-control input-file-dummy"\n' +
-                '                                                   placeholder="Choose file" aria-describedby="fileHelp">\n' +
-                '                                            <label class="input-group-append mb-0">\n' +
-                '                                        <span class="btn btn-info input-file-btn">\n' +
-                '                                          <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh\n' +
-                '                                            <input type="file" hidden\n' +
-                '                                                   id="thumb" name="thumb"\n' +
-                '                                                   accept="image/*"\n' +
-                '                                                   onchange="previewMultiple(event)">\n' +
-                '                                        </span>\n' +
-                '                                            </label>\n' +
-                '                                        </div>\n' +
-                '                                        <div id="galleryPhotos"></div>');
-        } else {
-            $(".boxThumb").empty();
-            $(".boxThumb").append('<input type="text" class="form-control input-file-dummy"\n' +
-                '                                                   placeholder="Link ảnh">');
+    // preview thumbLink
+    if ($("#grpThumb").length > 0) {
+        $('#grpThumb input').on('change', function () {
+            let pathThumb = '';
+            if ($(this).attr("data-path")) {
+                pathThumb = $(this).attr('data-path')
+            }
+            let valueRadio = $('input[name=inlineRadioUpload]:checked', '#grpThumb').val()
+            if (valueRadio == 1) {
+                $("#galleryPhotos").empty();
+                $(".boxThumb").empty();
+                $(".boxThumb").append('<div class="input-group">' +
+                    '<input type="text" class="form-control input-file-dummy"' +
+                    'placeholder="Chọn ảnh" aria-describedby="fileHelp" readonly>\n' +
+                    '<label class="input-group-append mb-0">' +
+                    '<span class="btn btn-info input-file-btn">' +
+                    '<i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh\n' +
+                    '<input type="file" hidden ' +
+                    'id="thumb" name="thumb"' +
+                    'accept="image/*"' +
+                    'onchange="previewMultiple(event)">' +
+                    '</span>' +
+                    '</label>' +
+                    '</div>');
+                showImageUploadOld(pathThumb);
+            } else {
+                if (!validURL(pathThumb)) {
+                    pathThumb = '';
+                }
+                $("#galleryPhotos").empty();
+                $(".boxThumb").empty();
+                $(".boxThumb").append('<input id="thumbLink" name="thumb" value="' + pathThumb + '" type="text" class="form-control input-file-dummy" placeholder="Nhập vào link ảnh">');
+                $('#galleryPhotos').empty();
+                if (pathThumb !== '') {
+                    $('#galleryPhotos').append('<div class="imagePhoto"><img src="' + pathThumb + '"></div>');
+                }
+                onInputThumbLink()
+            }
+        });
+    }
+
+    function showImageUploadOld(path) {
+        if (path !== '' && !validURL(path)) {
+            $('#galleryPhotos').empty();
+            let urlImg = "{{ asset('storage/') }}" + '/' + path;
+            $('#galleryPhotos').append('<div class="imagePhoto"><img src="' + urlImg + '"><a href="javascript:void(0)" class="removePhoto"><i class="fa fa-trash-alt"></i></a></div>');
+            $(".removePhoto").click(function () {
+                $(this).parent().remove();
+                $('.input-file-dummy').val('');
+            });
         }
-    });
-    // }
+    }
+
+    if ($("#thumbLink").length > 0) {
+        onInputThumbLink()
+    }
+
+    function onInputThumbLink() {
+        $("#thumbLink").on("input", function () {
+            let urls = $('.input-file-dummy').val();
+            if (urls !== '') {
+                $('#galleryPhotos').empty();
+                $('#galleryPhotos').append('<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="removePhoto"><i class="fa fa-trash-alt"></i></a></div>');
+                $(".removePhoto").click(function () {
+                    $(this).parent().remove();
+                    $('.input-file-dummy').val('');
+                });
+            } else {
+                $('#galleryPhotos').empty();
+            }
+        });
+    }
+
+    function validURL(str) {
+        let pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+        return !!pattern.test(str);
+    }
+
+    // end preview thumbLink
 
 </script>

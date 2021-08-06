@@ -78,18 +78,35 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="lesson-thumb">Ảnh mô tả</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control input-file-dummy"
-                                               placeholder="Choose file" aria-describedby="fileHelp">
-                                        <label class="input-group-append mb-0">
-                                        <span class="btn btn-info input-file-btn">
-                                          <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
-                                            <input type="file" hidden
-                                                   id="thumb" name="thumb"
-                                                   accept="image/*"
-                                                   onchange="previewMultiple(event)">
-                                        </span>
-                                        </label>
+                                    <div id="grpThumb" class="form-group">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio"
+                                                   name="inlineRadioUpload"
+                                                   id="inlineRadio1" value="1" checked>
+                                            <label class="form-check-label" for="inlineRadio1">Tải ảnh lên</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio"
+                                                   name="inlineRadioUpload"
+                                                   id="inlineRadio2" value="2">
+                                            <label class="form-check-label" for="inlineRadio2">Từ link</label>
+                                        </div>
+                                    </div>
+                                    <div class="boxThumb">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control input-file-dummy"
+                                                   placeholder="Chọn ảnh" aria-describedby="fileHelp"
+                                                   readonly>
+                                            <label class="input-group-append mb-0">
+                                                <span class="btn btn-info input-file-btn">
+                                                    <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
+                                                    <input type="file" hidden
+                                                           id="thumbUpload" name="thumb"
+                                                           accept="image/*"
+                                                           onchange="previewMultiple(event)">
+                                                </span>
+                                            </label>
+                                        </div>
                                     </div>
                                     <div id="galleryPhotos"></div>
                                     @error('thumb')

@@ -64,8 +64,10 @@ class VocabularyCatController extends Controller
     {
         $data = $request->except('_token', 'files');
         if ($request->hasFile('thumb')) {
-            $path = $request->file('thumb')->store('thumbnails', 'public');
-            $data['thumb'] = $path;
+            if (!isUrl($request->thumb)) {
+                $path = $request->file('thumb')->store('thumbnails', 'public');
+                $data['thumb'] = $path;
+            }
         }
         $isSave = $this->vocabularyCatRepository->storeNew($data);
         return redirect()->route('admin.vocabularyCat.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
@@ -81,16 +83,19 @@ class VocabularyCatController extends Controller
 
     public function update(VocabularyCatRequestUpdate $request)
     {
+        $request->request->remove('inlineRadioUpload');
         $detail = VocabularyCat::find($request->id);
         $data = $request->except('_token', 'files');
         if ($request->hasFile('thumb')) {
-            $path = $request->file('thumb')->store('thumbnails', 'public');
-            $data['thumb'] = $path;
             // remove old image
-            if (!empty($detail->thumb)) {
+            if (!empty($detail->thumb) && !isUrl($request->thumb)) {
                 if (file_exists('storage/' . $detail->thumb)) {
                     unlink('storage/' . $detail->thumb);
                 };
+            }
+            if (!isUrl($request->thumb)) {
+                $path = $request->file('thumb')->store('thumbnails', 'public');
+                $data['thumb'] = $path;
             }
         }
         $isSave = $this->vocabularyCatRepository->update($request->id, $data);

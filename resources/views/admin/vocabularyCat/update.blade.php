@@ -51,25 +51,50 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="lesson-thumb">Ảnh mô tả<span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control input-file-dummy"
-                                               placeholder="Choose file" aria-describedby="fileHelp">
-                                        <label class="input-group-append mb-0">
-                                        <span class="btn btn-info input-file-btn">
-                                          <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
-                                            <input type="file" hidden
-                                                   id="thumb" name="thumb"
-                                                   onchange="previewMultiple(event)">
-                                        </span>
-                                        </label>
+                                    <div id="grpThumb" class="form-group">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio"
+                                                   name="inlineRadioUpload"
+                                                   data-path="{{$data->thumb}}"
+                                                   id="inlineRadio1" value="1"
+                                                   @if(!isUrl($data->thumb)) checked @else @endif>
+                                            <label class="form-check-label" for="inlineRadio1">Tải ảnh lên</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio"
+                                                   name="inlineRadioUpload"
+                                                   data-path="{{$data->thumb}}"
+                                                   id="inlineRadio2" value="2"
+                                                   @if(isUrl($data->thumb)) checked @else @endif>
+                                            <label class="form-check-label" for="inlineRadio2">Từ link</label>
+                                        </div>
+                                    </div>
+                                    <div class="boxThumb">
+                                        @if(isUrl($data->thumb))
+                                            <input id="thumbLink" name="thumb" type="text"
+                                                   class="form-control input-file-dummy"
+                                                   value="{{$data->thumb}}"
+                                                   placeholder="Nhập vào link ảnh">
+                                        @else
+                                            <div class="input-group">
+                                                <input type="text" class="form-control input-file-dummy"
+                                                       readonly
+                                                       placeholder="Chọn ảnh" aria-describedby="fileHelp">
+                                                <label class="input-group-append mb-0">
+                                                <span class="btn btn-info input-file-btn">
+                                                    <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
+                                                    <input type="file" hidden
+                                                           id="thumbUpload" name="thumb"
+                                                           onchange="previewMultiple(event)">
+                                                </span>
+                                                </label>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div id="galleryPhotos">
                                         @if(!empty($data->thumb))
                                             <div class="imagePhoto">
-                                                <img src="{{ asset('storage/' . $data->thumb) }}">
-                                                {{--<a href="javascript:void(0)" class="removePhoto">
-                                                    <i class="fa fa-trash-alt"></i>
-                                                </a>--}}
+                                                <img src="@if(isUrl($data->thumb)) {{$data->thumb}} @else {{ asset('storage/' . $data->thumb) }} @endif">
                                             </div>
                                         @endif
                                     </div>

@@ -38,7 +38,7 @@ class VocabularyCatRequestUpdate extends FormRequest
     {
         return [
             'name' => 'required|min:1|max:191',
-            'thumb' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            //'thumb' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|size:1',
         ];
     }
@@ -55,9 +55,9 @@ class VocabularyCatRequestUpdate extends FormRequest
             'name.min' => 'Độ dài tối thiếu là :min ký tự.',
             'name.max' => 'Độ dài tối thiếu là :min ký tự.',
 
-            'thumb.image' => 'Bạn chỉ được chọn file ảnh.',
+            /*'thumb.image' => 'Bạn chỉ được chọn file ảnh.',
             'thumb.mimes' => 'Chỉ chọn ảnh có định dạng: jpeg,png,jpg,gif.',
-            'thumb.max' => 'Dung lượng ảnh tối đa 2048MB.',
+            'thumb.max' => 'Dung lượng ảnh tối đa 2048MB.',*/
 
             'status.required' => 'Vui lòng chọn :attribute.',
             'status.size' => 'Vui lòng chọn :attribute.',

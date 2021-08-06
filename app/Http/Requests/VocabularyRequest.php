@@ -42,7 +42,7 @@ class VocabularyRequest extends FormRequest
             'name' => 'required|min:1|max:191',
             'spelling' => 'required|min:1|max:191',
             'description' => 'required',
-            'thumb' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            //'thumb' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'cat_id' => 'required|size:1',
             'status' => 'required|size:1',
         ];
@@ -66,9 +66,9 @@ class VocabularyRequest extends FormRequest
 
             'description.required' => 'Mô tả không được bỏ trống',
 
-            'thumb.image' => 'Bạn chỉ được chọn file ảnh.',
+            /*'thumb.image' => 'Bạn chỉ được chọn file ảnh.',
             'thumb.mimes' => 'Chỉ chọn ảnh có định dạng: jpeg,png,jpg,gif.',
-            'thumb.max' => 'Dung lượng ảnh tối đa 2048MB.',
+            'thumb.max' => 'Dung lượng ảnh tối đa 2048MB.',*/
 
             'cat_id.required' => 'Vui lòng chọn :attribute.',
             'cat_id.size' => 'Vui lòng chọn :attribute.',
