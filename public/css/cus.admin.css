@@ -202,3 +202,15 @@ label.no-levels {
     color: #ccc;
     display: none;
 }
+
+.questionItem {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.questionItem input {
+    width: 90%;
+    margin-left: 10px;
+}
