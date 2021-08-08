@@ -45,10 +45,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('subtitle')->name('subtitle.')->group(function () {
+        Route::get('/refresh-sub/{video_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'refresh'])->name('refresh');
         Route::get('/{video_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'index'])->name('index');
         Route::post('/store', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'store'])->name('store');
         Route::get('/show/{sub_id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'show'])->name('show');
         Route::post('preview-sub', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'preview'])->name('previewSub');
+        Route::get('/remove/{id}', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'destroy'])->name('destroy');
+        Route::post('remove-all', [\App\Http\Controllers\Backend\VideoSubtitleController::class, 'destroyAll'])->name('destroyAll');
     });
 
     Route::prefix('question')->name('question.')->group(function () {
@@ -97,6 +100,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [\App\Http\Controllers\Backend\LessonController::class, 'edit'])->name('edit');
         Route::post('/update', [\App\Http\Controllers\Backend\LessonController::class, 'update'])->name('update');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\LessonController::class, 'destroy'])->name('remove');
+        Route::get('/videos', [\App\Http\Controllers\Backend\LessonController::class, 'getVideos'])->name('getVideos');
     });
 
     Route::prefix('vocabulary')->name('vocabulary.')->group(function () {

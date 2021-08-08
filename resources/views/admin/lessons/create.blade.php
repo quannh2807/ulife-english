@@ -27,14 +27,32 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="lesson-videos">Video <span class="text-danger">*</span></label>
-                                <select name="videos[]" multiple class="form-control select-multiple" id="lesson-videos">
-                                    @foreach($videos as $index => $video)
-                                        <option value="{{ $video->id }}">{{ $video->title }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="grammar-videos">Video Grammar <span class="text-danger">*</span></label>
+                                <div class="d-flex border rounded">
+                                    <select name="grammar_video[]" class="rounded-0 form-control col-9 border-0"
+                                            id="grammar-videos" multiple disabled>
+                                    </select>
+                                    <button class="col-3 btn btn-info rounded-0 select-video"
+                                            data-type="{{ config('common.video_types.Grammar') }}">Chọn video
+                                    </button>
+                                </div>
 
-                                @error('videos')
+                                @error('grammar_video')
+                                <p style="color: red;">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="lesson-videos">Video Bài học <span class="text-danger">*</span></label>
+                                <div class="d-flex border rounded">
+                                    <select name="lesson_video[]" class="rounded-0 form-control col-9 border-0"
+                                            id="lesson-videos" multiple disabled>
+                                    </select>
+                                    <button class="col-3 btn btn-info rounded-0 select-video"
+                                            data-type="{{ config('common.video_types.Lesson') }}">Chọn video
+                                    </button>
+                                </div>
+
+                                @error('lesson_video')
                                 <p style="color: red;">{{$message}}</p>
                                 @enderror
                             </div>
@@ -120,4 +138,67 @@
             </form>
         </div>
     </div>
+
+    @include('admin.lessons.list_grammar_video')
+    @include('admin.lessons.list_lesson_video')
+@endsection
+
+@section('custom-script')
+    <script>
+        $(document).ready(function () {
+            $('select#lesson-videos').select2({
+                placeholder: 'Chọn video ngữ pháp'
+            });
+            $('select#grammar-videos').select2({
+                placeholder: 'Chọn video bài học'
+            });
+
+            $('.select-video').click(function (e) {
+                e.preventDefault()
+                let type = $(this).attr('data-type');
+
+                $.ajax({
+                    url: "{{ route('admin.lesson.getVideos') }}",
+                    method: 'GET',
+                    data: {type: type},
+                    success: function (res) {
+                        let videos = res.videos;
+                        let listVideo = `<table id="videoList" class="table table-hover">`;
+
+                        if (videos.length > 0) {
+                            videos.map(video => {
+                                let thumb = JSON.parse(video.ytb_thumbnails).default.url;
+
+                                let row = `<tr>
+                                                <td id="id" style="width: auto;">
+                                                    <input id="check_video" value="${video.id}" type="checkbox">
+                                                </td>
+                                                <td id="thumb" style="width: 80px;">
+                                                    <img id="imgThumb" class="thumbList" src="${thumb}" />
+                                                </td>
+                                                <td id="title">${video.title}</td>
+                                            </tr>`;
+
+                                listVideo += row;
+                            });
+                        } else {
+                            listVideo += ` <tr><td colspan="8" align="center">Không có dữ liệu</td></tr>`;
+                        }
+                        listVideo += '</table>';
+
+                        if (type == 1) {
+                            $('#listGrammarModal').modal('toggle')
+                            $('#listGrammarModal .result-content').replaceWith(listVideo);
+                        } else {
+                            $('#listLessonModal').modal('toggle')
+                            $('#listLessonModal .result-content').replaceWith(listVideo);
+                        }
+                    },
+                    error: function () {
+                        console.log('error')
+                    }
+                })
+            });
+        });
+    </script>
 @endsection
