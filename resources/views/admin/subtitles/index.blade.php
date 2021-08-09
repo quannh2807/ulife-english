@@ -29,9 +29,15 @@
                 &nbsp;Tạo phụ đề mới
             </button>
             @if($video->id >0 && count($subtitles) > 0)
-                <a href="{{ route('admin.question.createQuestionList',['id' => $video->id]) }}"
-                   class="d-inline-block btn btn-sm btn-primary"><i
-                        class="fa fa-copy"></i>&nbsp;&nbsp;Tạo danh sách câu hỏi</a>
+                @if(videoHasQuestionSub($video->id))
+                    <a href="{{ route('admin.question.editQuestionList',['id' => $video->id]) }}"
+                       class="d-inline-block btn btn-sm btn-primary"><i
+                            class="fa fa-list"></i>&nbsp;&nbsp;Danh sách câu hỏi</a>
+                @else
+                    <a href="{{ route('admin.question.createQuestionList',['id' => $video->id]) }}"
+                       class="d-inline-block btn btn-sm btn-primary"><i
+                            class="fa fa-copy"></i>&nbsp;&nbsp;Tạo danh sách câu hỏi</a>
+                @endif
             @endif
         </div>
 

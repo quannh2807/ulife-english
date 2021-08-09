@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Tạo câu hỏi cho Video (Tổng: {{count($subtitles)}} - Sub)</h3>
+                    <h3 class="card-title">Danh sách câu hỏi (Tổng: {{count($subtitles)}} - Sub)</h3>
                 </div>
                 <form action="{{ route('admin.question.storeQuestionList', $videoId)}}" method="POST">
                     @csrf
@@ -19,7 +19,6 @@
                                 <th style="width: 100px;">End Time</th>
                                 <th>Câu hỏi (EN)</th>
                                 <th>Câu trả lời</th>
-                                {{--<th>Trạng thái</th>--}}
                             </tr>
                             </thead>
                             <tbody>
@@ -73,8 +72,8 @@
                                                 <div class="col">
                                                     <div class="form-check">
                                                         <input class="form-check-input"
-                                                               type="radio" value="1" id="answer_correct_1_{{$index}}"
-                                                               name="answer_correct[{{$index}}]" checked>
+                                                               type="radio" id="answer_correct_1_{{$index}}"
+                                                               name="answer_correct[{{$index}}]" value="1" checked>
                                                         <label for="answer_correct_1_{{$index}}"><span
                                                                 class="badge badge-question margin-circle">1</span>
                                                         </label>
@@ -83,8 +82,8 @@
                                                 <div class="col">
                                                     <div class="form-check">
                                                         <input class="form-check-input"
-                                                               type="radio" value="2" id="answer_correct_2_{{$index}}"
-                                                               name="answer_correct[{{$index}}]">
+                                                               type="radio" id="answer_correct_2_{{$index}}"
+                                                               name="answer_correct[{{$index}}]" value="2">
                                                         <label for="answer_correct_2_{{$index}}"><span
                                                                 class="badge badge-question margin-circle">2</span>
                                                         </label>
@@ -95,8 +94,8 @@
                                                 <div class="col">
                                                     <div class="form-check">
                                                         <input class="form-check-input"
-                                                               type="radio" value="3" id="answer_correct_3_{{$index}}"
-                                                               name="answer_correct[{{$index}}]">
+                                                               type="radio" id="answer_correct_3_{{$index}}"
+                                                               name="answer_correct[{{$index}}]" value="3">
                                                         <label for="answer_correct_3_{{$index}}"><span
                                                                 class="badge badge-question margin-circle">3</span>
                                                         </label>
@@ -105,8 +104,8 @@
                                                 <div class="col">
                                                     <div class="form-check">
                                                         <input class="form-check-input"
-                                                               type="radio" value="4" id="answer_correct_4_{{$index}}"
-                                                               name="answer_correct[{{$index}}]">
+                                                               type="radio" id="answer_correct_4_{{$index}}"
+                                                               name="answer_correct[{{$index}}]" value="4">
                                                         <label for="answer_correct_4_{{$index}}"><span
                                                                 class="badge badge-question margin-circle">4</span>
                                                         </label>
@@ -115,7 +114,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    {{--<td><span class="badge bg-success">Hoàn thành</span></td>--}}
                                 </tr>
                                 <div style="display: none">{{ $index++ }}</div>
                             @endforeach

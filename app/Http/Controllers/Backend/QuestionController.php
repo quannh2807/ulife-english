@@ -222,7 +222,7 @@ class QuestionController extends Controller
         $thumbnails = json_decode($video->ytb_thumbnails);
         $video->ytb_thumbnails = $thumbnails->default;
         $subtitles = VideoSubtitle::with('hasLanguage')->where('video_id', $video_id)->get();
-        return view('admin.question.subtitle', [
+        return view('admin.question.createQuestionList', [
             'video' => $video,
             'videoId' => $video_id,
             'subtitles' => $subtitles,
@@ -269,16 +269,49 @@ class QuestionController extends Controller
         $video = $this->videoRepository->findById($video_id, [], ['id', 'title', 'ytb_thumbnails']);
         $thumbnails = json_decode($video->ytb_thumbnails);
         $video->ytb_thumbnails = $thumbnails->default;
-        $subtitles = VideoSubtitle::with('hasLanguage')->where('video_id', $video_id)->get();
-        return view('admin.question.subtitle', [
-            //'video' => $video,
+        //$subtitles = Question::where('video_id', $video_id)->orderBy('time_start', 'ASC')->get();
+        $subtitles = Question::where('video_id', $video_id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
+        //dd($subtitles);
+        return view('admin.question.updateQuestionList', [
+            'video' => $video,
+            'videoId' => $video_id,
             'subtitles' => $subtitles,
         ]);
     }
 
-    public function updateQuestionList($video_id)
+    public function updateQuestionList(Request $request, $videoId)
     {
+        $id = $request->input('id', '');
+        $name = $request->input('name', '');
+        $timeStart = $request->input('time_start', '');
+        $timeEnd = $request->input('time_end', '');
+        $answer_1 = $request->input('answer_1', '');
+        $answer_2 = $request->input('answer_2', '');
+        $answer_3 = $request->input('answer_3', '');
+        $answer_4 = $request->input('answer_4', '');
+        $answer_correct = $request->input('answer_correct', '');
 
+        $isSave = false;
+        foreach ($name as $index => $value) {
+            $data = [
+                "name" => $name[$index],
+                "time_start" => $timeStart[$index],
+                'time_end' => $timeEnd[$index],
+                'answer_1' => $answer_1[$index],
+                'answer_2' => $answer_2[$index],
+                'answer_3' => $answer_3[$index],
+                'answer_4' => $answer_4[$index],
+                'answer_correct' => $answer_correct[$index],
+                'video_id' => $videoId,
+                'type' => 1, // config common question_type, 0 - Question, 1- Question Subtitle
+                'updated_at' => \Carbon\Carbon::now(),
+            ];
+            //$isSave = Question::where("id", $id)->update($data);
+            $isSave = DB::table('questions')
+                ->where('id', $id)
+                ->update($data);
+        }
+        return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
 
 }

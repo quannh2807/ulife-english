@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 // ex: {{ changeDateFormat(date('Y-m-d'),'m/d/Y')  }}
 function changeDateFormat($date, $date_format)
@@ -72,6 +73,16 @@ function stringHoursToFloat($times)
         return 0;
     } else {
         return formatTimeSubtitle(parseTimeSubtitle($times));
+    }
+}
+
+function videoHasQuestionSub($videoId)
+{
+    if (!empty($videoId) && $videoId > 0) {
+        $data = DB::table('questions')->where('video_id', $videoId)->count();
+        return $data > 0 ? true : false;
+    } else {
+        return false;
     }
 }
 
