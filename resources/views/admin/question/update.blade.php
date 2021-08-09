@@ -25,7 +25,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="start_time">Video</label>
+                                    <label for="video_id">Video</label>
                                     <div style="display: none;">
                                         <input id="video_id" name="video_id" type="text"
                                                value="{{$videoId}}"
@@ -57,22 +57,22 @@
                                 <div id="mVideo" class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="start_time">Start time</label>
-                                            <input type="text" class="form-control" id="start_time"
-                                                   placeholder="00:00:00" name="start_time"
-                                                   value="{{ $detail->start_time ? $detail->start_time : old('start_time') }}">
-                                            @error('start_time')
+                                            <label for="time_start">Time start</label>
+                                            <input type="text" class="form-control" id="time_start"
+                                                   placeholder="00:00:00" name="time_start"
+                                                   value="{{ $detail->time_start ? formatTimeSub($detail->time_start, FM_TIME_SUB_VIDEO) : old('time_start') }}">
+                                            @error('time_start')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="end_time">End time</label>
-                                            <input type="text" class="form-control" id="end_time"
-                                                   placeholder="00:00:00" name="end_time"
-                                                   value="{{ $detail->end_time ? $detail->end_time : old('end_time') }}">
-                                            @error('end_time')
+                                            <label for="time_end">Time end</label>
+                                            <input type="text" class="form-control" id="time_end"
+                                                   placeholder="00:00:00" name="time_end"
+                                                   value="{{ $detail->time_end ? formatTimeSub($detail->time_end, FM_TIME_SUB_VIDEO) : old('time_end') }}">
+                                            @error('time_end')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror
                                         </div>

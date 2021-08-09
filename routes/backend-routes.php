@@ -65,7 +65,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/update', [\App\Http\Controllers\Backend\QuestionController::class, 'update'])->name('update');
         Route::get('/remove/{id}', [\App\Http\Controllers\Backend\QuestionController::class, 'remove'])->name('remove');
         Route::get('/ajax/detail', [\App\Http\Controllers\Backend\QuestionController::class, 'detail'])->name('detail');
-        Route::get('/subtitle/{id}', [\App\Http\Controllers\Backend\QuestionController::class, 'subtitle'])->name('subtitle');
+        Route::get('/question-list/{id}/create', [\App\Http\Controllers\Backend\QuestionController::class, 'createQuestionList'])->name('createQuestionList');
+        Route::get('/question-list/{id}/edit', [\App\Http\Controllers\Backend\QuestionController::class, 'editQuestionList'])->name('editQuestionList');
+        Route::post('/question-list/{id}/store', [\App\Http\Controllers\Backend\QuestionController::class, 'storeQuestionList'])->name('storeQuestionList');
+        Route::post('/question-list/{id}/update', [\App\Http\Controllers\Backend\QuestionController::class, 'updateQuestionList'])->name('updateQuestionList');
     });
 
     Route::prefix('level')->name('level.')->group(function () {
@@ -116,12 +119,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/category/{catId}/list', [\App\Http\Controllers\Backend\VocabularyController::class, 'categoryList'])->name('categoryList');
         Route::get('/category/{catId}/create', [\App\Http\Controllers\Backend\VocabularyController::class, 'categoryCreate'])->name('categoryCreate');
         Route::get('/category/{catId}/update/{id}', [\App\Http\Controllers\Backend\VocabularyController::class, 'categoryEdit'])->name('categoryEdit');
-        Route::post('/categoryStore', [\App\Http\Controllers\Backend\VocabularyController::class, 'categoryStore'])->name('categoryStore');
-        Route::post('/categoryUpdate/{catId}', [\App\Http\Controllers\Backend\VocabularyController::class, 'categoryUpdate'])->name('categoryUpdate');
-        Route::get('/categorySearch/{catId}', [\App\Http\Controllers\Backend\VocabularyController::class, 'categorySearch'])->name('categorySearch');
+        Route::post('/category-store', [\App\Http\Controllers\Backend\VocabularyController::class, 'categoryStore'])->name('categoryStore');
+        Route::post('/category-update/{catId}', [\App\Http\Controllers\Backend\VocabularyController::class, 'categoryUpdate'])->name('categoryUpdate');
+        Route::get('/category-search/{catId}', [\App\Http\Controllers\Backend\VocabularyController::class, 'categorySearch'])->name('categorySearch');
     });
 
-    Route::prefix('vocabularyCat')->name('vocabularyCat.')->group(function () {
+    Route::prefix('vocabulary-cat')->name('vocabularyCat.')->group(function () {
         Route::get('/', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'index'])->name('index');
         Route::get('/list', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'index'])->name('index');
         Route::get('/search', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'search'])->name('search');

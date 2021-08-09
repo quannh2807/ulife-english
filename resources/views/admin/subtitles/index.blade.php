@@ -29,7 +29,7 @@
                 &nbsp;Tạo phụ đề mới
             </button>
             @if($video->id >0 && count($subtitles) > 0)
-                <a href="{{ route('admin.question.subtitle',['id' => $video->id]) }}"
+                <a href="{{ route('admin.question.createQuestionList',['id' => $video->id]) }}"
                    class="d-inline-block btn btn-sm btn-primary"><i
                         class="fa fa-copy"></i>&nbsp;&nbsp;Tạo danh sách câu hỏi</a>
             @endif

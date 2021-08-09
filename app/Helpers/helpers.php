@@ -40,6 +40,41 @@ function htmlStatus($status)
         : '<label id="status" class="active">Kích hoạt</label>';
 }
 
+function formatTimeSub($time, $format)
+{
+    return \Carbon\Carbon::parse((int)$time)->format($format);
+}
+
+function formatTimeSubtitle($times)
+{
+    $seconds = 0;
+    $seconds += $times['hours'] * 3600;
+    $seconds += $times['minutes'] * 60;
+    $seconds += $times['seconds'];
+    $milliseconds = $times['milliseconds'] / 1000;
+    return $seconds + $milliseconds;
+}
+
+function parseTimeSubtitle($time)
+{
+    list($hours, $minutes, $seconds) = explode(":", $time);
+    $times = [];
+    $times['hours'] = (int)$hours;
+    $times['minutes'] = (int)$minutes;
+    $times['seconds'] = (int)$seconds;
+    $times['milliseconds'] = 0;
+    return $times;
+}
+
+function stringHoursToFloat($times)
+{
+    if (empty($times)) {
+        return 0;
+    } else {
+        return formatTimeSubtitle(parseTimeSubtitle($times));
+    }
+}
+
 function httpResponseCode($code = NULL)
 {
     if ($code !== NULL) {

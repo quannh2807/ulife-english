@@ -90,12 +90,12 @@
                             <th style="width: 30px;">STT</th>
                             <th style="width: 30px;">#</th>
                             <th>Nội dung câu hỏi</th>
-                            <th>Đáp án</th>
+                            <th style="min-width: 150px;">Đáp án</th>
                             <th class="text-center">Level</th>
                             <th>Topics</th>
                             <th align="center" class="text-center" style="width: 120px;">Trạng thái</th>
-                            <th class="text-center" style="width: 110px;">Ngày tạo</th>
-                            <th align="right" class="text-center" style="width: 150px;">Thao tác</th>
+                            <th class="text-center" style="width: 80px;">Ngày tạo</th>
+                            <th align="right" class="text-center" style="width: 130px;">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -114,16 +114,18 @@
                                     <td class="text-center">{{ $item->id }}</td>
                                     <td>
                                         <span class="lbl-name">{{ $item->name }}</span>
-                                        @if($item->start_time)
+                                        @if($item->time_start)
                                             <div>
-                                                <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Start Time:&nbsp;</span>
-                                                <span class="item-child-val">{{ $item->start_time }}</span>
+                                                <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>
+                                                <span
+                                                    class="item-child-val">{{ formatTimeSub($item->time_start, FM_TIME_SUB_VIDEO) }}</span>
                                             </div>
                                         @endif
-                                        @if($item->end_time)
+                                        @if($item->time_end)
                                             <div>
-                                                <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;End Time:&nbsp;</span>
-                                                <span class="item-child-val">{{ $item->end_time }}</span>
+                                                <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time end:&nbsp;</span>
+                                                <span
+                                                    class="item-child-val">{{ formatTimeSub($item->time_end, FM_TIME_SUB_VIDEO) }}</span>
                                             </div>
                                         @endif
                                     </td>

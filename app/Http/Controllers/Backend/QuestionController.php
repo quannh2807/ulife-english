@@ -95,6 +95,9 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request)
     {
         $data = $request->all();
+        $data['time_start'] = stringHoursToFloat($request->input('time_start', ''));
+        $data['time_end'] = stringHoursToFloat($request->input('time_end', ''));
+
         $isSave = $this->questionRepository->storeNew($data);
         return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
@@ -125,6 +128,9 @@ class QuestionController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
+        $data['time_start'] = stringHoursToFloat($request->input('time_start', ''));
+        $data['time_end'] = stringHoursToFloat($request->input('time_end', ''));
+
         $isSave = $this->questionRepository->update($id, $data);
         return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
@@ -210,7 +216,55 @@ class QuestionController extends Controller
         return $response;
     }
 
-    public function subtitle($video_id)
+    public function createQuestionList($video_id)
+    {
+        $video = $this->videoRepository->findById($video_id, [], ['id', 'title', 'ytb_thumbnails']);
+        $thumbnails = json_decode($video->ytb_thumbnails);
+        $video->ytb_thumbnails = $thumbnails->default;
+        $subtitles = VideoSubtitle::with('hasLanguage')->where('video_id', $video_id)->get();
+        return view('admin.question.subtitle', [
+            'video' => $video,
+            'videoId' => $video_id,
+            'subtitles' => $subtitles,
+        ]);
+    }
+
+    public function storeQuestionList(Request $request, $videoId)
+    {
+        //dd($request->all());
+        $name = $request->input('name');
+        $timeStart = $request->input('time_start', '');
+        $timeEnd = $request->input('time_end', '');
+        $answer_1 = $request->input('answer_1', '');
+        $answer_2 = $request->input('answer_2', '');
+        $answer_3 = $request->input('answer_3', '');
+        $answer_4 = $request->input('answer_4', '');
+        $answer_correct = $request->input('answer_correct', '');
+
+        $data = [];
+        foreach ($name as $index => $value) {
+            $data[] = [
+                "name" => $name[$index],
+                "time_start" => $timeStart[$index],
+                'time_end' => $timeEnd[$index],
+                'answer_1' => $answer_1[$index],
+                'answer_2' => $answer_2[$index],
+                'answer_3' => $answer_3[$index],
+                'answer_4' => $answer_4[$index],
+                'answer_correct' => $answer_correct[$index],
+                'video_id' => $videoId,
+                'type' => 1, // config common question_type, 0 - Question, 1- Question Subtitle
+                'created_at' => \Carbon\Carbon::now(),
+            ];
+        }
+        //dd($data);
+        $isSave = Question::insert($data);
+        //$isSave = DB::table('questions')->insert($data);
+        return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
+    }
+
+
+    public function editQuestionList($video_id)
     {
         $video = $this->videoRepository->findById($video_id, [], ['id', 'title', 'ytb_thumbnails']);
         $thumbnails = json_decode($video->ytb_thumbnails);
@@ -220,6 +274,11 @@ class QuestionController extends Controller
             //'video' => $video,
             'subtitles' => $subtitles,
         ]);
+    }
+
+    public function updateQuestionList($video_id)
+    {
+
     }
 
 }

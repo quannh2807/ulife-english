@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Tạo câu hỏi cho Video Sub</h3>
+                    <h3 class="card-title">Tạo câu hỏi cho Video (Tổng: {{count($subtitles)}} - Sub)</h3>
                 </div>
-                <form action="" method="POST">
+                <form action="{{ route('admin.question.storeQuestionList', $videoId)}}" method="POST">
                     @csrf
                     <div class="card-body">
                         <table class="table table-bordered table-hover">
@@ -29,15 +29,22 @@
                                 </tr>
                             @endif
                             @php
-                                $i = 1
+                                $i = 1;
+                                $index = 0;
                             @endphp
                             @foreach($subtitles as $subtitle)
                                 <tr style="cursor: pointer" data-id="{{ $subtitle->id }}">
                                     <th key-data="index">{{ $i++ }}</th>
-                                    <td>{{ \Carbon\Carbon::parse((int)$subtitle->time_start)->format('H:i:s') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse((int)$subtitle->time_end)->format('H:i:s') }}</td>
-                                    <td><input value="{{$subtitle->en}}}" name="name[]" type="text"
-                                               class="form-control form-control-sm"/>
+                                    <td>{{ formatTimeSub($subtitle->time_start, FM_TIME_SUB_VIDEO) }}</td>
+                                    <td>{{ formatTimeSub($subtitle->time_end, FM_TIME_SUB_VIDEO) }}</td>
+                                    <td>
+                                        <input value="{{$subtitle->time_start}}" class="form-control form-control-sm"
+                                               type="text" name="time_start[]" hidden/>
+                                        <input value="{{$subtitle->time_end}}" class="form-control form-control-sm"
+                                               type="text" name="time_end[]" hidden/>
+                                        <input value="{{$subtitle->en}}" class="form-control form-control-sm"
+                                               type="text" name="name[]"
+                                               placeholder="Nhập nội dung câu hỏi"/>
                                     </td>
                                     <td>
                                         <div class="row questionItem">
@@ -66,9 +73,9 @@
                                                 <div class="col">
                                                     <div class="form-check">
                                                         <input class="form-check-input"
-                                                               type="radio" value="1" id="answer_correct_1_{{$i}}"
-                                                               name="answer_correct[{{$i}}]" checked>
-                                                        <label for="answer_correct_1_{{$i}}"><span
+                                                               type="radio" value="1" id="answer_correct_1_{{$index}}"
+                                                               name="answer_correct[{{$index}}]" checked>
+                                                        <label for="answer_correct_1_{{$index}}"><span
                                                                 class="badge badge-question margin-circle">1</span>
                                                         </label>
                                                     </div>
@@ -76,9 +83,9 @@
                                                 <div class="col">
                                                     <div class="form-check">
                                                         <input class="form-check-input"
-                                                               type="radio" value="2" id="answer_correct_2_{{$i}}"
-                                                               name="answer_correct[{{$i}}]">
-                                                        <label for="answer_correct_2_{{$i}}"><span
+                                                               type="radio" value="2" id="answer_correct_2_{{$index}}"
+                                                               name="answer_correct[{{$index}}]">
+                                                        <label for="answer_correct_2_{{$index}}"><span
                                                                 class="badge badge-question margin-circle">2</span>
                                                         </label>
                                                     </div>
@@ -88,9 +95,9 @@
                                                 <div class="col">
                                                     <div class="form-check">
                                                         <input class="form-check-input"
-                                                               type="radio" value="3" id="answer_correct_3_{{$i}}"
-                                                               name="answer_correct[{{$i}}]">
-                                                        <label for="answer_correct_3_{{$i}}"><span
+                                                               type="radio" value="3" id="answer_correct_3_{{$index}}"
+                                                               name="answer_correct[{{$index}}]">
+                                                        <label for="answer_correct_3_{{$index}}"><span
                                                                 class="badge badge-question margin-circle">3</span>
                                                         </label>
                                                     </div>
@@ -98,9 +105,9 @@
                                                 <div class="col">
                                                     <div class="form-check">
                                                         <input class="form-check-input"
-                                                               type="radio" value="4" id="answer_correct_4_{{$i}}"
-                                                               name="answer_correct[{{$i}}]">
-                                                        <label for="answer_correct_4_{{$i}}"><span
+                                                               type="radio" value="4" id="answer_correct_4_{{$index}}"
+                                                               name="answer_correct[{{$index}}]">
+                                                        <label for="answer_correct_4_{{$index}}"><span
                                                                 class="badge badge-question margin-circle">4</span>
                                                         </label>
                                                     </div>
@@ -110,6 +117,7 @@
                                     </td>
                                     {{--<td><span class="badge bg-success">Hoàn thành</span></td>--}}
                                 </tr>
+                                <div style="display: none">{{ $index++ }}</div>
                             @endforeach
                             </tbody>
                         </table>
