@@ -9,11 +9,13 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
+<script src="{{ asset('plugins/inputmask/jquery.inputmask.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
 
 <script>
+    $(':input').inputmask();
     $('select').select2();
     $('[data-toggle="tooltip"]').tooltip();
     if ($("#reservation").length > 0) {
@@ -308,9 +310,7 @@
 
     /* start lessons screen */
     function refreshLessonTraining(type) {
-        $.ajax({
-
-        })
+        $.ajax({})
     }
 
     $('button#btn-writting').click(function (e) {
@@ -435,6 +435,7 @@
             '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
         return !!pattern.test(str);
     }
+
     // end preview thumbLink
 
 </script>

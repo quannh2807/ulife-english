@@ -48,7 +48,7 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ formatTimeSub($item->time_start, FM_TIME_SUB_VIDEO) }}</td>
                                     <td>{{ formatTimeSub($item->time_end, FM_TIME_SUB_VIDEO) }}</td>
-                                    <td>
+                                    <td style="max-width: 200px;">
                                         <label id="status" class="bg-info">{{ $item->name_origin}}</label>
                                         <input class="form-control form-control-sm"
                                                type="text" name="name[]"

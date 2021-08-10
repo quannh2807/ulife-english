@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(10)->create();
         Category::factory(10)->create();
-        Video::factory(1)->create();
+        //Video::factory(1)->create();
 
         // Levels
         Levels::create(['id' => 1, 'name' => 'A1', 'status' => 1, 'created_by' => 1, 'updated_by' => 1]);

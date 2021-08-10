@@ -41,12 +41,12 @@ class LessonRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên bài học không được bỏ trống',
-            'name.min'=>'Tên bài học tối thiểu là 3 ký tự',
-            'name.max'=>'Tên bài học tối đa là 191 ký tự',
+            'name.min' => 'Tên bài học tối thiểu là 3 ký tự',
+            'name.max' => 'Tên bài học tối đa là 191 ký tự',
 
             'description.required' => 'Mô tả bài học không được bỏ trống',
 
-            'status.required' => 'Trạng bài học không được bỏ trống',
+            'status.required' => 'Trạng thái bài học không được bỏ trống',
 
             'level_id.required' => 'Cấp độ bài học không được bỏ trống',
             'level_id.gt' => 'Cấp độ bài học không được bỏ trống',

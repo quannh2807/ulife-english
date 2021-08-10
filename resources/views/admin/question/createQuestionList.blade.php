@@ -4,7 +4,7 @@
 @section('main')
     <div class="row">
         <div class="col-12">
-            <div class="card card-info">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Danh sách câu hỏi (Tổng: {{count($subtitles)}} - Sub)</h3>
                 </div>
@@ -36,7 +36,7 @@
                                     <th key-data="index">{{ $i++ }}</th>
                                     <td>{{ formatTimeSub($subtitle->time_start, FM_TIME_SUB_VIDEO) }}</td>
                                     <td>{{ formatTimeSub($subtitle->time_end, FM_TIME_SUB_VIDEO) }}</td>
-                                    <td>
+                                    <td style="max-width: 200px;">
                                         <label id="status" class="bg-info">{{ $subtitle->en}}</label>
                                         <input class="form-control form-control-sm"
                                                type="text" name="name[]"
