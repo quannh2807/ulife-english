@@ -24,7 +24,7 @@
                             <tbody>
                             @if(count($subtitles) <= 0)
                                 <tr id="have-sub">
-                                    <td colspan="100%">Video này chưa có subtitles</td>
+                                    <td colspan="100%" align="center">Không có dữ liệu</td>
                                 </tr>
                             @endif
                             @php
@@ -37,13 +37,23 @@
                                     <td>{{ formatTimeSub($subtitle->time_start, FM_TIME_SUB_VIDEO) }}</td>
                                     <td>{{ formatTimeSub($subtitle->time_end, FM_TIME_SUB_VIDEO) }}</td>
                                     <td>
-                                        <input value="{{$subtitle->time_start}}" class="form-control form-control-sm"
-                                               type="text" name="time_start[]" hidden/>
-                                        <input value="{{$subtitle->time_end}}" class="form-control form-control-sm"
-                                               type="text" name="time_end[]" hidden/>
-                                        <input value="{{$subtitle->en}}" class="form-control form-control-sm"
+                                        <label id="status" class="bg-info">{{ $subtitle->en}}</label>
+                                        <input class="form-control form-control-sm"
                                                type="text" name="name[]"
-                                               placeholder="Nhập nội dung câu hỏi"/>
+                                               placeholder="Nhập nội dung câu hỏi"
+                                               value="{{ $subtitle->en ? $subtitle->en : old('name') }}"/>
+                                        <div style="display:none;">
+                                            <input class="form-control form-control-sm"
+                                                   style="background: none; border: 0px"
+                                                   type="text" name="name_origin[]"
+                                                   value="{{ $subtitle->en}}"/>
+                                            <input value="{{$subtitle->time_start}}"
+                                                   class="form-control form-control-sm"
+                                                   type="text" name="time_start[]"/>
+                                            <input value="{{$subtitle->time_end}}"
+                                                   class="form-control form-control-sm"
+                                                   type="text" name="time_end[]"/>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="row questionItem">

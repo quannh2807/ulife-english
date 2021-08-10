@@ -114,14 +114,14 @@
                                     <td class="text-center">{{ $item->id }}</td>
                                     <td>
                                         <span class="lbl-name">{{ $item->name }}</span>
-                                        @if($item->time_start)
+                                        @if($item->time_start >=0)
                                             <div>
                                                 <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>
                                                 <span
                                                     class="item-child-val">{{ formatTimeSub($item->time_start, FM_TIME_SUB_VIDEO) }}</span>
                                             </div>
                                         @endif
-                                        @if($item->time_end)
+                                        @if($item->time_end >=0)
                                             <div>
                                                 <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time end:&nbsp;</span>
                                                 <span
@@ -153,21 +153,19 @@
                                     </td>
                                     <td class="text-center">
                                         @if($item->getLevel)
-                                            <label id="status" class="levels">{{ $item->getLevel->name }}</label>
+                                            <span class="badge badge-primary">{{ $item->getLevel->name }}</span>
                                         @else
-                                            <label id="status" class="no-levels">No Level</label>
+                                            <span class="badge badge-secondary">No Level</span>
                                         @endif
                                     </td>
                                     <td>
                                         @if($item->getTopics)
-                                            <label id="status" class="levels">{{ $item->getTopics->name }}</label>
+                                            <span class="badge badge-primary">{{ $item->getTopics->name }}</span>
                                         @else
-                                            <label id="status" class="no-levels">No Topics</label>
+                                            <span class="badge badge-secondary">No Topics</span>
                                         @endif
                                     </td>
-                                    <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                            : '<label id="status" class="active">Kích hoạt</label>' !!}
-                                    </td>
+                                    <td class="text-center">{!! htmlStatus($item->status)  !!}</td>
                                     <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">
                                         <a class="btn btn-sm btn-info question-detail-view"

@@ -14,6 +14,14 @@
                         <input type="hidden" name="id" value="{{ $detail->id }}">
                         <div class="row">
                             <div class="col-6">
+                                @if($detail->type == 1)
+                                    <div class="form-group">
+                                        <label for="name">Name Origin</label>
+                                        <input type="text" class="form-control"
+                                               id="name_origin" name="name_origin"
+                                               value="{{ $detail->name_origin ? $detail->name_origin : old('name_origin') }}">
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                     <label for="name">Nội dung câu hỏi<span class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="name"
@@ -60,7 +68,7 @@
                                             <label for="time_start">Time start</label>
                                             <input type="text" class="form-control" id="time_start"
                                                    placeholder="00:00:00" name="time_start"
-                                                   value="{{ $detail->time_start ? formatTimeSub($detail->time_start, FM_TIME_SUB_VIDEO) : old('time_start') }}">
+                                                   value="{{ $detail->time_start >= 0 ? formatTimeSub($detail->time_start, FM_TIME_SUB_VIDEO) : old('time_start') }}">
                                             @error('time_start')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror
@@ -71,7 +79,7 @@
                                             <label for="time_end">Time end</label>
                                             <input type="text" class="form-control" id="time_end"
                                                    placeholder="00:00:00" name="time_end"
-                                                   value="{{ $detail->time_end ? formatTimeSub($detail->time_end, FM_TIME_SUB_VIDEO) : old('time_end') }}">
+                                                   value="{{ $detail->time_end >= 0  ? formatTimeSub($detail->time_end, FM_TIME_SUB_VIDEO) : old('time_end') }}">
                                             @error('time_end')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror

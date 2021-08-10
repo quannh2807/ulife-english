@@ -101,7 +101,7 @@
                                     <td>{{ $item->spelling }}</td>
                                     <td class="text-center">
                                         @if($item->category)
-                                            <label id="status" class="levels">{{ $item->category->name }}</label>
+                                            <span class="badge badge-primary">{{ $item->category->name }}</span>
                                         @endif
                                     </td>
                                     <td class="text-center">{!! htmlStatus($item->status) !!}</td>

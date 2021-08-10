@@ -128,7 +128,7 @@ class VocabularyController extends Controller
             $response .= '<tr><td>Phiên âm</td><td>' . $detail->spelling . '</td></tr>';
             $response .= '<tr><td>Ảnh</td><td><img src="' . thumbImagePath($detail->thumb) . '" width="100px" height="80px"></td></tr>';
             $response .= '<tr><td>Mô tả</td><td>' . $detail->description . '</td></tr>';
-            $response .= '<tr><td>Danh mục</td><td><label id="status" class="levels">' . $detail->category->name . '</label></td></tr>';
+            $response .= '<tr><td>Danh mục</td><td><span class="badge badge-primary">' . $detail->category->name . '</span></td></tr>';
             $response .= '<tr><td>Trạng thái</td><td>' . htmlStatus($detail->status) . '</td></tr>';
             $response .= '<tr><td>Ngày tạo</td><td>' . $detail->created_at . '</td></tr>';
         } else {

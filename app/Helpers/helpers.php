@@ -37,8 +37,8 @@ function isUrl($text)
 
 function htmlStatus($status)
 {
-    return $status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-        : '<label id="status" class="active">Kích hoạt</label>';
+    return $status === 0 ? '<span class="badge badge-danger">Không kích hoạt</span>'
+        : '<span class="badge badge-success">Kích hoạt</span>';
 }
 
 function formatTimeSub($time, $format)

@@ -107,8 +107,7 @@ class LevelsController extends Controller
             $response .= '<tr><td style="width: 120px;">SubName</td><td>' . $detail->sub_name . '</td></tr>';
             $response .= '<tr><td style="width: 120px;">Description</td><td>' . $detail->description . '</td></tr>';
 
-            $statusName = $detail->status == 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                : '<label id="status" class="active">Kích hoạt</label>';
+            $statusName = htmlStatus($detail->status);
             $response .= '<tr><td style="width: 120px;">Trạng thái</td><td>' . $statusName . '</td></tr>';
 
         } else {

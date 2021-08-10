@@ -119,10 +119,9 @@ class TopicsController extends Controller
         $response = '<table class="table table-bordered table-hover"><tbody>';
         if ($detail) {
             $response .= '<tr><td style="width: 120px;">Tên</td><td>' . $detail->name . '</td></tr>';
-            $levelName = !empty($detail->hasLevel) ? '<label id="status" class="levels">' . $detail->hasLevel->name . '</label>' : '<label id="status" class="no-levels">No Level</label>';
+            $levelName = !empty($detail->hasLevel) ? '<span class="badge badge-primary">' . $detail->hasLevel->name . '</span>' : '<span class="badge badge-secondary">No Level</span>';
             $response .= '<tr><td style="width: 120px;">Level</td><td>' . $levelName . '</td></tr>';
-            $statusName = $detail->status == 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                : '<label id="status" class="active">Kích hoạt</label>';
+            $statusName = htmlStatus($detail->status);
             $response .= '<tr><td style="width: 120px;">Trạng thái</td><td>' . $statusName . '</td></tr>';
             $response .= '<tr><td style="width: 120px;">Ngày tạo</td><td>' . $detail->created_at . '</td></tr>';
 

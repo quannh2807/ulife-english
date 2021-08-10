@@ -69,6 +69,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/question-list/{id}/edit', [\App\Http\Controllers\Backend\QuestionController::class, 'editQuestionList'])->name('editQuestionList');
         Route::post('/question-list/{id}/store', [\App\Http\Controllers\Backend\QuestionController::class, 'storeQuestionList'])->name('storeQuestionList');
         Route::post('/question-list/{id}/update', [\App\Http\Controllers\Backend\QuestionController::class, 'updateQuestionList'])->name('updateQuestionList');
+        Route::get('/question-list/remove/{id}', [\App\Http\Controllers\Backend\QuestionController::class, 'removeQuestionList'])->name('removeQuestionList');
     });
 
     Route::prefix('level')->name('level.')->group(function () {

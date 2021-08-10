@@ -4,9 +4,18 @@
 @section('main')
     <div class="row">
         <div class="col-12">
-            <div class="card card-info">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Danh sách câu hỏi (Tổng: {{count($subtitles)}} - Sub)</h3>
+                    <div class="card-tools">
+                        @if(count($subtitles) > 0)
+                            <a class="d-inline-block btn btn-sm btn-danger mb-1 btn-remove-question-list"
+                               data-id="{{$videoId}}"
+                               href="{{ route('admin.question.removeQuestionList', ['id' => $videoId]) }}">
+                                <i class="far fa-trash-alt"></i>&nbsp;&nbsp;Xóa danh sách câu hỏi
+                            </a>
+                        @endif
+                    </div>
                 </div>
                 <form action="{{ route('admin.question.updateQuestionList', $videoId)}}" method="POST">
                     @csrf
@@ -26,7 +35,7 @@
                             <tbody>
                             @if(count($subtitles) <= 0)
                                 <tr id="have-sub">
-                                    <td colspan="100%">Video này chưa có subtitles</td>
+                                    <td colspan="100%" align="center">Không có dữ liệu</td>
                                 </tr>
                             @endif
                             @php
@@ -40,16 +49,23 @@
                                     <td>{{ formatTimeSub($item->time_start, FM_TIME_SUB_VIDEO) }}</td>
                                     <td>{{ formatTimeSub($item->time_end, FM_TIME_SUB_VIDEO) }}</td>
                                     <td>
+                                        <label id="status" class="bg-info">{{ $item->name_origin}}</label>
                                         <input class="form-control form-control-sm"
                                                type="text" name="name[]"
                                                placeholder="Nhập nội dung câu hỏi"
                                                value="{{ $item->name ? $item->name : old('name') }}"/>
-                                        <input name="id[]" value="{{ $item->id }}" class="form-control form-control-sm"
-                                               hidden>
-                                        <input name="time_start[]" value="{{$item->time_start}}"
-                                               class="form-control form-control-sm" hidden/>
-                                        <input name="time_end[]" value="{{$item->time_end}}"
-                                               class="form-control form-control-sm" hidden/>
+                                        <div style="display: none">
+                                            <input class="form-control form-control-sm"
+                                                   style="background: none; border: 0px"
+                                                   type="text" name="name_origin[]"
+                                                   value="{{ $item->name_origin}}"/>
+                                            <input name="id[{{$index}}]" value="{{ $item->id }}"
+                                                   class="form-control form-control-sm">
+                                            <input name="time_start[]" value="{{$item->time_start}}"
+                                                   class="form-control form-control-sm"/>
+                                            <input name="time_end[]" value="{{$item->time_end}}"
+                                                   class="form-control form-control-sm"/>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="row questionItem">
@@ -139,11 +155,13 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <button type="submit" class="btn btn-info"><i
-                                    class="fa fa-edit"></i>&nbsp;&nbsp;Cập nhật
-                            </button>
-                        </div>
+                        @if(count($subtitles) > 0)
+                            <div class="d-flex align-items-center justify-content-end">
+                                <button type="submit" class="btn btn-info"><i
+                                        class="fa fa-edit"></i>&nbsp;&nbsp;Cập nhật
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -151,3 +169,52 @@
     </div>
     @include('admin.modal.video_list')
 @endsection
+@section('custom-script')
+    <script>
+        if ($(".btn-remove-question-list").length > 0) {
+            $('.btn-remove-question-list').click(function (e) {
+                e.preventDefault();
+                let id = $(this).attr('data-id');
+                Swal.fire({
+                    title: 'Bạn muốn xóa danh sách câu hỏi?',
+                    text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    cancelButtonText: 'Đóng',
+                    confirmButtonText: 'Đồng ý xoá!',
+                    width: 350
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        let url = $(this).attr('href');
+                        $.ajax({
+                            url: `${url}`,
+                            type: 'GET',
+                            success: function () {
+                                Swal.fire(
+                                    'Xoá thành công!',
+                                    'Dữ liệu đã được xoá hoàn toàn.',
+                                    'success'
+                                ).then(() => {
+                                    $(`#row-${id}`).fadeOut(500, function () {
+                                        $(this).remove();
+                                    })
+                                    window.location.href = "{{ route('admin.video.index')}}";
+                                })
+                            },
+                            fail: function () {
+                                Swal.fire(
+                                    'Có vấn đề xảy ra',
+                                    'Dữ liệu chưa được xoá',
+                                    'question'
+                                )
+                            }
+                        });
+                    }
+                })
+            });
+        }
+    </script>
+@endsection
+
