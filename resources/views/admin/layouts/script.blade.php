@@ -1,7 +1,6 @@
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-{{--<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>--}}
 <script src="{{ asset('plugins/moment/moment-with-locales.js') }}"></script>
 <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
 <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
@@ -9,7 +8,7 @@
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
-{{--<script src="{{ asset('js/all.min.js') }}"></script>--}}
+<script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
@@ -323,4 +322,119 @@
         $('#listTrainingModal').modal('toggle')
     });
     /* end lessons screen */
+    /* toastr */
+    @if(Session::has('success'))
+        toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.success("{{ session('success') }}");
+    @endif
+        @if(Session::has('error'))
+        toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.error("{{ session('error') }}");
+    @endif
+        @if(Session::has('info'))
+        toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.info("{{ session('info') }}");
+    @endif
+        @if(Session::has('warning'))
+        toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.warning("{{ session('warning') }}");
+    @endif
+    /* end toastr */
+
+    // preview thumbLink
+    if ($("#grpThumb").length > 0) {
+        $('#grpThumb input').on('change', function () {
+            let pathThumb = '';
+            if ($(this).attr("data-path")) {
+                pathThumb = $(this).attr('data-path')
+            }
+            let valueRadio = $('input[name=inlineRadioUpload]:checked', '#grpThumb').val()
+            if (valueRadio == 1) {
+                $("#galleryPhotos").empty();
+                $(".boxThumb").empty();
+                $(".boxThumb").append('<div class="input-group">' +
+                    '<input type="text" class="form-control input-file-dummy"' +
+                    'placeholder="Chọn ảnh" aria-describedby="fileHelp" readonly>\n' +
+                    '<label class="input-group-append mb-0">' +
+                    '<span class="btn btn-info input-file-btn">' +
+                    '<i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh\n' +
+                    '<input type="file" hidden ' +
+                    'id="thumb" name="thumb"' +
+                    'accept="image/*"' +
+                    'onchange="previewMultiple(event)">' +
+                    '</span>' +
+                    '</label>' +
+                    '</div>');
+                showImageUploadOld(pathThumb);
+            } else {
+                if (!validURL(pathThumb)) {
+                    pathThumb = '';
+                }
+                $("#galleryPhotos").empty();
+                $(".boxThumb").empty();
+                $(".boxThumb").append('<input id="thumbLink" name="thumb" value="' + pathThumb + '" type="text" class="form-control input-file-dummy" placeholder="Nhập vào link ảnh">');
+                $('#galleryPhotos').empty();
+                if (pathThumb !== '') {
+                    $('#galleryPhotos').append('<div class="imagePhoto"><img src="' + pathThumb + '"></div>');
+                }
+                onInputThumbLink()
+            }
+        });
+    }
+
+    function showImageUploadOld(path) {
+        if (path !== '' && !validURL(path)) {
+            $('#galleryPhotos').empty();
+            let urlImg = "{{ asset('storage/') }}" + '/' + path;
+            $('#galleryPhotos').append('<div class="imagePhoto"><img src="' + urlImg + '"><a href="javascript:void(0)" class="removePhoto"><i class="fa fa-trash-alt"></i></a></div>');
+            $(".removePhoto").click(function () {
+                $(this).parent().remove();
+                $('.input-file-dummy').val('');
+            });
+        }
+    }
+
+    if ($("#thumbLink").length > 0) {
+        onInputThumbLink()
+    }
+
+    function onInputThumbLink() {
+        $("#thumbLink").on("input", function () {
+            let urls = $('.input-file-dummy').val();
+            if (urls !== '') {
+                $('#galleryPhotos').empty();
+                $('#galleryPhotos').append('<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="removePhoto"><i class="fa fa-trash-alt"></i></a></div>');
+                $(".removePhoto").click(function () {
+                    $(this).parent().remove();
+                    $('.input-file-dummy').val('');
+                });
+            } else {
+                $('#galleryPhotos').empty();
+            }
+        });
+    }
+
+    function validURL(str) {
+        let pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+        return !!pattern.test(str);
+    }
+    // end preview thumbLink
+
 </script>

@@ -39,7 +39,7 @@ label.levels {
 }
 
 label.no-levels {
-    background-color: #333333;
+    background-color: #ccc;
     color: white;
 }
 
@@ -201,4 +201,16 @@ label.no-levels {
     cursor: pointer;
     color: #ccc;
     display: none;
+}
+
+.questionItem {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.questionItem input {
+    width: 90%;
+    margin-left: 10px;
 }

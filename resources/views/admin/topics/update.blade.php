@@ -19,7 +19,8 @@
                                 <div class="form-group">
                                     <label for="cate-name">Tên Level<span class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="cate-name"
-                                           placeholder="Nhập vào tên" name="name" value="{{ $data->name }}">
+                                           placeholder="Nhập vào tên" name="name"
+                                           value="{{ $data->name ? $data->name : old('name') }}">
                                     @error('name')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror

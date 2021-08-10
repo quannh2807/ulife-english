@@ -14,17 +14,26 @@
                         <input type="hidden" name="id" value="{{ $detail->id }}">
                         <div class="row">
                             <div class="col-6">
+                                @if($detail->type == 1)
+                                    <div class="form-group">
+                                        <label for="name">Name Origin</label>
+                                        <input type="text" class="form-control"
+                                               id="name_origin" name="name_origin"
+                                               value="{{ $detail->name_origin ? $detail->name_origin : old('name_origin') }}">
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                     <label for="name">Nội dung câu hỏi<span class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="name"
-                                           placeholder="Nhập nội dung câu hỏi" name="name" value="{{ $detail->name }}">
+                                           placeholder="Nhập nội dung câu hỏi" name="name"
+                                           value="{{ $detail->name ? $detail->name : old('name') }}">
                                     @error('name')
                                     <p style="color: red;">{{$message}}</p>
                                     @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="start_time">Video</label>
+                                    <label for="video_id">Video</label>
                                     <div style="display: none;">
                                         <input id="video_id" name="video_id" type="text"
                                                value="{{$videoId}}"
@@ -56,22 +65,22 @@
                                 <div id="mVideo" class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="start_time">Start time</label>
-                                            <input type="text" class="form-control" id="start_time"
-                                                   placeholder="00:00:00" name="start_time"
-                                                   value="{{ $detail->start_time }}">
-                                            @error('start_time')
+                                            <label for="time_start">Time start</label>
+                                            <input type="text" class="form-control" id="time_start"
+                                                   placeholder="00:00:00" name="time_start"
+                                                   value="{{ $detail->time_start >= 0 ? formatTimeSub($detail->time_start, FM_TIME_SUB_VIDEO) : old('time_start') }}">
+                                            @error('time_start')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="end_time">End time</label>
-                                            <input type="text" class="form-control" id="end_time"
-                                                   placeholder="00:00:00" name="end_time"
-                                                   value="{{ $detail->end_time }}">
-                                            @error('end_time')
+                                            <label for="time_end">Time end</label>
+                                            <input type="text" class="form-control" id="time_end"
+                                                   placeholder="00:00:00" name="time_end"
+                                                   value="{{ $detail->time_end >= 0  ? formatTimeSub($detail->time_end, FM_TIME_SUB_VIDEO) : old('time_end') }}">
+                                            @error('time_end')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror
                                         </div>
@@ -156,7 +165,7 @@
                                             class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_1"
                                            placeholder="Nhập câu trả lời" name="answer_1"
-                                           value="{{ $detail->answer_1 }}"
+                                           value="{{ $detail->answer_1 ? $detail->answer_1 : old('answer_1') }}"
                                            onkeyup="changeAnswer_1();">
                                     @error('answer_1')
                                     <p style="color: red;">{{$message}}</p>
@@ -167,7 +176,7 @@
                                             class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_2"
                                            placeholder="Nhập câu trả lời" name="answer_2"
-                                           value="{{ $detail->answer_2 }}"
+                                           value="{{ $detail->answer_2 ? $detail->answer_2 : old('answer_2') }}"
                                            onkeyup="changeAnswer_2();">
                                     @error('answer_2')
                                     <p style="color: red;">{{$message}}</p>
@@ -178,7 +187,7 @@
                                             class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_3"
                                            placeholder="Nhập câu trả lời" name="answer_3"
-                                           value="{{ $detail->answer_3 }}"
+                                           value="{{ $detail->answer_3 ? $detail->answer_3 : old('answer_3') }}"
                                            onkeyup="changeAnswer_3();">
                                     @error('answer_3')
                                     <p style="color: red;">{{$message}}</p>
@@ -189,7 +198,7 @@
                                             class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="answer_4"
                                            placeholder="Nhập câu trả lời" name="answer_4"
-                                           value="{{ $detail->answer_4 }}"
+                                           value="{{ $detail->answer_4 ? $detail->answer_4 : old('answer_4') }}"
                                            onkeyup="changeAnswer_4();">
                                     @error('answer_4')
                                     <p style="color: red;">{{$message}}</p>

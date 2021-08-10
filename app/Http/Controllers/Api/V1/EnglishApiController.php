@@ -8,6 +8,9 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Topics;
+use App\Models\Vocabulary;
+use App\Models\VocabularyCat;
 use Illuminate\Http\Request;
 
 class EnglishApiController extends Controller
@@ -17,32 +20,58 @@ class EnglishApiController extends Controller
     {
     }
 
-    public function getBooks(Request $request)
+    public function vocabularyCatList(Request $request)
     {
-
-        $entries = [
-            [
-                "isbn" => "9781593275846",
-                "title" => "Eloquent JavaScript, Second Edition",
-                "author" => "Marijn Haverbeke"
-            ],
-            [
-                "isbn" => "9781449331818",
-                "title" => "Learning JavaScript Design Patterns",
-                "author" => "Addy Osmani"
-            ],
-            [
-                "isbn" => "9781449365035",
-                "title" => "Speaking JavaScript",
-                "author" => "Axel Rauschmayer",
-            ],
-            [
-                "isbn" => "9781491950296",
-                "title" => "Programming JavaScript Applications",
-                "author" => "Eric Elliott"
-            ]
-        ];
-
-        return response()->json($entries, 200);
+        $data = VocabularyCat::where('status', 1)->get();
+        if (!$data) {
+            return response()->json([
+                'status' => false,
+                'code' => 400,
+                'message' => 'No Data'
+            ], 400);
+        }
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'message' => '',
+            'data' => $data->toArray()
+        ], 200);
     }
+
+    public function vocabularyList(Request $request)
+    {
+        $data = Vocabulary::where('status', 1)->get();
+        if (!$data) {
+            return response()->json([
+                'status' => false,
+                'code' => 400,
+                'message' => 'No Data'
+            ], 400);
+        }
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'message' => '',
+            'data' => $data->toArray()
+        ], 200);
+    }
+
+    public function topicsList(Request $request)
+    {
+        $data = Topics::where('status', 1)->get();
+        if (!$data) {
+            return response()->json([
+                'status' => false,
+                'code' => 400,
+                'message' => 'No Data'
+            ], 400);
+        }
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'message' => '',
+            'data' => $data->toArray()
+        ], 200);
+    }
+
 }

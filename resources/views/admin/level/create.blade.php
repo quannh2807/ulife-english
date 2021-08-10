@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
-@section('page-title', 'Level')
-@section('breadcrumb', 'Thêm mới Level')
+@section('page-title', 'Trình độ')
+@section('breadcrumb', 'Thêm mới trình độ')
 
 @section('main')
     <div class="row">
@@ -16,7 +16,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="name">Tên Level<span class="text-danger">&nbsp;*</span></label>
+                                    <label for="name">Tên<span class="text-danger">&nbsp;*</span></label>
                                     <input type="text" class="form-control" id="name"
                                            placeholder="Nhập vào tên" name="name" value="{{ old('name') }}">
                                     @error('name')

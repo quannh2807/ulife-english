@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
 use App\Models\Question;
 use App\Models\Video;
+use App\Models\VideoSubtitle;
 use App\Repositories\QuestionRepository;
+use App\Repositories\VideoRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,15 +16,17 @@ class QuestionController extends Controller
 {
 
     private $questionRepository;
+    private $videoRepository;
 
-    public function __construct(QuestionRepository $repository)
+    public function __construct(QuestionRepository $repository, VideoRepository $videoRepository)
     {
         $this->questionRepository = $repository;
+        $this->videoRepository = $videoRepository;
     }
 
     public function index()
     {
-        $data = Question::orderBy('id', 'DESC')->paginate(10);
+        $data = Question::orderBy('id', 'DESC')->paginate(PAGE_SIZE);
         $levelData = DB::table('levels')->where('status', 1)->get();
         $topicsData = DB::table('topics')->where('status', 1)->get();
 
@@ -91,8 +95,11 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request)
     {
         $data = $request->all();
-        $this->questionRepository->storeNew($data);
-        return redirect()->route('admin.question.index')->with('success', 'Thêm mới thành công');
+        $data['time_start'] = stringHoursToFloat($request->input('time_start', ''));
+        $data['time_end'] = stringHoursToFloat($request->input('time_end', ''));
+
+        $isSave = $this->questionRepository->storeNew($data);
+        return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
 
 
@@ -117,12 +124,14 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(QuestionRequest $request)
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
-        $this->questionRepository->update($id, $data);
-        return redirect()->route('admin.question.index');
+        $data['time_start'] = stringHoursToFloat($request->input('time_start', ''));
+        $data['time_end'] = stringHoursToFloat($request->input('time_end', ''));
+        $isSave = $this->questionRepository->update($id, $data);
+        return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
 
     public function remove(Request $request)
@@ -204,6 +213,115 @@ class QuestionController extends Controller
         }
         $response .= '</tbody></table>';
         return $response;
+    }
+
+    public function createQuestionList($video_id)
+    {
+        $video = $this->videoRepository->findById($video_id, [], ['id', 'title', 'ytb_thumbnails']);
+        $thumbnails = json_decode($video->ytb_thumbnails);
+        $video->ytb_thumbnails = $thumbnails->default;
+        $subtitles = VideoSubtitle::with('hasLanguage')->where('video_id', $video_id)->get();
+        return view('admin.question.createQuestionList', [
+            'video' => $video,
+            'videoId' => $video_id,
+            'subtitles' => $subtitles,
+        ]);
+    }
+
+    public function storeQuestionList(Request $request, $videoId)
+    {
+        //dd($request->all());
+        $name = $request->input('name', []);
+        $nameOrigin = $request->input('name_origin', []);
+        $timeStart = $request->input('time_start', []);
+        $timeEnd = $request->input('time_end', []);
+        $answer_1 = $request->input('answer_1', []);
+        $answer_2 = $request->input('answer_2', []);
+        $answer_3 = $request->input('answer_3', []);
+        $answer_4 = $request->input('answer_4', []);
+        $answer_correct = $request->input('answer_correct', []);
+
+        $data = [];
+        foreach ($name as $index => $value) {
+            $data[] = [
+                "name" => $name[$index],
+                "name_origin" => $nameOrigin[$index],
+                "time_start" => $timeStart[$index],
+                'time_end' => $timeEnd[$index],
+                'answer_1' => $answer_1[$index],
+                'answer_2' => $answer_2[$index],
+                'answer_3' => $answer_3[$index],
+                'answer_4' => $answer_4[$index],
+                'answer_correct' => $answer_correct[$index],
+                'video_id' => $videoId,
+                'type' => 1, // config common question_type, 0 - Question, 1- Question Subtitle
+                'created_at' => \Carbon\Carbon::now(),
+            ];
+        }
+        //dd($data);
+        $isSave = Question::insert($data);
+        //$isSave = DB::table('questions')->insert($data);
+        return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
+    }
+
+
+    public function editQuestionList($video_id)
+    {
+        $video = $this->videoRepository->findById($video_id, [], ['id', 'title', 'ytb_thumbnails']);
+        $thumbnails = json_decode($video->ytb_thumbnails);
+        $video->ytb_thumbnails = $thumbnails->default;
+        $subtitles = Question::where('video_id', $video_id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
+        return view('admin.question.updateQuestionList', [
+            'video' => $video,
+            'videoId' => $video_id,
+            'subtitles' => $subtitles,
+        ]);
+    }
+
+    public function updateQuestionList(Request $request, $videoId)
+    {
+        $id = $request->input('id', []);
+        $name = $request->input('name', []);
+        $nameOrigin = $request->input('name_origin', []);
+        $timeStart = $request->input('time_start', []);
+        $timeEnd = $request->input('time_end', []);
+        $answer_1 = $request->input('answer_1', []);
+        $answer_2 = $request->input('answer_2', []);
+        $answer_3 = $request->input('answer_3', []);
+        $answer_4 = $request->input('answer_4', []);
+        $answer_correct = $request->input('answer_correct', []);
+
+        $isSave = false;
+        //$dataList = [];
+        DB::enableQueryLog();
+        foreach ($name as $index => $value) {
+            $data = [
+                "name" => $name[$index],
+                "time_start" => $timeStart[$index],
+                "name_origin" => $nameOrigin[$index],
+                'time_end' => $timeEnd[$index],
+                'answer_1' => $answer_1[$index],
+                'answer_2' => $answer_2[$index],
+                'answer_3' => $answer_3[$index],
+                'answer_4' => $answer_4[$index],
+                'answer_correct' => $answer_correct[$index],
+                'video_id' => $videoId,
+                'type' => 1, // config common question_type, 0 - Question, 1- Question Subtitle
+                'updated_at' => \Carbon\Carbon::now(),
+            ];
+            //$dataList[] = $data;
+            $isSave = Question::where('id', $id[$index])->update($data);
+        }
+        //$queryLog = DB::getQueryLog();
+        //dd($queryLog);
+        //dd($dataList);
+        return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
+    }
+
+    public function removeQuestionList(Request $request)
+    {
+        $videoId = $request->id;
+        $delete = Question::where('video_id', $videoId)->delete();
     }
 
 }

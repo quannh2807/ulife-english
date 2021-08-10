@@ -1,25 +1,25 @@
 @extends('admin.layouts.master')
-@section('page-title', 'Từ vựng')
-@section('breadcrumb', 'Từ vựng')
+@section('page-title', 'DS Từ vựng')
+@section('breadcrumb', 'DS Từ vựng')
 
 @section('main')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Danh sách</h3>
+                    <h3 class="card-title">@if(!empty($category->name)) {{$category->name}} - @endif Từ vựng</h3>
                     <div class="card-tools">
                         <div>
-                            <a href="{{ route('admin.vocabulary.create') }}"
+                            <a href="{{ route('admin.vocabulary.categoryCreate', ['catId' => $catId]) }}"
                                class="d-inline-block btn btn-sm btn-primary"><i
                                     class="fa fa-plus"></i>&nbsp;&nbsp;Thêm
-                                mới</a>
+                                mới từ vựng</a>
                         </div>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form id="frmSearch" action="{{ route('admin.vocabulary.search') }}" method="GET">
+                    <form id="frmSearch" action="{{ route('admin.vocabulary.categorySearch', $catId) }}" method="GET">
                         <div class="row">
                             <div class="item-search">
                                 <div class="btn-group" style="margin: 0px 10px">
@@ -42,17 +42,6 @@
                                         <i class="fas fa-caret-down"></i>
                                     </button>
                                 </div>
-                            </div>
-                            <div class="col-2">
-                                <select class="form-control form-control-sm" name="category">
-                                    <option value="-1">--Danh mục--</option>
-                                    @foreach($category as $index => $item)
-                                        @if($item != null)
-                                            <option
-                                                value="{{ $item->id }}" {{ request()->has('category') && request()->get('category') == $item->id  ? 'selected' : '' }}>{{ $item->name }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
                             </div>
                             <div class="col-2">
                                 <select class="form-control form-control-sm" name="status">
@@ -122,7 +111,7 @@
                                            data-id="{{ $item->id }}"
                                            data-toggle="tooltip" data-placement="top" title="Chi tiết"
                                            href="javascript:void(0)"><i class="fa fa-eye"></i><span></span></a>
-                                        <a href="{{ route('admin.vocabulary.edit', ['id' => $item->id]) }}"
+                                        <a href="{{ route('admin.vocabulary.categoryEdit', ['catId' => $catId, 'id' => $item->id]) }}"
                                            class="btn btn-sm btn-primary"
                                            data-toggle="tooltip" data-placement="top"
                                            title="Sửa">

@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
-@section('page-title', 'Levels')
-@section('breadcrumb', 'Levels')
+@section('page-title', 'DS Trình độ')
+@section('breadcrumb', 'DS Trình độ')
 
 @section('main')
     <div class="row">
@@ -23,7 +23,7 @@
                         <div class="row">
                             <div class="item-search">
                                 <div class="btn-group" style="margin: 0px 10px">
-                                    <input type="search" class="form-control form-control-sm"
+                                    <input type="text" class="form-control form-control-sm"
                                            id="searchInput" name="keyword"
                                            placeholder="Tìm kiếm với tiêu đề hoặc ID"
                                            value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
@@ -80,7 +80,7 @@
 
                         @if($data->isEmpty())
                             <tr>
-                                <td colspan="6" align="center">Không có dữ liệu</td>
+                                <td colspan="100%" align="center">Không có dữ liệu</td>
                             </tr>
                         @else
                             @foreach($data as $index => $item)
@@ -88,9 +88,7 @@
                                     <td class="text-center">{{ $i ++ }}</td>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
-                                    <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                            : '<label id="status" class="active">Kích hoạt</label>' !!}
-                                    </td>
+                                    <td class="text-center">{!! htmlStatus($item->status) !!}</td>
                                     <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">
                                         <a class="btn btn-sm btn-info level-detail-view"

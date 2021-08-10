@@ -47,5 +47,9 @@ return [
     'lesson_training_types' => [
         'writing' => 1,
         'speaking' => 2,
-    ]
+    ],
+    'question_type' => [
+        0 => 'Question',
+        1 => 'Question Subtitle',
+    ],
 ];

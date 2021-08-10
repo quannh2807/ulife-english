@@ -23,7 +23,7 @@
                         <div class="row">
                             <div class="item-search">
                                 <div class="btn-group" style="margin: 0px 10px">
-                                    <input type="search" class="form-control form-control-sm"
+                                    <input type="text" class="form-control form-control-sm"
                                            id="searchInput" name="keyword"
                                            placeholder="Tìm kiếm với tiêu đề hoặc ID"
                                            value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
@@ -102,14 +102,12 @@
                                     <td>{{ $item->name }}</td>
                                     <td>
                                         @if($item->hasLevel)
-                                            <label id="status" class="levels">{{ $item->hasLevel->name }}</label>
+                                            <span class="badge badge-primary">{{ $item->hasLevel->name }}</span>
                                         @else
-                                            <label id="status" class="no-levels">NO LEVEL</label>
+                                            <span class="badge badge-secondary">NO LEVEL</span>
                                         @endif
                                     </td>
-                                    <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                            : '<label id="status" class="active">Kích hoạt</label>' !!}
-                                    </td>
+                                    <td class="text-center">{!! htmlStatus($item->status) !!}</td>
                                     <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">
                                         <a class="btn btn-sm btn-info topics-detail-view"

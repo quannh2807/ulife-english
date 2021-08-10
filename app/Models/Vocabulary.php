@@ -12,7 +12,7 @@ class Vocabulary extends Model
     protected $table = 'vocabulary';
 
     protected $fillable = [
-        'name', 'spelling', 'thumb', 'description', 'status', 'created_by', 'updated_by'
+        'name', 'spelling', 'thumb', 'description', 'cat_id', 'status', 'created_by', 'updated_by'
     ];
 
     /**
@@ -29,4 +29,9 @@ class Vocabulary extends Model
         'created_by' => 1,
         'updated_by' => 1,
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(VocabularyCat::class, 'cat_id', 'id');
+    }
 }

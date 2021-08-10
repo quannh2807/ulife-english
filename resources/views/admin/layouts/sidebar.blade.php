@@ -5,7 +5,6 @@
              style="opacity: .8">
         <span class="brand-text font-weight-light">Ulife English</span>
     </a>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
@@ -24,9 +23,10 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li class="nav-item">
+
+                <li class="nav-item menu-open">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link">
-                        <i class="nav-icon fas fa-columns"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
                         </p>
@@ -35,81 +35,56 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-circle"></i>
+                        <i class="nav-icon fas fa-bars"></i>
                         <p>
                             Quản trị video
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        {{-- Category video--}}
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-video nav-icon"></i>
-                                <p>
-                                    Danh mục video
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
+                            <a href="{{ route('admin.video.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách video</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.category.index') }}" class="nav-link">
-                                        <i class="fas fa-bars nav-icon"></i>
-                                        <p>Danh sách</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.category.create') }}" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Thêm danh mục</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
-
-                        {{-- Video youtube--}}
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fab fa-youtube nav-icon"></i>
-                                <p>
-                                    Video
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
+                            <a href="{{ route('admin.category.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh mục Video</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.video.index') }}" class="nav-link">
-                                        <i class="fas fa-bars nav-icon"></i>
-                                        <p>Danh sách</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.video.create') }}" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Thêm video mới</p>
-                                    </a>
-                                </li>
-                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.video.create') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm video mới</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.category.create') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm danh mục video</p>
+                            </a>
                         </li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-question"></i>
+                        <i class="nav-icon fas fa-bars"></i>
                         <p>Quản lý câu hỏi<i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('admin.question.index') }}" class="nav-link">
-                                <i class="fas fa-bars nav-icon"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách câu hỏi</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('admin.question.create') }}" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm mới câu hỏi</p>
                             </a>
                         </li>
@@ -118,32 +93,20 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-file-word"></i>
+                        <i class="nav-icon fas fa-bars"></i>
                         <p>Quản lý Từ vựng<i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.vocabulary.index') }}" class="nav-link">
-                                <i class="fas fa-bars nav-icon"></i>
-                                <p>Danh sách từ vựng</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.vocabulary.create') }}" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>Thêm mới từ vựng</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{ route('admin.vocabularyCat.index') }}" class="nav-link">
-                                <i class="fas fa-bars nav-icon"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Danh mục từ vựng</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('admin.vocabularyCat.create') }}" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm mới danh mục</p>
                             </a>
                         </li>
@@ -152,21 +115,21 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tasks"></i>
-                        <p>Quản lý Topics<i class="right fas fa-angle-left"></i>
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>Quản lý chủ đề<i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('admin.topics.index') }}" class="nav-link">
-                                <i class="fas fa-bars nav-icon"></i>
-                                <p>Danh sách Topics</p>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách chủ đề</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('admin.topics.create') }}" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>Thêm mới Topics</p>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm mới chủ đề</p>
                             </a>
                         </li>
                     </ul>
@@ -174,21 +137,21 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-level-up-alt"></i>
-                        <p>Quản lý Level<i class="right fas fa-angle-left"></i>
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>Quản lý trình độ<i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('admin.level.index') }}" class="nav-link">
-                                <i class="fas fa-bars nav-icon"></i>
-                                <p>Danh sách Level</p>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách trình độ</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('admin.level.create') }}" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>Thêm mới Level</p>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm mới trình độ</p>
                             </a>
                         </li>
                     </ul>
@@ -196,20 +159,20 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                        <i class="nav-icon fas fa-bars"></i>
                         <p>Quản lý Bài học<i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('admin.lesson.index') }}" class="nav-link">
-                                <i class="fas fa-bars nav-icon"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách Bài học</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('admin.lesson.create') }}" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm mới Bài học</p>
                             </a>
                         </li>

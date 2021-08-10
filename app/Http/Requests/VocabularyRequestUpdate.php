@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VocabularyCatRequest extends FormRequest
+class VocabularyRequestUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,10 @@ class VocabularyCatRequest extends FormRequest
     {
         return [
             'name' => 'Name',
+            'spelling' => 'Phiên âm',
             'description' => 'Mô tả',
             'thumb' => 'Ảnh',
+            'cat_id' => 'Danh mục',
             'status' => 'trạng thái',
         ];
     }
@@ -38,7 +40,10 @@ class VocabularyCatRequest extends FormRequest
     {
         return [
             'name' => 'required|min:1|max:191',
-            //'thumb' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'spelling' => 'required|min:1|max:191',
+            'description' => 'required',
+            //'thumb' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'cat_id' => 'required|size:1',
             'status' => 'required|size:1',
         ];
     }
@@ -55,10 +60,18 @@ class VocabularyCatRequest extends FormRequest
             'name.min' => 'Độ dài tối thiếu là :min ký tự.',
             'name.max' => 'Độ dài tối thiếu là :min ký tự.',
 
-            /*'thumb.required' => 'Vui lòng chọn ảnh.',
-            'thumb.image' => 'Bạn chỉ được chọn file ảnh.',
+            'spelling.required' => ':attribute không được bỏ trống.',
+            'spelling.min' => 'Độ dài tối thiếu là :min ký tự.',
+            'spelling.max' => 'Độ dài tối thiếu là :min ký tự.',
+
+            'description.required' => 'Mô tả không được bỏ trống',
+
+            /*'thumb.image' => 'Bạn chỉ được chọn file ảnh.',
             'thumb.mimes' => 'Chỉ chọn ảnh có định dạng: jpeg,png,jpg,gif.',
             'thumb.max' => 'Dung lượng ảnh tối đa 2048MB.',*/
+
+            'cat_id.required' => 'Vui lòng chọn :attribute.',
+            'cat_id.size' => 'Vui lòng chọn :attribute.',
 
             'status.required' => 'Vui lòng chọn :attribute.',
             'status.size' => 'Vui lòng chọn :attribute.',

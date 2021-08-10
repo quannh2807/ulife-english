@@ -22,7 +22,7 @@ class TopicsController extends Controller
 
     public function index()
     {
-        $data = Topics::orderBy('id', 'DESC')->paginate(10);
+        $data = Topics::orderBy('id', 'DESC')->paginate(PAGE_SIZE);
         $levelData = DB::table('levels')->where('status', 1)->get();
 
         return view('admin.topics.index', [
@@ -33,10 +33,10 @@ class TopicsController extends Controller
 
     public function search(Request $request)
     {
-        $question = Topics::query();
+        $mSearch = Topics::query();
         if (!empty(request('keyword'))) {
-            $question->where('name', 'LIKE', '%' . request('keyword') . '%');
-            $question->orWhere('id', request('keyword'));
+            $mSearch->where('name', 'LIKE', '%' . request('keyword') . '%');
+            $mSearch->orWhere('id', request('keyword'));
         }
         if (!empty(request('rangeDate'))) {
             $temp = explode('-', request('rangeDate'));
@@ -47,17 +47,17 @@ class TopicsController extends Controller
             $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', $endDate)
                 ->format('Y-m-d 23:59:59');
 
-            $question->where('created_at', '>=', $startDate)
+            $mSearch->where('created_at', '>=', $startDate)
                 ->where('created_at', '<=', $endDate);
         }
         if (!empty(request('level'))) {
-            $question->where('level_id', request('level'));
+            $mSearch->where('level_id', request('level'));
         }
         if (request('status') >= 0) {
-            $question->where('status', request('status'));
+            $mSearch->where('status', request('status'));
         }
 
-        $data = $question->orderBy('id', 'DESC')->paginate(10);
+        $data = $mSearch->orderBy('id', 'DESC')->paginate(10);
         $levelData = DB::table('levels')->where('status', 1)->get();
 
         return view('admin.topics.index', [
@@ -77,8 +77,8 @@ class TopicsController extends Controller
     public function store(TopicsRequest $request)
     {
         $data = $request->all();
-        $this->topicsRepository->storeNew($data);
-        return redirect()->route('admin.topics.index')->with('success', 'Thêm mới Topics thành công');
+        $isSave = $this->topicsRepository->storeNew($data);
+        return redirect()->route('admin.topics.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
 
     public function show($id)
@@ -95,12 +95,12 @@ class TopicsController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(TopicsRequest $request)
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
-        $this->topicsRepository->update($id, $data);
-        return redirect()->route('admin.topics.index');
+        $isSave = $this->topicsRepository->update($id, $data);
+        return redirect()->route('admin.topics.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
 
 
@@ -119,10 +119,9 @@ class TopicsController extends Controller
         $response = '<table class="table table-bordered table-hover"><tbody>';
         if ($detail) {
             $response .= '<tr><td style="width: 120px;">Tên</td><td>' . $detail->name . '</td></tr>';
-            $levelName = !empty($detail->hasLevel) ? '<label id="status" class="levels">' . $detail->hasLevel->name . '</label>' : '<label id="status" class="no-levels">No Level</label>';
+            $levelName = !empty($detail->hasLevel) ? '<span class="badge badge-primary">' . $detail->hasLevel->name . '</span>' : '<span class="badge badge-secondary">No Level</span>';
             $response .= '<tr><td style="width: 120px;">Level</td><td>' . $levelName . '</td></tr>';
-            $statusName = $detail->status == 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                : '<label id="status" class="active">Kích hoạt</label>';
+            $statusName = htmlStatus($detail->status);
             $response .= '<tr><td style="width: 120px;">Trạng thái</td><td>' . $statusName . '</td></tr>';
             $response .= '<tr><td style="width: 120px;">Ngày tạo</td><td>' . $detail->created_at . '</td></tr>';
 
