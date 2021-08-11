@@ -14,7 +14,7 @@ class CreateLessonVideoTable extends Migration
     public function up()
     {
         Schema::create('lesson_video', function (Blueprint $table) {
-            $table->id();
+            //$table->id();
             $table->integer('lesson_id');
             $table->integer('video_id');
         });
