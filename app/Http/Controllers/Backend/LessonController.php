@@ -30,7 +30,7 @@ class LessonController extends Controller
 
     public function index()
     {
-        $lessons = Lesson::with('hasLevel', 'hasVideos')->paginate(5);
+        $lessons = Lesson::with('hasLevel')->orderBy('id', 'DESC')->paginate(PAGE_SIZE);
 
         return view('admin.lessons.index', [
             'lessons' => $lessons,
@@ -106,7 +106,7 @@ class LessonController extends Controller
         ];
 
         // insert Lesson
-        $lesson = $this->levelRepository->storeNew($dataLesson);
+        //$lesson = $this->levelRepository->storeNew($dataLesson);
         /*$lesson = Lesson::create($dataLesson);
         $lessonId = $lesson->id();*/
         $lessonId = DB::table('lessons')->insertGetId($dataLesson);
@@ -115,29 +115,33 @@ class LessonController extends Controller
 
             $dataSpeak = [];
             foreach ($speak_name_en as $index => $value) {
-                $dataSpeak = [
+                $dataSpeak[] = [
                     'en' => $speak_name_en[$index],
                     'vi' => $speak_name_vi[$index],
                     'type' => config('common.lesson_training_types.speaking'),
                     'lesson_id' => $lessonId,
+                    'created_by' => 1,
+                    'updated_by' => 1,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
             }
 
             $dataWrite = [];
             foreach ($write_name_en as $index => $value) {
-                $dataWrite = [
+                $dataWrite[] = [
                     'en' => $write_name_en[$index],
                     'vi' => $write_name_vi[$index],
                     'type' => config('common.lesson_training_types.writing'),
                     'lesson_id' => $lessonId,
+                    'created_by' => 1,
+                    'updated_by' => 1,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
             }
 
             $dataExercises = [];
             foreach ($exercises_name as $index => $value) {
-                $dataExercises = [
+                $dataExercises[] = [
                     'name' => $exercises_name[$index],
                     'answer_1' => $answer_1[$index],
                     'answer_2' => $answer_2[$index],
@@ -146,13 +150,15 @@ class LessonController extends Controller
                     'level_id' => $level_id,
                     'lesson_id' => $lessonId,
                     'answer_correct' => $answer_correct[$index],
+                    'created_by' => 1,
+                    'updated_by' => 1,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
             }
 
-            $speakStore = LessonTraining::create($dataSpeak);
-            $writeStore = LessonTraining::create($dataWrite);
-            $exercisesStore = Exercises::create($dataExercises);
+            $speakStore = LessonTraining::insert($dataSpeak);
+            $writeStore = LessonTraining::insert($dataWrite);
+            $exercisesStore = Exercises::insert($dataExercises);
         }
 
         /*$mData = [];
@@ -165,16 +171,6 @@ class LessonController extends Controller
         dd($mData);*/
 
         return redirect()->route('admin.lesson.index')->with($lessonId > 0 ? SUCCESS : ERROR, $lessonId > 0 ? CREATE_SUCCESS : CREATE_ERROR);
-
-        /*$data = $request->except('_token', 'files', 'videos');
-        $videos = $request->videos;
-        if ($request->hasFile('thumb_img')) {
-            $path = $request->file('thumb_img')->store('thumbnails', 'public');
-            $data['thumb_img'] = $path;
-        }
-        $saveLesson = $this->lessonRepository->storeNew($data);
-        $saveLesson->hasVideos()->sync($videos);
-        return redirect()->route('admin.lesson.index');*/
     }
 
     public function edit($id)
@@ -183,18 +179,24 @@ class LessonController extends Controller
         $levels = $this->levelRepository->fetchAll([]);
         $videos = $this->videoRepository->fetchAll([], ['id', 'title']);
         $course = Course::where('status', 1)->get();
+        $speakingData = LessonTraining::where('status', 1)->where('lesson_id', $lesson->id)->where('type', config('common.lesson_training_types.speaking'))->get();
+        $writingData = LessonTraining::where('status', 1)->where('lesson_id', $lesson->id)->where('type', config('common.lesson_training_types.writing'))->get();
+        $exercisesData = Exercises::where('status', 1)->where('lesson_id', $lesson->id)->get();
 
         return view('admin.lessons.update', [
             'lesson' => $lesson,
             'levels' => $levels,
             'videos' => $videos,
             'course' => $course,
+            'speakingData' => $speakingData,
+            'writingData' => $writingData,
+            'exercisesData' => $exercisesData,
         ]);
     }
 
     public function update(LessonRequest $request)
     {
-        $currentLesson = $this->lessonRepository->findById($request->id, []);
+        /*$currentLesson = $this->lessonRepository->findById($request->id, []);
         $videos = $request->videos;
         $currentLesson->hasVideos()->detach($videos);
         $currentLesson->hasVideos()->sync($videos);
@@ -206,9 +208,9 @@ class LessonController extends Controller
 
             $data['thumb_img'] = $path;
         }
-        $this->lessonRepository->update($request->id, $data);
+        $this->lessonRepository->update($request->id, $data);*/
 
-        return redirect()->route('admin.lesson.index');
+        //return redirect()->route('admin.lesson.index');
     }
 
     public function destroy($id)

@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
-@section('page-title', 'Video Youtube')
-@section('breadcrumb', 'Video Youtube')
+@section('page-title', 'DS Bài học')
+@section('breadcrumb', 'DS Bài học')
 
 @section('main')
     <div class="card">
@@ -23,17 +23,18 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body table-responsive p-0">
-            <table class="table table-hover text-wrap">
+            <table class="table table-bordered table-hover text-wrap">
                 <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Ảnh</th>
+                    <th style="width: 30px;">#</th>
+                    <th style="width: 120px;">Ảnh</th>
                     <th>Tên bài học</th>
-                    <th width="25%">Video</th>
-                    <th>Trình độ</th>
-                    <th>Thời gian tạo</th>
-                    <th>Trạng thái</th>
-                    <th align="center" class="text-center">
+                    {{--<th width="25%">Video</th>--}}
+                    <th class="text-center">Khóa học</th>
+                    <th class="text-center">Trình độ</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th class="text-center">Thời gian tạo</th>
+                    <th align="center" class="text-center" style="width: 135px;">
                         <a href="{{ route('admin.lesson.create') }}" class="d-inline-block btn btn-sm btn-primary">
                             Thêm mới
                         </a>
@@ -58,35 +59,25 @@
                         $now = Carbon\Carbon::now();
                     @endphp
 
-
                     <tr id="row-{{$lesson->id}}">
                         <th>{{ $i ++ }}</th>
                         <td>
                             <img class="thumbList" width="120" height="80"
                                  src="{{ thumbImagePath($lesson->thumb_img) }}"
                                  alt="{{ $lesson->name }}"
-                                 title="{{ $lesson->name }}"
-                            />
-                            {{--@if($lesson->thumb_img)
-                                <img src="{{ asset('storage/' . $lesson->thumb_img) }}" class="img-thumbnail"
-                                     style="width: 100px" alt="">
-                            @else
-                                <span class="d-inline-block px-1 m-1 bg-warning rounded"
-                                      style="font-size: 13px">Chưa có ảnh</span>
-                            @endif--}}
+                                 title="{{ $lesson->name }}"/>
                         </td>
                         <td>{{ $lesson->name }}</td>
-                        <td>
-                            {{--@foreach($lesson->hasVideos as $video)
-                                <span class="d-inline-block px-1 m-1 bg-success rounded"
-                                      style="font-size: 13px">{{ $video->title }}</span>
-                            @endforeach--}}
+                        {{--<td>
+                        </td>--}}
+                        <td class="text-center">
+                            <span class="badge badge-primary">{{ $lesson->hasCourse->name }}</span>
                         </td>
-                        <td>
-                            {{--<label id="status" class="levels">{{  $lesson->hasLevel->name }}</label>--}}
+                        <td class="text-center">
+                            <span class="badge badge-primary">{{ $lesson->hasLevel->name }}</span>
                         </td>
-                        <td>{{ $lesson->created_at->diffForHumans($now) }}</td>
-                        <td>{!! htmlStatus($lesson->status) !!}</td>
+                        <td class="text-center">{!! htmlStatus($lesson->status) !!}</td>
+                        <td class="text-center">{{ $lesson->created_at->diffForHumans($now) }}</td>
                         <td align="center" class="text-center">
                             <a href="{{ route('admin.lesson.edit', ['id' => $lesson->id]) }}"
                                class="d-inline-block btn btn-sm btn-warning m-1">
