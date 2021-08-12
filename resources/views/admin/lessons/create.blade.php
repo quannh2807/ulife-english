@@ -1,11 +1,11 @@
 @extends('admin.layouts.master')
 
-@section('page-title', 'Cập nhật bài học')
-@section('breadcrumb', 'Lesson')
+@section('page-title', 'Thêm mới bài học')
+@section('breadcrumb', 'Thêm mới bài học')
 
 @section('main')
     <section class="content">
-        <form method="POST" action="{{ route('admin.lesson.store') }}" enctype="multipart/form-data">
+        <form action="{{ route('admin.lesson.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="container-fluid">
                 <div class="row">
@@ -26,26 +26,14 @@
                                         <div class="form-group">
                                             <label for="lesson-name">Tên bài học <span
                                                     class="text-danger">*</span></label>
-                                            <input type="text" name="name" id="lesson-name" class="form-control"
+                                            <input type="text" name="name" id="lesson-name"
+                                                   class="form-control form-control-md"
                                                    value="{{ old('name') }}" placeholder="Nhập tên bài học">
 
                                             @error('name')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror
                                         </div>
-
-                                        <div class="form-group">
-                                            <label for="lesson-course">Khóa học <span
-                                                    class="text-danger">*</span></label>
-                                            <select name="course_id" id="lesson-course" class="form-control">
-                                                <option value=""></option>
-                                            </select>
-
-                                            @error('course_id')
-                                            <p style="color: red;">{{$message}}</p>
-                                            @enderror
-                                        </div>
-
                                         <div class="form-group">
                                             <label for="lesson-description">Mô tả</label>
                                             <textarea name="description" id="lesson-description" class="form-control"
@@ -57,11 +45,27 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="lesson-course">Khóa học <span
+                                                    class="text-danger">*</span></label>
+                                            <select name="course_id" id="lesson-course"
+                                                    class="form-control form-control-md">
+                                                <option selected>-- Chọn khóa học --</option>
+                                                @foreach($course as $key => $item)
+                                                    <option
+                                                        value="{{ $item->id }}" {{ old('course_id') ===  $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('course_id')
+                                            <p style="color: red;">{{$message}}</p>
+                                            @enderror
+                                        </div>
                                         <div class="row">
                                             <div class="form-group col-6">
                                                 <label for="lesson-level">Trình độ <span
                                                         class="text-danger">*</span></label>
-                                                <select name="level_id" id="lesson-level" class="form-control">
+                                                <select name="level_id" id="lesson-level"
+                                                        class="form-control form-control-md">
                                                     <option selected>-- Chọn trình độ --</option>
                                                     @foreach($levels as $key => $level)
                                                         <option
@@ -76,7 +80,8 @@
                                             <div class="form-group col-6">
                                                 <label for="lesson-status">Trạng thái <span
                                                         class="text-danger">*</span></label>
-                                                <select name="status" id="lesson-status" class="form-control">
+                                                <select name="status" id="lesson-status"
+                                                        class="form-control form-control-md">
                                                     @foreach(config('common.status') as $key => $value)
                                                         <option
                                                             value="{{ $value }}" {{ old('status') ===  $value ? 'selected' : '' }}>{{ $key }}</option>
@@ -88,85 +93,103 @@
                                                 @enderror
                                             </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            <label for="grammar-videos">Video Grammar <span
-                                                    class="text-danger">*</span></label>
-                                            <div class="d-flex border rounded">
-                                                <select name="grammar_video[]"
-                                                        class="rounded-0 form-control col-9 border-0"
-                                                        id="grammar-videos" multiple disabled>
-                                                </select>
-                                                <button class="col-3 btn btn-info rounded-0 select-video"
-                                                        data-type="{{ config('common.video_types.Grammar') }}">Chọn
-                                                    video
-                                                </button>
-                                            </div>
-
-                                            @error('grammar_video')
-                                            <p style="color: red;">{{$message}}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="lesson-videos">Video Bài học <span
-                                                    class="text-danger">*</span></label>
-                                            <div class="d-flex border rounded">
-                                                <select name="lesson_video[]"
-                                                        class="rounded-0 form-control col-9 border-0"
-                                                        id="lesson-videos" multiple disabled>
-                                                </select>
-                                                <button class="col-3 btn btn-info rounded-0 select-video"
-                                                        data-type="{{ config('common.video_types.Lesson') }}">Chọn video
-                                                </button>
-                                            </div>
-
-                                            @error('lesson_video')
-                                            <p style="color: red;">{{$message}}</p>
-                                            @enderror
-                                        </div>
-
-                                        {{--<div class="form-group">
-                                            <label for="">Speaking<span class="text-danger">&nbsp;*</span></label>
-                                            <div class="input-group input-group">
-                                                <input type="text" class="form-control" disabled
-                                                       value="Có 3 câu speaking">
-                                                <span class="input-group-append">
-                                                <button class="btn btn-info btn-flat"
-                                                        id="btn-speaking">Danh sách</button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="">Writting<span class="text-danger">&nbsp;*</span></label>
-                                            <div class="input-group input-group">
-                                                <input type="text" class="form-control" disabled
-                                                       value="Có 3 câu writting">
-                                                <span class="input-group-append">
-                                                <button class="btn btn-info btn-flat"
-                                                        id="btn-writting">Danh sách</button>
-                                            </span>
-                                            </div>
-                                        </div>--}}
-
                                         <div class="form-group">
                                             <label for="lesson-thumb">Ảnh bài học</label>
-
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="customFile"
-                                                       name="thumb_img"
-                                                       value="{{ old('thumb_img') }}"
-                                                       onchange="encodeImageFileAsURL(this)">
-                                                <label class="custom-file-label" for="customFile">Chọn ảnh</label>
+                                            <div id="grpThumb" class="form-group">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio"
+                                                           name="inlineRadioUpload"
+                                                           id="inlineRadio1" value="1" checked>
+                                                    <label class="form-check-label" for="inlineRadio1">Tải ảnh
+                                                        lên</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio"
+                                                           name="inlineRadioUpload"
+                                                           id="inlineRadio2" value="2">
+                                                    <label class="form-check-label" for="inlineRadio2">Từ link</label>
+                                                </div>
                                             </div>
-
-                                            @error('thumb_img')
+                                            <div class="boxThumb">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-file-dummy"
+                                                           placeholder="Chọn ảnh" aria-describedby="fileHelp"
+                                                           readonly>
+                                                    <label class="input-group-append mb-0">
+                                                <span class="btn btn-info input-file-btn">
+                                                    <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
+                                                    <input type="file" hidden
+                                                           id="thumbUpload" name="thumb"
+                                                           accept="image/*"
+                                                           onchange="previewMultiple(event)">
+                                                </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div id="galleryPhotos"></div>
+                                            @error('thumb')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror
                                         </div>
-                                        <div class="col form-group">
-                                            <label for="" class="d-block">Xem trước</label>
-                                            <img src="" alt="" class="d-inline-block img-thumbnail" id="preview-img"
-                                                 style="max-height: 200px;"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-info card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Videos</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                            title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="grammar-videos">Video Grammar <span class="text-danger">*</span></label>
+                                            <div class="itemBorder">
+                                                <a class="btn btn-sm btn-info add-video-grammar select-video"
+                                                   data-type="{{ config('common.video_types.Grammar') }}"
+                                                   href="javascript:void(0)">
+                                                    <i class="fa fa-plus"></i><span> Chọn video</span>
+                                                </a>
+                                                <div id="chooseVideoGrammarList">
+                                                    <input style="display: none;" type=" text" value=""
+                                                           class="videoGrammarIds"
+                                                           name="videoGrammarIds">
+                                                    <ul>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="grammar-videos">Video Lesson <span class="text-danger">*</span></label>
+                                            <div class="itemBorder">
+                                                <a class="btn btn-sm btn-info add-video-lesson select-video"
+                                                   data-type="{{ config('common.video_types.Lesson') }}"
+                                                   href="javascript:void(0)">
+                                                    <i class="fa fa-plus"></i><span> Chọn video</span>
+                                                </a>
+                                                <div id="chooseVideoLessonList">
+                                                    <input style="display: none;" type=" text" value=""
+                                                           class="videoLessonIds"
+                                                           name="videoLessonIds">
+                                                    <ul>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -196,14 +219,14 @@
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <input type="text" class="form-control form-control-sm"
-                                                       name="speak_name_en[]"
+                                                       name="speak_name_en[0]"
                                                        placeholder="Nhập vào nội dung tiếng anh">
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <input type="text" class="form-control form-control-sm"
-                                                       name="speak_name_vn[]"
+                                                       name="speak_name_vi[0]"
                                                        placeholder="Nhập vào nội dung tiếng việt">
                                             </div>
                                         </div>
@@ -243,14 +266,14 @@
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <input type="text" class="form-control form-control-sm"
-                                                       name="speak_write_en[]"
+                                                       name="write_name_en[0]"
                                                        placeholder="Nhập vào nội dung tiếng anh">
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <input type="text" class="form-control form-control-sm"
-                                                       name="speak_write_vn[]"
+                                                       name="write_name_vi[0]"
                                                        placeholder="Nhập vào nội dung tiếng việt">
                                             </div>
                                         </div>
@@ -285,12 +308,12 @@
                             </div>
                             <div class="card-body">
                                 <div class="input_fields_exercises">
-                                    <div class="item_exercises">
+                                    <div class="layoutBorder">
                                         <div class="row">
                                             <div class="col-sm-10">
                                                 <div class="form-group">
                                                     <input type="text" class="form-control form-control-sm"
-                                                           name="exercises_name[]"
+                                                           name="exercises_name[0]"
                                                            placeholder="Nhập nội dung câu hỏi">
                                                 </div>
                                             </div>
@@ -404,7 +427,7 @@
                     <div class="col-12">
                         <div class="d-flex align-items-center justify-content-end">
                             <button type="submit" class="btn btn-primary"><i
-                                    class="fa fa-plus"></i>&nbsp;&nbsp;Tạo mới
+                                    class="fa fa-save"></i>&nbsp;&nbsp;Tạo mới
                             </button>
                         </div>
                     </div>
@@ -415,251 +438,9 @@
 
     @include('admin.lessons.list_grammar_video')
     @include('admin.lessons.list_lesson_video')
-    @include('admin.lessons.list_training')
+
 @endsection
 
 @section('custom-script')
-    <script>
-        $(document).ready(function () {
-            $('select#lesson-videos').select2({
-                placeholder: 'Chọn video ngữ pháp'
-            });
-            $('select#grammar-videos').select2({
-                placeholder: 'Chọn video bài học'
-            });
-
-            $('.select-video').click(function (e) {
-                e.preventDefault()
-                let type = $(this).attr('data-type');
-
-                $.ajax({
-                    url: "{{ route('admin.lesson.getVideos') }}",
-                    method: 'GET',
-                    data: {type: type},
-                    success: function (res) {
-                        let videos = res.videos;
-                        let listVideo = `<table id="videoList" class="table table-hover">`;
-
-                        if (videos.length > 0) {
-                            videos.map(video => {
-                                let thumb = JSON.parse(video.ytb_thumbnails).default.url;
-
-                                let row = `<tr>
-                                                <td id="id" style="width: auto;">
-                                                    <input id="check_video" value="${video.id}" type="checkbox">
-                                                </td>
-                                                <td id="thumb" style="width: 80px;">
-                                                    <img id="imgThumb" class="thumbList" src="${thumb}" />
-                                                </td>
-                                                <td id="title">${video.title}</td>
-                                            </tr>`;
-
-                                listVideo += row;
-                            });
-                        } else {
-                            listVideo += ` <tr><td colspan="8" align="center">Không có dữ liệu</td></tr>`;
-                        }
-                        listVideo += '</table>';
-
-                        if (type == 1) {
-                            $('#listGrammarModal').modal('toggle')
-                            $('#listGrammarModal .result-content').replaceWith(listVideo);
-                        } else {
-                            $('#listLessonModal').modal('toggle')
-                            $('#listLessonModal .result-content').replaceWith(listVideo);
-                        }
-                    },
-                    error: function () {
-                        console.log('error')
-                    }
-                })
-            });
-
-            /* Speak */
-            $('.add_more_speak').click(function (e) {
-                e.preventDefault();
-                $('.input_fields_speak').append('<div class="row">\n' +
-                    '                                        <div class="col-sm-5">\n' +
-                    '                                            <div class="form-group">\n' +
-                    '                                                <input type="text" class="form-control form-control-sm"\n' +
-                    '                                                       name="speak_name_en[]"\n' +
-                    '                                                       placeholder="Nhập vào nội dung tiếng anh">\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>\n' +
-                    '                                        <div class="col-sm-5">\n' +
-                    '                                            <div class="form-group">\n' +
-                    '                                                <input type="text" class="form-control form-control-sm"\n' +
-                    '                                                       name="speak_name_vn[]"\n' +
-                    '                                                       placeholder="Nhập vào nội dung tiếng việt">\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>\n' +
-                    '                                        <div class="col-sm-2">\n' +
-                    '                                            <div class="form-group">\n' +
-                    '                                                <a href="javascript:void(0)" class="btn btn-sm btn-danger remove_speak">\n' +
-                    '                                                    <i class="fa fa-times"></i>&nbsp;&nbsp; Remove\n' +
-                    '                                                </a>\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>');
-            });
-            $('.input_fields_speak').on("click", ".remove_speak", function (e) {
-                e.preventDefault();
-                $(this).parent().parent().parent('div').remove();
-            })
-            /* End Speak */
-
-            /* Write */
-            $('.add_more_write').click(function (e) {
-                e.preventDefault();
-                $('.input_fields_write').append('<div class="row">\n' +
-                    '                                        <div class="col-sm-5">\n' +
-                    '                                            <div class="form-group">\n' +
-                    '                                                <input type="text" class="form-control form-control-sm"\n' +
-                    '                                                       name="speak_write_en[]"\n' +
-                    '                                                       placeholder="Nhập vào nội dung tiếng anh">\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>\n' +
-                    '                                        <div class="col-sm-5">\n' +
-                    '                                            <div class="form-group">\n' +
-                    '                                                <input type="text" class="form-control form-control-sm"\n' +
-                    '                                                       name="speak_write_vn[]"\n' +
-                    '                                                       placeholder="Nhập vào nội dung tiếng việt">\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>\n' +
-                    '                                        <div class="col-sm-2">\n' +
-                    '                                            <div class="form-group">\n' +
-                    '                                                <a href="javascript:void(0)" class="btn btn-sm btn-danger remove_write">\n' +
-                    '                                                    <i class="fa fa-times"></i>&nbsp;&nbsp; Remove\n' +
-                    '                                                </a>\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>');
-            });
-            $('.input_fields_write').on("click", ".remove_write", function (e) {
-                e.preventDefault();
-                $(this).parent().parent().parent('div').remove();
-            })
-            /* End Write */
-
-            /* exercises */
-            let indexEx = 1;
-            $('.add_more_exercises').click(function (e) {
-                e.preventDefault();
-                $('.input_fields_exercises').append('<div class="item_exercises">\n' +
-                    '                                        <div class="row">\n' +
-                    '                                            <div class="col-sm-10">\n' +
-                    '                                                <div class="form-group">\n' +
-                    '                                                    <input type="text" class="form-control form-control-sm"\n' +
-                    '                                                           name="exercises_name[]"\n' +
-                    '                                                           placeholder="Nhập nội dung câu hỏi">\n' +
-                    '                                                </div>\n' +
-                    '                                            </div>\n' +
-                    '                                            <div class="col-sm-2">\n' +
-                    '                                                <div class="form-group">\n' +
-                    '                                                    <a class="btn btn-sm btn-danger remove_exercises"\n' +
-                    '                                                       href="javascript:void(0)">\n' +
-                    '                                                        <i class="fa fa-times"></i>&nbsp;&nbsp; Remove\n' +
-                    '                                                    </a>\n' +
-                    '                                                </div>\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>\n' +
-                    '                                        <div class="row">\n' +
-                    '                                            <div class="col-sm-5">\n' +
-                    '                                                <div class="form-group row">\n' +
-                    '                                                    <label for="" class="col-sm-1"><span\n' +
-                    '                                                            class="badge badge-question">1</span></label>\n' +
-                    '                                                    <div class="col-sm-11">\n' +
-                    '                                                        <input type="text" class="form-control form-control-sm"\n' +
-                    '                                                               name="answer_1[' + indexEx + ']"\n' +
-                    '                                                               placeholder="Nhập câu trả lời">\n' +
-                    '                                                    </div>\n' +
-                    '                                                </div>\n' +
-                    '                                                <div class="form-group row">\n' +
-                    '                                                    <label for="" class="col-sm-1"><span\n' +
-                    '                                                            class="badge badge-question">2</span></label>\n' +
-                    '                                                    <div class="col-sm-11">\n' +
-                    '                                                        <input type="text" class="form-control form-control-sm"\n' +
-                    '                                                               name="answer_2[' + indexEx + ']"\n' +
-                    '                                                               placeholder="Nhập câu trả lời">\n' +
-                    '                                                    </div>\n' +
-                    '                                                </div>\n' +
-                    '                                            </div>\n' +
-                    '                                            <div class="col-sm-5">\n' +
-                    '                                                <div class="form-group row">\n' +
-                    '                                                    <label for="" class="col-sm-1"><span\n' +
-                    '                                                            class="badge badge-question">3</span></label>\n' +
-                    '                                                    <div class="col-sm-11">\n' +
-                    '                                                        <input type="text" class="form-control form-control-sm"\n' +
-                    '                                                               name="answer_3[' + indexEx + ']"\n' +
-                    '                                                               placeholder="Nhập câu trả lời">\n' +
-                    '                                                    </div>\n' +
-                    '                                                </div>\n' +
-                    '                                                <div class="form-group row">\n' +
-                    '                                                    <label for="" class="col-sm-1"><span\n' +
-                    '                                                            class="badge badge-question">4</span></label>\n' +
-                    '                                                    <div class="col-sm-11">\n' +
-                    '                                                        <input type="text" class="form-control form-control-sm"\n' +
-                    '                                                               name="answer_4[' + indexEx + ']"\n' +
-                    '                                                               placeholder="Nhập câu trả lời">\n' +
-                    '                                                    </div>\n' +
-                    '                                                </div>\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>\n' +
-                    '                                        <div class="row">\n' +
-                    '                                            <div class="col-sm-10">\n' +
-                    '                                                <div class="row">\n' +
-                    '                                                    <span>Chọn đáp án đúng:&nbsp;&nbsp;&nbsp;</span>\n' +
-                    '                                                    <div class="col">\n' +
-                    '                                                        <div class="form-check">\n' +
-                    '                                                            <input class="form-check-input"\n' +
-                    '                                                                   type="radio" id="answer_correct_1_' + indexEx + '"\n' +
-                    '                                                                   name="answer_correct[' + indexEx + ']" value="1" checked>\n' +
-                    '                                                            <label for="answer_correct_1_' + indexEx + '"><span\n' +
-                    '                                                                    class="badge badge-question margin-circle">1</span>\n' +
-                    '                                                            </label>\n' +
-                    '                                                        </div>\n' +
-                    '                                                    </div>\n' +
-                    '                                                    <div class="col">\n' +
-                    '                                                        <div class="form-check">\n' +
-                    '                                                            <input class="form-check-input"\n' +
-                    '                                                                   type="radio" id="answer_correct_2_' + indexEx + '"\n' +
-                    '                                                                   name="answer_correct[' + indexEx + ']" value="2">\n' +
-                    '                                                            <label for="answer_correct_2_' + indexEx + '"><span\n' +
-                    '                                                                    class="badge badge-question margin-circle">2</span>\n' +
-                    '                                                            </label>\n' +
-                    '                                                        </div>\n' +
-                    '                                                    </div>\n' +
-                    '                                                    <div class="col">\n' +
-                    '                                                        <div class="form-check">\n' +
-                    '                                                            <input class="form-check-input"\n' +
-                    '                                                                   type="radio" id="answer_correct_3_' + indexEx + '"\n' +
-                    '                                                                   name="answer_correct[' + indexEx + ']" value="3">\n' +
-                    '                                                            <label for="answer_correct_3_' + indexEx + '"><span\n' +
-                    '                                                                    class="badge badge-question margin-circle">3</span>\n' +
-                    '                                                            </label>\n' +
-                    '                                                        </div>\n' +
-                    '                                                    </div>\n' +
-                    '                                                    <div class="col">\n' +
-                    '                                                        <div class="form-check">\n' +
-                    '                                                            <input class="form-check-input"\n' +
-                    '                                                                   type="radio" id="answer_correct_4_' + indexEx + '"\n' +
-                    '                                                                   name="answer_correct[' + indexEx + ']" value="4">\n' +
-                    '                                                            <label for="answer_correct_4_' + indexEx + '"><span\n' +
-                    '                                                                    class="badge badge-question margin-circle">4</span>\n' +
-                    '                                                            </label>\n' +
-                    '                                                        </div>\n' +
-                    '                                                    </div>\n' +
-                    '                                                </div>\n' +
-                    '                                            </div>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>');
-                indexEx++;
-            });
-            $('.input_fields_exercises').on("click", ".remove_exercises", function (e) {
-                e.preventDefault();
-                $(this).parent().parent().parent().parent('div').remove();
-            })
-            /* End exercises */
-        });
-    </script>
+    @include('admin.layouts.script_lesson')
 @endsection

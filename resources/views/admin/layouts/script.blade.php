@@ -152,10 +152,8 @@
         let search = $(this).val();
         if (search !== '') {
             loadVideoList(search);
-            console.log('loadVideoList search: ' + $(this).val());
         } else {
             loadVideoList();
-            console.log('loadVideoList');
         }
     });
 
@@ -193,13 +191,15 @@
         $('#ytb_link').val(title);
 
         let playUrl = "https://www.youtube.com/watch?v=" + ytbId;
-        document.getElementById('divVideo').innerHTML = '<a id="viewVideo" title="Play Video" class="video html5lightbox" href="' + playUrl + '" data-width="640" data-height="360" ><span class="icon fa fa-play">&nbsp;&nbsp;Xem Video</span></a>';
-        if (ytbId === "" || ytbId === null) {
-            $("#divVideo").hide(1000);
-        } else {
-            $("#divVideo").show("slow");
+        if ($("#divVideo").length > 0) {
+            document.getElementById('divVideo').innerHTML = '<a id="viewVideo" title="Play Video" class="video html5lightbox" href="' + playUrl + '" data-width="640" data-height="360" ><span class="icon fa fa-play">&nbsp;&nbsp;Xem Video</span></a>';
+            if (ytbId === "" || ytbId === null) {
+                $("#divVideo").hide(1000);
+            } else {
+                $("#divVideo").show("slow");
+            }
+            $(".html5lightbox").html5lightbox();
         }
-        $(".html5lightbox").html5lightbox();
     });
 
     $("#question-check input:checkbox").on('click', function () {

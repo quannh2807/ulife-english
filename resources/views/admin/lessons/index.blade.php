@@ -27,12 +27,12 @@
                 <thead>
                 <tr>
                     <th>#</th>
+                    <th>Ảnh</th>
                     <th>Tên bài học</th>
                     <th width="25%">Video</th>
                     <th>Trình độ</th>
                     <th>Thời gian tạo</th>
                     <th>Trạng thái</th>
-                    <th>Ảnh</th>
                     <th align="center" class="text-center">
                         <a href="{{ route('admin.lesson.create') }}" class="d-inline-block btn btn-sm btn-primary">
                             Thêm mới
@@ -61,28 +61,32 @@
 
                     <tr id="row-{{$lesson->id}}">
                         <th>{{ $i ++ }}</th>
-                        <td>{{ $lesson->name }}</td>
                         <td>
-                            @foreach($lesson->hasVideos as $video)
-                                <span class="d-inline-block px-1 m-1 bg-success rounded"
-                                      style="font-size: 13px">{{ $video->title }}</span>
-                            @endforeach
-                        </td>
-                        <td>
-                            <label id="status" class="levels">{{  $lesson->hasLevel->name }}</label>
-                        </td>
-                        <td>{{ $lesson->created_at->diffForHumans($now) }}</td>
-                        <td>{!! $lesson->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                            : '<label id="status" class="active">Kích hoạt</label>' !!}</td>
-                        <td>
-                            @if($lesson->thumb_img)
+                            <img class="thumbList" width="120" height="80"
+                                 src="{{ thumbImagePath($lesson->thumb_img) }}"
+                                 alt="{{ $lesson->name }}"
+                                 title="{{ $lesson->name }}"
+                            />
+                            {{--@if($lesson->thumb_img)
                                 <img src="{{ asset('storage/' . $lesson->thumb_img) }}" class="img-thumbnail"
                                      style="width: 100px" alt="">
                             @else
                                 <span class="d-inline-block px-1 m-1 bg-warning rounded"
                                       style="font-size: 13px">Chưa có ảnh</span>
-                            @endif
+                            @endif--}}
                         </td>
+                        <td>{{ $lesson->name }}</td>
+                        <td>
+                            {{--@foreach($lesson->hasVideos as $video)
+                                <span class="d-inline-block px-1 m-1 bg-success rounded"
+                                      style="font-size: 13px">{{ $video->title }}</span>
+                            @endforeach--}}
+                        </td>
+                        <td>
+                            {{--<label id="status" class="levels">{{  $lesson->hasLevel->name }}</label>--}}
+                        </td>
+                        <td>{{ $lesson->created_at->diffForHumans($now) }}</td>
+                        <td>{!! htmlStatus($lesson->status) !!}</td>
                         <td align="center" class="text-center">
                             <a href="{{ route('admin.lesson.edit', ['id' => $lesson->id]) }}"
                                class="d-inline-block btn btn-sm btn-warning m-1">

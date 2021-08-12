@@ -52,7 +52,8 @@ label.no-levels {
     overflow-y: auto;
 }
 
-#videoList tbody {
+
+.result-content tbody {
     border: 1px solid #EAEAEA;
 }
 
@@ -215,10 +216,64 @@ label.no-levels {
     margin-left: 10px;
 }
 
-.item_exercises {
+.layoutBorder {
     border: 1px solid #ced4da;
     border-radius: 4px;
     padding: 15px;
     margin-bottom: 20px;
     background: #f4f6f7;
+}
+
+.itemBorder {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#listVideoGrammar,
+#listVideoLesson {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#chooseVideoGrammarList ul,
+#chooseVideoLessonList ul {
+    list-style: none;
+    padding: 0px;
+}
+
+#chooseVideoGrammarList ul li img,
+#chooseVideoLessonList ul li img {
+    float: left;
+}
+
+#chooseVideoGrammarList ul li .tit,
+#chooseVideoLessonList ul li .tit {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 80%;
+    text-overflow: ellipsis;
+    color: #333333;
+}
+
+#chooseVideoGrammarList ul li a:link,
+#chooseVideoLessonList ul li a:link {
+    text-decoration: none;
+}
+
+#chooseVideoGrammarList ul li div,
+#chooseVideoLessonList ul li div {
+    padding: 5px;
+    height: 40px;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    margin: 5px 0px;
+    background: #ced4da;
+}
+
+#videoGrammarList .checked,
+#videoLessonList .checked {
+    background: #DDD;
 }

@@ -18,12 +18,14 @@ class Lesson extends Model
      * @var string[]
      */
     protected $fillable = [
+        'id',
         'name',
         'description',
-        'status',
         'level_id',
         'course_id',
         'thumb_img',
+        'video_ids',
+        'status',
         'created_by',
         'updated_by',
     ];
@@ -34,6 +36,13 @@ class Lesson extends Model
      * @var array
      */
     protected $attributes = [
+        'name' => '',
+        'description' => '',
+        'level_id' => 0,
+        'course_id' => 0,
+        'thumb_img' => '',
+        'video_ids' => '',
+        'status' => 1,
         'created_by' => 1,
         'updated_by' => 1,
     ];

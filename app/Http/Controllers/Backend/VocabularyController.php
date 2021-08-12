@@ -75,8 +75,10 @@ class VocabularyController extends Controller
     {
         $data = $request->except('_token', 'files');
         if ($request->hasFile('thumb')) {
-            $path = $request->file('thumb')->store('thumbnails', 'public');
-            $data['thumb'] = $path;
+            if (!isUrl($request->thumb)) {
+                $path = $request->file('thumb')->store('thumbnails', 'public');
+                $data['thumb'] = $path;
+            }
         }
         $isSave = $this->vocabularyRepository->storeNew($data);
         return redirect()->route('admin.vocabulary.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);

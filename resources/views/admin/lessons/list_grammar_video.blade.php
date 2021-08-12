@@ -3,13 +3,18 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Chọn video</h4>
+                <h4 class="modal-title">Video Grammar</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="modal-result">
+                    <div class="form-group has-feedback has-search">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        <input id="videoGrammarSearch" type="text" class="form-control"
+                               placeholder="Tìm kiếm theo tên">
+                    </div>
                     <div class="result-content"></div>
                 </div>
             </div>

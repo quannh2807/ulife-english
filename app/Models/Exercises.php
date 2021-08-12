@@ -5,22 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LessonTraining extends Model
+class Exercises extends Model
 {
     use HasFactory;
 
     /**
      * @var string
      */
-    protected $table = 'lesson_training';
+    protected $table = 'exercises';
 
     /**
      * @var string[]
      */
     protected $fillable = [
-        'vi',
-        'en',
-        'type',
+        'name',
+        'answer_1',
+        'answer_2',
+        'answer_3',
+        'answer_4',
+        'answer_correct',
+        'thumb',
+        'level_id',
         'lesson_id',
         'status',
         'created_by',
@@ -33,11 +38,18 @@ class LessonTraining extends Model
      * @var array
      */
     protected $attributes = [
-        'vi' => '',
-        'en' => '',
-        'type' => 0,
+        'name' => '',
+        'answer_1' => '',
+        'answer_2' => '',
+        'answer_3' => '',
+        'answer_4' => '',
+        'answer_correct' => '',
+        'thumb' => '',
+        'level_id' => 0,
         'lesson_id' => 0,
+        'status' => 1,
         'created_by' => 1,
         'updated_by' => 1,
     ];
+
 }

@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LessonRequest;
+use App\Models\Course;
+use App\Models\Exercises;
 use App\Models\Lesson;
+use App\Models\LessonTraining;
 use App\Models\Video;
 use App\Repositories\LessonRepository;
 use App\Repositories\LevelRepository;
 use App\Repositories\VideoRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LessonController extends Controller
 {
@@ -37,28 +41,140 @@ class LessonController extends Controller
     {
         $levels = $this->levelRepository->fetchAll([], ['id', 'name']);
         $videos = $this->videoRepository->fetchAll([], ['id', 'title']);
+        $course = Course::where('status', 1)->get();
 
         return view('admin.lessons.create', [
             'levels' => $levels,
             'videos' => $videos,
+            'course' => $course,
         ]);
     }
 
-    public function store(LessonRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->except('_token', 'files', 'videos');
-        $videos = $request->videos;
+        //dd($request);
 
-        if ($request->hasFile('thumb_img')) {
-            $path = $request->file('thumb_img')->store('thumbnails', 'public');
+        $name = $request->name;
+        $description = $request->description;
+        $level_id = $request->level_id;
+        $course_id = $request->course_id;
+        $status = $request->status;
 
-            $data['thumb_img'] = $path;
+        $videoGrammarIds = $request->videoGrammarIds;
+        $videoLessonIds = $request->videoLessonIds;
+
+        $speak_name_en = $request->input('speak_name_en', []);
+        $speak_name_vi = $request->input('speak_name_vi', []);
+
+        $write_name_en = $request->input('write_name_en', []);
+        $write_name_vi = $request->input('write_name_vi', []);
+
+        $exercises_name = $request->input('exercises_name', []);
+        $answer_1 = $request->input('answer_1', []);
+        $answer_2 = $request->input('answer_2', []);
+        $answer_3 = $request->input('answer_3', []);
+        $answer_4 = $request->input('answer_4', []);
+        $answer_correct = $request->input('answer_correct', []);
+
+        $thumbVal = $request->thumb;
+        if ($request->hasFile('thumb')) {
+            if (!isUrl($request->thumb)) {
+                $path = $request->file('thumb')->store('thumbnails', 'public');
+                $thumbVal = $path;
+            }
         }
 
+        $arrGrammarIds = explode(',', $videoGrammarIds);
+        $arrLessonIds = explode(',', $videoLessonIds);
+
+        $videoIds = array(
+            'grammar' => $arrGrammarIds,
+            'lesson' => $arrLessonIds,
+        );
+
+        $dataLesson = [
+            'name' => $name,
+            'description' => $description,
+            'thumb_img' => $thumbVal,
+            'video_ids' => json_encode($videoIds),
+            'level_id' => $level_id,
+            'course_id' => $course_id,
+            'status' => $status,
+            'created_by' => 1,
+            'updated_by' => 1,
+            'created_at' => \Carbon\Carbon::now(),
+        ];
+
+        // insert Lesson
+        $lesson = $this->levelRepository->storeNew($dataLesson);
+        /*$lesson = Lesson::create($dataLesson);
+        $lessonId = $lesson->id();*/
+        $lessonId = DB::table('lessons')->insertGetId($dataLesson);
+
+        if ($lessonId > 0) {
+
+            $dataSpeak = [];
+            foreach ($speak_name_en as $index => $value) {
+                $dataSpeak = [
+                    'en' => $speak_name_en[$index],
+                    'vi' => $speak_name_vi[$index],
+                    'type' => config('common.lesson_training_types.speaking'),
+                    'lesson_id' => $lessonId,
+                    'created_at' => \Carbon\Carbon::now(),
+                ];
+            }
+
+            $dataWrite = [];
+            foreach ($write_name_en as $index => $value) {
+                $dataWrite = [
+                    'en' => $write_name_en[$index],
+                    'vi' => $write_name_vi[$index],
+                    'type' => config('common.lesson_training_types.writing'),
+                    'lesson_id' => $lessonId,
+                    'created_at' => \Carbon\Carbon::now(),
+                ];
+            }
+
+            $dataExercises = [];
+            foreach ($exercises_name as $index => $value) {
+                $dataExercises = [
+                    'name' => $exercises_name[$index],
+                    'answer_1' => $answer_1[$index],
+                    'answer_2' => $answer_2[$index],
+                    'answer_3' => $answer_3[$index],
+                    'answer_4' => $answer_4[$index],
+                    'level_id' => $level_id,
+                    'lesson_id' => $lessonId,
+                    'answer_correct' => $answer_correct[$index],
+                    'created_at' => \Carbon\Carbon::now(),
+                ];
+            }
+
+            $speakStore = LessonTraining::create($dataSpeak);
+            $writeStore = LessonTraining::create($dataWrite);
+            $exercisesStore = Exercises::create($dataExercises);
+        }
+
+        /*$mData = [];
+        $mData [] = [
+            'data' => $dataLesson,
+            'dataSpeak' => $dataSpeak,
+            'dataWrite' => $dataWrite,
+            'dataExercises' => $dataExercises,
+        ];
+        dd($mData);*/
+
+        return redirect()->route('admin.lesson.index')->with($lessonId > 0 ? SUCCESS : ERROR, $lessonId > 0 ? CREATE_SUCCESS : CREATE_ERROR);
+
+        /*$data = $request->except('_token', 'files', 'videos');
+        $videos = $request->videos;
+        if ($request->hasFile('thumb_img')) {
+            $path = $request->file('thumb_img')->store('thumbnails', 'public');
+            $data['thumb_img'] = $path;
+        }
         $saveLesson = $this->lessonRepository->storeNew($data);
         $saveLesson->hasVideos()->sync($videos);
-
-        return redirect()->route('admin.lesson.index');
+        return redirect()->route('admin.lesson.index');*/
     }
 
     public function edit($id)
@@ -66,11 +182,13 @@ class LessonController extends Controller
         $lesson = $this->lessonRepository->findById($id, ['hasVideos']);
         $levels = $this->levelRepository->fetchAll([]);
         $videos = $this->videoRepository->fetchAll([], ['id', 'title']);
+        $course = Course::where('status', 1)->get();
 
         return view('admin.lessons.update', [
             'lesson' => $lesson,
             'levels' => $levels,
             'videos' => $videos,
+            'course' => $course,
         ]);
     }
 
@@ -113,16 +231,27 @@ class LessonController extends Controller
     public function getVideos(Request $request)
     {
         $type = $request->type;
-        $videos = Video::where('type', $type)->get();
+        $keyName = $request->keyName;
+
+        //$videos = Video::where('type', $type)->get();
+        $query = Video::query();
+        if (!empty($type)) {
+            $query->where('type', $type);
+        }
+        if (!empty($keyName)) {
+            $query->where('title', 'LIKE', '%' . request('keyName') . '%');
+        }
+        $videos = $query->orderBy('id', 'DESC')->select('*')->limit(100)->get();
 
         return response()->json([
-           'videos' => $videos,
+            'videos' => $videos,
         ]);
     }
 
     public function refreshLessonTraining(Request $request)
     {
         dd($request->all());
-//        $lessonTrainings =
+        //$lessonTrainings =
     }
+
 }
