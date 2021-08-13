@@ -215,7 +215,7 @@
                             </div>
                             <div class="card-body" style="max-height: 400px; overflow-x: scroll">
                                 <div class="input_fields_speak">
-                                    <div class="row">
+                                    <div class="row" data-position="0">
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <input type="text" class="form-control form-control-sm"
@@ -262,7 +262,7 @@
                             </div>
                             <div class="card-body" style="max-height: 400px; overflow-x: scroll">
                                 <div class="input_fields_write">
-                                    <div class="row">
+                                    <div class="row" data-position="0">
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <input type="text" class="form-control form-control-sm"
@@ -308,7 +308,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="input_fields_exercises">
-                                    <div class="layoutBorder">
+                                    <div class="layoutBorder" data-position="0">
                                         <div class="row">
                                             <div class="col-sm-10">
                                                 <div class="form-group">

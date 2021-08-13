@@ -43,12 +43,14 @@
                         </div>
                     </div>
                     <div class="row d-none" id="more-info">
-                        <input type="hidden" name="ytb_id"/>
-                        <input type="hidden" name="description"/>
-                        <input type="hidden" name="ytb_thumbnails"/>
-                        <input type="hidden" name="publish_at"/>
-                        <input type="hidden" name="tags"/>
-                        <input type="hidden" name="channel_id"/>
+                        <div hidden>
+                            <input name="ytb_id" placeholder="ytb_id here" class="form-control"/>
+                            <input name="description" placeholder="description here" class="form-control"/>
+                            <input name="ytb_thumbnails" placeholder="ytb_thumbnails here" class="form-control"/>
+                            <input name="publish_at" placeholder="publish_at here" class="form-control"/>
+                            <input name="tags" placeholder="tags here" class="form-control"/>
+                            <input name="channel_id" placeholder="channel_id here" class="form-control"/>
+                        </div>
 
                         <div class="col-6">
                             <div class="form-group">

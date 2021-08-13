@@ -24,7 +24,7 @@ class VideoController extends Controller
     public function index()
     {
         $categories = $this->categoryRepository->fetchAll([], ['id', 'name']);
-        $videos = Video::with('hasCategories')->paginate(10);
+        $videos = Video::with('hasCategories')->orderBy('id', 'DESC')->paginate(10);
 
         return view('admin.videos.index', [
             'videos' => $videos,

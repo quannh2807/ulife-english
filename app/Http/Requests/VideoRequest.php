@@ -26,11 +26,11 @@ class VideoRequest extends FormRequest
         return [
             'ytb_id' => 'required|unique:videos,ytb_id',
             'title' => 'required',
-            'description' => 'required',
+            /*'description' => 'required',
             'ytb_thumbnails' => 'required',
             'publish_at' => 'required',
             'tags' => 'required',
-            'channel_id' => 'required',
+            'channel_id' => 'required',*/
             'channel_title' => 'required',
             'status' => 'required',
             'type' => 'required',

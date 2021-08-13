@@ -184,9 +184,10 @@
                                                     <i class="fa fa-plus"></i><span> Chọn video</span>
                                                 </a>
                                                 <div id="chooseVideoGrammarList">
-                                                    <input style="display: none;" type=" text" value=""
+                                                    <input style="display: none;" type=" text"
                                                            class="videoGrammarIds"
-                                                           name="videoGrammarIds">
+                                                           name="videoGrammarIds"
+                                                           value="{{$grammarIds}}">
                                                     <ul>
                                                         @if(!empty($grammarVideoData))
                                                             @foreach($grammarVideoData as $index => $item)
@@ -223,9 +224,10 @@
                                                     <i class="fa fa-plus"></i><span> Chọn video</span>
                                                 </a>
                                                 <div id="chooseVideoLessonList">
-                                                    <input style="display: none;" type=" text" value=""
+                                                    <input style="display: none;" type=" text"
                                                            class="videoLessonIds"
-                                                           name="videoLessonIds">
+                                                           name="videoLessonIds"
+                                                           value="{{$lessonIds}}">
                                                     <ul>
                                                         @if(!empty($lessonVideoData))
                                                             @foreach($lessonVideoData as $index => $item)
@@ -276,7 +278,9 @@
                                 <div class="input_fields_speak">
                                     @if(!$speakingData->isEmpty())
                                         @foreach($speakingData as $index => $item)
-                                            <div class="row">
+                                            <div class="row" data-position="{{$index}}">
+                                                <input name="id_speak[{{$index}}]" type="text" value="{{$item->id}}"
+                                                       hidden>
                                                 <div class="col-sm-5">
                                                     <div class="form-group">
                                                         <input type="text" class="form-control form-control-sm"
@@ -315,7 +319,7 @@
                                             </div>
                                         @endforeach
                                     @else
-                                        <div class="row">
+                                        <div class="row" data-position="0">
                                             <div class="col-sm-5">
                                                 <div class="form-group">
                                                     <input type="text" class="form-control form-control-sm"
@@ -365,7 +369,9 @@
                                 <div class="input_fields_write">
                                     @if(!$writingData->isEmpty())
                                         @foreach($writingData as $index => $item)
-                                            <div class="row">
+                                            <div class="row" data-position="{{$index}}">
+                                                <input name="id_write[{{$index}}]" type="text" value="{{$item->id}}"
+                                                       hidden>
                                                 <div class="col-sm-5">
                                                     <div class="form-group">
                                                         <input type="text" class="form-control form-control-sm"
@@ -404,7 +410,7 @@
                                             </div>
                                         @endforeach
                                     @else
-                                        <div class="row">
+                                        <div class="row" data-position="0">
                                             <div class="col-sm-5">
                                                 <div class="form-group">
                                                     <input type="text" class="form-control form-control-sm"
@@ -452,7 +458,7 @@
                             <div class="card-body">
                                 <div class="input_fields_exercises">
                                     @if($exercisesData->isEmpty())
-                                        <div class="layoutBorder">
+                                        <div class="layoutBorder" data-position="0" data-position="0">
                                             <div class="row">
                                                 <div class="col-sm-10">
                                                     <div class="form-group">
@@ -562,8 +568,10 @@
                                         </div>
                                     @else
                                         @foreach($exercisesData as $index => $item)
-                                            <div class="layoutBorder">
+                                            <div class="layoutBorder" data-position="{{$index}}">
                                                 <div class="row">
+                                                    <input name="id_exercises[{{$index}}]" type="text"
+                                                           value="{{$item->id}}" hidden>
                                                     <div class="col-sm-10">
                                                         <div class="form-group">
                                                             <input type="text" class="form-control form-control-sm"
@@ -659,7 +667,7 @@
                                                                            type="radio" id="answer_correct_2_{{$index}}"
                                                                            name="answer_correct[{{$index}}]" value="2"
                                                                         {{ ($item->answer_correct == 2) ? 'checked': '' }}>
-                                                                    <label for="answer_correct_2_0"><span
+                                                                    <label for="answer_correct_2_{{$index}}"><span
                                                                             class="badge badge-question margin-circle">2</span>
                                                                     </label>
                                                                 </div>
@@ -670,7 +678,7 @@
                                                                            type="radio" id="answer_correct_3_{{$index}}"
                                                                            name="answer_correct[{{$index}}]" value="3"
                                                                         {{ ($item->answer_correct == 3) ? 'checked': '' }}>
-                                                                    <label for="answer_correct_3_0"><span
+                                                                    <label for="answer_correct_3_{{$index}}"><span
                                                                             class="badge badge-question margin-circle">3</span>
                                                                     </label>
                                                                 </div>
@@ -681,7 +689,7 @@
                                                                            type="radio" id="answer_correct_4_{{$index}}"
                                                                            name="answer_correct[{{$index}}]" value="4"
                                                                         {{ ($item->answer_correct == 4) ? 'checked': '' }}>
-                                                                    <label for="answer_correct_4_0"><span
+                                                                    <label for="answer_correct_4_{{$index}}"><span
                                                                             class="badge badge-question margin-circle">4</span>
                                                                     </label>
                                                                 </div>

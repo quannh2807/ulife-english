@@ -211,10 +211,10 @@
         /* end choose video */
 
         /* Speak */
-        let indexSpeak = 1;
+        let indexSpeak = getPositionLastItem('.input_fields_speak .row');
         $('.add_more_speak').click(function (e) {
             e.preventDefault();
-            $('.input_fields_speak').append('<div class="row">\n' +
+            $('.input_fields_speak').append('<div class="row" data-position="' + indexSpeak + '">\n' +
                 '                                        <div class="col-sm-5">\n' +
                 '                                            <div class="form-group">\n' +
                 '                                                <input type="text" class="form-control form-control-sm"\n' +
@@ -246,10 +246,10 @@
         /* End Speak */
 
         /* Write */
-        let indexWrite = 1;
+        let indexWrite = getPositionLastItem('.input_fields_write .row');
         $('.add_more_write').click(function (e) {
             e.preventDefault();
-            $('.input_fields_write').append('<div class="row">\n' +
+            $('.input_fields_write').append('<div class="row" data-position="' + indexWrite + '">\n' +
                 '                                        <div class="col-sm-5">\n' +
                 '                                            <div class="form-group">\n' +
                 '                                                <input type="text" class="form-control form-control-sm"\n' +
@@ -281,10 +281,10 @@
         /* End Write */
 
         /* exercises */
-        let indexEx = 1;
+        let indexEx = getPositionLastItem('.input_fields_exercises .layoutBorder');
         $('.add_more_exercises').click(function (e) {
             e.preventDefault();
-            $('.input_fields_exercises').append('<div class="layoutBorder">\n' +
+            $('.input_fields_exercises').append('<div class="layoutBorder" data-position="' + indexEx + '">\n' +
                 '                                        <div class="row">\n' +
                 '                                            <div class="col-sm-10">\n' +
                 '                                                <div class="form-group">\n' +
@@ -398,6 +398,18 @@
             e.preventDefault();
             $(this).parent().parent().parent().parent('div').remove();
         })
+
         /* End exercises */
+
+        function getPositionLastItem(nameItem) {
+            if ($(nameItem).length > 0) {
+                let lastPosition = $(nameItem).last().attr('data-position');
+                lastPosition++;
+                return lastPosition;
+            } else {
+                return 1;
+            }
+        }
+
     });
 </script>
