@@ -284,7 +284,7 @@
                                                 <div class="col-sm-5">
                                                     <div class="form-group">
                                                         <input type="text" class="form-control form-control-sm"
-                                                               name="speak_name_en[{{$index}}}]"
+                                                               name="speak_name_en[{{$index}}]"
                                                                placeholder="Nhập vào nội dung tiếng anh"
                                                                value="{{ $item->en }}">
                                                     </div>
@@ -292,7 +292,7 @@
                                                 <div class="col-sm-5">
                                                     <div class="form-group">
                                                         <input type="text" class="form-control form-control-sm"
-                                                               name="speak_name_vi[{{$index}}}]"
+                                                               name="speak_name_vi[{{$index}}]"
                                                                placeholder="Nhập vào nội dung tiếng việt"
                                                                value="{{ $item->vi }}">
                                                     </div>
@@ -320,6 +320,7 @@
                                         @endforeach
                                     @else
                                         <div class="row" data-position="0">
+                                            <input name="id_speak[0]" type="text" value="0" hidden>
                                             <div class="col-sm-5">
                                                 <div class="form-group">
                                                     <input type="text" class="form-control form-control-sm"
@@ -375,7 +376,7 @@
                                                 <div class="col-sm-5">
                                                     <div class="form-group">
                                                         <input type="text" class="form-control form-control-sm"
-                                                               name="speak_name_en[{{$index}}}]"
+                                                               name="write_name_en[{{$index}}]"
                                                                placeholder="Nhập vào nội dung tiếng anh"
                                                                value="{{ $item->en }}">
                                                     </div>
@@ -383,7 +384,7 @@
                                                 <div class="col-sm-5">
                                                     <div class="form-group">
                                                         <input type="text" class="form-control form-control-sm"
-                                                               name="speak_name_vi[{{$index}}}]"
+                                                               name="write_name_vi[{{$index}}]"
                                                                placeholder="Nhập vào nội dung tiếng việt"
                                                                value="{{ $item->vi }}">
                                                     </div>
@@ -411,6 +412,7 @@
                                         @endforeach
                                     @else
                                         <div class="row" data-position="0">
+                                            <input name="id_write[0]" type="text" value="0" hidden>
                                             <div class="col-sm-5">
                                                 <div class="form-group">
                                                     <input type="text" class="form-control form-control-sm"
@@ -459,6 +461,7 @@
                                 <div class="input_fields_exercises">
                                     @if($exercisesData->isEmpty())
                                         <div class="layoutBorder" data-position="0" data-position="0">
+                                            <input name="id_exercises[0]" type="text" value="0" hidden>
                                             <div class="row">
                                                 <div class="col-sm-10">
                                                     <div class="form-group">

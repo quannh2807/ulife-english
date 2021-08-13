@@ -208,7 +208,7 @@ class LessonController extends Controller
     {
         //dd($request);
 
-        $idLesson = $request->id;
+        $lessonId = $request->id;
         $name = $request->name;
         $description = $request->description;
         $level_id = $request->level_id;
@@ -218,18 +218,29 @@ class LessonController extends Controller
         $videoGrammarIds = $request->videoGrammarIds;
         $videoLessonIds = $request->videoLessonIds;
 
-        $speak_name_en = $request->input('speak_name_en', []);
-        $speak_name_vi = $request->input('speak_name_vi', []);
+        $speak_name_en = $request->speak_name_en;
+        $speak_name_vi = $request->speak_name_vi;
 
-        $write_name_en = $request->input('write_name_en', []);
-        $write_name_vi = $request->input('write_name_vi', []);
+        $write_name_en = $request->write_name_en;
+        $write_name_vi = $request->write_name_vi;
 
-        $exercises_name = $request->input('exercises_name', []);
-        $answer_1 = $request->input('answer_1', []);
-        $answer_2 = $request->input('answer_2', []);
-        $answer_3 = $request->input('answer_3', []);
-        $answer_4 = $request->input('answer_4', []);
-        $answer_correct = $request->input('answer_correct', []);
+        $exercises_name = $request->exercises_name;
+        $answer_1 = $request->answer_1;
+        $answer_2 = $request->answer_2;
+        $answer_3 = $request->answer_3;
+        $answer_4 = $request->answer_4;
+        $answer_correct = $request->answer_correct;
+
+        $id_speak = $request->id_speak;
+        $id_write = $request->id_write;
+        $id_exercises = $request->id_exercises;
+
+        /*$lessonDetail = $this->lessonRepository->findById($lessonId, ['hasVideos']);
+        $videosIds = json_decode($lessonDetail->video_ids);
+        $grammarIdsOrigin = $videosIds->grammar;
+        $lessonIdsOrigin = $videosIds->lesson;*/
+        //$exercisesIds = Exercises::select('id', 'name')->where('lesson_id', $lessonId)->get();
+        //dd($exercisesIds);
 
         $thumbVal = $request->thumb;
         if ($request->hasFile('thumb')) {
@@ -239,12 +250,9 @@ class LessonController extends Controller
             }
         }
 
-        $arrGrammarIds = explode(',', $videoGrammarIds);
-        $arrLessonIds = explode(',', $videoLessonIds);
-
         $videoIds = array(
-            'grammar' => $arrGrammarIds,
-            'lesson' => $arrLessonIds,
+            'grammar' => explode(',', $videoGrammarIds),
+            'lesson' => explode(',', $videoLessonIds),
         );
 
         $dataLesson = [
@@ -259,22 +267,13 @@ class LessonController extends Controller
             'updated_by' => 1,
             'created_at' => \Carbon\Carbon::now(),
         ];
-
-        dd($dataLesson);
-
-        $update = Lesson::where('id', $idLesson)->update($dataLesson);
-
-        // insert Lesson
-        //$lesson = $this->levelRepository->storeNew($dataLesson);
-        /*$lesson = Lesson::create($dataLesson);
-        $lessonId = $lesson->id();*/
-        $lessonId = DB::table('lessons')->insertGetId($dataLesson);
+        // update lesson
+        $update = Lesson::where('id', $lessonId)->update($dataLesson);
 
         if ($lessonId > 0) {
 
-            $dataSpeak = [];
-            foreach ($speak_name_en as $index => $value) {
-                $dataSpeak[] = [
+            foreach ($id_speak as $index => $id) {
+                $dataSpeak = [
                     'en' => $speak_name_en[$index],
                     'vi' => $speak_name_vi[$index],
                     'type' => config('common.lesson_training_types.speaking'),
@@ -283,11 +282,16 @@ class LessonController extends Controller
                     'updated_by' => 1,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
+
+                if ($id > 0) {
+                    LessonTraining::where('id', $id)->update($dataSpeak);
+                } else {
+                    LessonTraining::insert($dataSpeak);
+                }
             }
 
-            $dataWrite = [];
-            foreach ($write_name_en as $index => $value) {
-                $dataWrite[] = [
+            foreach ($id_write as $index => $id) {
+                $dataWrite = [
                     'en' => $write_name_en[$index],
                     'vi' => $write_name_vi[$index],
                     'type' => config('common.lesson_training_types.writing'),
@@ -296,11 +300,16 @@ class LessonController extends Controller
                     'updated_by' => 1,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
+
+                if ($id > 0) {
+                    LessonTraining::where('id', $id)->update($dataWrite);
+                } else {
+                    LessonTraining::insert($dataWrite);
+                }
             }
 
-            $dataExercises = [];
-            foreach ($exercises_name as $index => $value) {
-                $dataExercises[] = [
+            foreach ($id_exercises as $index => $id) {
+                $dataExercises = [
                     'name' => $exercises_name[$index],
                     'answer_1' => $answer_1[$index],
                     'answer_2' => $answer_2[$index],
@@ -313,23 +322,18 @@ class LessonController extends Controller
                     'updated_by' => 1,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
-            }
 
-            $speakStore = LessonTraining::insert($dataSpeak);
-            $writeStore = LessonTraining::insert($dataWrite);
-            $exercisesStore = Exercises::insert($dataExercises);
+                if ($id > 0) {
+                    Exercises::where('id', $id)->update($dataExercises);
+                } else {
+                    Exercises::insert($dataExercises);
+                }
+            }
+            // delete id remove
+
         }
 
-        /*$mData = [];
-        $mData [] = [
-            'data' => $dataLesson,
-            'dataSpeak' => $dataSpeak,
-            'dataWrite' => $dataWrite,
-            'dataExercises' => $dataExercises,
-        ];
-        dd($mData);*/
-
-        return redirect()->route('admin.lesson.index')->with($lessonId > 0 ? SUCCESS : ERROR, $lessonId > 0 ? UPDATE_SUCCESS : UPDATE_ERROR);
+        return redirect()->route('admin.lesson.index')->with($update > 0 ? SUCCESS : ERROR, $update > 0 ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
 
     public function destroy($id)

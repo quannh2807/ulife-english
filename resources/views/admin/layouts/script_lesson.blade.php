@@ -223,6 +223,7 @@
                 '                                            </div>\n' +
                 '                                        </div>\n' +
                 '                                        <div class="col-sm-5">\n' +
+                '                                        <input name="id_speak[' + indexSpeak + ']" type="text" value="0" hidden>' +
                 '                                            <div class="form-group">\n' +
                 '                                                <input type="text" class="form-control form-control-sm"\n' +
                 '                                                       name="speak_name_vi[' + indexSpeak + ']"\n' +
@@ -257,6 +258,7 @@
                 '                                                       placeholder="Nhập vào nội dung tiếng anh">\n' +
                 '                                            </div>\n' +
                 '                                        </div>\n' +
+                '                                        <input name="id_write[' + indexWrite + ']" type="text" value="0" hidden>' +
                 '                                        <div class="col-sm-5">\n' +
                 '                                            <div class="form-group">\n' +
                 '                                                <input type="text" class="form-control form-control-sm"\n' +
@@ -285,6 +287,7 @@
         $('.add_more_exercises').click(function (e) {
             e.preventDefault();
             $('.input_fields_exercises').append('<div class="layoutBorder" data-position="' + indexEx + '">\n' +
+                '                                       <input name="id_exercises[' + indexEx + ']" type="text" value="0" hidden>\n' +
                 '                                        <div class="row">\n' +
                 '                                            <div class="col-sm-10">\n' +
                 '                                                <div class="form-group">\n' +
