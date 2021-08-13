@@ -183,11 +183,20 @@ class LessonController extends Controller
         $writingData = LessonTraining::where('status', 1)->where('lesson_id', $lesson->id)->where('type', config('common.lesson_training_types.writing'))->get();
         $exercisesData = Exercises::where('status', 1)->where('lesson_id', $lesson->id)->get();
 
+        $videosIds = json_decode($lesson->video_ids);
+        $grammarIds = $videosIds->grammar;
+        $lessonIds = $videosIds->lesson;
+
+        $grammarVideoData = Video::where('status', 1)->whereIn('id', $grammarIds)->get();
+        $lessonVideoData = Video::where('status', 1)->whereIn('id', $lessonIds)->get();
+
         return view('admin.lessons.update', [
             'lesson' => $lesson,
             'levels' => $levels,
             'videos' => $videos,
             'course' => $course,
+            'grammarVideoData' => $grammarVideoData,
+            'lessonVideoData' => $lessonVideoData,
             'speakingData' => $speakingData,
             'writingData' => $writingData,
             'exercisesData' => $exercisesData,

@@ -188,6 +188,26 @@
                                                            class="videoGrammarIds"
                                                            name="videoGrammarIds">
                                                     <ul>
+                                                        @if(!empty($grammarVideoData))
+                                                            @foreach($grammarVideoData as $index => $item)
+                                                                <li id="{{$item->id}}">
+                                                                    <div class="alert  alert-info alert-dismissible"
+                                                                         role="alert">
+                                                                        <button id="removeVideoGrammar"
+                                                                                data-id="{{$item->id}}" type="button"
+                                                                                class="close" data-dismiss="alert"
+                                                                                aria-label="Close">
+                                                                            <span aria-hidden="true">×</span></button>
+                                                                        <span id="grammarVideoId"
+                                                                              style="display:none;">{{$item->id}}</span>
+                                                                        <img style="margin-right: 10px;" width="50"
+                                                                             height="30"
+                                                                             src="{{ $item->custom_thumbnails ? asset('storage/' . $item->custom_thumbnails) : json_decode($item->ytb_thumbnails, true)['default']['url'] }}"/>
+                                                                        <span class="tit">{{$item->title}}</span>
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach
+                                                        @endif
                                                     </ul>
                                                 </div>
                                             </div>
@@ -207,6 +227,26 @@
                                                            class="videoLessonIds"
                                                            name="videoLessonIds">
                                                     <ul>
+                                                        @if(!empty($lessonVideoData))
+                                                            @foreach($lessonVideoData as $index => $item)
+                                                                <li id="{{$item->id}}">
+                                                                    <div class="alert  alert-info alert-dismissible"
+                                                                         role="alert">
+                                                                        <button id="removeVideoLesson"
+                                                                                data-id="{{$item->id}}" type="button"
+                                                                                class="close" data-dismiss="alert"
+                                                                                aria-label="Close">
+                                                                            <span aria-hidden="true">×</span></button>
+                                                                        <span id="lessonVideoId"
+                                                                              style="display:none;">{{$item->id}}</span>
+                                                                        <img style="margin-right: 10px;" width="50"
+                                                                             height="30"
+                                                                             src="{{ $item->custom_thumbnails ? asset('storage/' . $item->custom_thumbnails) : json_decode($item->ytb_thumbnails, true)['default']['url'] }}"/>
+                                                                        <span class="tit">{{$item->title}}</span>
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach
+                                                        @endif
                                                     </ul>
                                                 </div>
                                             </div>
