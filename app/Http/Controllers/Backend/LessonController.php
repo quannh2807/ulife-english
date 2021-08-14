@@ -204,6 +204,19 @@ class LessonController extends Controller
         ]);
     }
 
+    public function getIdsLessonRemove($dataOrigin, $newIds)
+    {
+        $ids = [];
+        if (!empty($dataOrigin) && !empty($newIds)) {
+            foreach ($dataOrigin as $index => $itemOrigin) {
+                if (in_array($itemOrigin->id, $newIds) == false) {
+                    array_push($ids, $itemOrigin->id);
+                }
+            }
+        }
+        return $ids;
+    }
+
     public function update(Request $request)
     {
         //dd($request);
@@ -235,15 +248,20 @@ class LessonController extends Controller
         $id_write = $request->id_write;
         $id_exercises = $request->id_exercises;
 
-        /*$lessonDetail = $this->lessonRepository->findById($lessonId, ['hasVideos']);
-        $videosIds = json_decode($lessonDetail->video_ids);
+        $lessonDetail = $this->lessonRepository->findById($lessonId, []);
+
+        /*$videosIds = json_decode($lessonDetail->video_ids);
         $grammarIdsOrigin = $videosIds->grammar;
         $lessonIdsOrigin = $videosIds->lesson;*/
-        //$exercisesIds = Exercises::select('id', 'name')->where('lesson_id', $lessonId)->get();
-        //dd($exercisesIds);
 
         $thumbVal = $request->thumb;
         if ($request->hasFile('thumb')) {
+            // remove old image
+            if (!empty($lessonDetail->thumb) && !isUrl($request->thumb)) {
+                if (file_exists('storage/' . $lessonDetail->thumb)) {
+                    unlink('storage/' . $lessonDetail->thumb);
+                };
+            }
             if (!isUrl($request->thumb)) {
                 $path = $request->file('thumb')->store('thumbnails', 'public');
                 $thumbVal = $path;
@@ -271,7 +289,32 @@ class LessonController extends Controller
         $update = Lesson::where('id', $lessonId)->update($dataLesson);
 
         if ($lessonId > 0) {
+            // delete Speak, Write, Exercises is remove by ids
+            $speakIdsOld = LessonTraining::select('id', 'en', 'vi')
+                ->where('lesson_id', $lessonId)
+                ->where('type', config('common.lesson_training_types.speaking'))
+                ->get();
+            $idsSpeakRemove = $this->getIdsLessonRemove($speakIdsOld, $id_speak);
+            if (!empty($idsSpeakRemove)) {
+                LessonTraining::whereIn('id', $idsSpeakRemove)->delete();
+            }
 
+            $writeIdsOld = LessonTraining::select('id', 'en', 'vi')
+                ->where('lesson_id', $lessonId)
+                ->where('type', config('common.lesson_training_types.writing'))
+                ->get();
+            $idsWriteRemove = $this->getIdsLessonRemove($writeIdsOld, $id_write);
+            if (!empty($idsWriteRemove)) {
+                LessonTraining::whereIn('id', $idsWriteRemove)->delete();
+            }
+
+            $exercisesIdsOld = Exercises::select('id', 'name')->where('lesson_id', $lessonId)->get();
+            $idsExercisesRemove = $this->getIdsLessonRemove($exercisesIdsOld, $id_exercises);
+            if (!empty($idsExercisesRemove)) {
+                Exercises::whereIn('id', $idsExercisesRemove)->delete();
+            }
+
+            // insert or update  Speak, Write, Exercises
             foreach ($id_speak as $index => $id) {
                 $dataSpeak = [
                     'en' => $speak_name_en[$index],
@@ -329,8 +372,6 @@ class LessonController extends Controller
                     Exercises::insert($dataExercises);
                 }
             }
-            // delete id remove
-
         }
 
         return redirect()->route('admin.lesson.index')->with($update > 0 ? SUCCESS : ERROR, $update > 0 ? UPDATE_SUCCESS : UPDATE_ERROR);
@@ -358,7 +399,6 @@ class LessonController extends Controller
         $type = $request->type;
         $keyName = $request->keyName;
 
-        //$videos = Video::where('type', $type)->get();
         $query = Video::query();
         if (!empty($type)) {
             $query->where('type', $type);
@@ -376,7 +416,6 @@ class LessonController extends Controller
     public function refreshLessonTraining(Request $request)
     {
         dd($request->all());
-        //$lessonTrainings =
     }
 
 }
