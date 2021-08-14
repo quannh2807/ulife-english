@@ -273,18 +273,33 @@ class LessonController extends Controller
             'lesson' => explode(',', $videoLessonIds),
         );
 
-        $dataLesson = [
-            'name' => $name,
-            'description' => $description,
-            'thumb_img' => $thumbVal,
-            'video_ids' => json_encode($videoIds),
-            'level_id' => $level_id,
-            'course_id' => $course_id,
-            'status' => $status,
-            'created_by' => 1,
-            'updated_by' => 1,
-            'created_at' => \Carbon\Carbon::now(),
-        ];
+        if (empty($thumbVal)) {
+            $dataLesson = [
+                'name' => $name,
+                'description' => $description,
+                'video_ids' => json_encode($videoIds),
+                'level_id' => $level_id,
+                'course_id' => $course_id,
+                'status' => $status,
+                'created_by' => 1,
+                'updated_by' => 1,
+                'created_at' => \Carbon\Carbon::now(),
+            ];
+        } else {
+            $dataLesson = [
+                'name' => $name,
+                'description' => $description,
+                'thumb_img' => $thumbVal,
+                'video_ids' => json_encode($videoIds),
+                'level_id' => $level_id,
+                'course_id' => $course_id,
+                'status' => $status,
+                'created_by' => 1,
+                'updated_by' => 1,
+                'created_at' => \Carbon\Carbon::now(),
+            ];
+        }
+
         // update lesson
         $update = Lesson::where('id', $lessonId)->update($dataLesson);
 
