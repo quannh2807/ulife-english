@@ -16,17 +16,63 @@ use App\Models\Video;
 use App\Models\Vocabulary;
 use App\Models\VocabularyCat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class EnglishApiController extends Controller
 {
-    private $secret_key = 'HOvMgMDQ256jybfFokYt1kAokxtxXEA0mgy';
+    private $jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cGUiOiJKV1QiLCJuYW1lIjoiVWxpZmUtRW5nbGlzaCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.Bf7LM8Iz33kafspF_6hD9ppHB7GVYokSr5bxh3KVYOA';
 
     public function __construct()
     {
     }
 
+    public function getBearerToken()
+    {
+        $token = request()->bearerToken();
+        if (Str::startsWith($token, 'Bearer ')) {
+            return Str::substr($token, 7);
+        }
+    }
+
+    public function getBearerTokenHeader()
+    {
+        $token = $this->header('Authorization', '');
+        if (Str::startsWith($token, 'Bearer ')) {
+            return Str::substr($token, 7);
+        }
+    }
+
+    public function checkJwt($authorization)
+    {
+        $token = '';
+        if (!empty($authorization)) {
+            if (Str::startsWith($authorization, 'Bearer ')) {
+                $token = Str::substr($authorization, 7);
+            } else {
+                $token = $authorization;
+            }
+            if ($token == $this->jwtToken) {
+                return 'success';
+            } else {
+                return 'Authorization not invalid.';
+            }
+        } else {
+            return 'Authorization is empty';
+        }
+    }
+
     public function vocabularyCatList(Request $request)
     {
+        $checkToken = $this->checkJwt($request->bearerToken());
+
+        if ($checkToken != 'success') {
+            return response()->json([
+                'status' => false,
+                'code' => 200,
+                'message' => $checkToken
+            ], 200);
+        }
+
         $data = VocabularyCat::where('status', 1)->get();
         if (!$data) {
             return response()->json([
@@ -35,6 +81,7 @@ class EnglishApiController extends Controller
                 'message' => 'No Data'
             ], 200);
         }
+
         return response()->json([
             'status' => true,
             'code' => 200,
@@ -45,6 +92,16 @@ class EnglishApiController extends Controller
 
     public function vocabularyList(Request $request)
     {
+        $checkToken = $this->checkJwt($request->bearerToken());
+
+        if ($checkToken != 'success') {
+            return response()->json([
+                'status' => false,
+                'code' => 200,
+                'message' => $checkToken
+            ], 200);
+        }
+
         $data = Vocabulary::where('status', 1)->get();
         if (!$data) {
             return response()->json([
@@ -53,6 +110,7 @@ class EnglishApiController extends Controller
                 'message' => 'No Data'
             ], 200);
         }
+
         return response()->json([
             'status' => true,
             'code' => 200,
@@ -63,6 +121,16 @@ class EnglishApiController extends Controller
 
     public function topicsList(Request $request)
     {
+        $checkToken = $this->checkJwt($request->bearerToken());
+
+        if ($checkToken != 'success') {
+            return response()->json([
+                'status' => false,
+                'code' => 200,
+                'message' => $checkToken
+            ], 200);
+        }
+
         $data = Topics::where('status', 1)->get();
         if (!$data) {
             return response()->json([
@@ -71,6 +139,7 @@ class EnglishApiController extends Controller
                 'message' => 'No Data'
             ], 200);
         }
+
         return response()->json([
             'status' => true,
             'code' => 200,
@@ -81,147 +150,118 @@ class EnglishApiController extends Controller
 
     public function courseList(Request $request)
     {
-        $token = $request->bearerToken();
+        $checkToken = $this->checkJwt($this->getBearerToken());
 
-        if (!empty($token)) {
-            if ($token == $this->secret_key) {
-                $data = Course::where('status', 1)->get();
-                if (!$data) {
-                    return response()->json([
-                        'status' => false,
-                        'code' => 200,
-                        'message' => 'No Data'
-                    ], 200);
-                }
-                return response()->json([
-                    'status' => true,
-                    'code' => 200,
-                    'message' => '',
-                    'data' => $data->toArray()
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'code' => 200,
-                    'message' => 'Authorization is empty.'
-                ], 200);
-            }
-        } else {
+        if ($checkToken != 'success') {
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'Authorization not invalid.'
+                'message' => $checkToken
             ], 200);
         }
+
+        $data = Course::where('status', 1)->get();
+        if (!$data) {
+            return response()->json([
+                'status' => false,
+                'code' => 200,
+                'message' => 'No Data'
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'message' => '',
+            'data' => $data->toArray()
+        ], 200);
     }
 
     public function lessonList(Request $request)
     {
-        $token = $request->bearerToken();
+        $checkToken = $this->checkJwt($request->bearerToken());
 
-        if (!empty($token)) {
-            if ($token == $this->secret_key) {
-                $data = Lesson::where('status', 1)->get();
-                if (!$data) {
-                    return response()->json([
-                        'status' => false,
-                        'code' => 200,
-                        'message' => 'No Data'
-                    ], 200);
-                }
-                return response()->json([
-                    'status' => true,
-                    'code' => 200,
-                    'message' => '',
-                    'data' => $data->toArray()
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'code' => 200,
-                    'message' => 'Authorization is empty.'
-                ], 200);
-            }
-        } else {
+        if ($checkToken != 'success') {
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'Authorization not invalid.'
+                'message' => $checkToken
             ], 200);
         }
+
+        $data = Lesson::where('status', 1)->get();
+        if (!$data) {
+            return response()->json([
+                'status' => false,
+                'code' => 200,
+                'message' => 'No Data'
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'message' => '',
+            'data' => $data->toArray()
+        ], 200);
     }
 
     public function levelList(Request $request)
     {
-        $token = $request->bearerToken();
+        $checkToken = $this->checkJwt($request->bearerToken());
 
-        if (!empty($token)) {
-            if ($token == $this->secret_key) {
-                $data = Levels::where('status', 1)->get();
-                if (!$data) {
-                    return response()->json([
-                        'status' => false,
-                        'code' => 200,
-                        'message' => 'No Data'
-                    ], 200);
-                }
-                return response()->json([
-                    'status' => true,
-                    'code' => 200,
-                    'message' => '',
-                    'data' => $data->toArray()
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'code' => 200,
-                    'message' => 'Authorization is empty.'
-                ], 200);
-            }
-        } else {
+        if ($checkToken != 'success') {
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'Authorization not invalid.'
+                'message' => $checkToken
             ], 200);
         }
+
+        $data = Levels::where('status', 1)->get();
+        if (!$data) {
+            return response()->json([
+                'status' => false,
+                'code' => 200,
+                'message' => 'No Data'
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'message' => '',
+            'data' => $data->toArray()
+        ], 200);
     }
 
     public function videoList(Request $request)
     {
-        //$header = $request->header('token');
-        $token = $request->bearerToken();
+        $checkToken = $this->checkJwt($request->bearerToken());
 
-        if (!empty($token)) {
-            if ($token == $this->secret_key) {
-                $data = Video::where('status', 1)->get();
-                if (!$data) {
-                    return response()->json([
-                        'status' => false,
-                        'code' => 200,
-                        'message' => 'No Data'
-                    ], 200);
-                }
-                return response()->json([
-                    'status' => true,
-                    'code' => 200,
-                    'message' => '',
-                    'data' => $data->toArray()
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'code' => 200,
-                    'message' => 'Authorization is empty.'
-                ], 200);
-            }
-        } else {
+        if ($checkToken != 'success') {
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'Authorization not invalid.'
+                'message' => $checkToken
             ], 200);
         }
+
+        $data = Video::where('status', 1)->get();
+        if (!$data) {
+            return response()->json([
+                'status' => false,
+                'code' => 200,
+                'message' => 'No Data'
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'message' => '',
+            'data' => $data->toArray()
+        ], 200);
     }
 
 }
