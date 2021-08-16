@@ -9,7 +9,9 @@ namespace App\Http\Controllers\Api\V1;
 
 
 use App\Http\Controllers\Api\BaseApiController;
+use App\Models\Question;
 use App\Models\Video;
+use App\Models\VideoSubtitle;
 use Illuminate\Http\Request;
 
 class ApiVideoController extends BaseApiController
@@ -36,7 +38,7 @@ class ApiVideoController extends BaseApiController
 
         $responseData = [];
         foreach ($data as $key => $value) {
-            $responseData = [
+            $responseData [] = [
                 'id' => $value->id,
                 'ytb_id' => $value->ytb_id,
                 'title' => $value->title,
@@ -81,12 +83,54 @@ class ApiVideoController extends BaseApiController
             ], 200);
         }
 
+        $subtitlesResponse = [];
+        $subtitles = VideoSubtitle::where('video_id', $data->id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
+        if (!empty($subtitles)) {
+            foreach ($subtitles as $key => $value) {
+                $subtitlesResponse [] = [
+                    'id' => $value->id,
+                    'vi' => $value->vi,
+                    'en' => $value->en,
+                    'time_start' => $value->time_start,
+                    'time_end' => $value->time_end,
+                    'video_id' => $value->video_id,
+                    'status' => $value->status,
+                    'created_at' => $value->created_at
+                ];
+            }
+        }
+
+        $subtitlesQuestionResponse = [];
+        $subtitlesQuestion = Question::where('video_id', $data->id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
+        if (!empty($subtitlesQuestion)) {
+            foreach ($subtitlesQuestion as $key => $value) {
+                $subtitlesQuestionResponse [] = [
+                    'id' => $value->id,
+                    'name' => $value->name,
+                    'name_origin' => $value->name_origin,
+                    'answer_1' => $value->answer_1,
+                    'answer_2' => $value->answer_2,
+                    'answer_3' => $value->answer_3,
+                    'answer_4' => $value->answer_4,
+                    'answer_correct' => $value->answer_correct,
+                    'time_start' => $value->time_start,
+                    'time_end' => $value->time_end,
+                    'level_type' => $value->level_type,
+                    'type' => $value->type,
+                    'status' => $value->status,
+                    'created_at' => $value->created_at
+                ];
+            }
+        }
+
         $responseData = [
             'id' => $data->id,
             'ytb_id' => $data->ytb_id,
             'title' => $data->title,
             'description' => $data->description,
             'ytb_thumbnails' => json_decode($data->ytb_thumbnails),
+            'subtitles' => $subtitlesResponse,
+            'subtitlesQuestion' => $subtitlesQuestionResponse,
             'type' => $data->type,
             'status' => $data->status,
             'created_at' => $data->created_at
