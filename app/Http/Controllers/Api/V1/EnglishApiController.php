@@ -78,7 +78,8 @@ class EnglishApiController extends Controller
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'No Data'
+                'message' => 'No Data',
+                'data' => []
             ], 200);
         }
 
@@ -107,7 +108,8 @@ class EnglishApiController extends Controller
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'No Data'
+                'message' => 'No Data',
+                'data' => []
             ], 200);
         }
 
@@ -136,7 +138,8 @@ class EnglishApiController extends Controller
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'No Data'
+                'message' => 'No Data',
+                'data' => []
             ], 200);
         }
 
@@ -165,7 +168,8 @@ class EnglishApiController extends Controller
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'No Data'
+                'message' => 'No Data',
+                'data' => []
             ], 200);
         }
 
@@ -194,7 +198,8 @@ class EnglishApiController extends Controller
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'No Data'
+                'message' => 'No Data',
+                'data' => []
             ], 200);
         }
 
@@ -223,7 +228,8 @@ class EnglishApiController extends Controller
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'No Data'
+                'message' => 'No Data',
+                'data' => []
             ], 200);
         }
 
@@ -252,7 +258,8 @@ class EnglishApiController extends Controller
             return response()->json([
                 'status' => false,
                 'code' => 200,
-                'message' => 'No Data'
+                'message' => 'No Data',
+                'data' => []
             ], 200);
         }
 
