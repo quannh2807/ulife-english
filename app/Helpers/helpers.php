@@ -26,6 +26,23 @@ function thumbImagePath($thumb)
     }
 }
 
+function getPathImage($thumb)
+{
+    if (!empty($thumb)) {
+        if (isUrl($thumb)) {
+            return $thumb;
+        } else {
+            if (file_exists('storage/' . $thumb)) {
+                return asset('storage/' . $thumb);
+            } else {
+                return $thumb;
+            }
+        }
+    } else {
+        return $thumb;
+    }
+}
+
 function isUrl($text)
 {
     if (filter_var($text, FILTER_VALIDATE_URL)) {

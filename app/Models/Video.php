@@ -19,7 +19,7 @@ class Video extends Model
      * @var string[]
      */
     protected $fillable = [
-        'ytb_id', 'cate_id', 'title', 'description', 'ytb_thumbnails', 'custom_thumbnails', 'publish_at', 'tags', 'author', 'channel_id', 'channel_title', 'type', 'status', 'created_by', 'updated_by'
+        'id', 'ytb_id', 'cate_id', 'title', 'description', 'ytb_thumbnails', 'custom_thumbnails', 'publish_at', 'tags', 'author', 'channel_id', 'channel_title', 'type', 'status', 'created_by', 'updated_by'
     ];
 
     /**
@@ -27,7 +27,7 @@ class Video extends Model
      */
     public function hasCategories()
     {
-        return $this->belongsToMany(Category::class, 'video_category','video_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'video_category', 'video_id', 'category_id');
     }
 
     public function hasVideoSub()
