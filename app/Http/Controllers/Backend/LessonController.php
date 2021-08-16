@@ -30,9 +30,46 @@ class LessonController extends Controller
     public function index()
     {
         $lessons = Lesson::with('hasLevel')->orderBy('id', 'DESC')->paginate(PAGE_SIZE);
+        $courseData = DB::table('courses')->where('status', 1)->get();
 
         return view('admin.lessons.index', [
             'lessons' => $lessons,
+            'courseData' => $courseData,
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $question = Lesson::query();
+        if (!empty(request('keyword'))) {
+            $question->where('name', 'LIKE', '%' . request('keyword') . '%');
+            $question->orWhere('id', request('keyword'));
+        }
+        if (!empty(request('rangeDate'))) {
+            $temp = explode('-', request('rangeDate'));
+            $startDate = trim($temp[0]);
+            $endDate = trim($temp[1]);
+            $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', $startDate)
+                ->format('Y-m-d 00:00:00');
+            $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', $endDate)
+                ->format('Y-m-d 23:59:59');
+
+            $question->where('created_at', '>=', $startDate)
+                ->where('created_at', '<=', $endDate);
+        }
+        if (!empty(request('courses'))) {
+            $question->where('course_id', request('courses'));
+        }
+        if (request('status') >= 0) {
+            $question->where('status', request('status'));
+        }
+        $data = $question->orderBy('id', 'DESC')->paginate(10);
+
+        $courseData = DB::table('courses')->where('status', 1)->get();
+
+        return view('admin.lessons.index', [
+            'lessons' => $data,
+            'courseData' => $courseData,
         ]);
     }
 

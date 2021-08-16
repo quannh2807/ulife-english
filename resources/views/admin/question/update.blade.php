@@ -67,9 +67,9 @@
                                         <div class="form-group">
                                             <label for="time_start">Time start</label>
                                             <input type="text" class="form-control" id="time_start"
-                                                   placeholder="00:00:00" name="time_start"
-                                                   data-inputmask="'mask': '99:99:99'"
-                                                   value="{{ $detail->time_start >= 0 ? formatTimeSub($detail->time_start, FM_TIME_SUB_VIDEO) : old('time_start') }}">
+                                                   placeholder="00:00:00,000" name="time_start"
+                                                   data-inputmask="'mask': '99:99:99,999'"
+                                                   value="{{ $detail->time_start >= 0 ? seconds2SRT($detail->time_start) : old('time_start') }}">
                                             @error('time_start')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror
@@ -79,9 +79,9 @@
                                         <div class="form-group">
                                             <label for="time_end">Time end</label>
                                             <input type="text" class="form-control" id="time_end"
-                                                   placeholder="00:00:00" name="time_end"
-                                                   data-inputmask="'mask': '99:99:99'"
-                                                   value="{{ $detail->time_end >= 0  ? formatTimeSub($detail->time_end, FM_TIME_SUB_VIDEO) : old('time_end') }}">
+                                                   placeholder="00:00:00,000" name="time_end"
+                                                   data-inputmask="'mask': '99:99:99,999'"
+                                                   value="{{ $detail->time_end >= 0  ? seconds2SRT($detail->time_end) : old('time_end') }}">
                                             @error('time_end')
                                             <p style="color: red;">{{$message}}</p>
                                             @enderror

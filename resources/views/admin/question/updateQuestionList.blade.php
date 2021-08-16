@@ -46,8 +46,8 @@
                                 <tr>
                                     <th key-data="index">{{ $i++ }}</th>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ formatTimeSub($item->time_start, FM_TIME_SUB_VIDEO) }}</td>
-                                    <td>{{ formatTimeSub($item->time_end, FM_TIME_SUB_VIDEO) }}</td>
+                                    <td>{{ seconds2SRT($item->time_start) }}</td>
+                                    <td>{{ seconds2SRT($item->time_end) }}</td>
                                     <td style="max-width: 200px;">
                                         <label id="status" class="bg-info">{{ $item->name_origin}}</label>
                                         <input class="form-control form-control-sm"

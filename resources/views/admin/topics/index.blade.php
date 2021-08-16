@@ -108,7 +108,11 @@
                                         @endif
                                     </td>
                                     <td class="text-center">{!! htmlStatus($item->status) !!}</td>
-                                    <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
+                                    <td class="text-center">
+                                        <span class="lbl-item">
+                                            {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y h:m:s')}}
+                                        </span>
+                                    </td>
                                     <td align="center" class="text-center">
                                         <a class="btn btn-sm btn-info topics-detail-view"
                                            data-id="{{ $item->id }}"

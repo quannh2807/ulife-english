@@ -70,17 +70,28 @@ function formatTimeSubtitle($times)
     $seconds += $times['minutes'] * 60;
     $seconds += $times['seconds'];
     $milliseconds = $times['milliseconds'] / 1000;
+
     return $seconds + $milliseconds;
 }
 
 function parseTimeSubtitle($time)
 {
-    list($hours, $minutes, $seconds) = explode(":", $time);
+    /*list($hours, $minutes, $seconds) = explode(":", $time);
     $times = [];
     $times['hours'] = (int)$hours;
     $times['minutes'] = (int)$minutes;
     $times['seconds'] = (int)$seconds;
-    $times['milliseconds'] = 0;
+    $times['milliseconds'] = 0;*/
+
+    $time = explode(',', $time, 2);
+    $milliseconds = $time[1];
+    $splitTime = explode(':', $time[0], 3);
+
+    $times = [];
+    $times['hours'] = (int)$splitTime[0];
+    $times['minutes'] = (int)$splitTime[1];
+    $times['seconds'] = (int)$splitTime[2];
+    $times['milliseconds'] = (int)$milliseconds;
     return $times;
 }
 
@@ -91,6 +102,25 @@ function stringHoursToFloat($times)
     } else {
         return formatTimeSubtitle(parseTimeSubtitle($times));
     }
+}
+
+function seconds2SRT($seconds)
+{
+    $hours = 0;
+    $whole = floor($seconds);
+    $fraction = $seconds - $whole;
+    $milliseconds = number_format($fraction, 3, '.', ',');
+    $milliseconds_array = explode('.', strval($milliseconds));
+    $milliseconds = $milliseconds_array[1];
+
+    if ($seconds > 3600) {
+        $hours = floor($seconds / 3600);
+    }
+    $seconds = $seconds % 3600;
+
+    return str_pad($hours, 2, '0', STR_PAD_LEFT)
+        . gmdate(':i:s', $seconds)
+        . ($milliseconds ? ",$milliseconds" : '');
 }
 
 function videoHasQuestionSub($videoId)

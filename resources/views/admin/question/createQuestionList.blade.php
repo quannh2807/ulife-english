@@ -34,8 +34,8 @@
                             @foreach($subtitles as $subtitle)
                                 <tr style="cursor: pointer" data-id="{{ $subtitle->id }}">
                                     <th key-data="index">{{ $i++ }}</th>
-                                    <td>{{ formatTimeSub($subtitle->time_start, FM_TIME_SUB_VIDEO) }}</td>
-                                    <td>{{ formatTimeSub($subtitle->time_end, FM_TIME_SUB_VIDEO) }}</td>
+                                    <td>{{ seconds2SRT($subtitle->time_start) }}</td>
+                                    <td>{{ seconds2SRT($subtitle->time_end) }}</td>
                                     <td style="max-width: 200px;">
                                         <label id="status" class="bg-info">{{ $subtitle->en}}</label>
                                         <input class="form-control form-control-sm"

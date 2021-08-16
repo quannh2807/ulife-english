@@ -102,7 +102,6 @@ class QuestionController extends Controller
         return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
 
-
     public function edit($id)
     {
         $detail = $this->questionRepository->findById($id, []);

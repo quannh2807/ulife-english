@@ -105,7 +105,7 @@
 
                         @if($data->isEmpty())
                             <tr>
-                                <td colspan="9" align="center">Không có dữ liệu</td>
+                                <td colspan="100%" align="center">Không có dữ liệu</td>
                             </tr>
                         @else
                             @foreach($data as $index => $item)
@@ -118,14 +118,14 @@
                                             <div>
                                                 <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>
                                                 <span
-                                                    class="item-child-val">{{ formatTimeSub($item->time_start, FM_TIME_SUB_VIDEO) }}</span>
+                                                    class="item-child-val">{{ seconds2SRT($item->time_start) }}</span>
                                             </div>
                                         @endif
                                         @if($item->time_end >=0)
                                             <div>
                                                 <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time end:&nbsp;</span>
                                                 <span
-                                                    class="item-child-val">{{ formatTimeSub($item->time_end, FM_TIME_SUB_VIDEO) }}</span>
+                                                    class="item-child-val">{{ seconds2SRT($item->time_end) }}</span>
                                             </div>
                                         @endif
                                     </td>
@@ -166,7 +166,11 @@
                                         @endif
                                     </td>
                                     <td class="text-center">{!! htmlStatus($item->status)  !!}</td>
-                                    <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
+                                    <td class="text-center">
+                                        <span class="lbl-item">
+                                            {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y h:m:s')}}
+                                        </span>
+                                    </td>
                                     <td align="center" class="text-center">
                                         <a class="btn btn-sm btn-info question-detail-view"
                                            data-id="{{ $item->id }}"

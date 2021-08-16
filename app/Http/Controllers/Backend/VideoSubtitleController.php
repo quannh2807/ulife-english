@@ -19,9 +19,9 @@ class VideoSubtitleController extends Controller
     private $languageRepository;
 
     public function __construct(
-        VideoRepository         $videoRepository,
+        VideoRepository $videoRepository,
         VideoSubtitleRepository $videoSubtitleRepository,
-        LanguageRepository      $languageRepository
+        LanguageRepository $languageRepository
     )
     {
         $this->videoRepository = $videoRepository;
@@ -55,7 +55,7 @@ class VideoSubtitleController extends Controller
         if ($currentSub) {
             $this->videoSubtitleRepository->update($currentSub->id, $allData);
             $item = $this->videoSubtitleRepository->findById($currentSub->id, []);
-        }else {
+        } else {
             $this->videoSubtitleRepository->storeNew($allData);
             $newData = $this->videoSubtitleRepository->fetchAll([]);
             $item = $newData[count($newData) - 1];
@@ -101,7 +101,7 @@ class VideoSubtitleController extends Controller
         VideoSubtitle::whereIn('id', explode(",", $ids))->delete();
 
         return response()->json([
-           'msg' => 'Xóa thành công'
+            'msg' => 'Xóa thành công'
         ]);
     }
 
@@ -140,15 +140,15 @@ class VideoSubtitleController extends Controller
         foreach ($subtitles as $key => $sub) {
             $data = [
                 'video_id' => $video_id,
-                'time_start' => (int)floor($sub->startTime),
-                'time_end' => (int)floor($sub->endTime),
+                'time_start' => $sub->startTime,
+                'time_end' => $sub->endTime,
                 $lang => $sub->text,
             ];
             // check record existed
             $currentSub = VideoSubtitle::where([
                 ['video_id', $video_id],
-                ['time_start', (int)floor($sub->startTime)],
-                ['time_end', (int)floor($sub->endTime)],
+                ['time_start', $sub->startTime],
+                ['time_end', $sub->endTime],
             ])->first();
             if ($currentSub) {
                 $this->videoSubtitleRepository->update($currentSub->id, $data);
@@ -165,7 +165,7 @@ class VideoSubtitleController extends Controller
     public function refresh(Request $request)
     {
         $video_id = $request->video_id;
-        $subtitles =  $subtitles = VideoSubtitle::where('video_id', $video_id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
+        $subtitles = $subtitles = VideoSubtitle::where('video_id', $video_id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
 
         return response()->json([
             'subtitles' => $subtitles,

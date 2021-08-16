@@ -43,7 +43,7 @@
 
         <!-- /.card-header -->
         <div class="card-body table-responsive p-0" style="height: 400px;">
-            <table class="table table-head-fixed table-hover text-nowrap">
+            <table class="table table-head-fixed table-hover">
                 <thead>
                 <tr>
                     <th><input type="checkbox" class="main-checked"></th>
@@ -52,7 +52,7 @@
                     <th>End-time</th>
                     <th>Tiếng việt</th>
                     <th>Tiếng anh</th>
-                    <th>Thao tác</th>
+                    <th class="text-center" style="width: 110px; ">Thao tác</th>
                 </tr>
                 </thead>
 
@@ -71,22 +71,20 @@
                     <tr style="cursor: pointer" id="row-{{ $subtitle->id }}" data-id="{{ $subtitle->id }}">
                         <td><input type="checkbox" class="sub-checked" data-id="{{ $subtitle->id }}"></td>
                         <td key-data="index">{{ $i++ }}</td>
-                        <td>{{ \Carbon\Carbon::parse((int)$subtitle->time_start)->format('H:i:s') }}</td>
-                        <td>{{ \Carbon\Carbon::parse((int)$subtitle->time_end)->format('H:i:s') }}</td>
+                        <td>{{ seconds2SRT($subtitle->time_start) }}</td>
+                        <td>{{ seconds2SRT($subtitle->time_end) }}</td>
                         <td>{!! $subtitle->vi ?  $subtitle->vi : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>' !!}</td>
                         <td>{!! $subtitle->en ? $subtitle->en : '<span class="d-inline-block px-1 m-1 bg-danger rounded" style="font-size: 13px">Chưa có phụ đề</span>' !!}</td>
-                        <td>
+                        <td class="text-center">
                             <button
                                 data-id="{{ $subtitle->id }}"
-                                class="btn btn-sm btn-warning select-sub"
-                            >
+                                class="btn btn-sm btn-warning select-sub">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
                             <a
                                 href="{{route('admin.subtitle.destroy', [ 'id' => $subtitle->id ])}}"
                                 data-id="{{ $subtitle->id }}"
-                                class="btn btn-sm btn-danger btn-remove"
-                            >
+                                class="btn btn-sm btn-danger btn-remove">
                                 <i class="far fa-trash-alt"></i>
                             </a>
                         </td>
@@ -105,11 +103,14 @@
                     <div class="col form-group">
                         <label for="start-time">Start time</label>
                         <input type="text" name="start_time" id="start-time" class="form-control"
-                               placeholder="00:00:00"/>
+                               placeholder="00:00:00,000"
+                               data-inputmask="'mask': '99:99:99,999'"/>
                     </div>
                     <div class="col form-group">
                         <label for="end-time">End time</label>
-                        <input type="text" name="end_time" id="end-time" class="form-control" placeholder="00:00:00"/>
+                        <input type="text" name="end_time" id="end-time" class="form-control"
+                               placeholder="00:00:00,000"
+                               data-inputmask="'mask': '99:99:99,999'"/>
                     </div>
                 </div>
 
@@ -227,9 +228,22 @@
             return seconds;
         }
 
-        function convertSecondToTime(second) {
-            let time = new Date(second * 1000).toISOString().substr(11, 8)
-            return time;
+        function convertSecondToTime(seconds) {
+            /*let time = new Date(seconds * 1000).toISOString().substr(11, 8)
+            return time;*/
+
+            /* srtTimestamp */
+            let $milliseconds = seconds * 1000;
+            $seconds = Math.floor($milliseconds / 1000);
+            $minutes = Math.floor($seconds / 60);
+            $hours = Math.floor($minutes / 60);
+            $milliseconds = $milliseconds % 1000;
+            $seconds = $seconds % 60;
+            $minutes = $minutes % 60;
+            return ($hours < 10 ? '0' : '') + $hours + ':'
+                + ($minutes < 10 ? '0' : '') + $minutes + ':'
+                + ($seconds < 10 ? '0' : '') + $seconds + ','
+                + ($milliseconds < 100 ? '0' : '') + ($milliseconds < 10 ? '0' : '') + $milliseconds;
         }
 
         function refreshSub() {
@@ -284,13 +298,13 @@
             rules: {
                 start_time: {
                     required: true,
-                    maxlength: 8,
-                    pattern: '^([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3])$',
+                    maxlength: 12,
+                    pattern: '^([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3]),([0-9]?[0-9]?[0-9]|3[0-4])$',
                 },
                 end_time: {
                     required: true,
-                    maxlength: 8,
-                    pattern: '^([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3])$',
+                    maxlength: 12,
+                    pattern: '^([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3]),([0-9]?[0-9]?[0-9]|3[0-4])$',
                 },
                 vi: {
                     required: true,
@@ -303,12 +317,12 @@
                 start_time: {
                     required: 'Thời gian bắt đầu không được bỏ trống',
                     maxlength: 'Chưa đúng định dạng',
-                    pattern: 'Lưu ý: định dạng thời gian là 00:00:00'
+                    pattern: 'Lưu ý: định dạng thời gian là 00:00:00,000'
                 },
                 end_time: {
                     required: 'Thời gian kết thúc không được bỏ trống',
                     maxlength: 'Chưa đúng định dạng',
-                    pattern: 'Lưu ý: định dạng thời gian là 00:00:00'
+                    pattern: 'Lưu ý: định dạng thời gian là 00:00:00,000'
                 },
                 vi: {
                     required: 'Phụ đề tiếng việt không được bỏ trống'

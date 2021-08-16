@@ -41,6 +41,9 @@ Route::prefix('/v1')->name('apiV1.')->group(function () {
     Route::get('/video/list', [\App\Http\Controllers\Api\V1\ApiVideoController::class, 'videoList'])->name('Api.get.video.list');
     Route::get('/video/{id}', [\App\Http\Controllers\Api\V1\ApiVideoController::class, 'videoDetail'])->name('Api.get.video.detail');
 
+    Route::get('/video-category/list', [\App\Http\Controllers\Api\V1\ApiCategoryController::class, 'categoryList'])->name('Api.get.category.list');
+    Route::get('/video-category/{id}', [\App\Http\Controllers\Api\V1\ApiCategoryController::class, 'categoryDetail'])->name('Api.get.category.detail');
+
     Route::get('/question/list', [\App\Http\Controllers\Api\V1\ApiQuestionController::class, 'questionList'])->name('Api.get.question.list');
     Route::get('/question/{id}', [\App\Http\Controllers\Api\V1\ApiQuestionController::class, 'questionDetail'])->name('Api.get.question.detail');
 

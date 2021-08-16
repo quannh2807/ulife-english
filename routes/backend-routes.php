@@ -19,6 +19,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('category')->name('category.')->group(function () {
         Route::get('/', [\App\Http\Controllers\Backend\CategoryController::class, 'index'])->name('index');
         Route::get('/list', [\App\Http\Controllers\Backend\CategoryController::class, 'index'])->name('index');
+        Route::get('/search', [\App\Http\Controllers\Backend\CategoryController::class, 'search'])->name('search');
         Route::get('/create', [\App\Http\Controllers\Backend\CategoryController::class, 'create'])->name('create');
         Route::post('/save-create', [\App\Http\Controllers\Backend\CategoryController::class, 'saveCreate'])->name('saveCreate');
         Route::get('/update/{id}', [\App\Http\Controllers\Backend\CategoryController::class, 'update'])->name('update');
@@ -99,6 +100,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('lesson')->name('lesson.')->group(function () {
         Route::get('/', [\App\Http\Controllers\Backend\LessonController::class, 'index'])->name('index');
         Route::get('/list', [\App\Http\Controllers\Backend\LessonController::class, 'index'])->name('index');
+        Route::get('/search', [\App\Http\Controllers\Backend\LessonController::class, 'search'])->name('search');
         Route::get('/create', [\App\Http\Controllers\Backend\LessonController::class, 'create'])->name('create');
         Route::post('/store', [\App\Http\Controllers\Backend\LessonController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [\App\Http\Controllers\Backend\LessonController::class, 'edit'])->name('edit');
@@ -139,6 +141,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('lesson-training')->name('lessonTraining.')->group(function () {
-        
+
     });
 });

@@ -58,8 +58,8 @@
                                         <div class="form-group">
                                             <label for="time_start">Time start</label>
                                             <input type="text" class="form-control" id="time_start"
-                                                   placeholder="00:00:00" name="time_start"
-                                                   data-inputmask="'mask': '99:99:99'"
+                                                   placeholder="00:00:00,000" name="time_start"
+                                                   data-inputmask="'mask': '99:99:99,999'"
                                                    value="{{ old('time_start') }}">
                                             @error('time_start')
                                             <p style="color: red;">{{$message}}</p>
@@ -70,8 +70,8 @@
                                         <div class="form-group">
                                             <label for="time_end">Time end</label>
                                             <input type="text" class="form-control" id="time_end"
-                                                   placeholder="00:00:00" name="time_end"
-                                                   data-inputmask="'mask': '99:99:99'"
+                                                   placeholder="00:00:00,000" name="time_end"
+                                                   data-inputmask="'mask': '99:99:99,999'"
                                                    value="{{ old('time_end') }}">
                                             @error('time_end')
                                             <p style="color: red;">{{$message}}</p>
