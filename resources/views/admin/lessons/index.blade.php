@@ -80,6 +80,7 @@
                     <th style="width: 120px;">Ảnh</th>
                     <th>Tên bài học</th>
                     <th class="text-center">Khóa học</th>
+                    <th class="text-center">Thứ tự</th>
                     <th class="text-center">Trình độ</th>
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center">Thời gian tạo</th>
@@ -116,6 +117,9 @@
                         <td>{{ $lesson->name }}</td>
                         <td class="text-center">
                             <span class="badge badge-primary">{{ $lesson->hasCourse->name }}</span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-secondary">{{ $lesson->position }}</span>
                         </td>
                         <td class="text-center">
                             <span class="badge badge-primary">{{ $lesson->hasLevel->name }}</span>

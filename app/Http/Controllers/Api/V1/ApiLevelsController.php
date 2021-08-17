@@ -18,13 +18,19 @@ class ApiLevelsController extends BaseApiController
     {
         $checkToken = $this->checkJwt($request->bearerToken());
         $pageSize = isset($_GET["page_size"]) ? (int)$_GET["page_size"] : PAGE_SIZE;
-        $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;;
+        $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;
+        $sortById = isset($_GET["sortById"]) ? $_GET["sortById"] : '';
 
         $mQuery = Levels::query();
         $mQuery->where('status', 1);
         $mQuery->offset($pageSize * $pageNumber);
         $mQuery->limit($pageSize);
-        $data = $mQuery->orderBy('id', 'DESC')->get();
+        if (empty($sortById)) {
+            $mQuery->orderBy('id', 'DESC');
+        } else {
+            $mQuery->orderBy('id', $sortById);
+        }
+        $data = $mQuery->get();
 
         if ($checkToken != 'success') {
             return response()->json([

@@ -46,11 +46,10 @@ class VideoSubtitleController extends Controller
     public function store(Request $request)
     {
         $allData = $request->all();
-        $currentSub = VideoSubtitle::where([
-            ['video_id', $request->video_id],
-            ['time_start', $request->time_start],
-            ['time_end', $request->time_end],
-        ])->first();
+        $allData['time_start'] = stringHoursToFloat($request->time_start);
+        $allData['time_end'] = stringHoursToFloat($request->time_end);
+
+        $currentSub = VideoSubtitle::where('id', $request->sub_id)->first();
 
         if ($currentSub) {
             $this->videoSubtitleRepository->update($currentSub->id, $allData);

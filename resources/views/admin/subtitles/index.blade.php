@@ -101,6 +101,8 @@
             <form id="add-sub">
                 <div class="row">
                     <div class="col form-group">
+                        <input type="text" id="sub_id" name="sub_id" class="form-control"
+                               value="-1" hidden/>
                         <label for="start-time">Start time</label>
                         <input type="text" name="start_time" id="start-time" class="form-control"
                                placeholder="00:00:00,000"
@@ -125,7 +127,9 @@
                            placeholder="Phụ đề tiếng Anh">
                 </div>
 
-                <button type="submit" class="btn btn-primary" id="btn-create">Tạo mới</button>
+                <button type="submit" class="btn btn-primary" id="btn-create"><i class="fas fa-plus"></i>&nbsp;&nbsp;Thêm
+                    mới
+                </button>
             </form>
         </div>
     </div>
@@ -217,8 +221,7 @@
     <script>
         /* subtitles */
         function compareTwoTime(startTime, endTime) {
-            let result = new Date(`1/1/1999 ${startTime}`) < new Date(`1/1/1999 ${endTime}`)
-            return result;
+            return new Date(`1/1/1999 ${startTime}`) < new Date(`1/1/1999 ${endTime}`)
         }
 
         function convertTimeToSecond(time) {
@@ -305,6 +308,7 @@
                     required: true,
                     maxlength: 12,
                     pattern: '^([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3]):([0-9]?[0-9]|2[0-3]),([0-9]?[0-9]?[0-9]|3[0-4])$',
+                    greaterStart: "#start-time",
                 },
                 vi: {
                     required: true,
@@ -332,6 +336,12 @@
                 },
             }
         });
+        jQuery.validator.addMethod("greaterStart", function (value, element) {
+            let dateFrom = $("#start-time").val();
+            let dateTo = $('#end-time').val();
+            return dateTo > dateFrom;
+        }, 'Thời gian kết thúc phải lớn hơn thời gian bắt đầu.');
+
         // scroll to form
         $('#create-sub').click(function () {
             document.querySelector('input#start-time').scrollIntoView({block: 'start', behavior: 'smooth'});
@@ -347,21 +357,21 @@
             let valid = $('#add-sub').valid();
             let compare = compareTwoTime(startTime, endTime);
 
-            if (!compare) {
+            /*if (!compare) {
                 if ($('input#start-time').siblings('span.error').length <= 0) {
                     $('input#start-time').parent('.form-group').append('<span class="error">Thời gian bắt đầu không được lớn hơn thời gian kết thúc</span>')
                     return;
                 }
             } else {
                 $('input#start-time').parent('.form-group').children('.error').remove();
-            }
+            }*/
 
             if (!valid) return;
 
             let data = {
                 video_id: "{{ $video->id }}",
-                time_start: convertTimeToSecond(startTime),
-                time_end: convertTimeToSecond(endTime),
+                time_start: startTime,
+                time_end: endTime,
                 vi: vi,
                 en: en,
             }
@@ -405,11 +415,13 @@
                 url: `show/${sub_id}`,
                 method: "GET",
                 success: function ({selectedSub}) {
+                    $('input#sub_id').val(sub_id);
                     $('input#start-time').val(convertSecondToTime(selectedSub.time_start));
                     $('input#end-time').val(convertSecondToTime(selectedSub.time_end));
                     $('input#vi').val(selectedSub.vi);
                     $('input#en').val(selectedSub.en);
                     $('input#ko').val(selectedSub.ko);
+                    $('#btn-create').html('<i class="fas fa-save"></i>&nbsp;&nbsp;Lưu lại');
                 },
                 fail: function () {
                     Swal.fire({

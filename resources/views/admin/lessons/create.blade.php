@@ -45,22 +45,22 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <div class="form-group">
-                                            <label for="lesson-course">Khóa học <span
-                                                    class="text-danger">*</span></label>
-                                            <select name="course_id" id="lesson-course"
-                                                    class="form-control form-control-md">
-                                                <option selected>-- Chọn khóa học --</option>
-                                                @foreach($course as $key => $item)
-                                                    <option
-                                                        value="{{ $item->id }}" {{ old('course_id') ===  $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('course_id')
-                                            <p style="color: red;">{{$message}}</p>
-                                            @enderror
-                                        </div>
                                         <div class="row">
+                                            <div class="form-group col-6">
+                                                <label for="lesson-course">Khóa học <span
+                                                        class="text-danger">*</span></label>
+                                                <select name="course_id" id="lesson-course"
+                                                        class="form-control form-control-md">
+                                                    <option selected>-- Chọn khóa học --</option>
+                                                    @foreach($course as $key => $item)
+                                                        <option
+                                                            value="{{ $item->id }}" {{ old('course_id') ===  $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('course_id')
+                                                <p style="color: red;">{{$message}}</p>
+                                                @enderror
+                                            </div>
                                             <div class="form-group col-6">
                                                 <label for="lesson-level">Trình độ <span
                                                         class="text-danger">*</span></label>
@@ -76,6 +76,15 @@
                                                 @error('level_id')
                                                 <p style="color: red;">{{$message}}</p>
                                                 @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-6">
+                                                <label for="lesson-position">Thứ tự<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="number" name="position" id="lesson-position"
+                                                       class="form-control form-control-md"
+                                                       value="{{ old('position') }}" placeholder="Nhập vào vị trí">
                                             </div>
                                             <div class="form-group col-6">
                                                 <label for="lesson-status">Trạng thái <span

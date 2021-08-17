@@ -94,6 +94,7 @@ class LessonController extends Controller
         $description = $request->description;
         $level_id = $request->level_id;
         $course_id = $request->course_id;
+        $position = $request->position;
         $status = $request->status;
 
         $videoGrammarIds = $request->videoGrammarIds;
@@ -132,6 +133,7 @@ class LessonController extends Controller
             'name' => $name,
             'description' => $description,
             'thumb_img' => $thumbVal,
+            'position' => $position,
             'video_ids' => json_encode($videoIds),
             'level_id' => $level_id,
             'course_id' => $course_id,
@@ -263,6 +265,7 @@ class LessonController extends Controller
         $description = $request->description;
         $level_id = $request->level_id;
         $course_id = $request->course_id;
+        $position = $request->position;
         $status = $request->status;
 
         $videoGrammarIds = $request->videoGrammarIds;
@@ -314,6 +317,7 @@ class LessonController extends Controller
             $dataLesson = [
                 'name' => $name,
                 'description' => $description,
+                'position' => $position,
                 'video_ids' => json_encode($videoIds),
                 'level_id' => $level_id,
                 'course_id' => $course_id,
@@ -327,6 +331,7 @@ class LessonController extends Controller
                 'name' => $name,
                 'description' => $description,
                 'thumb_img' => $thumbVal,
+                'position' => $position,
                 'video_ids' => json_encode($videoIds),
                 'level_id' => $level_id,
                 'course_id' => $course_id,

@@ -75,8 +75,10 @@ class ApiLessonController extends BaseApiController
     {
         $checkToken = $this->checkJwt($request->bearerToken());
         $idCourse = isset($_GET["course_id"]) ? (int)$_GET["course_id"] : 0;
+        $sortById = isset($_GET["sortById"]) ? $_GET["sortById"] : '';
+        $sortByPosition = isset($_GET["sortByPosition"]) ? $_GET["sortByPosition"] : '';
         $pageSize = isset($_GET["page_size"]) ? (int)$_GET["page_size"] : PAGE_SIZE;
-        $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;;
+        $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;
 
         $mQuery = Lesson::query();
         if ($idCourse > 0) {
@@ -85,7 +87,20 @@ class ApiLessonController extends BaseApiController
         $mQuery->where('status', 1);
         $mQuery->offset($pageSize * $pageNumber);
         $mQuery->limit($pageSize);
-        $data = $mQuery->orderBy('id', 'DESC')->get();
+
+        if ($sortByPosition == null) {
+            $mQuery->orderBy('position', 'DESC');
+        } else {
+            $mQuery->orderBy('position', $sortByPosition);
+        }
+
+        if (empty($sortById)) {
+            $mQuery->orderBy('id', 'DESC');
+        } else {
+            $mQuery->orderBy('id', $sortById);
+        }
+
+        $data = $mQuery->get();
 
         if ($checkToken != 'success') {
             return $this->jsonResponse([
@@ -198,7 +213,7 @@ class ApiLessonController extends BaseApiController
                 'name' => $lesson->name,
                 'description' => utf8_encode($lesson->description),
                 'thumb_img' => getPathImage($lesson->thumb_img),
-                //'video_ids' => json_decode($value->video_ids),
+                'position' => $lesson->position,
                 'videoGrammar' => $responseVideoGrammar,
                 'videoLesson' => $responseVideoLesson,
                 'speakList' => $responseSpeak,
