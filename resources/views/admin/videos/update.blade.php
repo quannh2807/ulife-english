@@ -150,7 +150,7 @@
                 <!-- /.card-body -->
                 <div class="card-footer">
                     <div class="d-flex align-items-center justify-content-end">
-                        <button type="submit" class="btn btn-primary" id="btn-create"><i
+                        <button type="submit" class="btn btn-sm btn-primary" id="btn-create"><i
                                 class="fa fa-save"></i>&nbsp;&nbsp;Cập nhật
                         </button>
                     </div>

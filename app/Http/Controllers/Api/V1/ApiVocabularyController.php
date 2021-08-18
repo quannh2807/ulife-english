@@ -59,13 +59,13 @@ class ApiVocabularyController extends BaseApiController
         foreach ($data as $key => $value) {
             $responseData [] = [
                 'id' => $value->id,
-                'name' => $value->name,
-                'spelling' => $value->spelling,
+                'word' => $value->name,
+                'pronounce' => $value->spelling,
                 'description' => utf8_encode($value->description),
-                'thumb' => getPathImage($value->thumb),
-                'cat_id' => $value->cat_id,
+                'image' => getPathImage($value->thumb),
+                //'cat_id' => $value->cat_id,
                 'status' => $value->status,
-                'created_at' => $value->created_at
+                //'created_at' => $value->created_at
             ];
         }
 
@@ -104,8 +104,8 @@ class ApiVocabularyController extends BaseApiController
 
         $responseData = [
             'id' => $data->id,
-            'name' => $data->name,
-            'spelling' => $data->spelling,
+            'word' => $data->name,
+            'pronounce' => $data->spelling,
             'description' => utf8_encode($data->description),
             'thumb' => getPathImage($data->thumb),
             'cat_id' => $data->cat_id,
@@ -160,13 +160,13 @@ class ApiVocabularyController extends BaseApiController
         foreach ($data as $key => $value) {
             $responseData [] = [
                 'id' => $value->id,
-                'name' => $value->name,
-                'thumb' => getPathImage($value->thumb),
-                'description' => utf8_encode($value->description),
-                'parent_id' => $value->parent_id,
-                'type' => $value->type,
+                'title' => $value->name,
+                'image' => getPathImage($value->thumb),
+                //'description' => utf8_encode($value->description),
+                //'parent_id' => $value->parent_id,
+                //'type' => $value->type,
                 'status' => $value->status,
-                'created_at' => $value->created_at
+                //'created_at' => $value->created_at
             ];
         }
 
@@ -205,8 +205,8 @@ class ApiVocabularyController extends BaseApiController
 
         $responseData = [
             'id' => $data->id,
-            'name' => $data->name,
-            'thumb' => getPathImage($data->thumb),
+            'title' => $data->name,
+            'image' => getPathImage($data->thumb),
             'description' => utf8_encode($data->description),
             'parent_id' => $data->parent_id,
             'type' => $data->type,
