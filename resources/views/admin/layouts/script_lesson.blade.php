@@ -287,119 +287,127 @@
         $('.add_more_exercises').click(function (e) {
             e.preventDefault();
             $('.input_fields_exercises').append('<div class="layoutBorder" data-position="' + indexEx + '">\n' +
-                '                                       <input name="id_exercises[' + indexEx + ']" type="text" value="0" hidden>\n' +
                 '                                        <div class="row">\n' +
-                '                                            <div class="col-sm-10">\n' +
-                '                                                <div class="form-group">\n' +
-                '                                                    <input type="text" class="form-control form-control-sm"\n' +
-                '                                                           name="exercises_name[' + indexEx + ']"\n' +
-                '                                                           placeholder="Nhập nội dung câu hỏi">\n' +
-                '                                                </div>\n' +
+                '                                            <div class="number">\n' +
+                '                                                <span class="badge badge-info">' + (indexEx + 1) + '</span>\n' +
                 '                                            </div>\n' +
-                '                                            <div class="col-sm-2">\n' +
-                '                                                <div class="form-group">\n' +
-                '                                                    <a class="btn btn-sm btn-danger remove_exercises"\n' +
-                '                                                       href="javascript:void(0)">\n' +
-                '                                                        <i class="fa fa-times"></i>&nbsp;&nbsp; Remove\n' +
-                '                                                    </a>\n' +
-                '                                                </div>\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="row">\n' +
-                '                                            <div class="col-sm-5">\n' +
-                '                                                <div class="form-group row">\n' +
-                '                                                    <label for="" class="col-sm-1"><span\n' +
-                '                                                            class="badge badge-question">1</span></label>\n' +
-                '                                                    <div class="col-sm-11">\n' +
-                '                                                        <input type="text" class="form-control form-control-sm"\n' +
-                '                                                               name="answer_1[' + indexEx + ']"\n' +
-                '                                                               placeholder="Nhập câu trả lời">\n' +
-                '                                                    </div>\n' +
-                '                                                </div>\n' +
-                '                                                <div class="form-group row">\n' +
-                '                                                    <label for="" class="col-sm-1"><span\n' +
-                '                                                            class="badge badge-question">2</span></label>\n' +
-                '                                                    <div class="col-sm-11">\n' +
-                '                                                        <input type="text" class="form-control form-control-sm"\n' +
-                '                                                               name="answer_2[' + indexEx + ']"\n' +
-                '                                                               placeholder="Nhập câu trả lời">\n' +
-                '                                                    </div>\n' +
-                '                                                </div>\n' +
-                '                                            </div>\n' +
-                '                                            <div class="col-sm-5">\n' +
-                '                                                <div class="form-group row">\n' +
-                '                                                    <label for="" class="col-sm-1"><span\n' +
-                '                                                            class="badge badge-question">3</span></label>\n' +
-                '                                                    <div class="col-sm-11">\n' +
-                '                                                        <input type="text" class="form-control form-control-sm"\n' +
-                '                                                               name="answer_3[' + indexEx + ']"\n' +
-                '                                                               placeholder="Nhập câu trả lời">\n' +
-                '                                                    </div>\n' +
-                '                                                </div>\n' +
-                '                                                <div class="form-group row">\n' +
-                '                                                    <label for="" class="col-sm-1"><span\n' +
-                '                                                            class="badge badge-question">4</span></label>\n' +
-                '                                                    <div class="col-sm-11">\n' +
-                '                                                        <input type="text" class="form-control form-control-sm"\n' +
-                '                                                               name="answer_4[' + indexEx + ']"\n' +
-                '                                                               placeholder="Nhập câu trả lời">\n' +
-                '                                                    </div>\n' +
-                '                                                </div>\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="row">\n' +
-                '                                            <div class="col-sm-10">\n' +
+                '                                            <div class="content">\n' +
                 '                                                <div class="row">\n' +
-                '                                                    <span>Chọn đáp án đúng:&nbsp;&nbsp;&nbsp;</span>\n' +
-                '                                                    <div class="col">\n' +
-                '                                                        <div class="form-check">\n' +
-                '                                                            <input class="form-check-input"\n' +
-                '                                                                   type="radio" id="answer_correct_1_' + indexEx + '"\n' +
-                '                                                                   name="answer_correct[' + indexEx + ']" value="1" checked>\n' +
-                '                                                            <label for="answer_correct_1_' + indexEx + '"><span\n' +
-                '                                                                    class="badge badge-question margin-circle">1</span>\n' +
-                '                                                            </label>\n' +
+                '                                                    <div class="col-sm-10">\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <input type="text" class="form-control form-control-sm"\n' +
+                '                                                                   name="exercises_name[' + indexEx + ']"\n' +
+                '                                                                   placeholder="Nhập nội dung câu hỏi">\n' +
                 '                                                        </div>\n' +
                 '                                                    </div>\n' +
-                '                                                    <div class="col">\n' +
-                '                                                        <div class="form-check">\n' +
-                '                                                            <input class="form-check-input"\n' +
-                '                                                                   type="radio" id="answer_correct_2_' + indexEx + '"\n' +
-                '                                                                   name="answer_correct[' + indexEx + ']" value="2">\n' +
-                '                                                            <label for="answer_correct_2_' + indexEx + '"><span\n' +
-                '                                                                    class="badge badge-question margin-circle">2</span>\n' +
-                '                                                            </label>\n' +
+                '                                                    <div class="col-sm-2">\n' +
+                '                                                        <div class="form-group">\n' +
+                '                                                            <a class="btn btn-sm btn-danger remove_exercises"\n' +
+                '                                                               href="javascript:void(0)">\n' +
+                '                                                                <i class="fa fa-times"></i>&nbsp;&nbsp; Remove\n' +
+                '                                                            </a>\n' +
                 '                                                        </div>\n' +
                 '                                                    </div>\n' +
-                '                                                    <div class="col">\n' +
-                '                                                        <div class="form-check">\n' +
-                '                                                            <input class="form-check-input"\n' +
-                '                                                                   type="radio" id="answer_correct_3_' + indexEx + '"\n' +
-                '                                                                   name="answer_correct[' + indexEx + ']" value="3">\n' +
-                '                                                            <label for="answer_correct_3_' + indexEx + '"><span\n' +
-                '                                                                    class="badge badge-question margin-circle">3</span>\n' +
-                '                                                            </label>\n' +
+                '                                                </div>\n' +
+                '                                                <div class="row">\n' +
+                '                                                    <div class="col-sm-5">\n' +
+                '                                                        <div class="form-group row">\n' +
+                '                                                            <label for="" class="col-sm-1"><span\n' +
+                '                                                                    class="badge badge-question">1</span></label>\n' +
+                '                                                            <div class="col-sm-11">\n' +
+                '                                                                <input type="text" class="form-control form-control-sm"\n' +
+                '                                                                       name="answer_1[' + indexEx + ']"\n' +
+                '                                                                       placeholder="Nhập câu trả lời">\n' +
+                '                                                            </div>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group row">\n' +
+                '                                                            <label for="" class="col-sm-1"><span\n' +
+                '                                                                    class="badge badge-question">2</span></label>\n' +
+                '                                                            <div class="col-sm-11">\n' +
+                '                                                                <input type="text" class="form-control form-control-sm"\n' +
+                '                                                                       name="answer_2[' + indexEx + ']"\n' +
+                '                                                                       placeholder="Nhập câu trả lời">\n' +
+                '                                                            </div>\n' +
                 '                                                        </div>\n' +
                 '                                                    </div>\n' +
-                '                                                    <div class="col">\n' +
-                '                                                        <div class="form-check">\n' +
-                '                                                            <input class="form-check-input"\n' +
-                '                                                                   type="radio" id="answer_correct_4_' + indexEx + '"\n' +
-                '                                                                   name="answer_correct[' + indexEx + ']" value="4">\n' +
-                '                                                            <label for="answer_correct_4_' + indexEx + '"><span\n' +
-                '                                                                    class="badge badge-question margin-circle">4</span>\n' +
-                '                                                            </label>\n' +
+                '                                                    <div class="col-sm-5">\n' +
+                '                                                        <div class="form-group row">\n' +
+                '                                                            <label for="" class="col-sm-1"><span\n' +
+                '                                                                    class="badge badge-question">3</span></label>\n' +
+                '                                                            <div class="col-sm-11">\n' +
+                '                                                                <input type="text" class="form-control form-control-sm"\n' +
+                '                                                                       name="answer_3[' + indexEx + ']"\n' +
+                '                                                                       placeholder="Nhập câu trả lời">\n' +
+                '                                                            </div>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="form-group row">\n' +
+                '                                                            <label for="" class="col-sm-1"><span\n' +
+                '                                                                    class="badge badge-question">4</span></label>\n' +
+                '                                                            <div class="col-sm-11">\n' +
+                '                                                                <input type="text" class="form-control form-control-sm"\n' +
+                '                                                                       name="answer_4[' + indexEx + ']"\n' +
+                '                                                                       placeholder="Nhập câu trả lời">\n' +
+                '                                                            </div>\n' +
+                '                                                        </div>\n' +
+                '                                                    </div>\n' +
+                '                                                </div>\n' +
+                '                                                <div class="row">\n' +
+                '                                                    <div class="col-sm-10">\n' +
+                '                                                        <div class="row">\n' +
+                '                                                            <span>Chọn đáp án đúng:&nbsp;&nbsp;&nbsp;</span>\n' +
+                '                                                            <div class="col">\n' +
+                '                                                                <div class="form-check">\n' +
+                '                                                                    <input class="form-check-input"\n' +
+                '                                                                           type="radio" id="answer_correct_1_' + indexEx + '"\n' +
+                '                                                                           name="answer_correct[' + indexEx + ']" value="1" checked>\n' +
+                '                                                                    <label for="answer_correct_1_' + indexEx + '"><span\n' +
+                '                                                                            class="badge badge-question margin-circle">1</span>\n' +
+                '                                                                    </label>\n' +
+                '                                                                </div>\n' +
+                '                                                            </div>\n' +
+                '                                                            <div class="col">\n' +
+                '                                                                <div class="form-check">\n' +
+                '                                                                    <input class="form-check-input"\n' +
+                '                                                                           type="radio" id="answer_correct_2_' + indexEx + '"\n' +
+                '                                                                           name="answer_correct[' + indexEx + ']" value="2">\n' +
+                '                                                                    <label for="answer_correct_2_' + indexEx + '"><span\n' +
+                '                                                                            class="badge badge-question margin-circle">2</span>\n' +
+                '                                                                    </label>\n' +
+                '                                                                </div>\n' +
+                '                                                            </div>\n' +
+                '                                                            <div class="col">\n' +
+                '                                                                <div class="form-check">\n' +
+                '                                                                    <input class="form-check-input"\n' +
+                '                                                                           type="radio" id="answer_correct_3_' + indexEx + '"\n' +
+                '                                                                           name="answer_correct[' + indexEx + ']" value="3">\n' +
+                '                                                                    <label for="answer_correct_3_' + indexEx + '"><span\n' +
+                '                                                                            class="badge badge-question margin-circle">3</span>\n' +
+                '                                                                    </label>\n' +
+                '                                                                </div>\n' +
+                '                                                            </div>\n' +
+                '                                                            <div class="col">\n' +
+                '                                                                <div class="form-check">\n' +
+                '                                                                    <input class="form-check-input"\n' +
+                '                                                                           type="radio" id="answer_correct_4_' + indexEx + '"\n' +
+                '                                                                           name="answer_correct[' + indexEx + ']" value="4">\n' +
+                '                                                                    <label for="answer_correct_4_' + indexEx + '"><span\n' +
+                '                                                                            class="badge badge-question margin-circle">4</span>\n' +
+                '                                                                    </label>\n' +
+                '                                                                </div>\n' +
+                '                                                            </div>\n' +
                 '                                                        </div>\n' +
                 '                                                    </div>\n' +
                 '                                                </div>\n' +
                 '                                            </div>\n' +
                 '                                        </div>\n' +
                 '                                    </div>');
+
             indexEx++;
         });
         $('.input_fields_exercises').on("click", ".remove_exercises", function (e) {
             e.preventDefault();
-            $(this).parent().parent().parent().parent('div').remove();
+            $(this).parent().parent().parent().parent().parent().parent('div').remove();
+            setIndexExercises();
         })
 
         /* End exercises */
@@ -412,6 +420,17 @@
             } else {
                 return 1;
             }
+        }
+
+        function setIndexExercises() {
+            $('.input_fields_exercises .layoutBorder .number .badge').each(function (index, item) {
+                $(item).html(index + 1);
+            });
+            /*let dataList = $('.input_fields_exercises .layoutBorder .number .badge');
+            for (let i = 0; i < dataList.length; i++) {
+                let element = dataList.eq(i);
+                element.html(i + 1)
+            }*/
         }
 
     });

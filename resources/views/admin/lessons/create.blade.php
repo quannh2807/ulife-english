@@ -319,106 +319,113 @@
                                 <div class="input_fields_exercises">
                                     <div class="layoutBorder" data-position="0">
                                         <div class="row">
-                                            <div class="col-sm-10">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           name="exercises_name[0]"
-                                                           placeholder="Nhập nội dung câu hỏi">
-                                                </div>
+                                            <div class="number">
+                                                <span class="badge badge-info">1</span>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <div class="form-group">
-                                                    <a class="btn btn-sm btn-success add_more_exercises"
-                                                       href="javascript:void(0)">
-                                                        <i class="fa fa-plus"></i>&nbsp;&nbsp; Add Exercises
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-5">
-                                                <div class="form-group row">
-                                                    <label for="" class="col-sm-1"><span
-                                                            class="badge badge-question">1</span></label>
-                                                    <div class="col-sm-11">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               name="answer_1[0]"
-                                                               placeholder="Nhập câu trả lời">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="" class="col-sm-1"><span
-                                                            class="badge badge-question">2</span></label>
-                                                    <div class="col-sm-11">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               name="answer_2[0]"
-                                                               placeholder="Nhập câu trả lời">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <div class="form-group row">
-                                                    <label for="" class="col-sm-1"><span
-                                                            class="badge badge-question">3</span></label>
-                                                    <div class="col-sm-11">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               name="answer_3[0]"
-                                                               placeholder="Nhập câu trả lời">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="" class="col-sm-1"><span
-                                                            class="badge badge-question">4</span></label>
-                                                    <div class="col-sm-11">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               name="answer_4[0]"
-                                                               placeholder="Nhập câu trả lời">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-10">
+                                            <div class="content">
                                                 <div class="row">
-                                                    <span>Chọn đáp án đúng:&nbsp;&nbsp;&nbsp;</span>
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input"
-                                                                   type="radio" id="answer_correct_1_0"
-                                                                   name="answer_correct[0]" value="1" checked>
-                                                            <label for="answer_correct_1_0"><span
-                                                                    class="badge badge-question margin-circle">1</span>
-                                                            </label>
+                                                    <div class="col-sm-10">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   name="exercises_name[0]"
+                                                                   placeholder="Nhập nội dung câu hỏi">
                                                         </div>
                                                     </div>
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input"
-                                                                   type="radio" id="answer_correct_2_0"
-                                                                   name="answer_correct[0]" value="2">
-                                                            <label for="answer_correct_2_0"><span
-                                                                    class="badge badge-question margin-circle">2</span>
-                                                            </label>
+                                                    <div class="col-sm-2">
+                                                        <div class="form-group">
+                                                            <a class="btn btn-sm btn-success add_more_exercises"
+                                                               href="javascript:void(0)">
+                                                                <i class="fa fa-plus"></i>&nbsp;&nbsp; Add Exercises
+                                                            </a>
                                                         </div>
                                                     </div>
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input"
-                                                                   type="radio" id="answer_correct_3_0"
-                                                                   name="answer_correct[0]" value="3">
-                                                            <label for="answer_correct_3_0"><span
-                                                                    class="badge badge-question margin-circle">3</span>
-                                                            </label>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group row">
+                                                            <label for="" class="col-sm-1"><span
+                                                                    class="badge badge-question">1</span></label>
+                                                            <div class="col-sm-11">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       name="answer_1[0]"
+                                                                       placeholder="Nhập câu trả lời">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="" class="col-sm-1"><span
+                                                                    class="badge badge-question">2</span></label>
+                                                            <div class="col-sm-11">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       name="answer_2[0]"
+                                                                       placeholder="Nhập câu trả lời">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input"
-                                                                   type="radio" id="answer_correct_4_0"
-                                                                   name="answer_correct[0]" value="4">
-                                                            <label for="answer_correct_4_0"><span
-                                                                    class="badge badge-question margin-circle">4</span>
-                                                            </label>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group row">
+                                                            <label for="" class="col-sm-1"><span
+                                                                    class="badge badge-question">3</span></label>
+                                                            <div class="col-sm-11">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       name="answer_3[0]"
+                                                                       placeholder="Nhập câu trả lời">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="" class="col-sm-1"><span
+                                                                    class="badge badge-question">4</span></label>
+                                                            <div class="col-sm-11">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       name="answer_4[0]"
+                                                                       placeholder="Nhập câu trả lời">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-10">
+                                                        <div class="row">
+                                                            <span>Chọn đáp án đúng:&nbsp;&nbsp;&nbsp;</span>
+                                                            <div class="col">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input"
+                                                                           type="radio" id="answer_correct_1_0"
+                                                                           name="answer_correct[0]" value="1" checked>
+                                                                    <label for="answer_correct_1_0"><span
+                                                                            class="badge badge-question margin-circle">1</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input"
+                                                                           type="radio" id="answer_correct_2_0"
+                                                                           name="answer_correct[0]" value="2">
+                                                                    <label for="answer_correct_2_0"><span
+                                                                            class="badge badge-question margin-circle">2</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input"
+                                                                           type="radio" id="answer_correct_3_0"
+                                                                           name="answer_correct[0]" value="3">
+                                                                    <label for="answer_correct_3_0"><span
+                                                                            class="badge badge-question margin-circle">3</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input"
+                                                                           type="radio" id="answer_correct_4_0"
+                                                                           name="answer_correct[0]" value="4">
+                                                                    <label for="answer_correct_4_0"><span
+                                                                            class="badge badge-question margin-circle">4</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
