@@ -26,7 +26,6 @@ class UpdateYtbIdVideosTable extends Migration
     public function down()
     {
         Schema::table('videos', function (Blueprint $table) {
-            $table->dropColumn('ytb_id');
         });
     }
 }
