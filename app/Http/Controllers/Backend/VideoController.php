@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoRequest;
+use App\Http\Requests\VideoRequestUpdate;
 use App\Models\Video;
 use App\Repositories\CategoryRepository;
 use App\Repositories\VideoRepository;
@@ -75,7 +76,7 @@ class VideoController extends Controller
         $id = $request->id;
         $categories = $this->categoryRepository->fetchAll(['hasChildrenCateRecursive', 'hasParentCate'], ['id', 'name', 'parent_id']);
         $current_video = $this->videoRepository->findById($id, ['hasCategories']);
-        $current_video->ytb_thumbnails = json_decode($current_video->ytb_thumbnails, true)['default'];
+        //$current_video->ytb_thumbnails = json_decode($current_video->ytb_thumbnails, true)['default'];
 
         return view('admin.videos.update', [
             'categories' => $categories,
@@ -86,8 +87,9 @@ class VideoController extends Controller
     /**
      * @param Request $request
      */
-    public function saveUpdate(Request $request)
+    public function saveUpdate(VideoRequestUpdate $request)
     {
+        $request->request->remove('ytb_url');
         $currentVideo = $this->videoRepository->findById($request->id, []);
         // luu record quan he n-n vao bang video_category
         $categories = $request->categories;
@@ -96,8 +98,13 @@ class VideoController extends Controller
 
         $video = $request->except('_token', 'categories');
         if ($request->hasFile('custom_thumbnails')) {
+            // remove old image
+            if (!empty($video->custom_thumbnails)) {
+                if (file_exists('storage/' . $video->custom_thumbnails)) {
+                    unlink('storage/' . $video->custom_thumbnails);
+                };
+            }
             $path = $request->file('custom_thumbnails')->store('thumbnails', 'public');
-
             $video['custom_thumbnails'] = $path;
         }
         $updateVideo = $this->videoRepository->update($video['id'], $video);

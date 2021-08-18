@@ -6,7 +6,7 @@
 @section('main')
     <div class="card">
         <div class="card-header">
-            <div class="">
+            <div class="row">
                 <form action="{{ route('admin.video.search') }}" method="GET" class="form-inline">
                     <div class="col">
                         <input type="text" name="keyword" class="form-control form-control-sm"
@@ -55,7 +55,7 @@
             <table class="table table-hover text-wrap">
                 <thead>
                 <tr>
-                    <th>#</th>
+                    <th style="width: 30px;">STT</th>
                     <th>Ảnh</th>
                     <th width="30%">Tên video</th>
                     <th>Loại video</th>
@@ -76,7 +76,7 @@
                 <tbody class="">
                 @foreach($videos as $key => $video)
                     <tr id="row-{{$video->id}}">
-                        <th>{{ $i ++ }}</th>
+                        <th class="text-center">{{ $i ++ }}</th>
                         <td>
                             <img
                                 src="{{ $video->custom_thumbnails ? asset('storage/' . $video->custom_thumbnails) : json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
@@ -85,15 +85,13 @@
                                 alt="">
                         </td>
                         <td>{{ $video->title }}</td>
-                        <td>{!! $video->type == 1 ? '<span class="d-inline-block px-1 m-1 bg-success rounded" style="font-size: 13px">Grammar</span>' : '<span class="d-inline-block px-1 m-1 bg-info rounded" style="font-size: 13px">Lesson</span>' !!}</td>
+                        <td>{!! $video->type == 1 ? '<span class="badge bg-success">Grammar</span>' : '<span class="badge bg-info">Lesson</span>' !!}</td>
                         <td>
                             @foreach($video->hasCategories as $cate)
-                                <span class="d-inline-block px-1 m-1 bg-success rounded"
-                                      style="font-size: 13px">{{ $cate->name }}</span>
+                                <span class="badge bg-info">{{ $cate->name }}</span>
                             @endforeach
                         </td>
-                        <td class="text-center">{!! $video->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                            : '<label id="status" class="active">Kích hoạt</label>' !!}</td>
+                        <td class="text-center">{!! htmlStatus($video->status) !!}</td>
                         <td align="center" class="text-center">
                             <a href="{{ route('admin.subtitle.index', ['video_id' => $video->id]) }}"
                                class="d-inline-block btn btn-sm btn-info mb-1">
