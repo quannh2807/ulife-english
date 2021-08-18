@@ -25,8 +25,7 @@ class VideoRequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            //'ytb_id' => 'required',
-            //'ytb_id' => 'unique:videos,id,ytb_id,' . $this->video['ytb_id'],
+            'ytb_id' => 'unique:videos,ytb_id,' . $this->video['ytb_id'],
             'title' => 'required',
             /*'description' => 'required',
             'ytb_thumbnails' => 'required',
@@ -47,8 +46,8 @@ class VideoRequestUpdate extends FormRequest
     public function messages()
     {
         return [
-            //'ytb_id.required' => 'Đường dẫn video youtube không được bỏ trống.',
-            //'ytb_id.unique' => 'Đường dẫn video youtube đã tồn tại.',
+            'ytb_id.required' => 'Đường dẫn video youtube không được bỏ trống.',
+            'ytb_id.unique' => 'Đường dẫn video youtube đã tồn tại.',
         ];
     }
 }
