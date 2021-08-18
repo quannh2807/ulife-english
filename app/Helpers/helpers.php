@@ -260,3 +260,24 @@ function httpResponseCode($code = NULL)
     }
     return $code;
 }
+
+
+function getCorrectTextExercises($exercises)
+{
+    if (!empty($exercises)) {
+        $answerCorrect = $exercises->answer_correct;
+        if ($answerCorrect == '1') {
+            return $exercises->answer_1;
+        } elseif ($answerCorrect == '2') {
+            return $exercises->answer_2;
+        } elseif ($answerCorrect == '3') {
+            return $exercises->answer_3;
+        } elseif ($answerCorrect == '4') {
+            return $exercises->answer_4;
+        } else {
+            return '';
+        }
+    } else {
+        return '';
+    }
+}

@@ -202,6 +202,7 @@ class ApiLessonController extends BaseApiController
                         'answer_3' => $item->answer_3,
                         'answer_4' => $item->answer_4,
                         'answer_correct' => $item->answer_correct,
+                        'answer_correct_text' => getCorrectTextExercises($item),
                         'status' => $item->status,
                         'created_at' => $item->created_at
                     ];

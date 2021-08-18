@@ -21,10 +21,7 @@ class BaseApiController extends Controller
 
     public function getBearerToken()
     {
-        $token = request()->bearerToken();
-        if (Str::startsWith($token, 'Bearer ')) {
-            return Str::substr($token, 7);
-        }
+        return request()->bearerToken();
     }
 
     public function getBearerTokenHeader()

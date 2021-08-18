@@ -26,13 +26,11 @@ class ApiCategoryController extends BaseApiController
         $mQuery->where('status', 1);
         $mQuery->offset($pageSize * $pageNumber);
         $mQuery->limit($pageSize);
-
         if (empty($sortById)) {
             $mQuery->orderBy('id', 'DESC');
         } else {
             $mQuery->orderBy('id', $sortById);
         }
-
         $data = $mQuery->get();
 
         if ($checkToken != 'success') {

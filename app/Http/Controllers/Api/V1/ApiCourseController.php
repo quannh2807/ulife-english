@@ -16,7 +16,7 @@ class ApiCourseController extends BaseApiController
 {
     public function courseList(Request $request)
     {
-        $checkToken = $this->checkJwt($this->getBearerToken());
+        $checkToken = $this->checkJwt($request->bearerToken());
         $pageSize = isset($_GET["page_size"]) ? (int)$_GET["page_size"] : PAGE_SIZE;
         $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;
         $sortById = isset($_GET["sortById"]) ? $_GET["sortById"] : '';
