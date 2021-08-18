@@ -25,7 +25,8 @@ class VideoRequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            'ytb_id' => 'unique:videos,id,ytb_id,' . $this->video['ytb_id'],
+            'ytb_id' => 'required',
+            //'ytb_id' => 'unique:videos,id,ytb_id,' . $this->video['ytb_id'],
             'title' => 'required',
             /*'description' => 'required',
             'ytb_thumbnails' => 'required',
