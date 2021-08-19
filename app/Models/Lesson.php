@@ -52,10 +52,6 @@ class Lesson extends Model
     /**
      * @return BelongsToMany
      */
-    public function hasVideos()
-    {
-        return $this->belongsToMany(Video::class, 'lesson_video', 'lesson_id', 'video_id');
-    }
 
     public function hasLevel()
     {

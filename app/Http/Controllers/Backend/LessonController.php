@@ -213,7 +213,7 @@ class LessonController extends Controller
 
     public function edit($id)
     {
-        $lesson = $this->lessonRepository->findById($id, ['hasVideos']);
+        $lesson = $this->lessonRepository->findById($id, []);
         $levels = $this->levelRepository->fetchAll([]);
         $videos = $this->videoRepository->fetchAll([], ['id', 'title']);
         $course = Course::where('status', 1)->get();
