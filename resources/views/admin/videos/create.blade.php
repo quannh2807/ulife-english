@@ -72,6 +72,16 @@
                                 <input type="text" class="form-control form-control-sm" id="ytb-channel"
                                        placeholder="Youtube video url" name="channel_title"/>
                             </div>
+                            <div class="form-group">
+                                <label for="topic_id">Chủ đề</label>
+                                <select class="form-control form-control-sm"
+                                        name="topic_id" id="topic_id">
+                                    <option value="0">-- Chọn chủ đề --</option>
+                                    @foreach($topicData as $index => $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-6">
                                     <label for="ytb-type">Loại video<span class="text-danger">&nbsp;*</span></label>
@@ -123,8 +133,8 @@
 
             // Summernote
             $('#video-description').summernote({
-                height: 150,
-                minHeight: 150,
+                height: 200,
+                minHeight: 200,
                 maxHeight: 300,
                 focus: false
             });

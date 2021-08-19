@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoRequest;
 use App\Http\Requests\VideoRequestUpdate;
+use App\Models\Topics;
 use App\Models\Video;
 use App\Repositories\CategoryRepository;
 use App\Repositories\VideoRepository;
@@ -51,9 +52,11 @@ class VideoController extends Controller
     public function create()
     {
         $categories = $this->categoryRepository->fetchAll(['hasChildrenCateRecursive', 'hasParentCate'], ['id', 'name', 'parent_id']);
+        $topicData = Topics::where('status', 1)->orderBy('id', 'ASC')->get();
 
         return view('admin.videos.create', [
             'categories' => $categories,
+            'topicData' => $topicData,
         ]);
     }
 
@@ -74,12 +77,14 @@ class VideoController extends Controller
     public function update(Request $request)
     {
         $id = $request->id;
+        $topicData = Topics::where('status', 1)->orderBy('id', 'ASC')->get();
         $categories = $this->categoryRepository->fetchAll(['hasChildrenCateRecursive', 'hasParentCate'], ['id', 'name', 'parent_id']);
         $current_video = $this->videoRepository->findById($id, ['hasCategories']);
         //$current_video->ytb_thumbnails = json_decode($current_video->ytb_thumbnails, true)['default'];
 
         return view('admin.videos.update', [
             'categories' => $categories,
+            'topicData' => $topicData,
             'video' => $current_video,
         ]);
     }

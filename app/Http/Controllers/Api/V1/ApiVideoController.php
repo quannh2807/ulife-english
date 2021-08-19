@@ -13,26 +13,56 @@ use App\Models\Question;
 use App\Models\Video;
 use App\Models\VideoSubtitle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ApiVideoController extends BaseApiController
 {
     public function videoList(Request $request)
     {
         $checkToken = $this->checkJwt($request->bearerToken());
-        //$catId = isset($_GET["cat_id"]) ? (int)$_GET["cat_id"] : 0;
+        $catIds = isset($_GET["cat_ids"]) ? $_GET["cat_ids"] : '';
         $pageSize = isset($_GET["page_size"]) ? (int)$_GET["page_size"] : PAGE_SIZE;
         $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;;
         $sortById = isset($_GET["sortById"]) ? $_GET["sortById"] : '';
+        $searchText = isset($_GET["search_text"]) ? $_GET["search_text"] : '';
+        $topicId = isset($_GET["topic_id"]) ? (int)$_GET["topic_id"] : '';
 
-        $mQuery = Video::query();
-        $mQuery->where('status', 1);
+        $mQuery = Video::join('video_category', 'videos.id', '=', 'video_category.video_id')
+            ->join('categories', 'video_category.category_id', '=', 'categories.id');
+        $mQuery->select(['videos.id AS video_id',
+            'videos.title AS video_title',
+            'videos.ytb_id',
+            'videos.ytb_thumbnails',
+            'videos.description',
+            'videos.type',
+            'videos.status',
+            'videos.topic_id',
+            'videos.created_at',
+            'video_category.category_id',
+            'categories.name AS category_name']);
+        $mQuery->where('videos.status', 1);
+
+        if (!empty($searchText)) {
+            $mQuery->where('videos.title', 'LIKE', '%' . $searchText . '%');
+        }
+
+        if (!empty($topicId)) {
+            $mQuery->where('videos.topic_id', $topicId);
+        }
+
+        if (!empty($catIds)) {
+            $mQuery->whereIn('video_category.category_id', explode(',', $catIds));
+        }
+
+        if (empty($sortById)) {
+            $mQuery->orderBy('videos.id', 'DESC');
+        } else {
+            $mQuery->orderBy('videos.id', $sortById);
+        }
+
+        $totalRecord = count($mQuery->get());
         $mQuery->offset($pageSize * $pageNumber);
         $mQuery->limit($pageSize);
-        if (empty($sortById)) {
-            $mQuery->orderBy('id', 'DESC');
-        } else {
-            $mQuery->orderBy('id', $sortById);
-        }
         $data = $mQuery->get();
 
         if ($checkToken != 'success') {
@@ -46,13 +76,16 @@ class ApiVideoController extends BaseApiController
         $responseData = [];
         foreach ($data as $key => $value) {
             $responseData [] = [
-                'id' => $value->id,
+                'id' => $value->video_id,
                 'ytb_id' => $value->ytb_id,
-                'title' => $value->title,
+                'title' => $value->video_title,
                 'description' => $value->description,
                 'ytb_thumbnails' => json_decode($value->ytb_thumbnails),
+                'category_id' => $value->category_id,
+                'category_name' => $value->category_name,
                 'type' => $value->type,
                 'status' => $value->status,
+                'topic_id' => $value->topic_id,
                 'created_at' => $value->created_at
             ];
         }
@@ -64,10 +97,11 @@ class ApiVideoController extends BaseApiController
             'data' => $responseData,
             'page_size' => $pageSize,
             'page_number' => $pageNumber,
-            'total_record' => count(Video::where('status', 1)->get())
+            'total_record' => $totalRecord
         ], 200);
     }
 
+    // video detail by id
     public function videoDetail($id)
     {
         $checkToken = $this->checkJwt($this->getBearerToken());

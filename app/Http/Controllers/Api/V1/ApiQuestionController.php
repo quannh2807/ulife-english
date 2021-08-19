@@ -20,16 +20,24 @@ class ApiQuestionController extends BaseApiController
         $pageSize = isset($_GET["page_size"]) ? (int)$_GET["page_size"] : PAGE_SIZE;
         $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;
         $sortById = isset($_GET["sortById"]) ? $_GET["sortById"] : '';
+        $searchText = isset($_GET["search_text"]) ? $_GET["search_text"] : '';
 
         $mQuery = Question::query();
-        $mQuery->where('status', 1);
-        $mQuery->offset($pageSize * $pageNumber);
-        $mQuery->limit($pageSize);
+        if (!empty($searchText)) {
+            $mQuery->where('name', 'LIKE', '%' . $searchText . '%');
+        }
         if (empty($sortById)) {
             $mQuery->orderBy('id', 'DESC');
         } else {
             $mQuery->orderBy('id', $sortById);
         }
+
+        $mQuery->where('status', 1);
+        $totalRecord = count($mQuery->get());
+
+        $mQuery->offset($pageSize * $pageNumber);
+        $mQuery->limit($pageSize);
+
         $data = $mQuery->get();
 
         if ($checkToken != 'success') {
@@ -78,7 +86,7 @@ class ApiQuestionController extends BaseApiController
             'data' => $responseData,
             'page_size' => $pageSize,
             'page_number' => $pageNumber,
-            'total_record' => count(Question::where('status', 1)->get())
+            'total_record' => $totalRecord
         ], 200);
     }
 

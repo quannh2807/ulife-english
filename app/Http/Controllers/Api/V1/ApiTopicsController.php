@@ -19,11 +19,22 @@ class ApiTopicsController extends BaseApiController
         $checkToken = $this->checkJwt($request->bearerToken());
         $pageSize = isset($_GET["page_size"]) ? (int)$_GET["page_size"] : PAGE_SIZE;
         $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;
+        $searchText = isset($_GET["search_text"]) ? $_GET["search_text"] : '';
+        $ids = isset($_GET["ids"]) ? $_GET["ids"] : '';
 
         $mQuery = Topics::query();
+        if (!empty($searchText)) {
+            $mQuery->where('name', 'LIKE', '%' . $searchText . '%');
+        }
+        if (!empty($ids)) {
+            $mQuery->whereIn('id', explode(',', $ids));
+        }
         $mQuery->where('status', 1);
+        $totalRecord = count($mQuery->get());
+
         $mQuery->offset($pageSize * $pageNumber);
         $mQuery->limit($pageSize);
+
         $data = $mQuery->orderBy('id', 'DESC')->get();
 
         if ($checkToken != 'success') {
@@ -61,7 +72,7 @@ class ApiTopicsController extends BaseApiController
             'data' => $responseData,
             'page_size' => $pageSize,
             'page_number' => $pageNumber,
-            'total_record' => count(Topics::where('status', 1)->get())
+            'total_record' => $totalRecord
         ], 200);
     }
 

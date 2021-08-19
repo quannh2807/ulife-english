@@ -79,27 +79,31 @@ class ApiLessonController extends BaseApiController
         $sortByPosition = isset($_GET["sortByPosition"]) ? $_GET["sortByPosition"] : '';
         $pageSize = isset($_GET["page_size"]) ? (int)$_GET["page_size"] : PAGE_SIZE;
         $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;
+        $searchText = isset($_GET["search_text"]) ? $_GET["search_text"] : '';
 
         $mQuery = Lesson::query();
+
+        if (!empty($searchText)) {
+            $mQuery->where('name', 'LIKE', '%' . $searchText . '%');
+        }
         if ($idCourse > 0) {
             $mQuery->where('course_id', $idCourse);
         }
-        $mQuery->where('status', 1);
-        $mQuery->offset($pageSize * $pageNumber);
-        $mQuery->limit($pageSize);
-
         if ($sortByPosition == null) {
             $mQuery->orderBy('position', 'DESC');
         } else {
             $mQuery->orderBy('position', $sortByPosition);
         }
-
         if (empty($sortById)) {
             $mQuery->orderBy('id', 'DESC');
         } else {
             $mQuery->orderBy('id', $sortById);
         }
 
+        $mQuery->where('status', 1);
+        $totalRecord = count($mQuery->get());
+        $mQuery->offset($pageSize * $pageNumber);
+        $mQuery->limit($pageSize);
         $data = $mQuery->get();
 
         if ($checkToken != 'success') {
@@ -232,7 +236,7 @@ class ApiLessonController extends BaseApiController
             'data' => $responseLesson,
             'page_size' => $pageSize,
             'page_number' => $pageNumber,
-            'total_record' => count(Lesson::where('status', 1)->get())
+            'total_record' => $totalRecord
         ], 200);
     }
 

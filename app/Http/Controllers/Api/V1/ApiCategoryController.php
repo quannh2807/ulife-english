@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\BaseApiController;
 use App\Models\Category;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class ApiCategoryController extends BaseApiController
@@ -18,20 +19,36 @@ class ApiCategoryController extends BaseApiController
     public function categoryList(Request $request)
     {
         $checkToken = $this->checkJwt($request->bearerToken());
+        $limitVideos = isset($_GET["limit_video"]) ? (int)$_GET["limit_video"] : 5;
         $pageSize = isset($_GET["page_size"]) ? (int)$_GET["page_size"] : PAGE_SIZE;
         $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;
         $sortById = isset($_GET["sortById"]) ? $_GET["sortById"] : '';
+        $searchText = isset($_GET["search_text"]) ? $_GET["search_text"] : '';
+        $ids = isset($_GET["ids"]) ? $_GET["ids"] : '';
 
         $mQuery = Category::query();
-        $mQuery->where('status', 1);
-        $mQuery->offset($pageSize * $pageNumber);
-        $mQuery->limit($pageSize);
+
+        if (!empty($searchText)) {
+            $mQuery->where('name', 'LIKE', '%' . $searchText . '%');
+        }
+        if (!empty($ids)) {
+            $mQuery->whereIn('id', explode(',', $ids));
+        }
+
         if (empty($sortById)) {
             $mQuery->orderBy('id', 'DESC');
         } else {
             $mQuery->orderBy('id', $sortById);
         }
+
+        $mQuery->where('status', 1);
+        $totalRecord = count($mQuery->get());
+
+        $mQuery->offset($pageSize * $pageNumber);
+        $mQuery->limit($pageSize);
+
         $data = $mQuery->get();
+
 
         if ($checkToken != 'success') {
             return $this->jsonResponse([
@@ -52,12 +69,34 @@ class ApiCategoryController extends BaseApiController
 
         $responseData = [];
         foreach ($data as $key => $value) {
+
+            $mQuery = Video::join('video_category', 'videos.id', '=', 'video_category.video_id')
+                ->join('categories', 'video_category.category_id', '=', 'categories.id');
+            $mQuery->select(['videos.id AS video_id',
+                'videos.title AS video_title',
+                'videos.ytb_id',
+                'videos.ytb_thumbnails',
+                'videos.description',
+                'videos.type',
+                'videos.status',
+                'videos.topic_id',
+                'videos.created_at',
+                'video_category.video_id AS category_video_id',
+                'video_category.category_id',
+                'categories.name AS category_name']);
+
+            $mQuery->where('video_category.category_id', $value->id);
+            $mQuery->where('videos.status', 1);
+            $mQuery->limit($limitVideos);
+            $videoData = $mQuery->get();
+
             $responseData [] = [
                 'id' => $value->id,
                 'name' => $value->name,
-                'slug' => $value->slug,
+                //'slug' => $value->slug,
                 'position' => $value->position,
                 'parent_id' => $value->parent_id,
+                'videos' => $videoData,
                 'type' => $value->type,
                 'status' => $value->status,
                 'created_at' => $value->created_at
@@ -71,7 +110,7 @@ class ApiCategoryController extends BaseApiController
             'data' => $responseData,
             'page_size' => $pageSize,
             'page_number' => $pageNumber,
-            'total_record' => count(Category::where('status', 1)->get())
+            'total_record' => $totalRecord
         ], 200);
     }
 
