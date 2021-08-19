@@ -26,6 +26,7 @@ class ApiVideoController extends BaseApiController
         $sortById = isset($_GET["sortById"]) ? $_GET["sortById"] : '';
         $searchText = isset($_GET["search_text"]) ? $_GET["search_text"] : '';
         $topicId = isset($_GET["topic_id"]) ? (int)$_GET["topic_id"] : '';
+        $type = isset($_GET["type"]) ? (int)$_GET["type"] : '';
 
         $mQuery = Video::join('video_category', 'videos.id', '=', 'video_category.video_id')
             ->join('categories', 'video_category.category_id', '=', 'categories.id');
@@ -48,6 +49,10 @@ class ApiVideoController extends BaseApiController
 
         if (!empty($topicId)) {
             $mQuery->where('videos.topic_id', $topicId);
+        }
+
+        if (!empty($type)) {
+            $mQuery->where('videos.type', $type);
         }
 
         if (!empty($catIds)) {
