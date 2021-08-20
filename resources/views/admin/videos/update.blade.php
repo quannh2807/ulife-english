@@ -95,17 +95,6 @@
                                        placeholder="Youtube video url" name="channel_title"
                                        value="{{ $video->channel_title ? $video->channel_title : old('channel_title') }}"/>
                             </div>
-                            <div class="form-group">
-                                <label for="topic_id">Chủ đề</label>
-                                <select class="form-control form-control-sm"
-                                        name="topic_id" id="topic_id">
-                                    <option value="0">-- Chọn chủ đề --</option>
-                                    @foreach($topicData as $index => $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ $item->id === $video->topic_id ? 'selected' : '' }}>{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="row">
                                 <div class="form-group col-6">
                                     <label for="ytb-type">Loại video<span class="text-danger">&nbsp;*</span></label>
@@ -117,17 +106,28 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-6">
-                                    <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
-                                    <select class="form-control form-control-sm" name="status" id="ytb-status">
-                                        @foreach(config('common.status') as $key => $status)
-                                            <option
-                                                value="{{ $status }}" {{ $status === $video->status ? 'selected' : '' }}>{{ $key }}</option>
+                                    <label for="topic_id">Chủ đề</label>
+                                    <select class="form-control form-control-sm"
+                                            name="topic_id" id="topic_id">
+                                        <option value="0">-- Chọn chủ đề --</option>
+                                        @foreach($topicData as $index => $item)
+                                            <option value="{{ $item->id }}"
+                                                {{ $item->id === $video->topic_id ? 'selected' : '' }}>{{ $item->name }}</option>
                                         @endforeach
                                     </select>
-                                    @error('status')
-                                    <p style="color: red;">{{$message}}</p>
-                                    @enderror
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
+                                <select class="form-control form-control-sm" name="status" id="ytb-status">
+                                    @foreach(config('common.status') as $key => $status)
+                                        <option
+                                            value="{{ $status }}" {{ $status === $video->status ? 'selected' : '' }}>{{ $key }}</option>
+                                    @endforeach
+                                </select>
+                                @error('status')
+                                <p style="color: red;">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="row">
                                 <div class="form-group col-6">

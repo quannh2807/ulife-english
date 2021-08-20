@@ -292,6 +292,7 @@
                 '                                                <span class="badge badge-info">' + (indexEx + 1) + '</span>\n' +
                 '                                            </div>\n' +
                 '                                            <div class="content">\n' +
+                '                                                <input name="id_exercises[' + indexEx + ']" type="text" value="0" hidden>\n' +
                 '                                                <div class="row">\n' +
                 '                                                    <div class="col-sm-10">\n' +
                 '                                                        <div class="form-group">\n' +

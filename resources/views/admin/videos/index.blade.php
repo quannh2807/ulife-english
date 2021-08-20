@@ -56,14 +56,15 @@
                 <thead>
                 <tr>
                     <th style="width: 30px;">STT</th>
+                    <th style="width: 30px;" class="text-center">#</th>
                     <th>Ảnh</th>
                     <th width="30%">Tên video</th>
+                    <th>Danh mục</th>
                     <th>Loại video</th>
-                    <th>Loại danh mục</th>
                     <th>Trạng thái</th>
                     <th align="center" class="text-center btn-group-sm">
                         <a href="{{ route('admin.video.create') }}" class="d-inline-block btn btn-sm btn-primary">
-                            Thêm mới
+                            <i class="fa fa-plus"></i>&nbsp;&nbsp;Thêm mới
                         </a>
                     </th>
                 </tr>
@@ -76,7 +77,8 @@
                 <tbody class="">
                 @foreach($videos as $key => $video)
                     <tr id="row-{{$video->id}}">
-                        <th class="text-center">{{ $i ++ }}</th>
+                        <td class="text-center">{{ $i ++ }}</td>
+                        <td class="text-center">{{$video->id}}</td>
                         <td>
                             <img
                                 src="{{ $video->custom_thumbnails ? asset('storage/' . $video->custom_thumbnails) : json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
@@ -85,12 +87,12 @@
                                 alt="">
                         </td>
                         <td>{{ $video->title }}</td>
-                        <td>{!! $video->type == 1 ? '<span class="badge bg-success">Grammar</span>' : '<span class="badge bg-info">Lesson</span>' !!}</td>
                         <td>
                             @foreach($video->hasCategories as $cate)
                                 <span class="badge bg-info">{{ $cate->name }}</span>
                             @endforeach
                         </td>
+                        <td>{!! $video->type == 1 ? '<span class="badge bg-success">Grammar</span>' : '<span class="badge bg-info">Lesson</span>' !!}</td>
                         <td class="text-center">{!! htmlStatus($video->status) !!}</td>
                         <td align="center" class="text-center">
                             <a href="{{ route('admin.subtitle.index', ['video_id' => $video->id]) }}"
