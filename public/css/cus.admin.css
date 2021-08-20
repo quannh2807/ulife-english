@@ -278,10 +278,10 @@ label.no-levels {
     background: #DDD;
 }
 
-.input_fields_exercises .number {
+#itemDynamic .number {
     width: 30px;
 }
 
-.input_fields_exercises .content {
+#itemDynamic .content {
     width: 96%;
 }

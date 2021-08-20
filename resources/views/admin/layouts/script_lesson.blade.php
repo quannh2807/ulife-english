@@ -211,10 +211,15 @@
         /* end choose video */
 
         /* Speak */
-        let indexSpeak = getPositionLastItem('.input_fields_speak .row');
+        let indexSpeak = getPositionLastItem('.input_fields_speak #itemDynamic');
         $('.add_more_speak').click(function (e) {
             e.preventDefault();
-            $('.input_fields_speak').append('<div class="row" data-position="' + indexSpeak + '">\n' +
+            $('.input_fields_speak').append('<div class="row" id="itemDynamic" data-position="' + indexSpeak + '">\n' +
+                '                                        <div class="number">\n' +
+                '                                            <span class="badge badge-info">' + (indexSpeak + 1) + '</span>\n' +
+                '                                        </div>\n' +
+                '                                        <div class="content">\n' +
+                '                                        <div class="row" >\n' +
                 '                                        <div class="col-sm-5">\n' +
                 '                                            <div class="form-group">\n' +
                 '                                                <input type="text" class="form-control form-control-sm"\n' +
@@ -237,20 +242,31 @@
                 '                                                </a>\n' +
                 '                                            </div>\n' +
                 '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                        </div>\n' +
                 '                                    </div>');
+
             indexSpeak++;
+            setTotalDynamic(1);
         });
         $('.input_fields_speak').on("click", ".remove_speak", function (e) {
             e.preventDefault();
-            $(this).parent().parent().parent('div').remove();
+            $(this).parent().parent().parent().parent().parent('div').remove();
+            setIndexDynamicLesson(1, '.input_fields_speak #itemDynamic .number .badge');
+            setIndexDataPosition('.input_fields_speak #itemDynamic');
         })
         /* End Speak */
 
         /* Write */
-        let indexWrite = getPositionLastItem('.input_fields_write .row');
+        let indexWrite = getPositionLastItem('.input_fields_write #itemDynamic');
         $('.add_more_write').click(function (e) {
             e.preventDefault();
-            $('.input_fields_write').append('<div class="row" data-position="' + indexWrite + '">\n' +
+            $('.input_fields_write').append('<div class="row" id="itemDynamic" data-position="' + indexWrite + '">\n' +
+                '                                        <div class="number">\n' +
+                '                                            <span class="badge badge-info">' + (indexWrite + 1) + '</span>\n' +
+                '                                        </div>\n' +
+                '                                        <div class="content">\n' +
+                '                                            <div class="row">\n' +
                 '                                        <div class="col-sm-5">\n' +
                 '                                            <div class="form-group">\n' +
                 '                                                <input type="text" class="form-control form-control-sm"\n' +
@@ -273,12 +289,19 @@
                 '                                                </a>\n' +
                 '                                            </div>\n' +
                 '                                        </div>\n' +
-                '                                    </div>');
+                '                                    </div>\n' +
+                '                                        </div>\n' +
+                '                                    </div>'
+            );
+
             indexWrite++;
+            setTotalDynamic(2);
         });
         $('.input_fields_write').on("click", ".remove_write", function (e) {
             e.preventDefault();
-            $(this).parent().parent().parent('div').remove();
+            $(this).parent().parent().parent().parent().parent('div').remove();
+            setIndexDynamicLesson(2, '.input_fields_write #itemDynamic .number .badge');
+            setIndexDataPosition('.input_fields_write #itemDynamic');
         })
         /* End Write */
 
@@ -286,7 +309,7 @@
         let indexEx = getPositionLastItem('.input_fields_exercises .layoutBorder');
         $('.add_more_exercises').click(function (e) {
             e.preventDefault();
-            $('.input_fields_exercises').append('<div class="layoutBorder" data-position="' + indexEx + '">\n' +
+            $('.input_fields_exercises').append('<div class="layoutBorder" id="itemDynamic" data-position="' + indexEx + '">\n' +
                 '                                        <div class="row">\n' +
                 '                                            <div class="number">\n' +
                 '                                                <span class="badge badge-info">' + (indexEx + 1) + '</span>\n' +
@@ -404,11 +427,13 @@
                 '                                    </div>');
 
             indexEx++;
+            setTotalDynamic(3);
         });
         $('.input_fields_exercises').on("click", ".remove_exercises", function (e) {
             e.preventDefault();
             $(this).parent().parent().parent().parent().parent().parent('div').remove();
-            setIndexExercises();
+            setIndexDynamicLesson(3, '.input_fields_exercises .layoutBorder .number .badge');
+            setIndexDataPosition('.input_fields_exercises .layoutBorder');
         })
 
         /* End exercises */
@@ -416,22 +441,50 @@
         function getPositionLastItem(nameItem) {
             if ($(nameItem).length > 0) {
                 let lastPosition = $(nameItem).last().attr('data-position');
-                lastPosition++;
+                lastPosition++
                 return lastPosition;
             } else {
                 return 1;
             }
         }
 
-        function setIndexExercises() {
-            $('.input_fields_exercises .layoutBorder .number .badge').each(function (index, item) {
+        function setIndexDynamicLesson(type, elementId) {
+            $(elementId).each(function (index, item) {
                 $(item).html(index + 1);
+                if (type == 1) {
+                    indexSpeak = index + 1;
+                } else if (type == 2) {
+                    indexWrite = index + 1;
+                } else if (type == 3) {
+                    indexEx = index + 1;
+                }
             });
-            /*let dataList = $('.input_fields_exercises .layoutBorder .number .badge');
-            for (let i = 0; i < dataList.length; i++) {
-                let element = dataList.eq(i);
-                element.html(i + 1)
-            }*/
+            setTotalDynamic(1);
+            setTotalDynamic(2);
+            setTotalDynamic(3);
+        }
+
+        function setIndexDataPosition(elementId) {
+            $(elementId).each(function (index, item) {
+                $(item).attr("data-position", index);
+            });
+        }
+
+        setTotalDynamic(1);
+        setTotalDynamic(2);
+        setTotalDynamic(3);
+
+        function setTotalDynamic(type) {
+            if (type == 1) {
+                let dataList = $('.input_fields_speak #itemDynamic');
+                $('#totalSpeak').html(dataList.length);
+            } else if (type == 2) {
+                let dataList = $('.input_fields_write #itemDynamic');
+                $('#totalWrite').html(dataList.length);
+            } else if (type == 3) {
+                let dataList = $('.input_fields_exercises .layoutBorder');
+                $('#totalExercises').html(dataList.length);
+            }
         }
 
     });

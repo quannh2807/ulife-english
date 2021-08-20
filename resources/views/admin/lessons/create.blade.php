@@ -213,9 +213,10 @@
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Speaking</h3>
+                                <h3 class="card-title">Speaking&nbsp;&nbsp;&nbsp;<span id="totalSpeak"
+                                                                                       class="badge bg-success">0</span>
+                                </h3>
                                 <div class="card-tools">
-                                    {{--<span title="" class="badge bg-primary">3</span>--}}
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
                                         <i class="fas fa-minus"></i>
@@ -224,27 +225,34 @@
                             </div>
                             <div class="card-body" style="max-height: 400px; overflow-x: scroll">
                                 <div class="input_fields_speak">
-                                    <div class="row" data-position="0">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control form-control-sm"
-                                                       name="speak_name_en[0]"
-                                                       placeholder="Nhập vào nội dung tiếng anh">
-                                            </div>
+                                    <div class="row" id="itemDynamic" data-position="0">
+                                        <div class="number">
+                                            <span class="badge badge-info">1</span>
                                         </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control form-control-sm"
-                                                       name="speak_name_vi[0]"
-                                                       placeholder="Nhập vào nội dung tiếng việt">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <a class="btn btn-sm btn-success add_more_speak"
-                                                   href="javascript:void(0)">
-                                                    <i class="fa fa-plus"></i>&nbsp;&nbsp; Add Speak
-                                                </a>
+                                        <div class="content">
+                                            <div class="row">
+                                                <div class="col-sm-5">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control form-control-sm"
+                                                               name="speak_name_en[0]"
+                                                               placeholder="Nhập vào nội dung tiếng anh">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control form-control-sm"
+                                                               name="speak_name_vi[0]"
+                                                               placeholder="Nhập vào nội dung tiếng việt">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <a class="btn btn-sm btn-success add_more_speak"
+                                                           href="javascript:void(0)">
+                                                            <i class="fa fa-plus"></i>&nbsp;&nbsp; Add Speak
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -260,8 +268,8 @@
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Writing</h3>
-
+                                <h3 class="card-title">Writing&nbsp;&nbsp;&nbsp;<span id="totalWrite"
+                                                                    class="badge bg-success">0</span></h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
@@ -271,27 +279,34 @@
                             </div>
                             <div class="card-body" style="max-height: 400px; overflow-x: scroll">
                                 <div class="input_fields_write">
-                                    <div class="row" data-position="0">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control form-control-sm"
-                                                       name="write_name_en[0]"
-                                                       placeholder="Nhập vào nội dung tiếng anh">
-                                            </div>
+                                    <div class="row" id="itemDynamic" data-position="0">
+                                        <div class="number">
+                                            <span class="badge badge-info">1</span>
                                         </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control form-control-sm"
-                                                       name="write_name_vi[0]"
-                                                       placeholder="Nhập vào nội dung tiếng việt">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <a class="btn btn-sm btn-success add_more_write"
-                                                   href="javascript:void(0)">
-                                                    <i class="fa fa-plus"></i>&nbsp;&nbsp; Add Write
-                                                </a>
+                                        <div class="content">
+                                            <div class="row">
+                                                <div class="col-sm-5">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control form-control-sm"
+                                                               name="write_name_en[0]"
+                                                               placeholder="Nhập vào nội dung tiếng anh">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control form-control-sm"
+                                                               name="write_name_vi[0]"
+                                                               placeholder="Nhập vào nội dung tiếng việt">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <a class="btn btn-sm btn-success add_more_write"
+                                                           href="javascript:void(0)">
+                                                            <i class="fa fa-plus"></i>&nbsp;&nbsp; Add Write
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -307,7 +322,8 @@
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Do Exercises</h3>
+                                <h3 class="card-title">Do Exercises&nbsp;&nbsp;&nbsp;<span id="totalExercises"
+                                                                         class="badge bg-success">0</span></h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
@@ -317,7 +333,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="input_fields_exercises">
-                                    <div class="layoutBorder" data-position="0">
+                                    <div class="layoutBorder" id="itemDynamic" data-position="0">
                                         <div class="row">
                                             <div class="number">
                                                 <span class="badge badge-info">1</span>

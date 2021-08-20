@@ -276,7 +276,9 @@
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Speaking</h3>
+                                <h3 class="card-title">Speaking&nbsp;&nbsp;&nbsp;<span id="totalSpeak"
+                                                                                       class="badge bg-success">0</span>
+                                </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
@@ -288,26 +290,76 @@
                                 <div class="input_fields_speak">
                                     @if(!$speakingData->isEmpty())
                                         @foreach($speakingData as $index => $item)
-                                            <div class="row" data-position="{{$index}}">
-                                                <input name="id_speak[{{$index}}]" type="text" value="{{$item->id}}"
-                                                       hidden>
-                                                <div class="col-sm-5">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               name="speak_name_en[{{$index}}]"
-                                                               placeholder="Nhập vào nội dung tiếng anh"
-                                                               value="{{ $item->en }}">
+                                            <div class="row" id="itemDynamic" data-position="{{$index}}">
+                                                <div class="number">
+                                                    <span class="badge badge-info">{{$index + 1}}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="row">
+                                                        <input name="id_speak[{{$index}}]" type="text"
+                                                               value="{{$item->id}}"
+                                                               hidden>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       name="speak_name_en[{{$index}}]"
+                                                                       placeholder="Nhập vào nội dung tiếng anh"
+                                                                       value="{{ $item->en }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       name="speak_name_vi[{{$index}}]"
+                                                                       placeholder="Nhập vào nội dung tiếng việt"
+                                                                       value="{{ $item->vi }}">
+                                                            </div>
+                                                        </div>
+                                                        @if($index == 0)
+                                                            <div class="col-sm-2">
+                                                                <div class="form-group">
+                                                                    <a class="btn btn-sm btn-success add_more_speak"
+                                                                       href="javascript:void(0)">
+                                                                        <i class="fa fa-plus"></i>&nbsp;&nbsp; Add Speak
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-sm-2">
+                                                                <div class="form-group">
+                                                                    <a href="javascript:void(0)"
+                                                                       class="btn btn-sm btn-danger remove_speak">
+                                                                        <i class="fa fa-times"></i>&nbsp;&nbsp; Remove
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-5">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               name="speak_name_vi[{{$index}}]"
-                                                               placeholder="Nhập vào nội dung tiếng việt"
-                                                               value="{{ $item->vi }}">
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="row" id="itemDynamic" data-position="0">
+                                            <div class="number">
+                                                <span class="badge badge-info">1</span>
+                                            </div>
+                                            <div class="content">
+                                                <div class="row">
+                                                    <input name="id_speak[0]" type="text" value="0" hidden>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   name="speak_name_en[0]"
+                                                                   placeholder="Nhập vào nội dung tiếng anh">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                @if($index == 0)
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   name="speak_name_vi[0]"
+                                                                   placeholder="Nhập vào nội dung tiếng việt">
+                                                        </div>
+                                                    </div>
                                                     <div class="col-sm-2">
                                                         <div class="form-group">
                                                             <a class="btn btn-sm btn-success add_more_speak"
@@ -316,41 +368,6 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                @else
-                                                    <div class="col-sm-2">
-                                                        <div class="form-group">
-                                                            <a href="javascript:void(0)"
-                                                               class="btn btn-sm btn-danger remove_speak">
-                                                                <i class="fa fa-times"></i>&nbsp;&nbsp; Remove
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="row" data-position="0">
-                                            <input name="id_speak[0]" type="text" value="0" hidden>
-                                            <div class="col-sm-5">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           name="speak_name_en[0]"
-                                                           placeholder="Nhập vào nội dung tiếng anh">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           name="speak_name_vi[0]"
-                                                           placeholder="Nhập vào nội dung tiếng việt">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <div class="form-group">
-                                                    <a class="btn btn-sm btn-success add_more_speak"
-                                                       href="javascript:void(0)">
-                                                        <i class="fa fa-plus"></i>&nbsp;&nbsp; Add Speak
-                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -367,8 +384,9 @@
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Writing</h3>
-
+                                <h3 class="card-title">Writing&nbsp;&nbsp;&nbsp;<span id="totalWrite"
+                                                                                      class="badge bg-success">0</span>
+                                </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
@@ -380,26 +398,76 @@
                                 <div class="input_fields_write">
                                     @if(!$writingData->isEmpty())
                                         @foreach($writingData as $index => $item)
-                                            <div class="row" data-position="{{$index}}">
-                                                <input name="id_write[{{$index}}]" type="text" value="{{$item->id}}"
-                                                       hidden>
-                                                <div class="col-sm-5">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               name="write_name_en[{{$index}}]"
-                                                               placeholder="Nhập vào nội dung tiếng anh"
-                                                               value="{{ $item->en }}">
+                                            <div class="row" id="itemDynamic" data-position="{{$index}}">
+                                                <div class="number">
+                                                    <span class="badge badge-info">{{$index + 1}}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="row">
+                                                        <input name="id_write[{{$index}}]" type="text"
+                                                               value="{{$item->id}}"
+                                                               hidden>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       name="write_name_en[{{$index}}]"
+                                                                       placeholder="Nhập vào nội dung tiếng anh"
+                                                                       value="{{ $item->en }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       name="write_name_vi[{{$index}}]"
+                                                                       placeholder="Nhập vào nội dung tiếng việt"
+                                                                       value="{{ $item->vi }}">
+                                                            </div>
+                                                        </div>
+                                                        @if($index == 0)
+                                                            <div class="col-sm-2">
+                                                                <div class="form-group">
+                                                                    <a class="btn btn-sm btn-success add_more_write"
+                                                                       href="javascript:void(0)">
+                                                                        <i class="fa fa-plus"></i>&nbsp;&nbsp; Add Write
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-sm-2">
+                                                                <div class="form-group">
+                                                                    <a href="javascript:void(0)"
+                                                                       class="btn btn-sm btn-danger remove_write">
+                                                                        <i class="fa fa-times"></i>&nbsp;&nbsp; Remove
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-5">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               name="write_name_vi[{{$index}}]"
-                                                               placeholder="Nhập vào nội dung tiếng việt"
-                                                               value="{{ $item->vi }}">
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="row" id="itemDynamic" data-position="0">
+                                            <div class="number">
+                                                <span class="badge badge-info">1</span>
+                                            </div>
+                                            <div class="content">
+                                                <div class="row">
+                                                    <input name="id_write[0]" type="text" value="0" hidden>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   name="write_name_en[0]"
+                                                                   placeholder="Nhập vào nội dung tiếng anh">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                @if($index == 0)
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   name="write_name_vi[0]"
+                                                                   placeholder="Nhập vào nội dung tiếng việt">
+                                                        </div>
+                                                    </div>
                                                     <div class="col-sm-2">
                                                         <div class="form-group">
                                                             <a class="btn btn-sm btn-success add_more_write"
@@ -408,41 +476,6 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                @else
-                                                    <div class="col-sm-2">
-                                                        <div class="form-group">
-                                                            <a href="javascript:void(0)"
-                                                               class="btn btn-sm btn-danger remove_write">
-                                                                <i class="fa fa-times"></i>&nbsp;&nbsp; Remove
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="row" data-position="0">
-                                            <input name="id_write[0]" type="text" value="0" hidden>
-                                            <div class="col-sm-5">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           name="write_name_en[0]"
-                                                           placeholder="Nhập vào nội dung tiếng anh">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           name="write_name_vi[0]"
-                                                           placeholder="Nhập vào nội dung tiếng việt">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <div class="form-group">
-                                                    <a class="btn btn-sm btn-success add_more_write"
-                                                       href="javascript:void(0)">
-                                                        <i class="fa fa-plus"></i>&nbsp;&nbsp; Add Write
-                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -459,7 +492,9 @@
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Do Exercises</h3>
+                                <h3 class="card-title">Do Exercises&nbsp;&nbsp;&nbsp;<span id="totalExercises"
+                                                                                           class="badge bg-success">0</span>
+                                </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
@@ -470,7 +505,7 @@
                             <div class="card-body">
                                 <div class="input_fields_exercises">
                                     @if($exercisesData->isEmpty())
-                                        <div class="layoutBorder" data-position="0">
+                                        <div class="layoutBorder" id="itemDynamic" data-position="0">
                                             <div class="row">
                                                 <div class="number">
                                                     <span class="badge badge-info">1</span>
@@ -592,7 +627,7 @@
                                         </div>
                                     @else
                                         @foreach($exercisesData as $index => $item)
-                                            <div class="layoutBorder" data-position="{{$index}}">
+                                            <div class="layoutBorder" id="itemDynamic" data-position="{{$index}}">
                                                 <div class="row">
                                                     <div class="number">
                                                         <span class="badge badge-info">{{$index + 1}}</span>
