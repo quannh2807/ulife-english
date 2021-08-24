@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActOut;
 use App\Models\Course;
 use App\Models\Exercises;
 use App\Models\Lesson;
@@ -100,19 +101,25 @@ class LessonController extends Controller
 
         $videoGrammarIds = $request->videoGrammarIds;
         $videoLessonIds = $request->videoLessonIds;
-
+        // speak
         $speak_name_en = $request->input('speak_name_en', []);
         $speak_name_vi = $request->input('speak_name_vi', []);
-
+        // write
         $write_name_en = $request->input('write_name_en', []);
         $write_name_vi = $request->input('write_name_vi', []);
-
+        // do exercises
         $exercises_name = $request->input('exercises_name', []);
         $answer_1 = $request->input('answer_1', []);
         $answer_2 = $request->input('answer_2', []);
         $answer_3 = $request->input('answer_3', []);
         $answer_4 = $request->input('answer_4', []);
         $answer_correct = $request->input('answer_correct', []);
+        // act out
+        $actOutUserTag = $request->input('actOutUserTag', []);
+        $actOutTimeStart = $request->input('actOutTimeStart', []);
+        $actOutTimeEnd = $request->input('actOutTimeEnd', []);
+        $actOutEn = $request->input('actOutEn', []);
+        $actOutVi = $request->input('actOutVi', []);
 
         $thumbVal = $request->thumb;
         if ($request->hasFile('thumb')) {
@@ -195,9 +202,25 @@ class LessonController extends Controller
                 ];
             }
 
+            $dataActOut = [];
+            foreach ($actOutTimeStart as $index => $value) {
+                $dataActOut[] = [
+                    'lesson_id' => $lessonId,
+                    'time_start' => $actOutTimeStart[$index],
+                    'time_end' => $actOutTimeEnd[$index],
+                    'en' => $actOutEn[$index],
+                    'vi' => $actOutVi[$index],
+                    'user_tag' => $actOutUserTag[$index],
+                    'created_by' => 1,
+                    'updated_by' => 1,
+                    'created_at' => \Carbon\Carbon::now(),
+                ];
+            }
+
             $speakStore = LessonTraining::insert($dataSpeak);
             $writeStore = LessonTraining::insert($dataWrite);
             $exercisesStore = Exercises::insert($dataExercises);
+            $actOutStore = ActOut::insert($dataActOut);
         }
 
         /*$mData = [];
@@ -221,6 +244,7 @@ class LessonController extends Controller
         $speakingData = LessonTraining::where('status', 1)->where('lesson_id', $lesson->id)->where('type', config('common.lesson_training_types.speaking'))->get();
         $writingData = LessonTraining::where('status', 1)->where('lesson_id', $lesson->id)->where('type', config('common.lesson_training_types.writing'))->get();
         $exercisesData = Exercises::where('status', 1)->where('lesson_id', $lesson->id)->get();
+        $actOutData = ActOut::where('status', 1)->where('lesson_id', $lesson->id)->get();
 
         $videosIds = json_decode($lesson->video_ids);
         $grammarIds = $videosIds->grammar;
@@ -241,6 +265,7 @@ class LessonController extends Controller
             'speakingData' => $speakingData,
             'writingData' => $writingData,
             'exercisesData' => $exercisesData,
+            'actOutData' => $actOutData,
         ]);
     }
 
@@ -288,6 +313,14 @@ class LessonController extends Controller
         $id_speak = $request->id_speak;
         $id_write = $request->id_write;
         $id_exercises = $request->id_exercises;
+
+        // act out
+        $actOutId = $request->actOutId;
+        $actOutUserTag = $request->actOutUserTag;
+        $actOutTimeStart = $request->actOutTimeStart;
+        $actOutTimeEnd = $request->actOutTimeEnd;
+        $actOutEn = $request->actOutEn;
+        $actOutVi = $request->actOutVi;
 
         $lessonDetail = $this->lessonRepository->findById($lessonId, []);
 
@@ -381,7 +414,7 @@ class LessonController extends Controller
                     'lesson_id' => $lessonId,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
                 ];
 
                 if ($id > 0) {
@@ -399,7 +432,7 @@ class LessonController extends Controller
                     'lesson_id' => $lessonId,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
                 ];
 
                 if ($id > 0) {
@@ -421,7 +454,7 @@ class LessonController extends Controller
                     'answer_correct' => $answer_correct[$index],
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
                 ];
 
                 if ($id > 0) {
@@ -429,6 +462,21 @@ class LessonController extends Controller
                 } else {
                     Exercises::insert($dataExercises);
                 }
+            }
+
+            // update act out
+            foreach ($actOutId as $index => $id) {
+                $dataActOut = [
+                    'lesson_id' => $lessonId,
+                    'time_start' => $actOutTimeStart[$index],
+                    'time_end' => $actOutTimeEnd[$index],
+                    'en' => $actOutEn[$index],
+                    'vi' => $actOutVi[$index],
+                    'user_tag' => $actOutUserTag[$index],
+                    'updated_at' => \Carbon\Carbon::now(),
+                ];
+
+                ActOut::where('id', $id)->update($dataActOut);
             }
         }
 
@@ -478,9 +526,30 @@ class LessonController extends Controller
             $file = $request->file('file_sub');
             $parser->loadFile($file->path());
             $subtitles = $parser->parse();
+
             return response()->json([
                 'subtitles' => $subtitles,
             ]);
+
+            /*$jsonData [] = array(
+                'startTime' => 0,
+                'endTime' => 4,
+                'text' => 'abc 1'
+            );
+            $jsonData [] = array(
+                'startTime' => '0',
+                'endTime' => '4',
+                'text' => 'abc 2'
+            );
+            $jsonData [] = array(
+                'startTime' => '0',
+                'endTime' => '4',
+                'text' => 'abc 3'
+            );
+
+            $jsonSub ['subtitles'] = $jsonData;
+            return json_encode($jsonSub);*/
+
         } else {
             return 'file_sub not found.';
         }

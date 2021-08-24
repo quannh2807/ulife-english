@@ -792,6 +792,103 @@
                         <!-- /.card -->
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-info card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Atc Out</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                            title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {{--<a class="btn btn-sm btn-outline-primary btn-upload mr-2">
+                                    <i class="fas fa-upload"></i>
+                                    &nbsp;Import phụ đề
+                                </a>--}}
+                                <script>
+                                    function openFileActOut() {
+                                        $("#upload-act-out").click();
+                                    }
+                                </script>
+                                <div class="col-md-12" style="margin-bottom: 20px;">
+                                    <a class="btn btn-sm btn-outline-primary"
+                                       onclick="openFileActOut();return;">
+                                        <i class="fas fa-upload"></i>
+                                        &nbsp;Import phụ đề
+                                    </a>
+                                    <input type="file" class="form-control"
+                                           name="upload_act_out" id="upload-act-out"
+                                           style="border: none"
+                                           hidden
+                                           value="">
+                                </div>
+                                <div id="atcOutList">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 30px;">#</th>
+                                            <th style="width: 120px;">Users</th>
+                                            <th style="width: 160px;">Time</th>
+                                            <th>English</th>
+                                            <th>Viet Nam</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($actOutData as $index => $item)
+                                            <tr style="cursor: pointer">
+                                                <td>{{$index+1}}</td>
+                                                <td>
+                                                    <input hidden name="actOutId[{{$index}}]"
+                                                           class="form-control form-control-sm"
+                                                           value="{{$item->id}}">
+                                                    <input name="actOutUserTag[{{$index}}]"
+                                                           class="form-control form-control-sm tagsinput"
+                                                           data-role="tagsinput" value="{{$item->user_tag}}"></td>
+                                                <td>
+                                                    <div>
+                                                        <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>
+                                                        <span
+                                                            class="item-child-val">{{ seconds2SRT($item->time_start) }}</span>
+                                                        <input name="actOutTimeStart[{{$index}}]" hidden
+                                                               class="form-control form-control-sm"
+                                                               value="{{$item->time_start}}">
+                                                    </div>
+                                                    <div>
+                                                        <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time end:&nbsp;</span>
+                                                        <span
+                                                            class="item-child-val">{{ seconds2SRT($item->time_end) }}</span>
+                                                        <input name="actOutTimeEnd[{{$index}}]" hidden
+                                                               class="form-control form-control-sm"
+                                                               value="{{$item->time_end}}">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input name="actOutEn[{{$index}}]"
+                                                           class="form-control form-control-sm"
+                                                           value="{{$item->en}}">
+                                                </td>
+                                                <td>
+                                                    <input name="actOutVi[{{$index}}]"
+                                                           class="form-control form-control-sm"
+                                                           value="{{$item->vi}}">
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+
                 <div class="row" style="padding-bottom: 20px;">
                     <div class="col-12">
                         <div class="d-flex align-items-center justify-content-end">

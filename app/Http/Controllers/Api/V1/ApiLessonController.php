@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Api\V1;
 
 
 use App\Http\Controllers\Api\BaseApiController;
+use App\Models\ActOut;
 use App\Models\Exercises;
 use App\Models\Lesson;
 use App\Models\LessonTraining;
@@ -132,6 +133,7 @@ class ApiLessonController extends BaseApiController
             $responseSpeak = [];
             $responseWrite = [];
             $responseExercises = [];
+            $responseActOut = [];
 
             $videosIds = json_decode($lesson->video_ids);
             $videoGrammar = Video::whereIn('id', $videosIds->grammar)->where('status', 1)->get();
@@ -213,6 +215,22 @@ class ApiLessonController extends BaseApiController
                 }
             }
 
+            $actOutData = ActOut::where('status', 1)->where('lesson_id', $lesson->id)->get();
+            if (!empty($actOutData)) {
+                foreach ($actOutData as $index => $item) {
+                    $responseActOut [] = [
+                        'id' => $item->id,
+                        'en' => $item->en,
+                        'vi' => $item->vi,
+                        'time_start' => $item->time_start,
+                        'time_end' => $item->time_end,
+                        'user_tag' => $item->user_tag,
+                        'status' => $item->status,
+                        'created_at' => $item->created_at
+                    ];
+                }
+            }
+
             $responseLesson [] = [
                 'id' => $lesson->id,
                 'name' => $lesson->name,
@@ -224,6 +242,7 @@ class ApiLessonController extends BaseApiController
                 'speakList' => $responseSpeak,
                 'writeList' => $responseWrite,
                 'exercisesList' => $responseExercises,
+                'actOutList' => $responseActOut,
                 'status' => $lesson->status,
                 'created_at' => $lesson->created_at
             ];

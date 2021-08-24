@@ -458,13 +458,11 @@
                     </div>
                 </div>
 
-               {{-- <div class="row">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Atc Out&nbsp;&nbsp;&nbsp;<span id="totalAtcOut"
-                                                                                      class="badge bg-success">0</span>
-                                </h3>
+                                <h3 class="card-title">Atc Out</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
@@ -473,7 +471,11 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                --}}{{--<script>
+                                {{--<a class="btn btn-sm btn-outline-primary btn-upload mr-2">
+                                    <i class="fas fa-upload"></i>
+                                    &nbsp;Import phụ đề
+                                </a>--}}
+                                <script>
                                     function openFileActOut() {
                                         $("#upload-act-out").click();
                                     }
@@ -491,20 +493,13 @@
                                            value="">
                                 </div>
                                 <div id="atcOutList">
-                                </div>--}}{{--
-
-
-                                <a class="btn btn-sm btn-outline-primary btn-upload mr-2">
-                                    <i class="fas fa-upload"></i>
-                                    &nbsp;Import phụ đề
-                                </a>
-
+                                </div>
                             </div>
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
                     </div>
-                </div>--}}
+                </div>
 
                 <div class="row" style="padding-bottom: 20px;">
                     <div class="col-12">
@@ -647,7 +642,7 @@
                             htmlData += '<tr>';
                             htmlData += '<th style="width: 30px;">#</th>';
                             htmlData += '<th style="width: 120px;">Users</th>';
-                            htmlData += '<th style="width: 120px;">Time</th>';
+                            htmlData += '<th style="width: 150px;">Time</th>';
                             htmlData += '<th>English</th>';
                             htmlData += '<th>Viet Nam</th>';
                             htmlData += '</tr>';
@@ -658,7 +653,7 @@
                                 let userName = index % 2 == 0 ? 'A' : 'B';
                                 htmlData += `<tr style="cursor: pointer">
                                                 <td>${++index}</td>
-                                                <td><input name="actOutTags[${index}]" class="form-control form-control-sm tagsinput" data-role="tagsinput" value="${userName}"></td>
+                                                <td><input name="actOutUserTag[${index}]" class="form-control form-control-sm tagsinput" data-role="tagsinput" value="${userName}"></td>
                                                 <td>
                                                     <div>
                                                         <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>
