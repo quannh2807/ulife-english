@@ -73,8 +73,8 @@ class ApiCategoryController extends BaseApiController
 
             $mQuery = Video::join('video_category', 'videos.id', '=', 'video_category.video_id')
                 ->join('categories', 'video_category.category_id', '=', 'categories.id');
-            $mQuery->select(['videos.id AS video_id',
-                'videos.title AS video_title',
+            $mQuery->select(['videos.id',
+                'videos.title',
                 'videos.ytb_id',
                 'videos.ytb_thumbnails',
                 'videos.description',
@@ -82,7 +82,6 @@ class ApiCategoryController extends BaseApiController
                 'videos.status',
                 'videos.topic_id',
                 'videos.created_at',
-                'video_category.video_id AS category_video_id',
                 'video_category.category_id',
                 'categories.name AS category_name']);
 

@@ -458,7 +458,7 @@
                     </div>
                 </div>
 
-                {{--<div class="row">
+               {{-- <div class="row">
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
@@ -473,7 +473,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <script>
+                                --}}{{--<script>
                                     function openFileActOut() {
                                         $("#upload-act-out").click();
                                     }
@@ -491,7 +491,14 @@
                                            value="">
                                 </div>
                                 <div id="atcOutList">
-                                </div>
+                                </div>--}}{{--
+
+
+                                <a class="btn btn-sm btn-outline-primary btn-upload mr-2">
+                                    <i class="fas fa-upload"></i>
+                                    &nbsp;Import phụ đề
+                                </a>
+
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -514,6 +521,87 @@
 
     @include('admin.lessons.list_grammar_video')
     @include('admin.lessons.list_lesson_video')
+
+    <div class="modal fade" id="upload_sub" tabindex="-1" role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="form-upload" action="{{ route('admin.video.uploadSub') }}" method="POST"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="video_id" value="">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Import phụ đề</h4>
+                        <button type="button" class="close close-modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-result">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="upload-file">Upload phụ đề<span
+                                                class="text-danger">&nbsp;*</span></label>
+                                        <input type="file" name="file_upload" id="upload-file" class="form-control"
+                                               style="border: none"
+                                               value="{{ old('file_upload') }}">
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="sub-lang">Chọn ngôn ngữ<span
+                                                class="text-danger">&nbsp;*</span></label>
+                                        <select name="lang" id="lang">
+                                            <option value="">-- Chọn ngôn ngữ --</option>
+                                            @foreach(config('common.languages') as $key => $lang)
+                                                <option
+                                                    value="{{ $key }}" {{ old('lang') === $key ? 'selected' : ''}}>{{ $lang }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body d-none" id="preview">
+                        <div class="card-body table-responsive p-0" style="height: 300px;">
+                            <table class="table table-head-fixed table-hover text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Start-time</th>
+                                    <th>End-time</th>
+                                    <th>Phụ đề</th>
+                                </tr>
+                                </thead>
+
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default close-modal"><i class="fa fa-times"></i>&nbsp;Đóng
+                        </button>
+
+                        <div class="btn-group-sm">
+                            <button class="btn btn-sm btn-info btn-preview">
+                                Xem trước
+                            </button>
+
+                            <button class="btn btn-sm btn-primary" type="submit">
+                                Upload phụ đề
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
 @endsection
 
@@ -558,8 +646,10 @@
                             htmlData += '<thead>';
                             htmlData += '<tr>';
                             htmlData += '<th style="width: 30px;">#</th>';
-                            htmlData += '<th style="width: 300px;">Users</th>';
-                            htmlData += '<th>Nội dung</th>';
+                            htmlData += '<th style="width: 120px;">Users</th>';
+                            htmlData += '<th style="width: 120px;">Time</th>';
+                            htmlData += '<th>English</th>';
+                            htmlData += '<th>Viet Nam</th>';
                             htmlData += '</tr>';
                             htmlData += '</thead>';
                             htmlData += '<tbody>';
@@ -570,7 +660,6 @@
                                                 <td>${++index}</td>
                                                 <td><input name="actOutTags[${index}]" class="form-control form-control-sm tagsinput" data-role="tagsinput" value="${userName}"></td>
                                                 <td>
-                                                    <input name="actOutContent[${index}]" class="form-control form-control-sm" value="${element.text}">
                                                     <div>
                                                         <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>
                                                         <span class="item-child-val">${convertSecondToTime(element.startTime)}</span>
@@ -581,6 +670,12 @@
                                                         <span class="item-child-val">${convertSecondToTime(element.endTime)}</span>
                                                         <input name="actOutTimeEnd[${index}]" hidden class="form-control form-control-sm" value="${element.endTime}">
                                                     </div>
+                                                </td>
+                                                <td>
+                                                    <input name="actOutEn[${index}]" class="form-control form-control-sm" value="${element.text}">
+                                                </td>
+                                                <td>
+                                                    <input name="actOutVi[${index}]" class="form-control form-control-sm" value="${element.text}">
                                                 </td>
                                             </tr>`;
                             });
@@ -597,6 +692,63 @@
                 }
 
             });
+
+
+            $('.btn-upload').click(function () {
+                $('#upload_sub').modal('toggle');
+
+                $('.btn-preview').click(function (e) {
+                    e.preventDefault();
+                    let valid = $('#form-upload').valid();
+                    if (!valid) return;
+
+                    let file_sub = $('#upload-file')[0].files;
+
+                    if (file_sub.length > 0) {
+                        let form = new FormData();
+                        form.append('file_sub', file_sub[0]);
+
+                        $.ajax({
+                            url: "{{ route('admin.subtitle.previewSub') }}",
+                            method: 'POST',
+                            dataType: 'JSON',
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            data: form,
+                            success: function (res) {
+                                $('#preview').removeClass('d-none')
+
+                                let tbody = '';
+                                res.subtitles.map((element, index) => {
+                                    tbody += `
+                                         <tr style="cursor: pointer">
+                                            <th>${++index}</th>
+                                            <td>${convertSecondToTime(element.startTime)}</td>
+                                            <td>${convertSecondToTime(element.endTime)}</td>
+                                            <td>${element.text}</td>
+                                        </tr>
+                                    `;
+                                })
+
+                                $('#preview tbody').append(tbody);
+                            },
+                            error: function () {
+                                console.log('error')
+                            }
+                        })
+                    }
+                })
+            });
+
+            $('button.close-modal').on('click', function (e) {
+                // do something...
+                $('#form-upload').trigger("reset");
+                $('#upload_sub').modal('hide');
+                $('#preview tbody').empty();
+                $('#preview').addClass('d-none');
+            })
+
         });
     </script>
 
