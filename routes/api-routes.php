@@ -44,6 +44,8 @@ Route::prefix('/v1')->name('apiV1.')->group(function () {
     Route::get('/video-category/list', [\App\Http\Controllers\Api\V1\ApiCategoryController::class, 'categoryList'])->name('Api.get.category.list');
     Route::get('/video-category/{id}', [\App\Http\Controllers\Api\V1\ApiCategoryController::class, 'categoryDetail'])->name('Api.get.category.detail');
 
+    Route::get('/video-grammar/list', [\App\Http\Controllers\Api\V1\ApiCategoryController::class, 'grammarList'])->name('Api.get.grammar.list');
+
     Route::get('/question/list', [\App\Http\Controllers\Api\V1\ApiQuestionController::class, 'questionList'])->name('Api.get.question.list');
     Route::get('/question/{id}', [\App\Http\Controllers\Api\V1\ApiQuestionController::class, 'questionDetail'])->name('Api.get.question.detail');
 
