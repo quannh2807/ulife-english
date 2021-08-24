@@ -269,7 +269,8 @@
                         <div class="card card-info card-outline">
                             <div class="card-header">
                                 <h3 class="card-title">Writing&nbsp;&nbsp;&nbsp;<span id="totalWrite"
-                                                                    class="badge bg-success">0</span></h3>
+                                                                                      class="badge bg-success">0</span>
+                                </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
@@ -323,7 +324,8 @@
                         <div class="card card-info card-outline">
                             <div class="card-header">
                                 <h3 class="card-title">Do Exercises&nbsp;&nbsp;&nbsp;<span id="totalExercises"
-                                                                         class="badge bg-success">0</span></h3>
+                                                                                           class="badge bg-success">0</span>
+                                </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
@@ -455,6 +457,48 @@
                         <!-- /.card -->
                     </div>
                 </div>
+
+                {{--<div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-info card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Atc Out&nbsp;&nbsp;&nbsp;<span id="totalAtcOut"
+                                                                                      class="badge bg-success">0</span>
+                                </h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                            title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <script>
+                                    function openFileActOut() {
+                                        $("#upload-act-out").click();
+                                    }
+                                </script>
+                                <div class="col-md-12" style="margin-bottom: 20px;">
+                                    <a class="btn btn-sm btn-outline-primary"
+                                       onclick="openFileActOut();return;">
+                                        <i class="fas fa-upload"></i>
+                                        &nbsp;Import phụ đề
+                                    </a>
+                                    <input type="file" class="form-control"
+                                           name="upload_act_out" id="upload-act-out"
+                                           style="border: none"
+                                           hidden
+                                           value="">
+                                </div>
+                                <div id="atcOutList">
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>--}}
+
                 <div class="row" style="padding-bottom: 20px;">
                     <div class="col-12">
                         <div class="d-flex align-items-center justify-content-end">
@@ -475,4 +519,85 @@
 
 @section('custom-script')
     @include('admin.layouts.script_lesson')
+
+    <script>
+        $(function () {
+
+            function convertSecondToTime(seconds) {
+                /* srtTimestamp */
+                let $milliseconds = seconds * 1000;
+                $seconds = Math.floor($milliseconds / 1000);
+                $minutes = Math.floor($seconds / 60);
+                $hours = Math.floor($minutes / 60);
+                $milliseconds = $milliseconds % 1000;
+                $seconds = $seconds % 60;
+                $minutes = $minutes % 60;
+                return ($hours < 10 ? '0' : '') + $hours + ':'
+                    + ($minutes < 10 ? '0' : '') + $minutes + ':'
+                    + ($seconds < 10 ? '0' : '') + $seconds + ','
+                    + ($milliseconds < 100 ? '0' : '') + ($milliseconds < 10 ? '0' : '') + $milliseconds;
+            }
+
+            $('#upload-act-out').change(function () {
+                let file_sub = $('#upload-act-out')[0].files;
+
+                if (file_sub.length > 0) {
+                    let form = new FormData();
+                    form.append('file_sub', file_sub[0]);
+
+                    $.ajax({
+                        url: "{{ route('admin.lesson.previewSub') }}",
+                        method: 'POST',
+                        dataType: 'JSON',
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        data: form,
+                        success: function (res) {
+                            let htmlData = '<table class="table table-bordered table-hover">';
+                            htmlData += '<thead>';
+                            htmlData += '<tr>';
+                            htmlData += '<th style="width: 30px;">#</th>';
+                            htmlData += '<th style="width: 300px;">Users</th>';
+                            htmlData += '<th>Nội dung</th>';
+                            htmlData += '</tr>';
+                            htmlData += '</thead>';
+                            htmlData += '<tbody>';
+
+                            res.subtitles.map((element, index) => {
+                                let userName = index % 2 == 0 ? 'A' : 'B';
+                                htmlData += `<tr style="cursor: pointer">
+                                                <td>${++index}</td>
+                                                <td><input name="actOutTags[${index}]" class="form-control form-control-sm tagsinput" data-role="tagsinput" value="${userName}"></td>
+                                                <td>
+                                                    <input name="actOutContent[${index}]" class="form-control form-control-sm" value="${element.text}">
+                                                    <div>
+                                                        <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>
+                                                        <span class="item-child-val">${convertSecondToTime(element.startTime)}</span>
+                                                        <input name="actOutTimeStart[${index}]" hidden class="form-control form-control-sm" value="${element.startTime}">
+                                                    </div>
+                                                    <div>
+                                                        <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time end:&nbsp;</span>
+                                                        <span class="item-child-val">${convertSecondToTime(element.endTime)}</span>
+                                                        <input name="actOutTimeEnd[${index}]" hidden class="form-control form-control-sm" value="${element.endTime}">
+                                                    </div>
+                                                </td>
+                                            </tr>`;
+                            });
+
+                            htmlData += '</tbody>';
+                            htmlData += '</table>';
+                            $('#atcOutList').empty().append(htmlData);
+                            $('.tagsinput').tagsinput('refresh');
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('error: ' + xhr.responseText);
+                        }
+                    })
+                }
+
+            });
+        });
+    </script>
+
 @endsection

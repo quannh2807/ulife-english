@@ -34,4 +34,9 @@ class Video extends Model
     {
         return $this->hasMany(VideoSubtitle::class, 'video_id', 'id');
     }
+
+    public function hasTopic()
+    {
+        return $this->belongsTo(Topics::class, 'topic_id', 'id');
+    }
 }

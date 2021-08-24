@@ -61,7 +61,8 @@
                     <th width="30%">Tên video</th>
                     <th>Danh mục</th>
                     <th>Loại video</th>
-                    <th>Trạng thái</th>
+                    <th class="text-center">Chủ đề</th>
+                    <th class="text-center">Trạng thái</th>
                     <th align="center" class="text-center btn-group-sm">
                         <a href="{{ route('admin.video.create') }}" class="d-inline-block btn btn-sm btn-primary">
                             <i class="fa fa-plus"></i>&nbsp;&nbsp;Thêm mới
@@ -92,7 +93,14 @@
                                 <span class="badge bg-info">{{ $cate->name }}</span>
                             @endforeach
                         </td>
-                        <td>{!! $video->type == 1 ? '<span class="badge bg-success">Grammar</span>' : '<span class="badge bg-info">Lesson</span>' !!}</td>
+                        <td>{!! htmlTypeVideo($video->type) !!}</td>
+                        <td class="text-center">
+                            @if($video->hasTopic)
+                                <span class="badge badge-primary">{{ $video->hasTopic->name }}</span>
+                            @else
+                                <span class="badge badge-secondary">No Topic</span>
+                            @endif
+                        </td>
                         <td class="text-center">{!! htmlStatus($video->status) !!}</td>
                         <td align="center" class="text-center">
                             <a href="{{ route('admin.subtitle.index', ['video_id' => $video->id]) }}"

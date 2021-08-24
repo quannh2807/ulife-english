@@ -34,6 +34,7 @@ return [
     'video_types' => [
         'Grammar' => 1,
         'Lesson' => 2,
+        'Video' => 3,
     ],
     'subtitle_status' => [
         'pending' => 0, // chờ duyệt

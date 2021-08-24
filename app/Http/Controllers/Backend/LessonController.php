@@ -11,6 +11,7 @@ use App\Models\Video;
 use App\Repositories\LessonRepository;
 use App\Repositories\LevelRepository;
 use App\Repositories\VideoRepository;
+use Benlipp\SrtParser\Parser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -468,6 +469,21 @@ class LessonController extends Controller
         return response()->json([
             'videos' => $videos,
         ]);
+    }
+
+    public function preview(Request $request)
+    {
+        $parser = new Parser();
+        if ($request->hasFile('file_sub')) {
+            $file = $request->file('file_sub');
+            $parser->loadFile($file->path());
+            $subtitles = $parser->parse();
+            return response()->json([
+                'subtitles' => $subtitles,
+            ]);
+        } else {
+            return 'file_sub not found.';
+        }
     }
 
     public function refreshLessonTraining(Request $request)

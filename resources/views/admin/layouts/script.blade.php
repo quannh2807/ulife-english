@@ -10,6 +10,7 @@
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
 <script src="{{ asset('plugins/inputmask/jquery.inputmask.min.js') }}"></script>
+<script src="{{ asset('plugins/tagsinput/tagsinput.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>

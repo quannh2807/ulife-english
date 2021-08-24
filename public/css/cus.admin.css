@@ -285,3 +285,7 @@ label.no-levels {
 #itemDynamic .content {
     width: 96%;
 }
+
+.bootstrap-tagsinput .badge {
+    margin-right: 5px;
+}

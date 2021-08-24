@@ -58,6 +58,19 @@ function htmlStatus($status)
         : '<span class="badge badge-success">Kích hoạt</span>';
 }
 
+function htmlTypeVideo($type)
+{
+    if ($type == 1) {
+        return '<span class="badge bg-success">Grammar</span>';
+    } else if ($type == 2) {
+        return '<span class="badge bg-info">Lesson</span>';
+    } elseif ($type == 3) {
+        return '<span class="badge bg-primary">Video</span>';
+    } else {
+        return '<span class="badge bg-secondary">Không có</span>';
+    }
+}
+
 function formatTimeSub($time, $format)
 {
     return \Carbon\Carbon::parse((int)$time)->format($format);
