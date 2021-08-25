@@ -909,4 +909,5 @@
 
 @section('custom-script')
     @include('admin.layouts.script_lesson')
+    @include('admin.layouts.script_lesson_act_out')
 @endsection

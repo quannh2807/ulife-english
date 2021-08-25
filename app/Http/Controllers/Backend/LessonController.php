@@ -202,25 +202,28 @@ class LessonController extends Controller
                 ];
             }
 
-            $dataActOut = [];
-            foreach ($actOutTimeStart as $index => $value) {
-                $dataActOut[] = [
-                    'lesson_id' => $lessonId,
-                    'time_start' => $actOutTimeStart[$index],
-                    'time_end' => $actOutTimeEnd[$index],
-                    'en' => $actOutEn[$index],
-                    'vi' => $actOutVi[$index],
-                    'user_tag' => $actOutUserTag[$index],
-                    'created_by' => 1,
-                    'updated_by' => 1,
-                    'created_at' => \Carbon\Carbon::now(),
-                ];
+            if (!empty($actOutTimeStart)) {
+                $dataActOut = [];
+                foreach ($actOutTimeStart as $index => $value) {
+                    $dataActOut[] = [
+                        'lesson_id' => $lessonId,
+                        'time_start' => $actOutTimeStart[$index],
+                        'time_end' => $actOutTimeEnd[$index],
+                        'en' => $actOutEn[$index],
+                        'vi' => $actOutVi[$index],
+                        'user_tag' => $actOutUserTag[$index],
+                        'created_by' => 1,
+                        'updated_by' => 1,
+                        'created_at' => \Carbon\Carbon::now(),
+                    ];
+                }
+
+                ActOut::insert($dataActOut);
             }
 
             $speakStore = LessonTraining::insert($dataSpeak);
             $writeStore = LessonTraining::insert($dataWrite);
             $exercisesStore = Exercises::insert($dataExercises);
-            $actOutStore = ActOut::insert($dataActOut);
         }
 
         /*$mData = [];
@@ -465,18 +468,20 @@ class LessonController extends Controller
             }
 
             // update act out
-            foreach ($actOutId as $index => $id) {
-                $dataActOut = [
-                    'lesson_id' => $lessonId,
-                    'time_start' => $actOutTimeStart[$index],
-                    'time_end' => $actOutTimeEnd[$index],
-                    'en' => $actOutEn[$index],
-                    'vi' => $actOutVi[$index],
-                    'user_tag' => $actOutUserTag[$index],
-                    'updated_at' => \Carbon\Carbon::now(),
-                ];
+            if (!empty($actOutId)) {
+                foreach ($actOutId as $index => $id) {
+                    $dataActOut = [
+                        'lesson_id' => $lessonId,
+                        'time_start' => $actOutTimeStart[$index],
+                        'time_end' => $actOutTimeEnd[$index],
+                        'en' => $actOutEn[$index],
+                        'vi' => $actOutVi[$index],
+                        'user_tag' => $actOutUserTag[$index],
+                        'updated_at' => \Carbon\Carbon::now(),
+                    ];
 
-                ActOut::where('id', $id)->update($dataActOut);
+                    ActOut::where('id', $id)->update($dataActOut);
+                }
             }
         }
 
