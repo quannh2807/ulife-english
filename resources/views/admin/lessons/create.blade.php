@@ -458,7 +458,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+               {{-- <div class="row">
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
@@ -471,10 +471,10 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                {{--<a class="btn btn-sm btn-outline-primary btn-upload mr-2">
+                                --}}{{--<a class="btn btn-sm btn-outline-primary btn-upload mr-2">
                                     <i class="fas fa-upload"></i>
                                     &nbsp;Import phụ đề
-                                </a>--}}
+                                </a>--}}{{--
                                 <script>
                                     function openFileActOut() {
                                         $("#upload-act-out").click();
@@ -499,7 +499,7 @@
                         </div>
                         <!-- /.card -->
                     </div>
-                </div>
+                </div>--}}
 
                 <div class="row" style="padding-bottom: 20px;">
                     <div class="col-12">
