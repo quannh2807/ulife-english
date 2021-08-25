@@ -48,7 +48,10 @@
                             let userName = index % 2 == 0 ? 'A' : 'B';
                             htmlData += `<tr style="cursor: pointer">
                                                 <td>${++index}</td>
-                                                <td><input name="actOutUserTag[${index}]" class="form-control form-control-sm tagsinput" data-role="tagsinput" value="${userName}"></td>
+                                                <td>
+                                                    <input  name="actOutId[${index}]" class="form-control form-control-sm" value="-1">
+                                                    <input name="actOutUserTag[${index}]" class="form-control form-control-sm tagsinput" data-role="tagsinput" value="${userName}">
+                                                </td>
                                                 <td>
                                                     <div>
                                                         <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>

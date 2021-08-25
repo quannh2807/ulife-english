@@ -417,7 +417,7 @@ class LessonController extends Controller
                     'lesson_id' => $lessonId,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'updated_at' => \Carbon\Carbon::now(),
+                    'created_at' => \Carbon\Carbon::now(),
                 ];
 
                 if ($id > 0) {
@@ -435,7 +435,7 @@ class LessonController extends Controller
                     'lesson_id' => $lessonId,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'updated_at' => \Carbon\Carbon::now(),
+                    'created_at' => \Carbon\Carbon::now(),
                 ];
 
                 if ($id > 0) {
@@ -457,7 +457,7 @@ class LessonController extends Controller
                     'answer_correct' => $answer_correct[$index],
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'updated_at' => \Carbon\Carbon::now(),
+                    'created_at' => \Carbon\Carbon::now(),
                 ];
 
                 if ($id > 0) {
@@ -477,10 +477,19 @@ class LessonController extends Controller
                         'en' => $actOutEn[$index],
                         'vi' => $actOutVi[$index],
                         'user_tag' => $actOutUserTag[$index],
-                        'updated_at' => \Carbon\Carbon::now(),
+                        'created_by' => 1,
+                        'updated_by' => 1,
+                        //'created_at' => \Carbon\Carbon::now(),
+                        //'updated_at' => \Carbon\Carbon::now(),
                     ];
 
-                    ActOut::where('id', $id)->update($dataActOut);
+                    if ($id > 0) {
+                        $dataActOut['updated_at'] = \Carbon\Carbon::now();
+                        ActOut::where('id', $id)->update($dataActOut);
+                    } else {
+                        $dataActOut['created_at'] = \Carbon\Carbon::now();
+                        ActOut::insert($dataActOut);
+                    }
                 }
             }
         }
