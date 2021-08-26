@@ -458,7 +458,7 @@
                     </div>
                 </div>
 
-               {{-- <div class="row">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
@@ -471,26 +471,41 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                --}}{{--<a class="btn btn-sm btn-outline-primary btn-upload mr-2">
-                                    <i class="fas fa-upload"></i>
-                                    &nbsp;Import phụ đề
-                                </a>--}}{{--
                                 <script>
-                                    function openFileActOut() {
-                                        $("#upload-act-out").click();
+                                    function openFileActOutEn() {
+                                        $("#upload-act-out-en").click();
+                                    }
+
+                                    function openFileActOutVi() {
+                                        $("#upload-act-out-vi").click();
                                     }
                                 </script>
-                                <div class="col-md-12" style="margin-bottom: 20px;">
-                                    <a class="btn btn-sm btn-outline-primary"
-                                       onclick="openFileActOut();return;">
-                                        <i class="fas fa-upload"></i>
-                                        &nbsp;Import phụ đề
-                                    </a>
-                                    <input type="file" class="form-control"
-                                           name="upload_act_out" id="upload-act-out"
-                                           style="border: none"
-                                           hidden
-                                           value="">
+                                <div class="row">
+                                    <div class="col-md-12" style="margin-bottom: 20px;">
+                                        <a class="btn btn-sm btn-outline-success"
+                                           onclick="openFileActOutEn();return;">
+                                            <i class="fas fa-upload"></i>
+                                            &nbsp;Import Sub Tiếng Anh
+                                        </a>
+                                        <input type="file" class="form-control"
+                                               name="upload_act_out_en"
+                                               id="upload-act-out-en"
+                                               style="border: none"
+                                               hidden
+                                               value="">
+
+                                        <a class="btn btn-sm btn-outline-info"
+                                           onclick="openFileActOutVi();return;">
+                                            <i class="fas fa-upload"></i>
+                                            &nbsp;Import Sub Tiếng Việt
+                                        </a>
+                                        <input type="file" class="form-control"
+                                               name="upload_act_out_vi"
+                                               id="upload-act-out-vi"
+                                               style="border: none"
+                                               hidden
+                                               value="">
+                                    </div>
                                 </div>
                                 <div id="atcOutList">
                                 </div>
@@ -499,7 +514,7 @@
                         </div>
                         <!-- /.card -->
                     </div>
-                </div>--}}
+                </div>
 
                 <div class="row" style="padding-bottom: 20px;">
                     <div class="col-12">

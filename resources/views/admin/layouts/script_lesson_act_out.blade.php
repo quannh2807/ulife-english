@@ -16,12 +16,14 @@
                 + ($milliseconds < 100 ? '0' : '') + ($milliseconds < 10 ? '0' : '') + $milliseconds;
         }
 
-        $('#upload-act-out').change(function () {
-            let file_sub = $('#upload-act-out')[0].files;
+        $('#upload-act-out-en, #upload-act-out-vi').change(function () {
+            let file_sub_en = $('#upload-act-out-en')[0].files;
+            let file_sub_vi = $('#upload-act-out-vi')[0].files;
 
-            if (file_sub.length > 0) {
+            if (file_sub_en.length > 0 || file_sub_vi.length > 0) {
                 let form = new FormData();
-                form.append('file_sub', file_sub[0]);
+                form.append('file_sub_en', file_sub_en != null ? file_sub_en[0] : '');
+                form.append('file_sub_vi', file_sub_vi != null ? file_sub_vi[0] : '');
 
                 $.ajax({
                     url: "{{ route('admin.lesson.previewSub') }}",
@@ -37,7 +39,7 @@
                         htmlData += '<tr>';
                         htmlData += '<th style="width: 30px;">#</th>';
                         htmlData += '<th style="width: 120px;">Users</th>';
-                        htmlData += '<th style="width: 150px;">Time</th>';
+                        htmlData += '<th style="width: 160px;">Time</th>';
                         htmlData += '<th>English</th>';
                         htmlData += '<th>Viet Nam</th>';
                         htmlData += '</tr>';
@@ -49,7 +51,7 @@
                             htmlData += `<tr style="cursor: pointer">
                                                 <td>${++index}</td>
                                                 <td>
-                                                    <input  name="actOutId[${index}]" class="form-control form-control-sm" value="-1">
+                                                    <input hidden name="actOutId[${index}]" class="form-control form-control-sm" value="-1">
                                                     <input name="actOutUserTag[${index}]" class="form-control form-control-sm tagsinput" data-role="tagsinput" value="${userName}">
                                                 </td>
                                                 <td>
@@ -65,10 +67,10 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <input name="actOutEn[${index}]" class="form-control form-control-sm" value="${element.text}">
+                                                    <input name="actOutEn[${index}]" class="form-control form-control-sm" value="${element.en}">
                                                 </td>
                                                 <td>
-                                                    <input name="actOutVi[${index}]" class="form-control form-control-sm" value="">
+                                                    <input name="actOutVi[${index}]" class="form-control form-control-sm" value="${element.vi}">
                                                 </td>
                                             </tr>`;
                         });

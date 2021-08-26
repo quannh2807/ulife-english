@@ -536,33 +536,62 @@ class LessonController extends Controller
     public function preview(Request $request)
     {
         $parser = new Parser();
-        if ($request->hasFile('file_sub')) {
-            $file = $request->file('file_sub');
-            $parser->loadFile($file->path());
-            $subtitles = $parser->parse();
+        if ($request->hasFile('file_sub_en') || $request->hasFile('file_sub_vi')) {
+            $fileEn = $request->file('file_sub_en');
+            $fileVi = $request->file('file_sub_vi');
 
-            return response()->json([
-                'subtitles' => $subtitles,
-            ]);
+            $subtitlesEn = null;
+            $subtitlesVi = null;
 
-            /*$jsonData [] = array(
-                'startTime' => 0,
-                'endTime' => 4,
-                'text' => 'abc 1'
-            );
-            $jsonData [] = array(
-                'startTime' => '0',
-                'endTime' => '4',
-                'text' => 'abc 2'
-            );
-            $jsonData [] = array(
-                'startTime' => '0',
-                'endTime' => '4',
-                'text' => 'abc 3'
-            );
+            if ($fileEn != null && $fileEn->path() != null) {
+                $parser->loadFile($fileEn->path());
+                $subtitlesEn = $parser->parse();
+            }
+
+            if ($fileVi != null && $fileVi->path() != null) {
+                $parser->loadFile($fileVi->path());
+                $subtitlesVi = $parser->parse();
+            }
+
+            /*return response()->json([
+                'subtitles' => $subtitlesEn,
+            ]);*/
+
+            $jsonData = [];
+
+            if (!empty($subtitlesEn) && !empty($subtitlesVi)) {
+                foreach ($subtitlesEn as $index => $value) {
+                    $jsonData [] = array(
+                        'startTime' => $value->startTime,
+                        'endTime' => $value->endTime,
+                        'en' => $value->text,
+                        'vi' => $subtitlesVi[$index]->text
+                    );
+                }
+            } else if (!empty($subtitlesEn)) {
+                foreach ($subtitlesEn as $index => $value) {
+                    $jsonData [] = array(
+                        'startTime' => $value->startTime,
+                        'endTime' => $value->endTime,
+                        'en' => $value->text,
+                        'vi' => ''
+                    );
+                }
+            } else if (!empty($subtitlesVi)) {
+                foreach ($subtitlesVi as $index => $value) {
+                    $jsonData [] = array(
+                        'startTime' => $value->startTime,
+                        'endTime' => $value->endTime,
+                        'en' => '',
+                        'vi' => $value->text
+                    );
+                }
+            } else {
+                return 'No Data.';
+            }
 
             $jsonSub ['subtitles'] = $jsonData;
-            return json_encode($jsonSub);*/
+            return json_encode($jsonSub);
 
         } else {
             return 'file_sub not found.';
