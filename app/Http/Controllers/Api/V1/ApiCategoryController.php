@@ -90,30 +90,13 @@ class ApiCategoryController extends BaseApiController
             $mQuery->limit($limitVideos);
             $videoData = $mQuery->get();
 
-            $responseVideos = [];
-            foreach ($videoData as $key => $value) {
-                $responseVideos [] = [
-                    'id' => $value->video_id,
-                    'ytb_id' => $value->ytb_id,
-                    'title' => $value->video_title,
-                    'description' => $value->description,
-                    'ytb_thumbnails' => json_decode($value->ytb_thumbnails),
-                    'category_id' => $value->category_id,
-                    'category_name' => $value->category_name,
-                    'type' => $value->type,
-                    'status' => $value->status,
-                    'topic_id' => $value->topic_id,
-                    'created_at' => $value->created_at
-                ];
-            }
-
             $responseData [] = [
                 'id' => $value->id,
                 'name' => $value->name,
                 //'slug' => $value->slug,
                 'position' => $value->position,
                 'parent_id' => $value->parent_id,
-                'videos' => $responseVideos,
+                'videos' => $this->formatVideoList($videoData),
                 'type' => $value->type,
                 'status' => $value->status,
                 'created_at' => $value->created_at
@@ -250,7 +233,7 @@ class ApiCategoryController extends BaseApiController
                 //'slug' => $value->slug,
                 'position' => $value->position,
                 'parent_id' => $value->parent_id,
-                'videos' => $videoData,
+                'videos' => $this->formatVideoList($videoData),
                 'type' => $value->type,
                 'status' => $value->status,
                 'created_at' => $value->created_at
@@ -266,5 +249,28 @@ class ApiCategoryController extends BaseApiController
             'page_number' => $pageNumber,
             'total_record' => $totalRecord
         ], 200);
+    }
+
+    function formatVideoList($data)
+    {
+        $responseVideos = [];
+        if (!empty($data)) {
+            foreach ($data as $key => $value) {
+                $responseVideos [] = [
+                    'id' => $value->id,
+                    'ytb_id' => $value->ytb_id,
+                    'title' => $value->title,
+                    'description' => $value->description,
+                    'ytb_thumbnails' => json_decode($value->ytb_thumbnails),
+                    'category_id' => $value->category_id,
+                    'category_name' => $value->category_name,
+                    'type' => $value->type,
+                    'status' => $value->status,
+                    'topic_id' => $value->topic_id,
+                    'created_at' => $value->created_at
+                ];
+            }
+        }
+        return $responseVideos;
     }
 }
