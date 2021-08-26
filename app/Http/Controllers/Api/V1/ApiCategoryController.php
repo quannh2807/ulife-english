@@ -90,13 +90,30 @@ class ApiCategoryController extends BaseApiController
             $mQuery->limit($limitVideos);
             $videoData = $mQuery->get();
 
+            $responseVideos = [];
+            foreach ($videoData as $key => $value) {
+                $responseVideos [] = [
+                    'id' => $value->video_id,
+                    'ytb_id' => $value->ytb_id,
+                    'title' => $value->video_title,
+                    'description' => $value->description,
+                    'ytb_thumbnails' => json_decode($value->ytb_thumbnails),
+                    'category_id' => $value->category_id,
+                    'category_name' => $value->category_name,
+                    'type' => $value->type,
+                    'status' => $value->status,
+                    'topic_id' => $value->topic_id,
+                    'created_at' => $value->created_at
+                ];
+            }
+
             $responseData [] = [
                 'id' => $value->id,
                 'name' => $value->name,
                 //'slug' => $value->slug,
                 'position' => $value->position,
                 'parent_id' => $value->parent_id,
-                'videos' => $videoData,
+                'videos' => $responseVideos,
                 'type' => $value->type,
                 'status' => $value->status,
                 'created_at' => $value->created_at
