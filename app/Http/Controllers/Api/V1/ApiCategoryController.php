@@ -223,6 +223,7 @@ class ApiCategoryController extends BaseApiController
 
             $mQuery->where('topics.status', 1);
             $mQuery->where('videos.status', 1);
+            $mQuery->where('videos.type', 1); // common video_type
             $mQuery->where('videos.topic_id', $value->id);
             $mQuery->limit($limitVideos);
             $videoData = $mQuery->get();
