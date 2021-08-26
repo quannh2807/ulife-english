@@ -264,6 +264,8 @@ class ApiCategoryController extends BaseApiController
                     'ytb_thumbnails' => json_decode($value->ytb_thumbnails),
                     'category_id' => $value->category_id,
                     'category_name' => $value->category_name,
+                    'topic_id' => $value->topic_id,
+                    'topic_name' => $value->topic_name,
                     'type' => $value->type,
                     'status' => $value->status,
                     'topic_id' => $value->topic_id,
