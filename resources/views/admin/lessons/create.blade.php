@@ -458,7 +458,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                {{--<div class="row">
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
@@ -514,7 +514,7 @@
                         </div>
                         <!-- /.card -->
                     </div>
-                </div>
+                </div>--}}
 
                 <div class="row" style="padding-bottom: 20px;">
                     <div class="col-12">
