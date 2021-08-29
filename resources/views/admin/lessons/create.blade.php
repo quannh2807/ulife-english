@@ -458,7 +458,7 @@
                     </div>
                 </div>
 
-                {{--<div class="row">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
@@ -507,6 +507,108 @@
                                                value="">
                                     </div>
                                 </div>
+                                <div class="layoutBorder">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="act-out-name-one"><span
+                                                        class="badge badge-question">1</span>&nbsp;&nbsp;Tên nhân vật
+                                                    thứ
+                                                    nhất<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" name="actOutNameOne" id="actOutNameOne"
+                                                       class="form-control form-control-md"
+                                                       value="{{ old('actOutNameOne') }}"
+                                                       placeholder="Nhập tên nhân vật thứ nhất">
+                                            </div>
+                                            <div id="characterOne" class="form-group">
+                                                <label for="grpAvatarThumb">Avatar</label>
+                                                <div id="grpAvatarThumb" class="form-group">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="inlineCharacterOne"
+                                                               id="avatarOneUpload" value="1" checked>
+                                                        <label class="form-check-label" for="avatarOneUpload">Tải ảnh
+                                                            lên</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="inlineCharacterOne"
+                                                               id="avatarOneLink" value="2">
+                                                        <label class="form-check-label" for="avatarOneLink">Từ
+                                                            link</label>
+                                                    </div>
+                                                </div>
+                                                <div class="boxThumbCharacterOne">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control input-file-dummy"
+                                                               placeholder="Chọn ảnh" aria-describedby="fileHelp"
+                                                               readonly>
+                                                        <label class="input-group-append mb-0">
+                                                <span class="btn btn-info input-file-btn">
+                                                    <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
+                                                    <input type="file" hidden
+                                                           id="characterOneUpload" name="characterOneUpload"
+                                                           accept="image/*"
+                                                           onchange="previewAvatarOne(event)">
+                                                </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div id="characterPhotoOne"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="act-out-name-two"><span
+                                                        class="badge badge-question">2</span>&nbsp;&nbsp;Tên nhân vật
+                                                    thứ
+                                                    hai<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" name="actOutNameTwo" id="actOutNameTwo"
+                                                       class="form-control form-control-md"
+                                                       value="{{ old('actOutNameTwo') }}"
+                                                       placeholder="Nhập tên nhân vật thứ hai">
+                                            </div>
+                                            <div id="characterTwo" class="form-group">
+                                                <label for="grpAvatarTwo">Avatar</label>
+                                                <div id="grpAvatarTwo" class="form-group">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="inlineCharacterTwo"
+                                                               id="avatarTwoUpload" value="1" checked>
+                                                        <label class="form-check-label" for="avatarTwoUpload">Tải ảnh
+                                                            lên</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="inlineCharacterTwo"
+                                                               id="avatarTwoLink" value="2">
+                                                        <label class="form-check-label" for="avatarTwoLink">Từ
+                                                            link</label>
+                                                    </div>
+                                                </div>
+                                                <div class="boxThumbCharacterTwo">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control input-file-dummy"
+                                                               placeholder="Chọn ảnh" aria-describedby="fileHelp"
+                                                               readonly>
+                                                        <label class="input-group-append mb-0">
+                                                        <span class="btn btn-info input-file-btn">
+                                                            <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
+                                                            <input type="file" hidden
+                                                                   id="characterTwoUpload" name="characterTwoUpload"
+                                                                   accept="image/*"
+                                                                   onchange="previewAvatarTwo(event)">
+                                                        </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div id="characterPhotoTwo"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div id="atcOutList">
                                 </div>
                             </div>
@@ -514,7 +616,7 @@
                         </div>
                         <!-- /.card -->
                     </div>
-                </div>--}}
+                </div>
 
                 <div class="row" style="padding-bottom: 20px;">
                     <div class="col-12">
@@ -531,87 +633,6 @@
 
     @include('admin.lessons.list_grammar_video')
     @include('admin.lessons.list_lesson_video')
-
-    <div class="modal fade" id="upload_sub" tabindex="-1" role="dialog"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <form id="form-upload" action="{{ route('admin.video.uploadSub') }}" method="POST"
-                      enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="video_id" value="">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Import phụ đề</h4>
-                        <button type="button" class="close close-modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="modal-result">
-
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="upload-file">Upload phụ đề<span
-                                                class="text-danger">&nbsp;*</span></label>
-                                        <input type="file" name="file_upload" id="upload-file" class="form-control"
-                                               style="border: none"
-                                               value="{{ old('file_upload') }}">
-                                    </div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="sub-lang">Chọn ngôn ngữ<span
-                                                class="text-danger">&nbsp;*</span></label>
-                                        <select name="lang" id="lang">
-                                            <option value="">-- Chọn ngôn ngữ --</option>
-                                            @foreach(config('common.languages') as $key => $lang)
-                                                <option
-                                                    value="{{ $key }}" {{ old('lang') === $key ? 'selected' : ''}}>{{ $lang }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-body d-none" id="preview">
-                        <div class="card-body table-responsive p-0" style="height: 300px;">
-                            <table class="table table-head-fixed table-hover text-nowrap">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Start-time</th>
-                                    <th>End-time</th>
-                                    <th>Phụ đề</th>
-                                </tr>
-                                </thead>
-
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default close-modal"><i class="fa fa-times"></i>&nbsp;Đóng
-                        </button>
-
-                        <div class="btn-group-sm">
-                            <button class="btn btn-sm btn-info btn-preview">
-                                Xem trước
-                            </button>
-
-                            <button class="btn btn-sm btn-primary" type="submit">
-                                Upload phụ đề
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
 
 @endsection
 

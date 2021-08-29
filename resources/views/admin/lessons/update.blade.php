@@ -793,7 +793,7 @@
                     </div>
                 </div>
 
-                {{--<div class="row">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
@@ -843,12 +843,158 @@
                                     </div>
                                 </div>
 
+                                <div class="layoutBorder">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="act-out-name-one"><span
+                                                        class="badge badge-question">1</span>&nbsp;&nbsp;Tên nhân vật
+                                                    thứ nhất<span
+                                                        class="text-danger">*</span></label>
+                                                <input hidden type="text" name="actOutIdOne" id="actOutIdOne"
+                                                       class="form-control form-control-md"
+                                                       value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 1 ? $actOutCharacter[0]->id : ''}}">
+                                                <input type="text" name="actOutNameOne" id="actOutNameOne"
+                                                       class="form-control form-control-md"
+                                                       value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 1 ? $actOutCharacter[0]->characterName : ''}}"
+                                                       placeholder="Nhập tên nhân vật thứ nhất">
+                                            </div>
+                                            <div id="characterOne" class="form-group">
+                                                <label for="grpAvatarThumb">Avatar</label>
+                                                <div id="grpAvatarThumb" class="form-group">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="inlineCharacterOne"
+                                                               data-path-avatar-1="{{$actOutCharacter[0]->image}}"
+                                                               id="avatarOneUpload" value="1"
+                                                               @if(!isUrl($actOutCharacter[0]->image)) checked @else @endif>
+                                                        <label class="form-check-label" for="avatarOneUpload">Tải ảnh
+                                                            lên</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="inlineCharacterOne"
+                                                               data-path-avatar-1="{{$actOutCharacter[0]->image}}"
+                                                               id="avatarOneLink" value="2"
+                                                               @if(isUrl($actOutCharacter[0]->image)) checked @else @endif>
+                                                        <label class="form-check-label" for="avatarOneLink">Từ
+                                                            link</label>
+                                                    </div>
+                                                </div>
+                                                <div class="boxThumbCharacterOne">
+                                                    @if(!empty($actOutCharacter) && isUrl($actOutCharacter[0]->image))
+                                                        <input id="characterOneUpload" name="characterOneUpload"
+                                                               type="text"
+                                                               class="form-control input-file-dummy"
+                                                               value="{{$actOutCharacter[0]->image}}"
+                                                               placeholder="Nhập vào link ảnh">
+                                                    @else
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control input-file-dummy"
+                                                                   readonly
+                                                                   placeholder="Chọn ảnh" aria-describedby="fileHelp">
+                                                            <label class="input-group-append mb-0">
+                                                            <span class="btn btn-info input-file-btn">
+                                                                <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
+                                                                <input type="file" hidden
+                                                                       accept="image/*"
+                                                                       id="characterOneUpload" name="characterOneUpload"
+                                                                       onchange="previewAvatarOne(event)">
+                                                            </span>
+                                                            </label>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div id="characterPhotoOne">
+                                                    @if(!empty($actOutCharacter) && !empty($actOutCharacter[0]))
+                                                        <div class="imagePhoto">
+                                                            <img
+                                                                src="@if(isUrl($actOutCharacter[0]->image)) {{$actOutCharacter[0]->image}} @else {{ asset('storage/' . $actOutCharacter[0]->image) }} @endif">
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="act-out-name-two"><span
+                                                        class="badge badge-question">2</span>&nbsp;&nbsp;Tên nhân vật
+                                                    thứ
+                                                    hai<span
+                                                        class="text-danger">*</span></label>
+                                                <input hidden type="text" name="actOutIdTwo" id="actOutIdTwo"
+                                                       class="form-control form-control-md"
+                                                       value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 2 ? $actOutCharacter[1]->id : ''}}">
+                                                <input type="text" name="actOutNameTwo" id="actOutNameTwo"
+                                                       class="form-control form-control-md"
+                                                       value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 2 ? $actOutCharacter[1]->characterName : ''}}"
+                                                       placeholder="Nhập tên nhân vật thứ hai">
+                                            </div>
+                                            <div id="characterTwo" class="form-group">
+                                                <label for="grpAvatarTwo">Avatar</label>
+                                                <div id="grpAvatarTwo" class="form-group">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="inlineCharacterTwo"
+                                                               data-path-avatar-2="{{$actOutCharacter[1]->image}}"
+                                                               id="avatarTwoUpload" value="1"
+                                                               @if(!isUrl($actOutCharacter[1]->image)) checked @else @endif>
+                                                        <label class="form-check-label" for="avatarTwoUpload">Tải ảnh
+                                                            lên</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="inlineCharacterTwo"
+                                                               data-path-avatar-2="{{$actOutCharacter[1]->image}}"
+                                                               id="avatarTwoLink" value="2"
+                                                               @if(isUrl($actOutCharacter[1]->image)) checked @else @endif>
+                                                        <label class="form-check-label" for="avatarTwoLink">Từ
+                                                            link</label>
+                                                    </div>
+                                                </div>
+                                                <div class="boxThumbCharacterTwo">
+                                                    @if(!empty($actOutCharacter) && isUrl($actOutCharacter[1]->image))
+                                                        <input id="characterTwoUpload" name="characterTwoUpload"
+                                                               type="text"
+                                                               class="form-control input-file-dummy"
+                                           ¬                    value="{{$actOutCharacter[1]->image}}"
+                                                               placeholder="Nhập vào link ảnh">
+                                                    @else
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control input-file-dummy"
+                                                                   readonly
+                                                                   placeholder="Chọn ảnh" aria-describedby="fileHelp">
+                                                            <label class="input-group-append mb-0">
+                                                            <span class="btn btn-info input-file-btn">
+                                                                <i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh
+                                                                <input type="file" hidden
+                                                                       accept="image/*"
+                                                                       id="characterTwoUpload" name="characterTwoUpload"
+                                                                       onchange="previewAvatarTwo(event)">
+                                                            </span>
+                                                            </label>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div id="characterPhotoTwo">
+                                                    @if(!empty($actOutCharacter) && !empty($actOutCharacter[1]))
+                                                        <div class="imagePhoto">
+                                                            <img
+                                                                src="@if(isUrl($actOutCharacter[1]->image)) {{$actOutCharacter[1]->image}} @else {{ asset('storage/' . $actOutCharacter[1]->image) }} @endif">
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div id="atcOutList">
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
                                             <th style="width: 30px;">#</th>
-                                            <th style="width: 120px;">Users</th>
+                                            <th style="width: 150px;">Chọn nhân vật</th>
                                             <th style="width: 160px;">Time</th>
                                             <th>English</th>
                                             <th>Viet Nam</th>
@@ -862,9 +1008,24 @@
                                                     <input hidden name="actOutId[{{$index}}]"
                                                            class="form-control form-control-sm"
                                                            value="{{$item->id}}">
-                                                    <input name="actOutUserTag[{{$index}}]"
-                                                           class="form-control form-control-sm tagsinput"
-                                                           data-role="tagsinput" value="{{$item->user_tag}}"></td>
+                                                    <div class="form-group">
+                                                        <div class="form-check form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="actOutCharacterId[{{$index}}]"
+                                                                   id="character1_{{$index}}" value="1"
+                                                                {{ ($item->characterId  == 1) ? 'checked': '' }}>
+                                                            <label class="form-check-label" for="character1_{{$index}}">Nhân
+                                                                vật <span class="badge badge-question">1</span></label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="actOutCharacterId[{{$index}}]"
+                                                                   id="character2_{{$index}}" value="2"
+                                                                {{ ($item->characterId  == 2) ? 'checked': '' }}>
+                                                            <label class="form-check-label" for="character2_{{$index}}">Nhân
+                                                                vật <span class="badge badge-question">2</span></label>
+                                                        </div>
+                                                    </div>
                                                 <td>
                                                     <div>
                                                         <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>
@@ -903,7 +1064,7 @@
                         </div>
                         <!-- /.card -->
                     </div>
-                </div>--}}
+                </div>
 
                 <div class="row" style="padding-bottom: 20px;">
                     <div class="col-12">

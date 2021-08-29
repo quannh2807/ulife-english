@@ -62,4 +62,9 @@ class Lesson extends Model
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
     }
+
+    public function hasCharacters()
+    {
+        return $this->hasMany(ActOutCharacter::class, 'lesson_id');
+    }
 }

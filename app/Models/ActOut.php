@@ -24,6 +24,7 @@ class ActOut extends Model
         'en',
         'vi',
         'user_tag',
+        'characterId',
         'status',
         'created_by',
         'updated_by'
@@ -41,6 +42,7 @@ class ActOut extends Model
         'en' => '',
         'vi' => '',
         'user_tag' => '',
+        'characterId' => 0,
         'status' => 1,
         'created_by' => 1,
         'updated_by' => 1,

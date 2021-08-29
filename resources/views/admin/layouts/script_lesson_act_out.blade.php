@@ -38,7 +38,7 @@
                         htmlData += '<thead>';
                         htmlData += '<tr>';
                         htmlData += '<th style="width: 30px;">#</th>';
-                        htmlData += '<th style="width: 120px;">Users</th>';
+                        htmlData += '<th style="width: 150px;">Chọn nhân vật</th>';
                         htmlData += '<th style="width: 160px;">Time</th>';
                         htmlData += '<th>English</th>';
                         htmlData += '<th>Viet Nam</th>';
@@ -47,7 +47,7 @@
                         htmlData += '<tbody>';
 
                         res.subtitles.map((element, index) => {
-                            let userName = index % 2 == 0 ? 'A' : 'B';
+                            /*let userName = index % 2 == 0 ? 'A' : 'B';
                             htmlData += `<tr style="cursor: pointer">
                                                 <td>${++index}</td>
                                                 <td>
@@ -72,7 +72,47 @@
                                                 <td>
                                                     <input name="actOutVi[${index}]" class="form-control form-control-sm" value="${element.vi}">
                                                 </td>
+                                            </tr>`;*/
+
+                            htmlData += `<tr style="cursor: pointer">
+                                                <td>${++index}</td>
+                                                <td>
+                                                    <input hidden name="actOutId[${index}]" class="form-control form-control-sm" value="-1">
+                                                    <div class="form-group">
+                                                        <div class="form-check form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="actOutCharacterId[${index}]"
+                                                                   id="character1_${index}" value="1" checked>
+                                                            <label class="form-check-label" for="character1_${index}">Nhân vật <span class="badge badge-question">1</span></label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="actOutCharacterId[${index}]"
+                                                                   id="character2_${index}" value="2">
+                                                            <label class="form-check-label" for="character2_${index}">Nhân vật <span class="badge badge-question">2</span></label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>
+                                                        <span class="item-child-val">${convertSecondToTime(element.startTime)}</span>
+                                                        <input name="actOutTimeStart[${index}]" hidden class="form-control form-control-sm" value="${element.startTime}">
+                                                    </div>
+                                                    <div>
+                                                        <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time end:&nbsp;</span>
+                                                        <span class="item-child-val">${convertSecondToTime(element.endTime)}</span>
+                                                        <input name="actOutTimeEnd[${index}]" hidden class="form-control form-control-sm" value="${element.endTime}">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input name="actOutEn[${index}]" class="form-control form-control-sm" value="${element.en}">
+                                                </td>
+                                                <td>
+                                                    <input name="actOutVi[${index}]" class="form-control form-control-sm" value="${element.vi}">
+                                                </td>
                                             </tr>`;
+
                         });
 
                         htmlData += '</tbody>';
@@ -87,62 +127,6 @@
             }
 
         });
-
-
-        $('.btn-upload').click(function () {
-            $('#upload_sub').modal('toggle');
-
-            $('.btn-preview').click(function (e) {
-                e.preventDefault();
-                let valid = $('#form-upload').valid();
-                if (!valid) return;
-
-                let file_sub = $('#upload-file')[0].files;
-
-                if (file_sub.length > 0) {
-                    let form = new FormData();
-                    form.append('file_sub', file_sub[0]);
-
-                    $.ajax({
-                        url: "{{ route('admin.subtitle.previewSub') }}",
-                        method: 'POST',
-                        dataType: 'JSON',
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        data: form,
-                        success: function (res) {
-                            $('#preview').removeClass('d-none')
-
-                            let tbody = '';
-                            res.subtitles.map((element, index) => {
-                                tbody += `
-                                         <tr style="cursor: pointer">
-                                            <th>${++index}</th>
-                                            <td>${convertSecondToTime(element.startTime)}</td>
-                                            <td>${convertSecondToTime(element.endTime)}</td>
-                                            <td>${element.text}</td>
-                                        </tr>
-                                    `;
-                            })
-
-                            $('#preview tbody').append(tbody);
-                        },
-                        error: function () {
-                            console.log('error')
-                        }
-                    })
-                }
-            })
-        });
-
-        $('button.close-modal').on('click', function (e) {
-            // do something...
-            $('#form-upload').trigger("reset");
-            $('#upload_sub').modal('hide');
-            $('#preview tbody').empty();
-            $('#preview').addClass('d-none');
-        })
 
     });
 </script>

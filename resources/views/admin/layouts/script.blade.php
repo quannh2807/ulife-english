@@ -439,4 +439,172 @@
 
     // end preview thumbLink
 
+    // avatar character one
+    if ($("#grpAvatarThumb").length > 0) {
+        $('#grpAvatarThumb input').on('change', function () {
+            let pathThumb = '';
+            if ($(this).attr("data-path-avatar-1")) {
+                pathThumb = $(this).attr('data-path-avatar-1')
+            }
+            let valueRadio = $('input[name=inlineCharacterOne]:checked', '#grpAvatarThumb').val()
+            if (valueRadio == 1) {
+                $("#characterPhotoOne").empty();
+                $(".boxThumbCharacterOne").empty();
+                $(".boxThumbCharacterOne").append('<div class="input-group">' +
+                    '<input type="text" class="form-control input-file-dummy"' +
+                    'placeholder="Chọn ảnh" aria-describedby="fileHelp" readonly>\n' +
+                    '<label class="input-group-append mb-0">' +
+                    '<span class="btn btn-info input-file-btn">' +
+                    '<i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh\n' +
+                    '<input type="file" hidden ' +
+                    'id="characterOneUpload" name="characterOneUpload"' +
+                    'accept="image/*"' +
+                    'onchange="previewAvatarOne(event)">' +
+                    '</span>' +
+                    '</label>' +
+                    '</div>');
+                showImageCharacterOneOld(pathThumb);
+            } else {
+                if (!validURL(pathThumb)) {
+                    pathThumb = '';
+                }
+                $("#characterPhotoOne").empty();
+                $(".boxThumbCharacterOne").empty();
+                $(".boxThumbCharacterOne").append('<input id="characterOneUpload" name="characterOneUpload" value="' + pathThumb + '" type="text" class="form-control input-file-dummy" placeholder="Nhập vào link ảnh">');
+                $('#characterPhotoOne').empty();
+                if (pathThumb !== '') {
+                    $('#characterPhotoOne').append('<div class="imagePhoto"><img src="' + pathThumb + '"></div>');
+                }
+                onInputThumbCharacterOne()
+            }
+        });
+    }
+
+    function showImageCharacterOneOld(path) {
+        if (path !== '' && !validURL(path)) {
+            $('#characterPhotoOne').empty();
+            let urlImg = "{{ asset('storage/') }}" + '/' + path;
+            $('#characterPhotoOne').append('<div class="imagePhoto"><img src="' + urlImg + '"><a href="javascript:void(0)" class="characterOneRemove"><i class="fa fa-trash-alt"></i></a></div>');
+            $(".characterOneRemove").click(function () {
+                $(this).parent().remove();
+                $('#characterOne .input-file-dummy').val('');
+            });
+        }
+    }
+
+    if ($("#characterOneUpload").length > 0) {
+        onInputThumbCharacterOne()
+    }
+
+    function onInputThumbCharacterOne() {
+        $("#characterOneUpload").on("input", function () {
+            let urls = $('#characterOne .input-file-dummy').val();
+            if (urls !== '') {
+                $('#characterPhotoOne').empty();
+                $('#characterPhotoOne').append('<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="characterOneRemove"><i class="fa fa-trash-alt"></i></a></div>');
+                $(".characterOneRemove").click(function () {
+                    $(this).parent().remove();
+                    $('#characterOne .input-file-dummy').val('');
+                });
+            } else {
+                $('#characterPhotoOne').empty();
+            }
+        });
+    }
+
+    function previewAvatarOne(event) {
+        $('#characterOne .input-file-dummy').val($('#characterOneUpload').val());
+        $('#characterPhotoOne').empty();
+        let urls = URL.createObjectURL(event.target.files[0]);
+        document.getElementById("characterPhotoOne").innerHTML += '<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="characterOneRemove"><i class="fa fa-trash-alt"></i></a></div>';
+        $(".characterOneRemove").click(function () {
+            $(this).parent().fadeOut(300);
+            $('#characterOne .input-file-dummy').val('');
+        });
+    }
+
+    // avatar character Two
+    if ($("#grpAvatarTwo").length > 0) {
+        $('#grpAvatarTwo input').on('change', function () {
+            let pathThumb = '';
+            if ($(this).attr("data-path-avatar-2")) {
+                pathThumb = $(this).attr('data-path-avatar-2')
+            }
+            let valueRadio = $('input[name=inlineCharacterTwo]:checked', '#grpAvatarTwo').val()
+            if (valueRadio == 1) {
+                $("#characterPhotoTwo").empty();
+                $(".boxThumbCharacterTwo").empty();
+                $(".boxThumbCharacterTwo").append('<div class="input-group">' +
+                    '<input type="text" class="form-control input-file-dummy"' +
+                    'placeholder="Chọn ảnh" aria-describedby="fileHelp" readonly>\n' +
+                    '<label class="input-group-append mb-0">' +
+                    '<span class="btn btn-info input-file-btn">' +
+                    '<i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh\n' +
+                    '<input type="file" hidden ' +
+                    'id="characterTwoUpload" name="characterTwoUpload"' +
+                    'accept="image/*"' +
+                    'onchange="previewAvatarTwo(event)">' +
+                    '</span>' +
+                    '</label>' +
+                    '</div>');
+                showImageCharacterTwoOld(pathThumb);
+            } else {
+                if (!validURL(pathThumb)) {
+                    pathThumb = '';
+                }
+                $("#characterPhotoTwo").empty();
+                $(".boxThumbCharacterTwo").empty();
+                $(".boxThumbCharacterTwo").append('<input id="characterTwoUpload" name="characterTwoUpload" value="' + pathThumb + '" type="text" class="form-control input-file-dummy" placeholder="Nhập vào link ảnh">');
+                $('#characterPhotoTwo').empty();
+                if (pathThumb !== '') {
+                    $('#characterPhotoTwo').append('<div class="imagePhoto"><img src="' + pathThumb + '"></div>');
+                }
+                onInputThumbCharacterTwo()
+            }
+        });
+    }
+
+    function showImageCharacterTwoOld(path) {
+        if (path !== '' && !validURL(path)) {
+            $('#characterPhotoTwo').empty();
+            let urlImg = "{{ asset('storage/') }}" + '/' + path;
+            $('#characterPhotoTwo').append('<div class="imagePhoto"><img src="' + urlImg + '"><a href="javascript:void(0)" class="characterTwoRemove"><i class="fa fa-trash-alt"></i></a></div>');
+            $(".characterTwoRemove").click(function () {
+                $(this).parent().remove();
+                $('#characterTwo .input-file-dummy').val('');
+            });
+        }
+    }
+
+    if ($("#thumbCharacterTwo").length > 0) {
+        onInputThumbCharacterTwo()
+    }
+
+    function onInputThumbCharacterTwo() {
+        $("#characterTwoUpload").on("input", function () {
+            let urls = $('#characterTwo .input-file-dummy').val();
+            if (urls !== '') {
+                $('#characterPhotoTwo').empty();
+                $('#characterPhotoTwo').append('<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="characterTwoRemove"><i class="fa fa-trash-alt"></i></a></div>');
+                $(".characterTwoRemove").click(function () {
+                    $(this).parent().remove();
+                    $('#characterTwo .input-file-dummy').val('');
+                });
+            } else {
+                $('#characterPhotoTwo').empty();
+            }
+        });
+    }
+
+    function previewAvatarTwo(event) {
+        $('#characterTwo .input-file-dummy').val($('#characterTwoUpload').val());
+        $('#characterPhotoTwo').empty();
+        let urls = URL.createObjectURL(event.target.files[0]);
+        document.getElementById("characterPhotoTwo").innerHTML += '<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="characterTwoRemove"><i class="fa fa-trash-alt"></i></a></div>';
+        $(".characterTwoRemove").click(function () {
+            $(this).parent().fadeOut(300);
+            $('#characterTwo .input-file-dummy').val('');
+        });
+    }
+
 </script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ActOut;
+use App\Models\ActOutCharacter;
 use App\Models\Course;
 use App\Models\Exercises;
 use App\Models\Lesson;
@@ -114,8 +115,12 @@ class LessonController extends Controller
         $answer_3 = $request->input('answer_3', []);
         $answer_4 = $request->input('answer_4', []);
         $answer_correct = $request->input('answer_correct', []);
+
         // act out
-        $actOutUserTag = $request->input('actOutUserTag', []);
+        $actOutNameOne = $request->actOutNameOne;
+        $actOutNameTwo = $request->actOutNameTwo;
+
+        $actOutCharacterId = $request->input('actOutCharacterId', []);
         $actOutTimeStart = $request->input('actOutTimeStart', []);
         $actOutTimeEnd = $request->input('actOutTimeEnd', []);
         $actOutEn = $request->input('actOutEn', []);
@@ -126,6 +131,22 @@ class LessonController extends Controller
             if (!isUrl($request->thumb)) {
                 $path = $request->file('thumb')->store('thumbnails', 'public');
                 $thumbVal = $path;
+            }
+        }
+
+        $avatarOne = $request->characterOneUpload;
+        if ($request->hasFile('characterOneUpload')) {
+            if (!isUrl($request->characterOneUpload)) {
+                $path = $request->file('characterOneUpload')->store('avatar', 'public');
+                $avatarOne = $path;
+            }
+        }
+
+        $avatarTwo = $request->characterTwoUpload;
+        if ($request->hasFile('characterTwoUpload')) {
+            if (!isUrl($request->characterTwoUpload)) {
+                $path = $request->file('characterTwoUpload')->store('avatar', 'public');
+                $avatarTwo = $path;
             }
         }
 
@@ -211,7 +232,7 @@ class LessonController extends Controller
                         'time_end' => $actOutTimeEnd[$index],
                         'en' => $actOutEn[$index],
                         'vi' => $actOutVi[$index],
-                        'user_tag' => $actOutUserTag[$index],
+                        'characterId' => $actOutCharacterId[$index],
                         'created_by' => 1,
                         'updated_by' => 1,
                         'created_at' => \Carbon\Carbon::now(),
@@ -219,11 +240,30 @@ class LessonController extends Controller
                 }
 
                 ActOut::insert($dataActOut);
+
+                $dataCharacter = array(
+                    array(
+                        'lesson_id' => $lessonId,
+                        'characterId' => 1,
+                        'characterName' => $actOutNameOne,
+                        'image' => $avatarOne,
+                        'created_at' => \Carbon\Carbon::now(),
+                    ),
+                    array(
+                        'lesson_id' => $lessonId,
+                        'characterId' => 2,
+                        'characterName' => $actOutNameTwo,
+                        'image' => $avatarTwo,
+                        'created_at' => \Carbon\Carbon::now(),
+                    )
+                );
+
+                ActOutCharacter::insert($dataCharacter);
             }
 
-            $speakStore = LessonTraining::insert($dataSpeak);
-            $writeStore = LessonTraining::insert($dataWrite);
-            $exercisesStore = Exercises::insert($dataExercises);
+            LessonTraining::insert($dataSpeak);
+            LessonTraining::insert($dataWrite);
+            Exercises::insert($dataExercises);
         }
 
         /*$mData = [];
@@ -244,6 +284,9 @@ class LessonController extends Controller
         $levels = $this->levelRepository->fetchAll([]);
         $videos = $this->videoRepository->fetchAll([], ['id', 'title']);
         $course = Course::where('status', 1)->get();
+        //$actOutCharacter = ActOutCharacter::where('lesson_id', $lesson->id)->get();
+        $actOutCharacter = $lesson->hasCharacters;
+
         $speakingData = LessonTraining::where('status', 1)->where('lesson_id', $lesson->id)->where('type', config('common.lesson_training_types.speaking'))->get();
         $writingData = LessonTraining::where('status', 1)->where('lesson_id', $lesson->id)->where('type', config('common.lesson_training_types.writing'))->get();
         $exercisesData = Exercises::where('status', 1)->where('lesson_id', $lesson->id)->get();
@@ -269,6 +312,7 @@ class LessonController extends Controller
             'writingData' => $writingData,
             'exercisesData' => $exercisesData,
             'actOutData' => $actOutData,
+            'actOutCharacter' => $actOutCharacter,
         ]);
     }
 
@@ -318,8 +362,14 @@ class LessonController extends Controller
         $id_exercises = $request->id_exercises;
 
         // act out
+        $actOutIdOne = $request->actOutIdOne;
+        $actOutIdTwo = $request->actOutIdTwo;
+        $actOutNameOne = $request->actOutNameOne;
+        $actOutNameTwo = $request->actOutNameTwo;
+
+        // act out
         $actOutId = $request->actOutId;
-        $actOutUserTag = $request->actOutUserTag;
+        $actOutCharacterId = $request->actOutCharacterId;
         $actOutTimeStart = $request->actOutTimeStart;
         $actOutTimeEnd = $request->actOutTimeEnd;
         $actOutEn = $request->actOutEn;
@@ -343,6 +393,32 @@ class LessonController extends Controller
                 $path = $request->file('thumb')->store('thumbnails', 'public');
                 $thumbVal = $path;
             }
+        }
+
+        $avatarOne = $request->characterOneUpload;
+        if ($request->hasFile('characterOneUpload') && !isUrl($avatarOne)) {
+            // remove old image
+            if (!empty($lessonDetail->hasCharacters[0]->image)) {
+                if (file_exists('storage/' . $lessonDetail->hasCharacters[0]->image)) {
+                    unlink('storage/' . $lessonDetail->hasCharacters[0]->image);
+                };
+            }
+            // upload image
+            $path = $request->file('characterOneUpload')->store('avatar', 'public');
+            $avatarOne = $path;
+        }
+
+        $avatarTwo = $request->characterTwoUpload;
+        if ($request->hasFile('characterTwoUpload') && !isUrl($avatarTwo)) {
+            // remove old image
+            if (!empty($lessonDetail->hasCharacters[1]->image)) {
+                if (file_exists('storage/' . $lessonDetail->hasCharacters[1]->image)) {
+                    unlink('storage/' . $lessonDetail->hasCharacters[1]->image);
+                };
+            }
+            // upload image
+            $path = $request->file('characterTwoUpload')->store('avatar', 'public');
+            $avatarTwo = $path;
         }
 
         $videoIds = array(
@@ -476,7 +552,7 @@ class LessonController extends Controller
                         'time_end' => $actOutTimeEnd[$index],
                         'en' => $actOutEn[$index],
                         'vi' => $actOutVi[$index],
-                        'user_tag' => $actOutUserTag[$index],
+                        'characterId' => $actOutCharacterId[$index],
                         'created_by' => 1,
                         'updated_by' => 1,
                         //'created_at' => \Carbon\Carbon::now(),
@@ -492,6 +568,36 @@ class LessonController extends Controller
                     }
                 }
             }
+
+            if (!empty($avatarOne)) {
+                $dataCharacterOne = [
+                    'characterName' => $actOutNameOne,
+                    'image' => $avatarOne,
+                    'created_at' => \Carbon\Carbon::now(),
+                ];
+            } else {
+                $dataCharacterOne = [
+                    'characterName' => $actOutNameOne,
+                    'created_at' => \Carbon\Carbon::now(),
+                ];
+            }
+
+
+            if (!empty($avatarTwo)) {
+                $dataCharacterTwo = [
+                    'characterName' => $actOutNameTwo,
+                    'image' => $avatarTwo,
+                    'created_at' => \Carbon\Carbon::now(),
+                ];
+            } else {
+                $dataCharacterTwo = [
+                    'characterName' => $actOutNameTwo,
+                    'created_at' => \Carbon\Carbon::now(),
+                ];
+            }
+
+            ActOutCharacter::where('id', $actOutIdOne)->update($dataCharacterOne);
+            ActOutCharacter::where('id', $actOutIdTwo)->update($dataCharacterTwo);
         }
 
         return redirect()->route('admin.lesson.index')->with($update > 0 ? SUCCESS : ERROR, $update > 0 ? UPDATE_SUCCESS : UPDATE_ERROR);

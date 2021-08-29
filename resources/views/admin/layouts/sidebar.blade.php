@@ -138,7 +138,7 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-bars"></i>
-                        <p>Quản lý chủ đề<i class="right fas fa-angle-left"></i>
+                        <p>QL Chủ đề ngữ pháp<i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">

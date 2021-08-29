@@ -216,20 +216,35 @@ class ApiLessonController extends BaseApiController
             }
 
             $actOutData = ActOut::where('status', 1)->where('lesson_id', $lesson->id)->get();
-            if (!empty($actOutData)) {
-                foreach ($actOutData as $index => $item) {
-                    $responseActOut [] = [
+            $actOutCharacter = $lesson->hasCharacters;
+
+            $listCharacter = [];
+            $textList = [];
+
+            if (!empty($actOutCharacter)) {
+                foreach ($actOutCharacter as $index => $item) {
+                    $listCharacter [] = [
                         'id' => $item->id,
-                        'en' => $item->en,
-                        'vi' => $item->vi,
-                        'time_start' => $item->time_start,
-                        'time_end' => $item->time_end,
-                        'user_tag' => $item->user_tag,
-                        'status' => $item->status,
-                        'created_at' => $item->created_at
+                        'characterId' => $item->characterId,
+                        'characterName' => $item->characterName,
+                        'image' => $item->image,
                     ];
                 }
             }
+
+            if (!empty($actOutData)) {
+                foreach ($actOutData as $index => $item) {
+                    $textList [] = [
+                        'id' => $item->id,
+                        'characterId' => $item->characterId,
+                        'text_en' => $item->en,
+                        'text_vi' => $item->vi,
+                    ];
+                }
+            }
+
+            $responseActOut ['listCharacter'] = $listCharacter;
+            $responseActOut ['textList'] = $textList;
 
             $responseLesson [] = [
                 'id' => $lesson->id,
@@ -242,7 +257,7 @@ class ApiLessonController extends BaseApiController
                 'speakList' => $responseSpeak,
                 'writeList' => $responseWrite,
                 'exercisesList' => $responseExercises,
-                'actOutList' => $responseActOut,
+                'actOut' => $responseActOut,
                 'status' => $lesson->status,
                 'created_at' => $lesson->created_at
             ];

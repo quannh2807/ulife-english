@@ -146,12 +146,16 @@ label.no-levels {
     margin-bottom: 10px;
 }
 
-#galleryPhotos {
+#galleryPhotos,
+#characterPhotoOne,
+#characterPhotoTwo {
     display: flex;
     margin-top: 10px;
 }
 
-#galleryPhotos img {
+#galleryPhotos img,
+#characterPhotoOne img,
+#characterPhotoTwo img {
     width: 200px;
     height: 150px;
     border-radius: 10px;
@@ -166,7 +170,9 @@ label.no-levels {
     margin-right: 10px;
 }
 
-.removePhoto {
+.removePhoto,
+.characterOneRemove,
+.characterTwoRemove {
     width: 24px;
     height: 24px;
     position: absolute;
@@ -183,7 +189,9 @@ label.no-levels {
     display: inline-flex;
 }
 
-.removePhoto i {
+.removePhoto i,
+.characterOneRemove i,
+.characterTwoRemove i {
     color: #FFF;
 }
 
