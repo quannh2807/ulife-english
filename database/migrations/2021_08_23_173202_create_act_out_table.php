@@ -16,7 +16,8 @@ class CreateActOutTable extends Migration
         Schema::dropIfExists('act_out');
         Schema::create('act_out', function (Blueprint $table) {
             $table->id();
-            $table->integer('lesson_id');
+            $table->integer('lesson_id')->default(0);
+            $table->integer('characterId')->default(0);
             $table->string('time_start');
             $table->string('time_end');
             $table->text('vi')->nullable();
