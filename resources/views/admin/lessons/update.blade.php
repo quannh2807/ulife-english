@@ -865,28 +865,28 @@
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio"
                                                                name="inlineCharacterOne"
-                                                               data-path-avatar-1="{{$actOutCharacter[0]->image}}"
+                                                               data-path-avatar-1="{{!empty($actOutCharacter) && count($actOutCharacter) >= 1 ? $actOutCharacter[0]->image:''}}"
                                                                id="avatarOneUpload" value="1"
-                                                               @if(!isUrl($actOutCharacter[0]->image)) checked @else @endif>
+                                                               @if(!empty($actOutCharacter) && count($actOutCharacter) >= 1 && !isUrl($actOutCharacter[0]->image)) checked @else @endif>
                                                         <label class="form-check-label" for="avatarOneUpload">Tải ảnh
                                                             lên</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio"
                                                                name="inlineCharacterOne"
-                                                               data-path-avatar-1="{{$actOutCharacter[0]->image}}"
+                                                               data-path-avatar-1="{{!empty($actOutCharacter) && count($actOutCharacter) >= 1 ? $actOutCharacter[0]->image :''}}"
                                                                id="avatarOneLink" value="2"
-                                                               @if(isUrl($actOutCharacter[0]->image)) checked @else @endif>
+                                                               @if(!empty($actOutCharacter) && count($actOutCharacter) >= 1 && isUrl($actOutCharacter[0]->image)) checked @else @endif>
                                                         <label class="form-check-label" for="avatarOneLink">Từ
                                                             link</label>
                                                     </div>
                                                 </div>
                                                 <div class="boxThumbCharacterOne">
-                                                    @if(!empty($actOutCharacter) && isUrl($actOutCharacter[0]->image))
+                                                    @if(!empty($actOutCharacter) && count($actOutCharacter) >= 1 && isUrl($actOutCharacter[0]->image))
                                                         <input id="characterOneUpload" name="characterOneUpload"
                                                                type="text"
                                                                class="form-control input-file-dummy"
-                                                               value="{{$actOutCharacter[0]->image}}"
+                                                               value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 1 ? $actOutCharacter[0]->image : ''}}"
                                                                placeholder="Nhập vào link ảnh">
                                                     @else
                                                         <div class="input-group">
@@ -906,10 +906,10 @@
                                                     @endif
                                                 </div>
                                                 <div id="characterPhotoOne">
-                                                    @if(!empty($actOutCharacter) && !empty($actOutCharacter[0]))
+                                                    @if(!empty($actOutCharacter) && count($actOutCharacter) >= 1 && !empty($actOutCharacter[0]))
                                                         <div class="imagePhoto">
                                                             <img
-                                                                src="@if(isUrl($actOutCharacter[0]->image)) {{$actOutCharacter[0]->image}} @else {{ asset('storage/' . $actOutCharacter[0]->image) }} @endif">
+                                                                src="@if(!empty($actOutCharacter) && count($actOutCharacter) >= 1 && isUrl($actOutCharacter[0]->image)) {{$actOutCharacter[0]->image}} @else {{ asset('storage/' . $actOutCharacter[0]->image) }} @endif">
                                                         </div>
                                                     @endif
                                                 </div>
@@ -936,28 +936,28 @@
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio"
                                                                name="inlineCharacterTwo"
-                                                               data-path-avatar-2="{{$actOutCharacter[1]->image}}"
+                                                               data-path-avatar-2="{{!empty($actOutCharacter) && count($actOutCharacter) >= 2 ? $actOutCharacter[1]->image : ''}}"
                                                                id="avatarTwoUpload" value="1"
-                                                               @if(!isUrl($actOutCharacter[1]->image)) checked @else @endif>
+                                                               @if(!empty($actOutCharacter) && count($actOutCharacter) >= 2 && !isUrl($actOutCharacter[1]->image)) checked @else @endif>
                                                         <label class="form-check-label" for="avatarTwoUpload">Tải ảnh
                                                             lên</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio"
                                                                name="inlineCharacterTwo"
-                                                               data-path-avatar-2="{{$actOutCharacter[1]->image}}"
+                                                               data-path-avatar-2="{{!empty($actOutCharacter) && count($actOutCharacter) >= 2 ? $actOutCharacter[1]->image : ''}}"
                                                                id="avatarTwoLink" value="2"
-                                                               @if(isUrl($actOutCharacter[1]->image)) checked @else @endif>
+                                                               @if(!empty($actOutCharacter) && count($actOutCharacter) >= 2 && isUrl($actOutCharacter[1]->image)) checked @else @endif>
                                                         <label class="form-check-label" for="avatarTwoLink">Từ
                                                             link</label>
                                                     </div>
                                                 </div>
                                                 <div class="boxThumbCharacterTwo">
-                                                    @if(!empty($actOutCharacter) && isUrl($actOutCharacter[1]->image))
+                                                    @if(!empty($actOutCharacter) && count($actOutCharacter) >= 2  && isUrl($actOutCharacter[1]->image))
                                                         <input id="characterTwoUpload" name="characterTwoUpload"
                                                                type="text"
                                                                class="form-control input-file-dummy"
-                                           ¬                    value="{{$actOutCharacter[1]->image}}"
+                                                               ¬ value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 2 ? $actOutCharacter[1]->image: ''}}"
                                                                placeholder="Nhập vào link ảnh">
                                                     @else
                                                         <div class="input-group">
@@ -977,10 +977,10 @@
                                                     @endif
                                                 </div>
                                                 <div id="characterPhotoTwo">
-                                                    @if(!empty($actOutCharacter) && !empty($actOutCharacter[1]))
+                                                    @if(!empty($actOutCharacter) && count($actOutCharacter) >= 2 && !empty($actOutCharacter[1]))
                                                         <div class="imagePhoto">
                                                             <img
-                                                                src="@if(isUrl($actOutCharacter[1]->image)) {{$actOutCharacter[1]->image}} @else {{ asset('storage/' . $actOutCharacter[1]->image) }} @endif">
+                                                                src="@if(!empty($actOutCharacter) && count($actOutCharacter) >= 2 && isUrl($actOutCharacter[1]->image)) {{$actOutCharacter[1]->image}} @else {{ asset('storage/' . $actOutCharacter[1]->image) }} @endif">
                                                         </div>
                                                     @endif
                                                 </div>
