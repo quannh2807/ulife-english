@@ -174,6 +174,8 @@ class ApiCategoryController extends BaseApiController
             $mQuery->whereIn('id', explode(',', $ids));
         }
 
+        //$mQuery->whereNotIn('id', '2,6'); // Ngữ pháp, Bài học
+
         if (empty($sortById)) {
             $mQuery->orderBy('id', 'DESC');
         } else {

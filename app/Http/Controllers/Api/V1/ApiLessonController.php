@@ -270,6 +270,7 @@ class ApiLessonController extends BaseApiController
             'data' => $responseLesson,
             'page_size' => $pageSize,
             'page_number' => $pageNumber,
+            'records' => count($data),
             'total_record' => $totalRecord
         ], 200);
     }

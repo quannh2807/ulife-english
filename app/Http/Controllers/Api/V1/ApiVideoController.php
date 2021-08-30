@@ -102,6 +102,7 @@ class ApiVideoController extends BaseApiController
             'data' => $responseData,
             'page_size' => $pageSize,
             'page_number' => $pageNumber,
+            'records' => count($data),
             'total_record' => $totalRecord
         ], 200);
     }
