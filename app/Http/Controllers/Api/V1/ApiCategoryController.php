@@ -24,6 +24,7 @@ class ApiCategoryController extends BaseApiController
         $pageSize = isset($_GET["page_size"]) ? (int)$_GET["page_size"] : PAGE_SIZE;
         $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;
         $sortById = isset($_GET["sortById"]) ? $_GET["sortById"] : '';
+        $videoSortById = isset($_GET["videoSortById"]) ? $_GET["videoSortById"] : '';
         $searchText = isset($_GET["search_text"]) ? $_GET["search_text"] : '';
         $ids = isset($_GET["ids"]) ? $_GET["ids"] : '';
 
@@ -35,6 +36,8 @@ class ApiCategoryController extends BaseApiController
         if (!empty($ids)) {
             $mQuery->whereIn('id', explode(',', $ids));
         }
+
+        $mQuery->whereNotIn('id', [2, 6]); // Ngữ pháp, Bài học
 
         if (empty($sortById)) {
             $mQuery->orderBy('id', 'DESC');
@@ -87,6 +90,11 @@ class ApiCategoryController extends BaseApiController
 
             $mQuery->where('video_category.category_id', $value->id);
             $mQuery->where('videos.status', 1);
+            if (empty($videoSortById)) {
+                $mQuery->orderBy('videos.id', 'DESC');
+            } else {
+                $mQuery->orderBy('videos.id', $videoSortById);
+            }
             $mQuery->limit($limitVideos);
             $videoData = $mQuery->get();
 
@@ -173,8 +181,6 @@ class ApiCategoryController extends BaseApiController
         if (!empty($ids)) {
             $mQuery->whereIn('id', explode(',', $ids));
         }
-
-        //$mQuery->whereNotIn('id', '2,6'); // Ngữ pháp, Bài học
 
         if (empty($sortById)) {
             $mQuery->orderBy('id', 'DESC');
