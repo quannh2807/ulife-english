@@ -840,6 +840,11 @@
                                                style="border: none"
                                                hidden
                                                value="">
+                                        <a class="btn btn-sm btn-outline-danger" id="deleteActOut"
+                                           data-id="{{ $lesson->id }}">
+                                            <i class="fas fa-trash"></i>
+                                            &nbsp;Xóa danh Act Out
+                                        </a>
                                     </div>
                                 </div>
 
@@ -853,7 +858,7 @@
                                                         class="text-danger">*</span></label>
                                                 <input hidden type="text" name="actOutIdOne" id="actOutIdOne"
                                                        class="form-control form-control-md"
-                                                       value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 1 ? $actOutCharacter[0]->id : ''}}">
+                                                       value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 1 ? $actOutCharacter[0]->id : 0}}">
                                                 <input type="text" name="actOutNameOne" id="actOutNameOne"
                                                        class="form-control form-control-md"
                                                        value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 1 ? $actOutCharacter[0]->characterName : ''}}"
@@ -924,7 +929,7 @@
                                                         class="text-danger">*</span></label>
                                                 <input hidden type="text" name="actOutIdTwo" id="actOutIdTwo"
                                                        class="form-control form-control-md"
-                                                       value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 2 ? $actOutCharacter[1]->id : ''}}">
+                                                       value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 2 ? $actOutCharacter[1]->id : 0}}">
                                                 <input type="text" name="actOutNameTwo" id="actOutNameTwo"
                                                        class="form-control form-control-md"
                                                        value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 2 ? $actOutCharacter[1]->characterName : ''}}"
@@ -957,7 +962,7 @@
                                                         <input id="characterTwoUpload" name="characterTwoUpload"
                                                                type="text"
                                                                class="form-control input-file-dummy"
-                                                               ¬ value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 2 ? $actOutCharacter[1]->image: ''}}"
+                                                               value="{{!empty($actOutCharacter) && count($actOutCharacter) >= 2 ? $actOutCharacter[1]->image: ''}}"
                                                                placeholder="Nhập vào link ảnh">
                                                     @else
                                                         <div class="input-group">

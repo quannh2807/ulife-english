@@ -109,6 +109,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/videos', [\App\Http\Controllers\Backend\LessonController::class, 'getVideos'])->name('getVideos');
         Route::get('/refresh-lesson-training', [\App\Http\Controllers\Backend\LessonController::class, 'refreshLessonTraining'])->name('refreshLessonTraining');
         Route::post('preview-sub', [\App\Http\Controllers\Backend\LessonController::class, 'preview'])->name('previewSub');
+        Route::post('delete-act-out', [\App\Http\Controllers\Backend\LessonController::class, 'deleteActOut'])->name('deleteActOut');
     });
 
     Route::prefix('vocabulary')->name('vocabulary.')->group(function () {

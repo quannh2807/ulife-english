@@ -128,5 +128,51 @@
 
         });
 
+        // delete act out
+        if ($('#deleteActOut').length > 0) {
+            $('#deleteActOut').click(function (e) {
+                e.preventDefault();
+
+                let lessonId = $(this).attr('data-id');
+
+                Swal.fire({
+                    title: 'Bạn chắc chắn chưa?',
+                    text: "Dữ liệu bị xoá sẽ không thể khôi phục được!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Huỷ',
+                    confirmButtonText: 'Đồng ý xoá!'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('admin.lesson.deleteActOut') }}',
+                            data: {lessonId: lessonId},
+                            success: function () {
+                                Swal.fire(
+                                    'Xoá thành công!',
+                                    'Dữ liệu đã được xoá hoàn toàn.',
+                                    'success'
+                                ).then(() => {
+                                    $(`#atcOutList tbody`).fadeOut(500, function () {
+                                        $(this).remove();
+                                    })
+                                })
+                            },
+                            error: function (xhr, status, error) {
+                                Swal.fire(
+                                    'Có vấn đề xảy ra',
+                                    'Dữ liệu chưa được xoá',
+                                    'question'
+                                )
+                            },
+                        });
+                    }
+                })
+            });
+        }
+
     });
 </script>

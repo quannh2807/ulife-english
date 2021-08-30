@@ -582,7 +582,6 @@ class LessonController extends Controller
                 ];
             }
 
-
             if (!empty($avatarTwo)) {
                 $dataCharacterTwo = [
                     'characterName' => $actOutNameTwo,
@@ -596,11 +595,49 @@ class LessonController extends Controller
                 ];
             }
 
-            ActOutCharacter::where('id', $actOutIdOne)->update($dataCharacterOne);
-            ActOutCharacter::where('id', $actOutIdTwo)->update($dataCharacterTwo);
+            if ((int)$actOutIdOne > 0) {
+                ActOutCharacter::where('id', $actOutIdOne)->update($dataCharacterOne);
+            } else {
+                $dataCharacter = array(
+                    'lesson_id' => $lessonId,
+                    'characterId' => 1,
+                    'characterName' => $actOutNameOne,
+                    'image' => $avatarOne,
+                    'created_at' => \Carbon\Carbon::now(),
+                );
+                ActOutCharacter::insert($dataCharacter);
+            }
+
+            if ((int)$actOutIdTwo > 0) {
+                ActOutCharacter::where('id', $actOutIdTwo)->update($dataCharacterTwo);
+            } else {
+                $dataCharacter = [
+                    'lesson_id' => $lessonId,
+                    'characterId' => 2,
+                    'characterName' => $actOutNameTwo,
+                    'image' => $avatarTwo,
+                    'created_at' => \Carbon\Carbon::now(),
+                ];
+                ActOutCharacter::insert($dataCharacter);
+            }
         }
 
         return redirect()->route('admin.lesson.index')->with($update > 0 ? SUCCESS : ERROR, $update > 0 ? UPDATE_SUCCESS : UPDATE_ERROR);
+    }
+
+    public function deleteActOut(Request $request)
+    {
+        $lessonId = $request->lessonId;
+        if ($lessonId > 0) {
+            ActOut::where('lesson_id', $lessonId)->delete();
+            return response()->json([
+                'msg' => 'Xóa Act Out thành công',
+            ]);
+        }
+
+        return response()->json([
+            'error' => 'Xóa Act Out không thành công',
+        ], 404);
     }
 
     public function destroy($id)
