@@ -95,8 +95,8 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request)
     {
         $data = $request->all();
-        $data['time_start'] = stringHoursToFloat($request->input('time_start', ''));
-        $data['time_end'] = stringHoursToFloat($request->input('time_end', ''));
+        $data['time_start'] = stringHoursToFloat($request->input('time_start'));
+        $data['time_end'] = stringHoursToFloat($request->input('time_end'));
 
         $isSave = $this->questionRepository->storeNew($data);
         return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
@@ -127,8 +127,8 @@ class QuestionController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
-        $data['time_start'] = stringHoursToFloat($request->input('time_start', ''));
-        $data['time_end'] = stringHoursToFloat($request->input('time_end', ''));
+        $data['time_start'] = stringHoursToFloat($request->input('time_start'));
+        $data['time_end'] = stringHoursToFloat($request->input('time_end'));
         $isSave = $this->questionRepository->update($id, $data);
         return redirect()->route('admin.question.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }

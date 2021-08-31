@@ -24,6 +24,7 @@ class ApiVideoController extends BaseApiController
         $pageSize = isset($_GET["page_size"]) ? (int)$_GET["page_size"] : PAGE_SIZE;
         $pageNumber = isset($_GET["page_number"]) ? (int)$_GET["page_number"] : 0;;
         $sortById = isset($_GET["sortById"]) ? $_GET["sortById"] : '';
+        $sortByPosition = isset($_GET["sortByPosition"]) ? $_GET["sortByPosition"] : '';
         $searchText = isset($_GET["search_text"]) ? $_GET["search_text"] : '';
         $topicId = isset($_GET["topic_id"]) ? (int)$_GET["topic_id"] : '';
         $type = isset($_GET["type"]) ? (int)$_GET["type"] : '';
@@ -57,6 +58,12 @@ class ApiVideoController extends BaseApiController
 
         if (!empty($catIds)) {
             $mQuery->whereIn('video_category.category_id', explode(',', $catIds));
+        }
+
+        if ($sortByPosition == null) {
+            //$mQuery->orderBy('videos.position', 'ASC');
+        } else {
+            $mQuery->orderBy('videos.position', $sortByPosition);
         }
 
         if (empty($sortById)) {

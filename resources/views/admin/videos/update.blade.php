@@ -117,17 +117,26 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
-                                <select class="form-control form-control-sm" name="status" id="ytb-status">
-                                    @foreach(config('common.status') as $key => $status)
-                                        <option
-                                            value="{{ $status }}" {{ $status === $video->status ? 'selected' : '' }}>{{ $key }}</option>
-                                    @endforeach
-                                </select>
-                                @error('status')
-                                <p style="color: red;">{{$message}}</p>
-                                @enderror
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="ytb-status">Vị trí</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                           id="position" name="position"
+                                           placeholder="Nhập vào vị trí"
+                                           value="{{ $video->position ? $video->position : old('position') }}"/>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
+                                    <select class="form-control form-control-sm" name="status" id="ytb-status">
+                                        @foreach(config('common.status') as $key => $status)
+                                            <option
+                                                value="{{ $status }}" {{ $status === $video->status ? 'selected' : '' }}>{{ $key }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('status')
+                                    <p style="color: red;">{{$message}}</p>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-6">

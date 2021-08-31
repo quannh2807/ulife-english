@@ -63,6 +63,7 @@
                     <th>Loại video</th>
                     <th class="text-center">Chủ đề</th>
                     <th class="text-center">Trạng thái</th>
+                    <th>Thứ tự</th>
                     <th align="center" class="text-center btn-group-sm">
                         <a href="{{ route('admin.video.create') }}" class="d-inline-block btn btn-sm btn-primary">
                             <i class="fa fa-plus"></i>&nbsp;&nbsp;Thêm mới
@@ -102,6 +103,9 @@
                             @endif
                         </td>
                         <td class="text-center">{!! htmlStatus($video->status) !!}</td>
+                        <td class="text-center">
+                            <span class="badge badge-secondary">{{ $video->position }}</span>
+                        </td>
                         <td align="center" class="text-center">
                             <a href="{{ route('admin.subtitle.index', ['video_id' => $video->id]) }}"
                                class="d-inline-block btn btn-sm btn-info mb-1">

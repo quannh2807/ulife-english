@@ -92,14 +92,22 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
-                                <select class="form-control form-control-sm" name="status" id="ytb-status">
-                                    @foreach(config('common.status') as $key => $status)
-                                        <option
-                                            value="{{ $status }}" {{ request()->has('status') && request()->get('status') == $status  ? 'selected' : '' }}>{{ $key }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="ytb-status">Vị trí</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                           id="position" name="position"
+                                           placeholder="Nhập vào vị trí"/>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
+                                    <select class="form-control form-control-sm" name="status" id="ytb-status">
+                                        @foreach(config('common.status') as $key => $status)
+                                            <option
+                                                value="{{ $status }}" {{ request()->has('status') && request()->get('status') == $status  ? 'selected' : '' }}>{{ $key }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="ytb-thumb">Thumbnail</label>

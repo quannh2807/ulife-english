@@ -159,6 +159,11 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="description">Diễn giải đáp án</label>
+                                    <textarea name="description" rows="4" class="form-control">{{ $detail->description ? $detail->description : old('description') }}</textarea>
+                                </div>
+
                             </div>
 
                             <div class="col-6">

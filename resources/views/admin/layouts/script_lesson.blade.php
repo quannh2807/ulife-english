@@ -309,122 +309,131 @@
         let indexEx = getPositionLastItem('.input_fields_exercises .layoutBorder');
         $('.add_more_exercises').click(function (e) {
             e.preventDefault();
-            $('.input_fields_exercises').append('<div class="layoutBorder" id="itemDynamic" data-position="' + indexEx + '">\n' +
-                '                                        <div class="row">\n' +
-                '                                            <div class="number">\n' +
-                '                                                <span class="badge badge-info">' + (indexEx + 1) + '</span>\n' +
-                '                                            </div>\n' +
-                '                                            <div class="content">\n' +
-                '                                                <input name="id_exercises[' + indexEx + ']" type="text" value="0" hidden>\n' +
-                '                                                <div class="row">\n' +
-                '                                                    <div class="col-sm-10">\n' +
-                '                                                        <div class="form-group">\n' +
-                '                                                            <input type="text" class="form-control form-control-sm"\n' +
-                '                                                                   name="exercises_name[' + indexEx + ']"\n' +
-                '                                                                   placeholder="Nhập nội dung câu hỏi">\n' +
-                '                                                        </div>\n' +
-                '                                                    </div>\n' +
-                '                                                    <div class="col-sm-2">\n' +
-                '                                                        <div class="form-group">\n' +
-                '                                                            <a class="btn btn-sm btn-danger remove_exercises"\n' +
-                '                                                               href="javascript:void(0)">\n' +
-                '                                                                <i class="fa fa-times"></i>&nbsp;&nbsp; Remove\n' +
-                '                                                            </a>\n' +
-                '                                                        </div>\n' +
-                '                                                    </div>\n' +
-                '                                                </div>\n' +
-                '                                                <div class="row">\n' +
-                '                                                    <div class="col-sm-5">\n' +
-                '                                                        <div class="form-group row">\n' +
-                '                                                            <label for="" class="col-sm-1"><span\n' +
-                '                                                                    class="badge badge-question">1</span></label>\n' +
-                '                                                            <div class="col-sm-11">\n' +
-                '                                                                <input type="text" class="form-control form-control-sm"\n' +
-                '                                                                       name="answer_1[' + indexEx + ']"\n' +
-                '                                                                       placeholder="Nhập câu trả lời">\n' +
-                '                                                            </div>\n' +
-                '                                                        </div>\n' +
-                '                                                        <div class="form-group row">\n' +
-                '                                                            <label for="" class="col-sm-1"><span\n' +
-                '                                                                    class="badge badge-question">2</span></label>\n' +
-                '                                                            <div class="col-sm-11">\n' +
-                '                                                                <input type="text" class="form-control form-control-sm"\n' +
-                '                                                                       name="answer_2[' + indexEx + ']"\n' +
-                '                                                                       placeholder="Nhập câu trả lời">\n' +
-                '                                                            </div>\n' +
-                '                                                        </div>\n' +
-                '                                                    </div>\n' +
-                '                                                    <div class="col-sm-5">\n' +
-                '                                                        <div class="form-group row">\n' +
-                '                                                            <label for="" class="col-sm-1"><span\n' +
-                '                                                                    class="badge badge-question">3</span></label>\n' +
-                '                                                            <div class="col-sm-11">\n' +
-                '                                                                <input type="text" class="form-control form-control-sm"\n' +
-                '                                                                       name="answer_3[' + indexEx + ']"\n' +
-                '                                                                       placeholder="Nhập câu trả lời">\n' +
-                '                                                            </div>\n' +
-                '                                                        </div>\n' +
-                '                                                        <div class="form-group row">\n' +
-                '                                                            <label for="" class="col-sm-1"><span\n' +
-                '                                                                    class="badge badge-question">4</span></label>\n' +
-                '                                                            <div class="col-sm-11">\n' +
-                '                                                                <input type="text" class="form-control form-control-sm"\n' +
-                '                                                                       name="answer_4[' + indexEx + ']"\n' +
-                '                                                                       placeholder="Nhập câu trả lời">\n' +
-                '                                                            </div>\n' +
-                '                                                        </div>\n' +
-                '                                                    </div>\n' +
-                '                                                </div>\n' +
-                '                                                <div class="row">\n' +
-                '                                                    <div class="col-sm-10">\n' +
-                '                                                        <div class="row">\n' +
-                '                                                            <span>Chọn đáp án đúng:&nbsp;&nbsp;&nbsp;</span>\n' +
-                '                                                            <div class="col">\n' +
-                '                                                                <div class="form-check">\n' +
-                '                                                                    <input class="form-check-input"\n' +
-                '                                                                           type="radio" id="answer_correct_1_' + indexEx + '"\n' +
-                '                                                                           name="answer_correct[' + indexEx + ']" value="1" checked>\n' +
-                '                                                                    <label for="answer_correct_1_' + indexEx + '"><span\n' +
-                '                                                                            class="badge badge-question margin-circle">1</span>\n' +
-                '                                                                    </label>\n' +
-                '                                                                </div>\n' +
-                '                                                            </div>\n' +
-                '                                                            <div class="col">\n' +
-                '                                                                <div class="form-check">\n' +
-                '                                                                    <input class="form-check-input"\n' +
-                '                                                                           type="radio" id="answer_correct_2_' + indexEx + '"\n' +
-                '                                                                           name="answer_correct[' + indexEx + ']" value="2">\n' +
-                '                                                                    <label for="answer_correct_2_' + indexEx + '"><span\n' +
-                '                                                                            class="badge badge-question margin-circle">2</span>\n' +
-                '                                                                    </label>\n' +
-                '                                                                </div>\n' +
-                '                                                            </div>\n' +
-                '                                                            <div class="col">\n' +
-                '                                                                <div class="form-check">\n' +
-                '                                                                    <input class="form-check-input"\n' +
-                '                                                                           type="radio" id="answer_correct_3_' + indexEx + '"\n' +
-                '                                                                           name="answer_correct[' + indexEx + ']" value="3">\n' +
-                '                                                                    <label for="answer_correct_3_' + indexEx + '"><span\n' +
-                '                                                                            class="badge badge-question margin-circle">3</span>\n' +
-                '                                                                    </label>\n' +
-                '                                                                </div>\n' +
-                '                                                            </div>\n' +
-                '                                                            <div class="col">\n' +
-                '                                                                <div class="form-check">\n' +
-                '                                                                    <input class="form-check-input"\n' +
-                '                                                                           type="radio" id="answer_correct_4_' + indexEx + '"\n' +
-                '                                                                           name="answer_correct[' + indexEx + ']" value="4">\n' +
-                '                                                                    <label for="answer_correct_4_' + indexEx + '"><span\n' +
-                '                                                                            class="badge badge-question margin-circle">4</span>\n' +
-                '                                                                    </label>\n' +
-                '                                                                </div>\n' +
-                '                                                            </div>\n' +
-                '                                                        </div>\n' +
-                '                                                    </div>\n' +
-                '                                                </div>\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                    </div>');
+            $('.input_fields_exercises').append(`<div class="layoutBorder" id="itemDynamic" data-position="${indexEx}">
+                                                        <div class="row">
+                                                            <div class="number">
+                                                                <span class="badge badge-info">${indexEx + 1}</span>
+                                                            </div>
+                                                            <div class="content">
+                                                                <input name="id_exercises[${indexEx}]" type="text" value="0" hidden>
+                                                                <div class="row">
+                                                                    <div class="col-sm-10">
+                                                                        <div class="form-group">
+                                                                            <input type="text" class="form-control form-control-sm"
+                                                                                   name="exercises_name[${indexEx}]"
+                                                                                   placeholder="Nhập nội dung câu hỏi">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <div class="form-group">
+                                                                            <a class="btn btn-sm btn-danger remove_exercises"
+                                                                               href="javascript:void(0)">
+                                                                                <i class="fa fa-times"></i>&nbsp;&nbsp; Remove
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-5">
+                                                                        <div class="form-group row">
+                                                                            <label for="" class="col-sm-1"><span
+                                                                                    class="badge badge-question">1</span></label>
+                                                                            <div class="col-sm-11">
+                                                                                <input type="text" class="form-control form-control-sm"
+                                                                                       name="answer_1[${indexEx}]"
+                                                                                       placeholder="Nhập câu trả lời">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label for="" class="col-sm-1"><span
+                                                                                    class="badge badge-question">2</span></label>
+                                                                            <div class="col-sm-11">
+                                                                                <input type="text" class="form-control form-control-sm"
+                                                                                       name="answer_2[${indexEx}]"
+                                                                                       placeholder="Nhập câu trả lời">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-5">
+                                                                        <div class="form-group row">
+                                                                            <label for="" class="col-sm-1"><span
+                                                                                    class="badge badge-question">3</span></label>
+                                                                            <div class="col-sm-11">
+                                                                                <input type="text" class="form-control form-control-sm"
+                                                                                       name="answer_3[${indexEx}]"
+                                                                                       placeholder="Nhập câu trả lời">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label for="" class="col-sm-1"><span
+                                                                                    class="badge badge-question">4</span></label>
+                                                                            <div class="col-sm-11">
+                                                                                <input type="text" class="form-control form-control-sm"
+                                                                                       name="answer_4[${indexEx}]"
+                                                                                       placeholder="Nhập câu trả lời">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-10">
+                                                                        <div class="row">
+                                                                            <span>Chọn đáp án đúng:&nbsp;&nbsp;&nbsp;</span>
+                                                                            <div class="col">
+                                                                                <div class="form-check">
+                                                                                    <input class="form-check-input"
+                                                                                           type="radio" id="answer_correct_1_${indexEx}"
+                                                                                           name="answer_correct[${indexEx}]" value="1" checked>
+                                                                                    <label for="answer_correct_1_${indexEx}"><span
+                                                                                            class="badge badge-question margin-circle">1</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <div class="form-check">
+                                                                                    <input class="form-check-input"
+                                                                                           type="radio" id="answer_correct_2_${indexEx}"
+                                                                                           name="answer_correct[${indexEx}]" value="2">
+                                                                                    <label for="answer_correct_2_${indexEx}"><span
+                                                                                            class="badge badge-question margin-circle">2</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <div class="form-check">
+                                                                                    <input class="form-check-input"
+                                                                                           type="radio" id="answer_correct_3_${indexEx}"
+                                                                                           name="answer_correct[${indexEx}]" value="3">
+                                                                                    <label for="answer_correct_3_${indexEx}"><span
+                                                                                            class="badge badge-question margin-circle">3</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <div class="form-check">
+                                                                                    <input class="form-check-input"
+                                                                                           type="radio" id="answer_correct_4_${indexEx}"
+                                                                                           name="answer_correct[${indexEx}]" value="4">
+                                                                                    <label for="answer_correct_4_${indexEx}"><span
+                                                                                            class="badge badge-question margin-circle">4</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-10">
+                                                                        <div class="form-group">
+                                                                            <label for="answer_description">Diễn giải đáp án</label>
+                                                                            <textarea name="answer_description[${indexEx}]" rows="3"
+                                                                                      class="form-control"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>`);
 
             indexEx++;
             setTotalDynamic(3);

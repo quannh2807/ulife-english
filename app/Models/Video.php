@@ -19,7 +19,7 @@ class Video extends Model
      * @var string[]
      */
     protected $fillable = [
-        'id', 'ytb_id', 'topic_id', 'cate_id', 'title', 'description', 'ytb_thumbnails', 'custom_thumbnails', 'publish_at', 'tags', 'author', 'channel_id', 'channel_title', 'type', 'status', 'created_by', 'updated_by'
+        'id', 'ytb_id', 'topic_id', 'cate_id', 'title', 'description', 'ytb_thumbnails', 'custom_thumbnails', 'publish_at', 'tags', 'author', 'channel_id', 'channel_title', 'type', 'position', 'status', 'created_by', 'updated_by'
     ];
 
     /**

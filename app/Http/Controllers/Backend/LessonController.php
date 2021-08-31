@@ -115,6 +115,7 @@ class LessonController extends Controller
         $answer_3 = $request->input('answer_3', []);
         $answer_4 = $request->input('answer_4', []);
         $answer_correct = $request->input('answer_correct', []);
+        $answer_description = $request->input('answer_description', []);
 
         // act out
         $actOutNameOne = $request->actOutNameOne;
@@ -173,10 +174,7 @@ class LessonController extends Controller
         ];
 
         // insert Lesson
-        //$lesson = $this->levelRepository->storeNew($dataLesson);
-        /*$lesson = Lesson::create($dataLesson);
-        $lessonId = $lesson->id();*/
-        $lessonId = DB::table('lessons')->insertGetId($dataLesson);
+        $lessonId = Lesson::insertGetId($dataLesson);
 
         if ($lessonId > 0) {
 
@@ -217,6 +215,7 @@ class LessonController extends Controller
                     'level_id' => $level_id,
                     'lesson_id' => $lessonId,
                     'answer_correct' => $answer_correct[$index],
+                    'description' => $answer_description[$index],
                     'created_by' => 1,
                     'updated_by' => 1,
                     'created_at' => \Carbon\Carbon::now(),
@@ -356,6 +355,7 @@ class LessonController extends Controller
         $answer_3 = $request->answer_3;
         $answer_4 = $request->answer_4;
         $answer_correct = $request->answer_correct;
+        $answer_description = $request->answer_description;
 
         $id_speak = $request->id_speak;
         $id_write = $request->id_write;
@@ -531,6 +531,7 @@ class LessonController extends Controller
                     'level_id' => $level_id,
                     'lesson_id' => $lessonId,
                     'answer_correct' => $answer_correct[$index],
+                    'description' => $answer_description[$index],
                     'created_by' => 1,
                     'updated_by' => 1,
                     'created_at' => \Carbon\Carbon::now(),

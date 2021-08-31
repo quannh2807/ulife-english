@@ -96,7 +96,8 @@ function parseTimeSubtitle($time)
     $times['seconds'] = (int)$seconds;
     $times['milliseconds'] = 0;*/
 
-    $time = explode(',', $time, 2);
+    //$time = explode(',', $time, 2);
+    $time = explode('.', $time, 2);
     $milliseconds = $time[1];
     $splitTime = explode(':', $time[0], 3);
 

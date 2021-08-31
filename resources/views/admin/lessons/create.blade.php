@@ -447,6 +447,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-sm-10">
+                                                        <div class="form-group">
+                                                            <label for="answer_description">Diễn giải đáp án</label>
+                                                            <textarea name="answer_description[0]" rows="3"
+                                                                      class="form-control"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

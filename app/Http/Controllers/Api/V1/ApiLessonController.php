@@ -91,7 +91,7 @@ class ApiLessonController extends BaseApiController
             $mQuery->where('course_id', $idCourse);
         }
         if ($sortByPosition == null) {
-            $mQuery->orderBy('position', 'DESC');
+            //$mQuery->orderBy('position', 'DESC');
         } else {
             $mQuery->orderBy('position', $sortByPosition);
         }
@@ -209,6 +209,7 @@ class ApiLessonController extends BaseApiController
                         'answer_4' => $item->answer_4,
                         'answer_correct' => $item->answer_correct,
                         'answer_correct_text' => getCorrectTextExercises($item),
+                        'description' => $item->description,
                         'status' => $item->status,
                         'created_at' => $item->created_at
                     ];
