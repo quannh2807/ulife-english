@@ -142,6 +142,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/ajax/detail', [\App\Http\Controllers\Backend\VocabularyCatController::class, 'detail'])->name('detail');
     });
 
+    Route::prefix('course')->name('course.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Backend\CourseController::class, 'index'])->name('index');
+        Route::get('/list', [\App\Http\Controllers\Backend\CourseController::class, 'index'])->name('index');
+        Route::get('/search', [\App\Http\Controllers\Backend\CourseController::class, 'search'])->name('search');
+        Route::get('/create', [\App\Http\Controllers\Backend\CourseController::class, 'create'])->name('create');
+        Route::post('/store', [\App\Http\Controllers\Backend\CourseController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [\App\Http\Controllers\Backend\CourseController::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Backend\CourseController::class, 'update'])->name('update');
+        Route::get('/remove/{id}', [\App\Http\Controllers\Backend\CourseController::class, 'remove'])->name('remove');
+        Route::get('/ajax/detail', [\App\Http\Controllers\Backend\CourseController::class, 'detail'])->name('detail');
+    });
+
     Route::prefix('lesson-training')->name('lessonTraining.')->group(function () {
 
     });
