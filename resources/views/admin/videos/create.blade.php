@@ -97,6 +97,7 @@
                                     <label for="ytb-status">Vị trí</label>
                                     <input type="text" class="form-control form-control-sm"
                                            id="position" name="position"
+                                           value="0"
                                            placeholder="Nhập vào vị trí"/>
                                 </div>
                                 <div class="form-group col-6">

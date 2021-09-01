@@ -22,6 +22,13 @@ class Video extends Model
         'id', 'ytb_id', 'topic_id', 'cate_id', 'title', 'description', 'ytb_thumbnails', 'custom_thumbnails', 'publish_at', 'tags', 'author', 'channel_id', 'channel_title', 'type', 'position', 'status', 'created_by', 'updated_by'
     ];
 
+    protected $attributes = [
+        'position' => 0,
+        'status' => 0,
+        'created_by' => 1,
+        'updated_by' => 1,
+    ];
+
     /**
      * @return BelongsTo
      */

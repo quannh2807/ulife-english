@@ -20,6 +20,7 @@ class UpdateNullableVideosTable extends Migration
             $table->text('tags')->nullable()->change();
             $table->string('channel_id')->nullable()->change();
             $table->string('channel_title')->nullable()->change();
+            $table->integer('position')->nullable()->default(0)->change();
         });
     }
 
