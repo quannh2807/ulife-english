@@ -20,6 +20,7 @@ class UpdateUsersTable extends Migration
             $table->string('password')->nullable()->change();
             $table->string('phone')->nullable()->change();
             $table->string('address')->nullable()->change();
+            $table->timestamp('email_verified_at')->nullable()->change();
         });
     }
 
