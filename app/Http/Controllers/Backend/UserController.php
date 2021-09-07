@@ -50,12 +50,12 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+        $data = $request->all();
         if ($request->hasFile('avatar')) {
             $path = $request->file('avatar')->store('users', 'public');
             $avatarImg = $path;
+            $data['avatar'] = $avatarImg;
         }
-        $data = $request->all();
-        $data['avatar'] = $avatarImg ? $avatarImg : '';
         $data['password'] = Hash::make('password');
         $this->userRepository->storeNew($data);
 
