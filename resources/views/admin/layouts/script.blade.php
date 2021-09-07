@@ -14,6 +14,7 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.13/combined/js/gijgo.min.js" type="text/javascript"></script>
 
 <script>
     $(':input').inputmask();
@@ -607,4 +608,8 @@
         });
     }
 
+    // date picker input
+    $('.date-picker').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
 </script>

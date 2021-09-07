@@ -228,7 +228,7 @@ class ApiLessonController extends BaseApiController
                         'id' => $item->id,
                         'characterId' => $item->characterId,
                         'characterName' => $item->characterName,
-                        'image' => $item->image,
+                        'image' => 'storage/' . $item->image,
                     ];
                 }
             }
