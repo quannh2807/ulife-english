@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::name('auth.')->group(function () {
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/save-login', [AuthController::class, 'saveLogin'])->name('saveLogin');
+
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/save-register', [AuthController::class, 'saveRegister'])->name('saveRegister');
+
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('user')->name('user.')->group(function () {
