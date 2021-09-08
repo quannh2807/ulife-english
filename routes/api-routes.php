@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ApiAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::middleware('auth:Api')->get('/user', function (Request $request) {
+Route::middleware('auth:Api')->get('/user', function (Request $request) {
     return $request->user();
-});*/
+});
+
+Route::post('/register', [ApiAuthController::class, 'register']);
+Route::post('/login', [ApiAuthController::class, 'login']);
 
 /*  API Versions 1 */
 Route::prefix('/v1')->name('apiV1.')->group(function () {

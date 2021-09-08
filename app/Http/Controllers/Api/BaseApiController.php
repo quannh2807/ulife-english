@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class BaseApiController extends Controller
@@ -56,4 +57,8 @@ class BaseApiController extends Controller
             ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
+    public function errorMessages($input, $rules, $messages)
+    {
+        return Validator::make($input, $rules, $messages);
+    }
 }
