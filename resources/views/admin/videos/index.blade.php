@@ -6,19 +6,48 @@
 @section('main')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Đây sẽ là nơi đặt các filter</h3>
+            <div class="row">
+                <form action="{{ route('admin.video.search') }}" method="GET" class="form-inline">
+                    <div class="col">
+                        <input type="text" name="keyword" class="form-control form-control-sm"
+                               placeholder="Tìm kiếm theo tên video" width="100%"
+                               value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
+                    </div>
+                    <div class="col">
+                        <select name="type" id="" class="form-control form-control-sm">
+                            <option value="">-- Chọn loại video --</option>
+                            @foreach(config('common.video_types') as $key => $value)
+                                <option
+                                    value="{{ $value }}" {{ request()->has('type') && request()->get('type') == $value ? 'selected' : '' }}>{{ $key }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{--<div class="col">
+                        <select name="category" id="" class="form-control form-control-sm">
+                            <option value="">-- Chọn danh mục video --</option>
+                            @foreach($categories as $category)
+                                <option
+                                    value="{{ $category->id }}" {{ request()->has('category') && request()->get('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>--}}
+                    <div class="col">
+                        <select name="status" class="form-control form-control-sm">
+                            <option value="">-- Chọn trạng thái video --</option>
+                            @foreach(config('common.status') as $key => $status)
+                                <option
+                                    value="{{ $status }}" {{ request()->has('status') && request()->get('status') == (string)$status ? 'selected' : '' }}>{{ $key }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-            <div class="card-tools">
-                <div class="input-group input-group-sm" style="width: 200px;">
-                    <input type="text" name="table_search" class="form-control float-right"
-                           placeholder="Search">
-
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-default">
+                    <div class="col">
+                        <button type="submit" class="btn btn-sm btn-success">
                             <i class="fas fa-search"></i>
+                            Tìm kiếm
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <!-- /.card-header -->
@@ -26,15 +55,18 @@
             <table class="table table-hover text-wrap">
                 <thead>
                 <tr>
-                    <th>#</th>
+                    <th style="width: 30px;">STT</th>
+                    <th style="width: 30px;" class="text-center">#</th>
                     <th>Ảnh</th>
-                    <th>Tên video</th>
-                    <th>Kênh</th>
-                    <th>Loại danh mục</th>
-                    <th>Trạng thái</th>
-                    <th align="center" class="text-center">
+                    <th width="30%">Tên video</th>
+                    <th>Danh mục</th>
+                    <th>Loại video</th>
+                    <th class="text-center">Chủ đề</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th>Thứ tự</th>
+                    <th align="center" class="text-center btn-group-sm">
                         <a href="{{ route('admin.video.create') }}" class="d-inline-block btn btn-sm btn-primary">
-                            Thêm mới
+                            <i class="fa fa-plus"></i>&nbsp;&nbsp;Thêm mới
                         </a>
                     </th>
                 </tr>
@@ -47,31 +79,43 @@
                 <tbody class="">
                 @foreach($videos as $key => $video)
                     <tr id="row-{{$video->id}}">
-                        <th>{{ $i ++ }}</th>
-                        <td><img
+                        <td class="text-center">{{ $i ++ }}</td>
+                        <td class="text-center">{{$video->id}}</td>
+                        <td>
+                            <img
                                 src="{{ $video->custom_thumbnails ? asset('storage/' . $video->custom_thumbnails) : json_decode($video->ytb_thumbnails, true)['default']['url'] }}"
                                 class="rounded mx-auto"
-                                style="width: {{json_decode($video->ytb_thumbnails, true)['default']['width']}}px"
-                                alt=""></td>
+                                style="width: 100px"
+                                alt="">
+                        </td>
                         <td>{{ $video->title }}</td>
-                        <td>{{ $video->channel_title }}</td>
                         <td>
                             @foreach($video->hasCategories as $cate)
-                                <span class="d-inline-block px-1 m-1 bg-success rounded" style="font-size: 13px">{{ $cate->name }}</span>
+                                <span class="badge bg-info">{{ $cate->name }}</span>
                             @endforeach
                         </td>
-                        <td class="text-center">{!! $video->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                            : '<label id="status" class="active">Kích hoạt</label>' !!}</td>
+                        <td>{!! htmlTypeVideo($video->type) !!}</td>
+                        <td class="text-center">
+                            @if($video->hasTopic)
+                                <span class="badge badge-primary">{{ $video->hasTopic->name }}</span>
+                            @else
+                                <span class="badge badge-secondary">No Topic</span>
+                            @endif
+                        </td>
+                        <td class="text-center">{!! htmlStatus($video->status) !!}</td>
+                        <td class="text-center">
+                            <span class="badge badge-secondary">{{ $video->position }}</span>
+                        </td>
                         <td align="center" class="text-center">
                             <a href="{{ route('admin.subtitle.index', ['video_id' => $video->id]) }}"
-                               class="d-inline-block btn btn-sm btn-info m-1">
+                               class="d-inline-block btn btn-sm btn-info mb-1">
                                 <i class="far fa-closed-captioning"></i>
                             </a>
                             <a href="{{ route('admin.video.update', ['id' => $video->id]) }}"
-                               class="d-inline-block btn btn-sm btn-warning m-1">
+                               class="d-inline-block btn btn-sm btn-warning mb-1">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
-                            <a class="d-inline-block btn btn-sm btn-danger m-1"
+                            <a class="d-inline-block btn btn-sm btn-danger mb-1 btn-remove"
                                data-id="{{ $video->id }}"
                                href="{{ route('admin.video.remove', ['id' => $video->id]) }}">
                                 <i class="far fa-trash-alt"></i>

@@ -28,6 +28,7 @@ class LessonRequest extends FormRequest
             'description' => 'required',
             'status' => 'required',
             'level_id' => 'required|gt:0',
+            'videos' => 'required',
 //            'course_id' => 'required',
 //            'thumb_img' => 'mimes:jpg,png,jpeg',
         ];
@@ -40,15 +41,17 @@ class LessonRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên bài học không được bỏ trống',
-            'name.min'=>'Tên bài học tối thiểu là 3 ký tự',
-            'name.max'=>'Tên bài học tối đa là 191 ký tự',
+            'name.min' => 'Tên bài học tối thiểu là 3 ký tự',
+            'name.max' => 'Tên bài học tối đa là 191 ký tự',
 
             'description.required' => 'Mô tả bài học không được bỏ trống',
 
-            'status.required' => 'Trạng bài học không được bỏ trống',
+            'status.required' => 'Trạng thái bài học không được bỏ trống',
 
             'level_id.required' => 'Cấp độ bài học không được bỏ trống',
             'level_id.gt' => 'Cấp độ bài học không được bỏ trống',
+
+            'videos.required' => 'Video bài học không được bỏ trống',
 
 //            'course_id.required' => 'Khóa học không được bỏ trống',
 //            'thumb_img.mimes' => 'Ảnh đại diện không đúng định dạng: jpg, png, jpeg',

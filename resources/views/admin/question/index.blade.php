@@ -19,55 +19,63 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form id="frmSearch" method="POST">
+                    <form id="frmSearch" action="{{ route('admin.question.search') }}" method="GET">
                         <div class="row">
-                            <div class="col-3 item-search">
-                                <input type="text" class="form-control form-control-sm"
-                                       id="keyword" name="keyword"
-                                       placeholder="Tìm kiếm với tiêu đề hoặc ID"
-                                       value="">
+                            <div class="item-search">
+                                <div class="btn-group" style="margin: 0px 10px">
+                                    <input type="text" class="form-control form-control-sm"
+                                           id="searchInput" name="keyword"
+                                           placeholder="Tìm kiếm với tiêu đề hoặc ID"
+                                           value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
+                                    <span id="searchClear" class="nav-icon fas fa-times-circle"></span>
+                                </div>
                             </div>
                             <div style="margin: 0px 6px;">
                                 <div class="input-group">
-                                    <input id="valRangeDate" type="text" value="" hidden>
+                                    <input id="valRangeDate" name="rangeDate" type="text"
+                                           value="{{ request()->has('rangeDate') ? request()->get('rangeDate') : '' }}"
+                                           hidden>
                                     <button type="button" class="btn btn-sm btn-default float-right btn-block text-left"
                                             id="daterange-btn">
-                                        <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;<span id="txtDateRange">Từ ngày - Đến ngày</span>
+                                        <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;<span
+                                            id="txtDateRange">{{ request()->has('rangeDate') && !empty(request()->get('rangeDate')) ? request()->get('rangeDate') : 'Từ ngày - Đến ngày' }}</span>
                                         <i class="fas fa-caret-down"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="col-2">
-                                <select class="form-control form-control-sm">
-                                    <option>--Chọn Level--</option>
+                                <select class="form-control form-control-sm" name="level">
+                                    <option value="">--Chọn Level--</option>
                                     @foreach($levelData as $index => $item)
                                         @if($item != null)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option
+                                                value="{{ $item->id }}" {{ request()->has('level') && request()->get('level') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-2">
-                                <select class="form-control form-control-sm">
-                                    <option value="0">--Chọn topics--</option>
+                                <select class="form-control form-control-sm" name="topics">
+                                    <option value="">--Chọn topics--</option>
                                     @foreach($topicsData as $index => $item)
                                         @if($item != null)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option
+                                                value="{{ $item->id }}" {{ request()->has('topics') && request()->get('topics') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-2">
-                                <select class="form-control form-control-sm">
-                                    <option>--Trạng thái--</option>
+                                <select class="form-control form-control-sm" name="status">
+                                    <option value="-1">--Trạng thái--</option>
                                     @foreach(config('common.status') as $key => $status)
                                         <option
-                                            value="{{ $status }}">{{ $key }}</option>
+                                            value="{{ $status }}" {{ request()->has('status') && request()->get('status') == $status  ? 'selected' : '' }}>{{ $key }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-2">
-                                <button name="search" type="submit"
+                                <button type="submit"
                                         class="btn btn-sm btn-success"><i
                                         class="fa fa-search"></i><span>&nbsp; Tìm kiếm</span>
                                 </button>
@@ -82,12 +90,12 @@
                             <th style="width: 30px;">STT</th>
                             <th style="width: 30px;">#</th>
                             <th>Nội dung câu hỏi</th>
-                            <th>Đáp án</th>
+                            <th style="min-width: 150px;">Đáp án</th>
                             <th class="text-center">Level</th>
                             <th>Topics</th>
                             <th align="center" class="text-center" style="width: 120px;">Trạng thái</th>
-                            <th class="text-center" style="width: 110px;">Ngày tạo</th>
-                            <th align="right" class="text-center" style="width: 150px;">Thao tác</th>
+                            <th class="text-center" style="width: 80px;">Ngày tạo</th>
+                            <th align="right" class="text-center" style="width: 130px;">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -97,7 +105,7 @@
 
                         @if($data->isEmpty())
                             <tr>
-                                <td colspan="9" align="center">Không có dữ liệu</td>
+                                <td colspan="100%" align="center">Không có dữ liệu</td>
                             </tr>
                         @else
                             @foreach($data as $index => $item)
@@ -106,16 +114,18 @@
                                     <td class="text-center">{{ $item->id }}</td>
                                     <td>
                                         <span class="lbl-name">{{ $item->name }}</span>
-                                        @if($item->start_time)
+                                        @if($item->time_start >=0)
                                             <div>
-                                                <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Start Time:&nbsp;</span>
-                                                <span class="item-child-val">{{ $item->start_time }}</span>
+                                                <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time start:&nbsp;</span>
+                                                <span
+                                                    class="item-child-val">{{ seconds2SRT($item->time_start) }}</span>
                                             </div>
                                         @endif
-                                        @if($item->end_time)
+                                        @if($item->time_end >=0)
                                             <div>
-                                                <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;End Time:&nbsp;</span>
-                                                <span class="item-child-val">{{ $item->end_time }}</span>
+                                                <span class="item-child-lbl"><i class="fa fa-clock"></i>&nbsp;Time end:&nbsp;</span>
+                                                <span
+                                                    class="item-child-val">{{ seconds2SRT($item->time_end) }}</span>
                                             </div>
                                         @endif
                                     </td>
@@ -143,22 +153,24 @@
                                     </td>
                                     <td class="text-center">
                                         @if($item->getLevel)
-                                            <label id="status" class="levels">{{ $item->getLevel->name }}</label>
+                                            <span class="badge badge-primary">{{ $item->getLevel->name }}</span>
                                         @else
-                                            <label id="status" class="no-levels">No Level</label>
+                                            <span class="badge badge-secondary">No Level</span>
                                         @endif
                                     </td>
                                     <td>
                                         @if($item->getTopics)
-                                            <label id="status" class="levels">{{ $item->getTopics->name }}</label>
+                                            <span class="badge badge-primary">{{ $item->getTopics->name }}</span>
                                         @else
-                                            <label id="status" class="no-levels">No Topics</label>
+                                            <span class="badge badge-secondary">No Topics</span>
                                         @endif
                                     </td>
-                                    <td class="text-center">{!! $item->status === 0 ? '<label id="status" class="noActive">Không kích hoạt</label>'
-                            : '<label id="status" class="active">Kích hoạt</label>' !!}
+                                    <td class="text-center">{!! htmlStatus($item->status)  !!}</td>
+                                    <td class="text-center">
+                                        <span class="lbl-item">
+                                            {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y h:m:s')}}
+                                        </span>
                                     </td>
-                                    <td class="text-center"><span class="lbl-item">{{ $item->created_at }}</span></td>
                                     <td align="center" class="text-center">
                                         <a class="btn btn-sm btn-info question-detail-view"
                                            data-id="{{ $item->id }}"
@@ -195,6 +207,24 @@
 @endsection
 @section('custom-script')
     <script>
+
+        $('.question-detail-view').on('click', function () {
+            let id = $(this).attr('data-id');
+            showDetailQuestion(id)
+        });
+
+        function showDetailQuestion(id) {
+            $.ajax({
+                type: "GET",
+                url: '{{ route('admin.question.detail') }}',
+                data: {id: id},
+                success: function (response) {
+                    $('.result-content').html(response);
+                    $('#questionDetailModal').modal('show');
+                }
+            });
+        }
+
         if ($(".btn-remove-question").length > 0) {
             $('.btn-remove-question').click(function (e) {
                 e.preventDefault();

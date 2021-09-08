@@ -17,62 +17,103 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
+                                <label for="video-url">Đường dẫn video<span class="text-danger">&nbsp;*</span></label>
+                                <div class="input-group input-group-sm">
+                                    <input id="video-url" name="ytb_url" type="text"
+                                           class="form-control"
+                                           placeholder="Youtube video url">
+                                    <span class="input-group-append">
+                                            <button id="btn-video-url" type="button" class="btn btn-info btn-flat">Kiểm tra</button>
+                                        </span>
+                                </div>
+                                @error('ytb_id')
+                                <p style="color: red;">{{$message}}</p>
+                                @enderror
+                                <div id="divVideo" style="margin-top: 10px;"></div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label for="video-cate">Danh mục<span class="text-danger">&nbsp;*</span></label>
-                                <select name="categories[]" multiple class="form-control js-example-basic-multiple" id="video-cate">
+                                <select name="categories[]" multiple
+                                        class="form-control form-control-sm js-example-basic-multiple"
+                                        id="video-cate">
                                     @foreach($categories as $index => $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="video-url">Đường dẫn video<span class="text-danger">&nbsp;*</span></label>
-                                <div class="d-flex align-items-center border rounded">
-                                    <input type="text" class="form-control col-10 border-0" id="video-url"
-                                           placeholder="Youtube video url" name="ytb_url"/>
-                                    <button class="col-2 btn border-left" id="btn-video-url">Kiểm tra</button>
-                                </div>
-                            </div>
-
-                            @error('ytb_id')
-                            <p style="color: red;">{{$message}}</p>
-                            @enderror
-                        </div>
                     </div>
                     <div class="row d-none" id="more-info">
-                        <input type="hidden" name="ytb_id"/>
-                        <input type="hidden" name="description"/>
-                        <input type="hidden" name="ytb_thumbnails"/>
-                        <input type="hidden" name="publish_at"/>
-                        <input type="hidden" name="tags"/>
-                        <input type="hidden" name="channel_id"/>
+                        <div class="col-12" hidden>
+                            <input name="ytb_id" placeholder="ytb_id here" class="form-control"/>
+                            <input name="ytb_thumbnails" placeholder="ytb_thumbnails here" class="form-control"/>
+                            <input name="publish_at" placeholder="publish_at here" class="form-control"/>
+                            <input name="tags" placeholder="tags here" class="form-control"/>
+                            <input name="channel_id" placeholder="channel_id here" class="form-control"/>
+                        </div>
 
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="ytb-title">Title<span class="text-danger">&nbsp;*</span></label>
-                                <input type="text" class="form-control" id="ytb-title"
+                                <input type="text" class="form-control form-control-sm" id="ytb-title"
                                        placeholder="Youtube video url" name="title"/>
                             </div>
                             <div class="form-group">
-                                <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
-                                <select name="status" id="ytb-status" class="form-control">
-                                    <option value="0">Không hiển thị</option>
-                                    <option value="1" selected>Hiển thị</option>
-                                </select>
+                                <label for="video-description">Mô tả<span class="text-danger">&nbsp;*</span></label>
+                                <textarea name="description" class="form-control"
+                                          id="video-description"></textarea>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="ytb-channel">Channel<span class="text-danger">&nbsp;*</span></label>
-                                <input type="text" class="form-control" id="ytb-channel"
+                                <input type="text" class="form-control form-control-sm" id="ytb-channel"
                                        placeholder="Youtube video url" name="channel_title"/>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="ytb-type">Loại video<span class="text-danger">&nbsp;*</span></label>
+                                    <select name="type" id="ytb-type" class="form-control form-control-sm select-type">
+                                        @foreach(config('common.video_types') as $key => $type)
+                                            <option value="{{ $type }}">{{ $key }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="topic_id">Chủ đề</label>
+                                    <select class="form-control form-control-sm"
+                                            name="topic_id" id="topic_id">
+                                        <option value="0">-- Chọn chủ đề --</option>
+                                        @foreach($topicData as $index => $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="ytb-status">Vị trí</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                           id="position" name="position"
+                                           value="0"
+                                           placeholder="Nhập vào vị trí"/>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="ytb-status">Trạng thái<span class="text-danger">&nbsp;*</span></label>
+                                    <select class="form-control form-control-sm" name="status" id="ytb-status">
+                                        @foreach(config('common.status') as $key => $status)
+                                            <option
+                                                value="{{ $status }}" {{ request()->has('status') && request()->get('status') == $status  ? 'selected' : '' }}>{{ $key }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="ytb-thumb">Thumbnail</label>
                                 <div class="mt-1">
-                                    <img src="" class="d-inline-block" id="ytb-thumb" style="" alt="">
+                                    <img id="ytb-thumb" src="" class="d-inline-block">
                                 </div>
                             </div>
                         </div>
@@ -82,7 +123,9 @@
 
                 <div class="card-footer">
                     <div class="d-flex align-items-center justify-content-end">
-                        <button type="submit" class="btn btn-primary" id="btn-create" disabled>Tạo mới</button>
+                        <button type="submit" class="btn btn-sm btn-primary" id="btn-create" disabled><i
+                                class="fa fa-plus"></i>&nbsp;&nbsp;Tạo mới
+                        </button>
                     </div>
                 </div>
             </form>
@@ -95,7 +138,14 @@
         $(document).ready(function () {
             $('.js-example-basic-multiple').select2({
                 placeholder: "Chọn danh mục video",
-                theme: "classic"
+            });
+
+            // Summernote
+            $('#video-description').summernote({
+                height: 200,
+                minHeight: 200,
+                maxHeight: 300,
+                focus: false
             });
 
             function getYoutubeId(url) {
@@ -138,7 +188,7 @@
                             $('input[name=ytb_id]').val(ytb_info.id);
                             $('input[name=ytb_thumbnails]').val(JSON.stringify(snippet.thumbnails))
                             $('input[name=publish_at]').val(snippet.publishedAt)
-                            $('input[name=description]').val(snippet.description)
+                            $('textarea#video-description').summernote("code", snippet.description);
                             $('input[name=tags]').val(JSON.stringify(snippet.tags))
                             $('input[name=channel_id]').val(snippet.channelId)
                             $('input#ytb-channel').val(snippet.channelTitle)
@@ -152,6 +202,17 @@
 
                         }
                     })
+
+                    let ytbId = id;
+                    let playUrl = "https://www.youtube.com/watch?v=" + ytbId;
+                    $('#divVideo').empty()
+                    $('#divVideo').append('<a id="viewVideo" title="Play Video" class="video html5lightbox" href="' + playUrl + '" data-width="640" data-height="360" ><span class="icon fa fa-play">&nbsp;&nbsp;Xem Video</span></a>');
+                    if (ytbId === "" || ytbId === null) {
+                        $("#divVideo").hide(1000);
+                    } else {
+                        $("#divVideo").show("slow");
+                    }
+                    $(".html5lightbox").html5lightbox();
                 }
             });
         });

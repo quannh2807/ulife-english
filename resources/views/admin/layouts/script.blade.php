@@ -1,7 +1,6 @@
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-{{--<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>--}}
 <script src="{{ asset('plugins/moment/moment-with-locales.js') }}"></script>
 <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
 <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
@@ -9,12 +8,16 @@
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
-{{--<script src="{{ asset('js/all.min.js') }}"></script>--}}
+<script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
+<script src="{{ asset('plugins/inputmask/jquery.inputmask.min.js') }}"></script>
+<script src="{{ asset('plugins/tagsinput/tagsinput.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.13/combined/js/gijgo.min.js" type="text/javascript"></script>
 
 <script>
+    $(':input').inputmask();
     $('select').select2();
     $('[data-toggle="tooltip"]').tooltip();
     if ($("#reservation").length > 0) {
@@ -151,10 +154,8 @@
         let search = $(this).val();
         if (search !== '') {
             loadVideoList(search);
-            console.log('loadVideoList search: ' + $(this).val());
         } else {
             loadVideoList();
-            console.log('loadVideoList');
         }
     });
 
@@ -192,13 +193,15 @@
         $('#ytb_link').val(title);
 
         let playUrl = "https://www.youtube.com/watch?v=" + ytbId;
-        document.getElementById('divVideo').innerHTML = '<a id="viewVideo" title="Play Video" class="video html5lightbox" href="' + playUrl + '" data-width="640" data-height="360" ><span class="icon fa fa-play">&nbsp;&nbsp;Xem Video</span></a>';
-        if (ytbId === "" || ytbId === null) {
-            $("#divVideo").hide(1000);
-        } else {
-            $("#divVideo").show("slow");
+        if ($("#divVideo").length > 0) {
+            document.getElementById('divVideo').innerHTML = '<a id="viewVideo" title="Play Video" class="video html5lightbox" href="' + playUrl + '" data-width="640" data-height="360" ><span class="icon fa fa-play">&nbsp;&nbsp;Xem Video</span></a>';
+            if (ytbId === "" || ytbId === null) {
+                $("#divVideo").hide(1000);
+            } else {
+                $("#divVideo").show("slow");
+            }
+            $(".html5lightbox").html5lightbox();
         }
-        $(".html5lightbox").html5lightbox();
     });
 
     $("#question-check input:checkbox").on('click', function () {
@@ -211,23 +214,6 @@
             $box.prop("checked", false);
         }
     });
-
-    $('.question-detail-view').on('click', function () {
-        let id = $(this).attr('data-id');
-        showDetailQuestion(id)
-    });
-
-    function showDetailQuestion(id) {
-        $.ajax({
-            type: "GET",
-            url: '{{ route('admin.question.detail') }}',
-            data: {id: id},
-            success: function (response) {
-                $('.result-content').html(response);
-                $('#questionDetailModal').modal('show');
-            }
-        });
-    }
 
     function encodeImageFileAsURL(element) {
         let file = element.files[0];
@@ -290,4 +276,340 @@
             }
         );
     }
+
+    $(window).on('beforeunload', function () {
+        $('.input-file-dummy').val('');
+    });
+
+    function previewMultiple(event) {
+        $('.input-file-dummy').val($('#thumb').val());
+        $('#galleryPhotos').empty();
+        let urls = URL.createObjectURL(event.target.files[0]);
+        document.getElementById("galleryPhotos").innerHTML += '<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="removePhoto"><i class="fa fa-trash-alt"></i></a></div>';
+        $(".removePhoto").click(function () {
+            $(this).parent().fadeOut(300);
+            $('.input-file-dummy').val('');
+        });
+    }
+
+    $('.select-multiple').select2({
+        placeholder: "Chọn video bài học",
+    });
+
+    /* input search clear */
+    if ($("#searchInput").length > 0) {
+        $("#searchInput").keyup(function () {
+            $("#searchClear").toggle(Boolean($(this).val()));
+        });
+        $("#searchClear").toggle(Boolean($("#searchInput").val()));
+        $("#searchClear").click(function () {
+            $("#searchInput").val('').focus();
+            $('form#frmSearch').submit();
+            $(this).hide();
+        });
+    }
+    /* end input search clear */
+
+    /* start lessons screen */
+    function refreshLessonTraining(type) {
+        $.ajax({})
+    }
+
+    $('button#btn-writting').click(function (e) {
+        e.preventDefault();
+        $('#listTrainingModal').modal('toggle')
+    });
+    $('button#btn-speaking').click(function (e) {
+        e.preventDefault();
+        $('#listTrainingModal').modal('toggle')
+    });
+    /* end lessons screen */
+    /* toastr */
+    @if(Session::has('success'))
+        toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.success("{{ session('success') }}");
+    @endif
+        @if(Session::has('error'))
+        toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.error("{{ session('error') }}");
+    @endif
+        @if(Session::has('info'))
+        toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.info("{{ session('info') }}");
+    @endif
+        @if(Session::has('warning'))
+        toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.warning("{{ session('warning') }}");
+    @endif
+    /* end toastr */
+
+    // preview thumbLink
+    if ($("#grpThumb").length > 0) {
+        $('#grpThumb input').on('change', function () {
+            let pathThumb = '';
+            if ($(this).attr("data-path")) {
+                pathThumb = $(this).attr('data-path')
+            }
+            let valueRadio = $('input[name=inlineRadioUpload]:checked', '#grpThumb').val()
+            if (valueRadio == 1) {
+                $("#galleryPhotos").empty();
+                $(".boxThumb").empty();
+                $(".boxThumb").append('<div class="input-group">' +
+                    '<input type="text" class="form-control input-file-dummy"' +
+                    'placeholder="Chọn ảnh" aria-describedby="fileHelp" readonly>\n' +
+                    '<label class="input-group-append mb-0">' +
+                    '<span class="btn btn-info input-file-btn">' +
+                    '<i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh\n' +
+                    '<input type="file" hidden ' +
+                    'id="thumb" name="thumb"' +
+                    'accept="image/*"' +
+                    'onchange="previewMultiple(event)">' +
+                    '</span>' +
+                    '</label>' +
+                    '</div>');
+                showImageUploadOld(pathThumb);
+            } else {
+                if (!validURL(pathThumb)) {
+                    pathThumb = '';
+                }
+                $("#galleryPhotos").empty();
+                $(".boxThumb").empty();
+                $(".boxThumb").append('<input id="thumbLink" name="thumb" value="' + pathThumb + '" type="text" class="form-control input-file-dummy" placeholder="Nhập vào link ảnh">');
+                $('#galleryPhotos').empty();
+                if (pathThumb !== '') {
+                    $('#galleryPhotos').append('<div class="imagePhoto"><img src="' + pathThumb + '"></div>');
+                }
+                onInputThumbLink()
+            }
+        });
+    }
+
+    function showImageUploadOld(path) {
+        if (path !== '' && !validURL(path)) {
+            $('#galleryPhotos').empty();
+            let urlImg = "{{ asset('storage/') }}" + '/' + path;
+            $('#galleryPhotos').append('<div class="imagePhoto"><img src="' + urlImg + '"><a href="javascript:void(0)" class="removePhoto"><i class="fa fa-trash-alt"></i></a></div>');
+            $(".removePhoto").click(function () {
+                $(this).parent().remove();
+                $('.input-file-dummy').val('');
+            });
+        }
+    }
+
+    if ($("#thumbLink").length > 0) {
+        onInputThumbLink()
+    }
+
+    function onInputThumbLink() {
+        $("#thumbLink").on("input", function () {
+            let urls = $('.input-file-dummy').val();
+            if (urls !== '') {
+                $('#galleryPhotos').empty();
+                $('#galleryPhotos').append('<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="removePhoto"><i class="fa fa-trash-alt"></i></a></div>');
+                $(".removePhoto").click(function () {
+                    $(this).parent().remove();
+                    $('.input-file-dummy').val('');
+                });
+            } else {
+                $('#galleryPhotos').empty();
+            }
+        });
+    }
+
+    function validURL(str) {
+        let pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+        return !!pattern.test(str);
+    }
+
+    // end preview thumbLink
+
+    // avatar character one
+    if ($("#grpAvatarThumb").length > 0) {
+        $('#grpAvatarThumb input').on('change', function () {
+            let pathThumb = '';
+            if ($(this).attr("data-path-avatar-1")) {
+                pathThumb = $(this).attr('data-path-avatar-1')
+            }
+            let valueRadio = $('input[name=inlineCharacterOne]:checked', '#grpAvatarThumb').val()
+            if (valueRadio == 1) {
+                $("#characterPhotoOne").empty();
+                $(".boxThumbCharacterOne").empty();
+                $(".boxThumbCharacterOne").append('<div class="input-group">' +
+                    '<input type="text" class="form-control input-file-dummy"' +
+                    'placeholder="Chọn ảnh" aria-describedby="fileHelp" readonly>\n' +
+                    '<label class="input-group-append mb-0">' +
+                    '<span class="btn btn-info input-file-btn">' +
+                    '<i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh\n' +
+                    '<input type="file" hidden ' +
+                    'id="characterOneUpload" name="characterOneUpload"' +
+                    'accept="image/*"' +
+                    'onchange="previewAvatarOne(event)">' +
+                    '</span>' +
+                    '</label>' +
+                    '</div>');
+                showImageCharacterOneOld(pathThumb);
+            } else {
+                if (!validURL(pathThumb)) {
+                    pathThumb = '';
+                }
+                $("#characterPhotoOne").empty();
+                $(".boxThumbCharacterOne").empty();
+                $(".boxThumbCharacterOne").append('<input id="characterOneUpload" name="characterOneUpload" value="' + pathThumb + '" type="text" class="form-control input-file-dummy" placeholder="Nhập vào link ảnh">');
+                $('#characterPhotoOne').empty();
+                if (pathThumb !== '') {
+                    $('#characterPhotoOne').append('<div class="imagePhoto"><img src="' + pathThumb + '"></div>');
+                }
+                onInputThumbCharacterOne()
+            }
+        });
+    }
+
+    function showImageCharacterOneOld(path) {
+        if (path !== '' && !validURL(path)) {
+            $('#characterPhotoOne').empty();
+            let urlImg = "{{ asset('storage/') }}" + '/' + path;
+            $('#characterPhotoOne').append('<div class="imagePhoto"><img src="' + urlImg + '"><a href="javascript:void(0)" class="characterOneRemove"><i class="fa fa-trash-alt"></i></a></div>');
+            $(".characterOneRemove").click(function () {
+                $(this).parent().remove();
+                $('#characterOne .input-file-dummy').val('');
+            });
+        }
+    }
+
+    if ($("#characterOneUpload").length > 0) {
+        onInputThumbCharacterOne()
+    }
+
+    function onInputThumbCharacterOne() {
+        $("#characterOneUpload").on("input", function () {
+            let urls = $('#characterOne .input-file-dummy').val();
+            if (urls !== '') {
+                $('#characterPhotoOne').empty();
+                $('#characterPhotoOne').append('<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="characterOneRemove"><i class="fa fa-trash-alt"></i></a></div>');
+                $(".characterOneRemove").click(function () {
+                    $(this).parent().remove();
+                    $('#characterOne .input-file-dummy').val('');
+                });
+            } else {
+                $('#characterPhotoOne').empty();
+            }
+        });
+    }
+
+    function previewAvatarOne(event) {
+        $('#characterOne .input-file-dummy').val($('#characterOneUpload').val());
+        $('#characterPhotoOne').empty();
+        let urls = URL.createObjectURL(event.target.files[0]);
+        document.getElementById("characterPhotoOne").innerHTML += '<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="characterOneRemove"><i class="fa fa-trash-alt"></i></a></div>';
+        $(".characterOneRemove").click(function () {
+            $(this).parent().fadeOut(300);
+            $('#characterOne .input-file-dummy').val('');
+        });
+    }
+
+    // avatar character Two
+    if ($("#grpAvatarTwo").length > 0) {
+        $('#grpAvatarTwo input').on('change', function () {
+            let pathThumb = '';
+            if ($(this).attr("data-path-avatar-2")) {
+                pathThumb = $(this).attr('data-path-avatar-2')
+            }
+            let valueRadio = $('input[name=inlineCharacterTwo]:checked', '#grpAvatarTwo').val()
+            if (valueRadio == 1) {
+                $("#characterPhotoTwo").empty();
+                $(".boxThumbCharacterTwo").empty();
+                $(".boxThumbCharacterTwo").append('<div class="input-group">' +
+                    '<input type="text" class="form-control input-file-dummy"' +
+                    'placeholder="Chọn ảnh" aria-describedby="fileHelp" readonly>\n' +
+                    '<label class="input-group-append mb-0">' +
+                    '<span class="btn btn-info input-file-btn">' +
+                    '<i class="fa fa-image"></i>&nbsp;&nbsp;Chọn ảnh\n' +
+                    '<input type="file" hidden ' +
+                    'id="characterTwoUpload" name="characterTwoUpload"' +
+                    'accept="image/*"' +
+                    'onchange="previewAvatarTwo(event)">' +
+                    '</span>' +
+                    '</label>' +
+                    '</div>');
+                showImageCharacterTwoOld(pathThumb);
+            } else {
+                if (!validURL(pathThumb)) {
+                    pathThumb = '';
+                }
+                $("#characterPhotoTwo").empty();
+                $(".boxThumbCharacterTwo").empty();
+                $(".boxThumbCharacterTwo").append('<input id="characterTwoUpload" name="characterTwoUpload" value="' + pathThumb + '" type="text" class="form-control input-file-dummy" placeholder="Nhập vào link ảnh">');
+                $('#characterPhotoTwo').empty();
+                if (pathThumb !== '') {
+                    $('#characterPhotoTwo').append('<div class="imagePhoto"><img src="' + pathThumb + '"></div>');
+                }
+                onInputThumbCharacterTwo()
+            }
+        });
+    }
+
+    function showImageCharacterTwoOld(path) {
+        if (path !== '' && !validURL(path)) {
+            $('#characterPhotoTwo').empty();
+            let urlImg = "{{ asset('storage/') }}" + '/' + path;
+            $('#characterPhotoTwo').append('<div class="imagePhoto"><img src="' + urlImg + '"><a href="javascript:void(0)" class="characterTwoRemove"><i class="fa fa-trash-alt"></i></a></div>');
+            $(".characterTwoRemove").click(function () {
+                $(this).parent().remove();
+                $('#characterTwo .input-file-dummy').val('');
+            });
+        }
+    }
+
+    if ($("#thumbCharacterTwo").length > 0) {
+        onInputThumbCharacterTwo()
+    }
+
+    function onInputThumbCharacterTwo() {
+        $("#characterTwoUpload").on("input", function () {
+            let urls = $('#characterTwo .input-file-dummy').val();
+            if (urls !== '') {
+                $('#characterPhotoTwo').empty();
+                $('#characterPhotoTwo').append('<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="characterTwoRemove"><i class="fa fa-trash-alt"></i></a></div>');
+                $(".characterTwoRemove").click(function () {
+                    $(this).parent().remove();
+                    $('#characterTwo .input-file-dummy').val('');
+                });
+            } else {
+                $('#characterPhotoTwo').empty();
+            }
+        });
+    }
+
+    function previewAvatarTwo(event) {
+        $('#characterTwo .input-file-dummy').val($('#characterTwoUpload').val());
+        $('#characterPhotoTwo').empty();
+        let urls = URL.createObjectURL(event.target.files[0]);
+        document.getElementById("characterPhotoTwo").innerHTML += '<div class="imagePhoto"><img src="' + urls + '"><a href="javascript:void(0)" class="characterTwoRemove"><i class="fa fa-trash-alt"></i></a></div>';
+        $(".characterTwoRemove").click(function () {
+            $(this).parent().fadeOut(300);
+            $('#characterTwo .input-file-dummy').val('');
+        });
+    }
+
+    // date picker input
+    $('.date-picker').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
 </script>

@@ -16,7 +16,6 @@ class CreateVideosTable extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('ytb_id')->unique();
-            // $table->foreignId('cate_id')->constrained('categories');
             $table->string('title');
             $table->text('description');
             $table->text('ytb_thumbnails');
@@ -25,6 +24,7 @@ class CreateVideosTable extends Migration
             $table->text('tags');
             $table->string('channel_id');
             $table->string('channel_title');
+            $table->integer('type')->default(1);
             $table->integer('status')->default(1);
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

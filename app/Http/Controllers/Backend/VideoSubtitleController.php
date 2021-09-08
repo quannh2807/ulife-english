@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadSubRequest;
 use App\Models\VideoSubtitle;
 use App\Repositories\LanguageRepository;
 use App\Repositories\VideoRepository;
 use App\Repositories\VideoSubtitleRepository;
+use Benlipp\SrtParser\Parser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class VideoSubtitleController extends Controller
 {
@@ -17,9 +19,9 @@ class VideoSubtitleController extends Controller
     private $languageRepository;
 
     public function __construct(
-        VideoRepository         $videoRepository,
+        VideoRepository $videoRepository,
         VideoSubtitleRepository $videoSubtitleRepository,
-        LanguageRepository      $languageRepository
+        LanguageRepository $languageRepository
     )
     {
         $this->videoRepository = $videoRepository;
@@ -27,18 +29,13 @@ class VideoSubtitleController extends Controller
         $this->languageRepository = $languageRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $video_id = $request->video_id;
         $video = $this->videoRepository->findById($video_id, [], ['id', 'title', 'ytb_thumbnails']);
         $thumbnails = json_decode($video->ytb_thumbnails);
         $video->ytb_thumbnails = $thumbnails->default;
-        $subtitles = VideoSubtitle::with('hasLanguage')->where('video_id', $video_id)->get();
+        $subtitles = VideoSubtitle::where('video_id', $video_id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
 
         return view('admin.subtitles.index', [
             'video' => $video,
@@ -46,30 +43,28 @@ class VideoSubtitleController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $allData = $request->all();
-        $this->videoSubtitleRepository->storeNew($allData);
-        $newData = $this->videoSubtitleRepository->fetchAll([]);
+        $allData['time_start'] = stringHoursToFloat($request->time_start);
+        $allData['time_end'] = stringHoursToFloat($request->time_end);
+
+        $currentSub = VideoSubtitle::where('id', $request->sub_id)->first();
+
+        if ($currentSub) {
+            $this->videoSubtitleRepository->update($currentSub->id, $allData);
+            $item = $this->videoSubtitleRepository->findById($currentSub->id, []);
+        } else {
+            $this->videoSubtitleRepository->storeNew($allData);
+            $newData = $this->videoSubtitleRepository->fetchAll([]);
+            $item = $newData[count($newData) - 1];
+        }
 
         return response()->json([
-            'msg' => 'Thêm mới thành công!',
-            'newItem' => $newData[count($newData) - 1],
+            'item' => $item,
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Request $request)
     {
         $id = $request->sub_id;
@@ -80,37 +75,99 @@ class VideoSubtitleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $this->videoSubtitleRepository->deleteById($request->id);
+
+        return response()->json([
+            'msg' => 'Xóa thành công'
+        ], 200);
+    }
+
+    public function destroyAll(Request $request)
+    {
+        $ids = $request->ids;
+        VideoSubtitle::whereIn('id', explode(",", $ids))->delete();
+
+        return response()->json([
+            'msg' => 'Xóa thành công'
+        ]);
+    }
+
+    public function import()
+    {
+        $videos = $this->videoRepository->fetchAll([], ['id', 'title']);
+
+        return view('admin.videos.import', [
+            'videos' => $videos,
+        ]);
+    }
+
+    public function preview(Request $request)
+    {
+        $parser = new Parser();
+        if ($request->hasFile('file_sub')) {
+            $file = $request->file('file_sub');
+            $parser->loadFile($file->path());
+            $subtitles = $parser->parse();
+
+            return response()->json([
+                'subtitles' => $subtitles,
+            ]);
+        }
+    }
+
+    public function upload(UploadSubRequest $request)
+    {
+        $video_id = $request->video_id;
+        $lang = $request->lang;
+        $parser = new Parser();
+        $file = $request->file('file_upload');
+        $parser->loadFile($file->path());
+        $subtitles = $parser->parse();
+
+        foreach ($subtitles as $key => $sub) {
+            $data = [
+                'video_id' => $video_id,
+                'time_start' => $sub->startTime,
+                'time_end' => $sub->endTime,
+                $lang => $sub->text,
+            ];
+            // check record existed
+            $currentSub = VideoSubtitle::where([
+                ['video_id', $video_id],
+                ['time_start', $sub->startTime],
+                ['time_end', $sub->endTime],
+            ])->first();
+            if ($currentSub) {
+                $this->videoSubtitleRepository->update($currentSub->id, $data);
+            } else {
+                $this->videoSubtitleRepository->storeNew($data);
+            }
+        }
+
+        return redirect()->route('admin.subtitle.index', [
+            'video_id' => $video_id,
+        ]);
+    }
+
+    public function refresh(Request $request)
+    {
+        $video_id = $request->video_id;
+        $subtitles = $subtitles = VideoSubtitle::where('video_id', $video_id)->orderByRaw('CAST(time_start as DECIMAL) asc')->get();
+
+        return response()->json([
+            'subtitles' => $subtitles,
+        ]);
     }
 }

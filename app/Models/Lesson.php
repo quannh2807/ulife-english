@@ -18,12 +18,15 @@ class Lesson extends Model
      * @var string[]
      */
     protected $fillable = [
+        'id',
         'name',
         'description',
-        'status',
         'level_id',
         'course_id',
         'thumb_img',
+        'position',
+        'video_ids',
+        'status',
         'created_by',
         'updated_by',
     ];
@@ -34,6 +37,14 @@ class Lesson extends Model
      * @var array
      */
     protected $attributes = [
+        'name' => '',
+        'description' => '',
+        'level_id' => 0,
+        'course_id' => 0,
+        'thumb_img' => '',
+        'position' => 0,
+        'video_ids' => '',
+        'status' => 1,
         'created_by' => 1,
         'updated_by' => 1,
     ];
@@ -41,10 +52,6 @@ class Lesson extends Model
     /**
      * @return BelongsToMany
      */
-    public function hasVideos()
-    {
-        return $this->belongsToMany(Video::class, 'lesson_video', 'lesson_id', 'video_id');
-    }
 
     public function hasLevel()
     {
@@ -54,5 +61,10 @@ class Lesson extends Model
     public function hasCourse()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
+
+    public function hasCharacters()
+    {
+        return $this->hasMany(ActOutCharacter::class, 'lesson_id');
     }
 }

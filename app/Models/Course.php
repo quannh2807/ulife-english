@@ -28,6 +28,13 @@ class Course extends Model
         'updated_by',
     ];
 
+    protected $attributes = [
+        'status' => 1,
+        'created_by' => 1,
+        'updated_by' => 1,
+    ];
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\Question;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -19,7 +21,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::with('hasParentCate')->paginate(10);
+        $categories = Category::with('hasParentCate')->orderBy('id', 'DESC')->paginate(PAGE_SIZE);
 
         return view('admin.categories.index', [
             'categories' => $categories,
@@ -32,6 +34,35 @@ class CategoryController extends Controller
 
         return view('admin.categories.create', [
             'categories' => $categories,
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $question = Category::query();
+        if (!empty(request('keyword'))) {
+            $question->where('name', 'LIKE', '%' . request('keyword') . '%');
+            $question->orWhere('id', request('keyword'));
+        }
+        if (!empty(request('rangeDate'))) {
+            $temp = explode('-', request('rangeDate'));
+            $startDate = trim($temp[0]);
+            $endDate = trim($temp[1]);
+            $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', $startDate)
+                ->format('Y-m-d 00:00:00');
+            $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', $endDate)
+                ->format('Y-m-d 23:59:59');
+
+            $question->where('created_at', '>=', $startDate)
+                ->where('created_at', '<=', $endDate);
+        }
+        if (request('status') >= 0) {
+            $question->where('status', request('status'));
+        }
+        $data = $question->orderBy('id', 'DESC')->paginate(10);
+
+        return view('admin.categories.index', [
+            'categories' => $data,
         ]);
     }
 

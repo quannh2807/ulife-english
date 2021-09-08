@@ -15,11 +15,12 @@ class CreateLessonsTable extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->foreignId('level_id')->constrained('levels');
-//            $table->foreignId('course_id')->constrained('courses');
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
+            $table->integer('level_id')->constrained('levels');
+            $table->integer('course_id')->constrained('courses');
             $table->string('thumb_img')->nullable();
+            $table->string('video_ids')->nullable();
             $table->integer('status')->default(1);
             $table->integer('created_by');
             $table->integer('updated_by');

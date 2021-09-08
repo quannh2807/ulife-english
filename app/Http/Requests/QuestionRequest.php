@@ -30,8 +30,8 @@ class QuestionRequest extends FormRequest
             'answer_correct' => 'Câu trả lời đúng',
             'status' => 'Trạng thái',
             'video_id' => 'Video Id',
-            'start_time' => 'Start time',
-            'end_time' => 'End time',
+            'time_start' => 'Thời gian bắt đầu',
+            'time_end' => 'Thời gian kết thúc',
             'level_id' => 'Level ID',
             'level_type' => 'Level type',
             'topics_id' => 'Topics ID',
@@ -52,8 +52,26 @@ class QuestionRequest extends FormRequest
             'answer_3' => 'required|min:3|max:191',
             'answer_4' => 'required|min:3|max:191',
             'answer_correct' => 'required|size:1',
+            'time_start' => 'date_format:H:i:s.v',
+            'time_end' => 'date_format:H:i:s.v|after:time_start',
             'status' => 'required|size:1',
         ];
+    }
+
+    public function getValidatorInstance()
+    {
+        $this->cleanTimeQuestion();
+        return parent::getValidatorInstance();
+    }
+
+    protected function cleanTimeQuestion()
+    {
+        if ($this->request->has('time_start') || $this->request->has('time_end')) {
+            $this->merge([
+                'time_start' => str_replace(',', '.', $this->request->get('time_start')),
+                'time_end' => str_replace(',', '.', $this->request->get('time_end'))
+            ]);
+        }
     }
 
     /**
@@ -85,6 +103,11 @@ class QuestionRequest extends FormRequest
             'answer_4.max' => ':attribute không được lớn hơn :max ký tự.',
 
             'answer_correct.required' => 'Vui lòng chọn :attribute.',
+
+            'time_start.date_format' => ':attribute chưa nhập đúng định dạng.',
+            'time_end.date_format' => ':attribute chưa nhập đúng định dạng.',
+
+            'time_end.after' => 'Thời gian kết thúc phải lớn hơn thời gian bắt đầu.',
 
             'status.required' => 'Vui lòng chọn :attribute.',
             'status.size' => 'Vui lòng chọn :attribute.',

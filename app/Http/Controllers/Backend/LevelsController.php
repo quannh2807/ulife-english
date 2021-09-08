@@ -21,11 +21,38 @@ class LevelsController extends Controller
 
     public function index()
     {
-
-        $data = Levels::paginate(10);
-        //dd($data);
+        $data = Levels::orderBy('id', 'DESC')->paginate(PAGE_SIZE);
         return view('admin.level.index', [
             'data' => $data,
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $mSearch = Levels::query();
+        if (!empty(request('keyword'))) {
+            $mSearch->where('name', 'LIKE', '%' . request('keyword') . '%');
+            $mSearch->orWhere('id', request('keyword'));
+        }
+        if (!empty(request('rangeDate'))) {
+            $temp = explode('-', request('rangeDate'));
+            $startDate = trim($temp[0]);
+            $endDate = trim($temp[1]);
+            $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', $startDate)
+                ->format('Y-m-d 00:00:00');
+            $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', $endDate)
+                ->format('Y-m-d 23:59:59');
+
+            $mSearch->where('created_at', '>=', $startDate)
+                ->where('created_at', '<=', $endDate);
+        }
+        if (request('status') >= 0) {
+            $mSearch->where('status', request('status'));
+        }
+        $data = $mSearch->orderBy('id', 'DESC')->paginate(10);
+
+        return view('admin.level.index', [
+            'data' => $data
         ]);
     }
 
@@ -36,15 +63,9 @@ class LevelsController extends Controller
 
     public function store(LevelsRequest $request)
     {
-        /*  $validatedData = $request->validate([
-              'name' => 'required|max:255',
-              'status' => 'required',
-          ]);
-          $show = Levels::create($validatedData);
-          return redirect('admin.level.index')->with('success', 'Thêm mới level thành công');*/
         $data = $request->all();
-        $this->levelRepository->storeNew($data);
-        return redirect()->route('admin.level.index')->with('success', 'Thêm mới level thành công');
+        $isSave = $this->levelRepository->storeNew($data);
+        return redirect()->route('admin.level.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
 
     public function show($id)
@@ -59,12 +80,12 @@ class LevelsController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(LevelsRequest $request)
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
-        $this->levelRepository->update($id, $data);
-        return redirect()->route('admin.level.index');
+        $isSave = $this->levelRepository->update($id, $data);
+        return redirect()->route('admin.level.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }
 
 
@@ -75,7 +96,26 @@ class LevelsController extends Controller
         return redirect()->route('admin.level.index');
     }
 
-    public function destroy($id)
+    public function detail()
     {
+        $questionId = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
+        $detail = Levels::findOrFail($questionId);
+
+        $response = '<table class="table table-bordered table-hover"><tbody>';
+        if ($detail) {
+            $response .= '<tr><td style="width: 120px;">Tên</td><td>' . $detail->name . '</td></tr>';
+            $response .= '<tr><td style="width: 120px;">SubName</td><td>' . $detail->sub_name . '</td></tr>';
+            $response .= '<tr><td style="width: 120px;">Description</td><td>' . $detail->description . '</td></tr>';
+
+            $statusName = htmlStatus($detail->status);
+            $response .= '<tr><td style="width: 120px;">Trạng thái</td><td>' . $statusName . '</td></tr>';
+
+        } else {
+            $response .= '<tr>';
+            $response .= '<td align="center" colspan="2">Không có dữ liệu.</td>';
+            $response .= '</tr>';
+        }
+        $response .= '</tbody></table>';
+        return $response;
     }
 }
