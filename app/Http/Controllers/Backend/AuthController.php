@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -35,28 +36,23 @@ class AuthController extends Controller
         ]);
     }
 
-    public function register(RegisterRequest $request)
+    public function register()
     {
-        $data = $request->all();
+        return view('auth.register');
+    }
+
+    public function saveRegister(RegisterRequest $request)
+    {
+        $data = $request->except('password_confirmation');
 
         $data['password'] = Hash::make($request->password);
         $data['status'] = 0;
 
-        $user = $this->userRepository->storeNew($data);
+        User::create($data);
 
-        if ($user) {
-            return $this->jsonResponse([
-                'status' => true,
-                'code' =>  200,
-                'message' => 'Đăng ký thành công',
-            ], 200);
-        } else {
-            return $this->jsonResponse([
-                'status' => false,
-                'code' =>  500,
-                'message' => 'Đăng ký không thành công, vui lòng kiểm tra lại',
-            ], 500);
-        }
+        return redirect()->route('auth.login', [
+            'msg' => 'Đăng ký thành công'
+        ]);
     }
 
     public function logout(Request $request)

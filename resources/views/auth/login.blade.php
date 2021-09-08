@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <style>
         body {
-            background: url("{{ asset('images/login-bg.jpg') }}");
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.4) url("{{ asset('images/login-bg.jpg') }}");
+            background-blend-mode: overlay;
         }
     </style>
 </head>
@@ -21,7 +23,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 text-center mb-5">
-                    <h2 class="heading-section">Ulife English</h2>
+                    <h2 class="heading-section">Đăng ký</h2>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -45,16 +47,19 @@
                                 <p style="color: whitesmoke; font-weight: bold; padding-left: 20px; font-size: 14px;">{{$message}}</p>
                                 @enderror
                             </div>
+                            <div class="form-">
+                                <label class="checkbox-wrap checkbox-primary">Ghi nhớ đăng nhập
+                                    <input type="checkbox" name="remember_me">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
                             <div class="form-group">
                                 <button type="submit" class="form-control btn btn-primary submit px-3">Đăng
                                     nhập</button>
                             </div>
                             <div class="form-group d-md-flex">
-                                <div class="w-50">
-                                    <label class="checkbox-wrap checkbox-primary">Ghi nhớ đăng nhập
-                                        <input type="checkbox" name="remember_me">
-                                        <span class="checkmark"></span>
-                                    </label>
+                                <div class="w-50 text-md-left">
+                                    <a href="{{ route('auth.register') }}" style="color: #fff">Đăng ký</a>
                                 </div>
                                 <div class="w-50 text-md-right">
                                     <a href="#" style="color: #fff">Quên mật khẩu</a>
@@ -71,19 +76,10 @@
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
+
     <script>
         (function ($) {
             "use strict";
-
-            var fullHeight = function () {
-
-                $('.js-fullheight').css('height', $(window).height());
-                $(window).resize(function () {
-                    $('.js-fullheight').css('height', $(window).height());
-                });
-
-            };
-            fullHeight();
 
             $(".toggle-password").click(function () {
 

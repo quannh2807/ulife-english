@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
             'full_name' => 'required',
             'email' => 'email|required|unique:App\Models\User,email',
             'password' => 'required|confirmed|min:6|max:20',
-            'birthday' => 'required'
+            'mobile' => 'required',
         ];
     }
 
@@ -51,7 +51,8 @@ class RegisterRequest extends FormRequest
             'password.min' => 'Mật khẩu có độ dài tối thiểu 6 ký tự',
             'password.max' => 'Mật khẩu có độ dài đa thiểu 20 ký tự',
 
-            'birthday.required' => 'Tên tài khoản bị bỏ trống',
+            'mobile.required' => 'Số điện thoại bị bỏ trống',
+
         ];
     }
 }
