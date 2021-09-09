@@ -23,7 +23,7 @@
             $.ajax({
                 url: "{{ route('admin.lesson.getVideos') }}",
                 method: 'GET',
-                data: {type: type, keyName: keyName},
+                data: { type: type, keyName: keyName },
                 success: function (res) {
                     let videos = res.videos;
                     let tblVideoId = type == 1 ? 'videoGrammarList' : 'videoLessonList'
@@ -214,37 +214,66 @@
         let indexSpeak = getPositionLastItem('.input_fields_speak #itemDynamic');
         $('.add_more_speak').click(function (e) {
             e.preventDefault();
-            $('.input_fields_speak').append('<div class="row" id="itemDynamic" data-position="' + indexSpeak + '">\n' +
-                '                                        <div class="number">\n' +
-                '                                            <span class="badge badge-info">' + (indexSpeak + 1) + '</span>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="content">\n' +
-                '                                        <div class="row" >\n' +
-                '                                        <div class="col-sm-5">\n' +
-                '                                            <div class="form-group">\n' +
-                '                                                <input type="text" class="form-control form-control-sm"\n' +
-                '                                                       name="speak_name_en[' + indexSpeak + ']"\n' +
-                '                                                       placeholder="Nhập vào nội dung tiếng anh">\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="col-sm-5">\n' +
-                '                                        <input name="id_speak[' + indexSpeak + ']" type="text" value="0" hidden>' +
-                '                                            <div class="form-group">\n' +
-                '                                                <input type="text" class="form-control form-control-sm"\n' +
-                '                                                       name="speak_name_vi[' + indexSpeak + ']"\n' +
-                '                                                       placeholder="Nhập vào nội dung tiếng việt">\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="col-sm-2">\n' +
-                '                                            <div class="form-group">\n' +
-                '                                                <a href="javascript:void(0)" class="btn btn-sm btn-danger remove_speak">\n' +
-                '                                                    <i class="fa fa-times"></i>&nbsp;&nbsp; Remove\n' +
-                '                                                </a>\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                    </div>\n' +
-                '                                        </div>\n' +
-                '                                    </div>');
+            $('.input_fields_speak').append(`
+                <div class="row" id="itemDynamic" data-position="${indexSpeak + 1}">
+                    <div class="number">
+                        <span class="badge badge-info">${indexSpeak + 1}</span>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text"
+                                                class="form-control form-control-sm input-file-dummy"
+                                                name="speak_name_en[${indexSpeak}]"
+                                                placeholder="Nhập vào nội dung tiếng anh"
+                                                aria-describedby="fileHelp">
+                                            <label class="input-group-append mb-0">
+                                                <span class="btn btn-sm btn-success input-file-btn">
+                                                    <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
+                                                    <input type="file" hidden name="speak_file_en[${indexSpeak}]"
+                                                        id="speak-file-en-${indexSpeak}" onchange="getSpeakFileNameEN(${indexSpeak})">
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <span style="font-size: 13px;" id="speak-input-en-${indexSpeak}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text"
+                                            class="form-control form-control-sm input-file-dummy"
+                                            name="speak_name_vi[${indexSpeak}]"
+                                            placeholder="Nhập vào nội dung tiếng việt"
+                                            aria-describedby="fileHelp">
+                                        <label class="input-group-append mb-0">
+                                            <span class="btn btn-sm btn-success input-file-btn">
+                                                <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
+                                                <input type="file" hidden
+                                                    name="speak_file_vi[${indexSpeak}]" id="speak-file-vi-${indexSpeak}"
+                                                    onchange="getSpeakFileNameVI(${indexSpeak})">
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <span style="font-size: 13px;" id="speak-input-vi-${indexSpeak}"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <a class="btn btn-sm btn-danger remove_speak"
+                                        href="javascript:void(0)">
+                                        <i class="fa fa-times"></i>&nbsp;&nbsp; Remove
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `);
 
             indexSpeak++;
             setTotalDynamic(1);
@@ -261,38 +290,61 @@
         let indexWrite = getPositionLastItem('.input_fields_write #itemDynamic');
         $('.add_more_write').click(function (e) {
             e.preventDefault();
-            $('.input_fields_write').append('<div class="row" id="itemDynamic" data-position="' + indexWrite + '">\n' +
-                '                                        <div class="number">\n' +
-                '                                            <span class="badge badge-info">' + (indexWrite + 1) + '</span>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="content">\n' +
-                '                                            <div class="row">\n' +
-                '                                        <div class="col-sm-5">\n' +
-                '                                            <div class="form-group">\n' +
-                '                                                <input type="text" class="form-control form-control-sm"\n' +
-                '                                                       name="write_name_en[' + indexWrite + ']"\n' +
-                '                                                       placeholder="Nhập vào nội dung tiếng anh">\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                        <input name="id_write[' + indexWrite + ']" type="text" value="0" hidden>' +
-                '                                        <div class="col-sm-5">\n' +
-                '                                            <div class="form-group">\n' +
-                '                                                <input type="text" class="form-control form-control-sm"\n' +
-                '                                                       name="write_name_vi[' + indexWrite + ']"\n' +
-                '                                                       placeholder="Nhập vào nội dung tiếng việt">\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="col-sm-2">\n' +
-                '                                            <div class="form-group">\n' +
-                '                                                <a href="javascript:void(0)" class="btn btn-sm btn-danger remove_write">\n' +
-                '                                                    <i class="fa fa-times"></i>&nbsp;&nbsp; Remove\n' +
-                '                                                </a>\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                    </div>\n' +
-                '                                        </div>\n' +
-                '                                    </div>'
-            );
+            let row = `
+            <div class="row" id="itemDynamic" data-position="${indexWrite + 1}">
+                <div class="number">
+                    <span class="badge badge-info">${indexWrite + 1}</span>
+                </div>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <input type="text"
+                                    class="form-control form-control-sm input-file-dummy"
+                                    name="write_name_en[${indexWrite}]"
+                                    placeholder="Nhập vào nội dung tiếng anh"
+                                    aria-describedby="fileHelp">
+                                <label class="input-group-append mb-0">
+                                    <span class="btn btn-sm btn-success input-file-btn">
+                                        <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
+                                        <input type="file" hidden name="write_file_en[${indexWrite}]"
+                                            id="write-file-en-${indexWrite}" onchange="getWriteFileNameEN(${indexWrite})">
+                                    </span>
+                                </label>
+                            </div>
+                            <span style="font-size: 13px;" id="write-input-en-${indexWrite}" ></span>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <input type="text"
+                                    class="form-control form-control-sm input-file-dummy"
+                                    name="write_name_vi[${indexWrite}]"
+                                    placeholder="Nhập vào nội dung tiếng việt"
+                                    aria-describedby="fileHelp">
+                                <label class="input-group-append mb-0">
+                                    <span class="btn btn-sm btn-success input-file-btn">
+                                        <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
+                                        <input type="file" hidden
+                                            name="write_file_vi[${indexWrite}]" id="write-file-vi-${indexWrite}"
+                                            onchange="getWriteFileNameVI(${indexWrite})">
+                                    </span>
+                                </label>
+                            </div>
+                            <span style="font-size: 13px;" id="write-input-vi-${indexWrite}"></span>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <a class="btn btn-sm btn-danger remove_write"
+                                    href="javascript:void(0)">
+                                    <i class="fa fa-times"></i>&nbsp;&nbsp; Remove
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+            $('.input_fields_write').append(row);
 
             indexWrite++;
             setTotalDynamic(2);
