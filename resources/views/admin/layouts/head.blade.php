@@ -14,3 +14,8 @@
 <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/cus.admin.css') }}?v=1">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.13/combined/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<style>
+    audio {
+        height: 35px;
+    }
+</style>

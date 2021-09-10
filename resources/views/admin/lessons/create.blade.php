@@ -233,11 +233,19 @@
                                                         <span class="btn btn-sm btn-success input-file-btn">
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="speak_file_en[0]"
-                                                                id="speak-file-en-0" onchange="getSpeakFileNameEN(0)">
+                                                                id="speak-file-en-0" onchange="getFileName('speak-file-en-0', 'speak-input-en-0')">
                                                         </span>
                                                     </label>
                                                 </div>
                                                 <span style="font-size: 13px;" id="speak-input-en-0"></span>
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src=""
+                                                            type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2" onclick="removeFile('speak-file-en-0', 'speak-input-en-0')"><i class="fas fa-times"></i></a>
+                                                </p>
                                             </div>
                                             <div class="col-sm-5">
                                                 <div class="input-group">
@@ -250,11 +258,19 @@
                                                         <span class="btn btn-sm btn-success input-file-btn">
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="speak_file_vi[0]"
-                                                                id="speak-file-vi-0" onchange="getSpeakFileNameVI(0)">
+                                                                id="speak-file-vi-0" onchange="getFileName('speak-file-vi-0', 'speak-input-vi-0')">
                                                         </span>
                                                     </label>
                                                 </div>
                                                 <span style="font-size: 13px;" id="speak-input-vi-0"></span>
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src=""
+                                                            type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2" onclick="removeFile('speak-file-vi-0', 'speak-input-vi-0')"><i class="fas fa-times"></i></a>
+                                                </p>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="form-group">
@@ -307,11 +323,19 @@
                                                         <span class="btn btn-sm btn-success input-file-btn">
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="write_file_en[0]"
-                                                                id="write-file-en-0" onchange="getWriteFileNameEN(0)">
+                                                                id="write-file-en-0" onchange="getFileName('write-file-en-0', 'write-input-en-0')">
                                                         </span>
                                                     </label>
                                                 </div>
                                                 <span style="font-size: 13px;" id="write-input-en-0"></span>
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src=""
+                                                            type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2" onclick="removeFile('write-file-en-0', 'write-input-en-0')"><i class="fas fa-times"></i></a>
+                                                </p>
                                             </div>
                                             <div class="col-sm-5">
                                                 <div class="input-group">
@@ -324,11 +348,19 @@
                                                         <span class="btn btn-sm btn-success input-file-btn">
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="write_file_vi[0]"
-                                                                id="write-file-vi-0" onchange="getWriteFileNameVI(0)">
+                                                                id="write-file-vi-0" onchange="getFileName('write-file-vi-0', 'write-input-vi-0')">
                                                         </span>
                                                     </label>
                                                 </div>
                                                 <span style="font-size: 13px;" id="write-input-vi-0"></span>
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src=""
+                                                            type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2" onclick="removeFile('write-file-vi-0', 'write-input-vi-0')"><i class="fas fa-times"></i></a>
+                                                </p>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="form-group">

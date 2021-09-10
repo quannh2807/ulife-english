@@ -289,13 +289,35 @@
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="speak_file_en[{{$index}}]"
                                                                 id="speak-file-en-{{$index}}"
-                                                                onchange='getSpeakFileNameEN("{{$index}}")'>
+                                                                onchange='getFileName("speak-file-en-{{$index}}", "speak-input-en-{{$index}}")'>
                                                         </span>
                                                     </label>
                                                 </div>
-                                                <span style="font-size: 13px;font-weight: bold;"
+                                                <span style="font-size: 13px;font-weight: bold;" class="audio_name"
                                                     id="speak-input-en-{{$index}}">{{$item->file_en ? $item->file_en :
                                                     ''}}</span>
+                                                @if($item->file_en)
+                                                <p class="row align-items-center ml-1 my-2">
+                                                    <audio controls>
+                                                        <source src="{{ asset('storage/' . $item->file_en) }}"
+                                                            type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick='removeFile("speak-file-en-{{$index}}", "speak-input-en-{{$index}}")'><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
+                                                @else
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src="" type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick='removeFile("speak-file-en-{{$index}}", "speak-input-en-{{$index}}")'><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
+                                                @endif
                                             </div>
                                             <div class="col-sm-5">
                                                 <div class="input-group">
@@ -309,13 +331,35 @@
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="speak_file_vi[{{$index}}]"
                                                                 id="speak-file-vi-{{$index}}"
-                                                                onchange='getSpeakFileNameVI("{{$index}}")'>
+                                                                onchange='getFileName("speak-file-vi-{{$index}}", "speak-input-vi-{{$index}}")'>
                                                         </span>
                                                     </label>
                                                 </div>
-                                                <span style="font-size: 13px;font-weight: bold;"
+                                                <span style="font-size: 13px;font-weight: bold;" class="audio_name"
                                                     id="speak-input-vi-{{$index}}">{{$item->file_vi ? $item->file_vi :
                                                     ''}}</span>
+                                                @if($item->file_vi)
+                                                <p class="row align-items-center ml-1 my-2">
+                                                    <audio controls>
+                                                        <source src="{{ asset('storage/' . $item->file_vi) }}"
+                                                            type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick='removeFile("speak-file-vi-{{$index}}", "speak-input-vi-{{$index}}")'><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
+                                                @else
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src="" type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick='removeFile("speak-file-vi-{{$index}}", "speak-input-vi-{{$index}}")'><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
+                                                @endif
                                             </div>
                                             @if($index == 0)
                                             <div class="col-sm-2">
@@ -359,11 +403,22 @@
                                                         <span class="btn btn-sm btn-success input-file-btn">
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="speak_file_en[0]"
-                                                                id="speak-file-en-0" onchange="getSpeakFileNameEN(0)">
+                                                                id="speak-file-en-0"
+                                                                onchange="getFileName('speak-file-en-0', 'speak-input-en-0')">
                                                         </span>
                                                     </label>
                                                 </div>
-                                                <span style="font-size: 13px;" id="speak-input-en-0"></span>
+                                                <span style="font-size: 13px;" class="audio_name"
+                                                    id="speak-input-en-0"></span>
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src="" type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick="removeFile('speak-file-en-0', 'speak-input-en-0')"><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
                                             </div>
                                             <div class="col-sm-5">
                                                 <div class="input-group">
@@ -376,11 +431,22 @@
                                                         <span class="btn btn-sm btn-success input-file-btn">
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="speak_file_vi[0]"
-                                                                id="speak-file-vi-0" onchange="getSpeakFileNameVI(0)">
+                                                                id="speak-file-vi-0"
+                                                                onchange="getFileName('speak-file-vi-0', 'speak-input-vi-0')">
                                                         </span>
                                                     </label>
                                                 </div>
-                                                <span style="font-size: 13px;" id="speak-input-vi-0"></span>
+                                                <span style="font-size: 13px;" class="audio_name"
+                                                    id="speak-input-vi-0"></span>
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src="" type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick="removeFile('speak-file-vi-0', 'speak-input-vi-0')"><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="form-group">
@@ -438,13 +504,35 @@
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="write_file_en[{{$index}}]"
                                                                 id="write-file-en-{{$index}}"
-                                                                onchange='getWriteFileNameEN("{{$index}}")'>
+                                                                onchange='getFileName("write-file-en-{{$index}}", "write-input-en-{{$index}}")'>
                                                         </span>
                                                     </label>
                                                 </div>
-                                                <span style="font-size: 13px;font-weight: bold;"
+                                                <span style="font-size: 13px;font-weight: bold;" class="audio_name"
                                                     id="write-input-en-{{$index}}">{{$item->file_en ? $item->file_en :
                                                     ''}}</span>
+                                                @if($item->file_en)
+                                                <p class="row align-items-center ml-1 my-2">
+                                                    <audio controls>
+                                                        <source src="{{ asset('storage/' . $item->file_en) }}"
+                                                            type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick='removeFile("write-file-en-{{$index}}", "write-input-en-{{$index}}")'><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
+                                                @else
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src="" type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick='removeFile("write-file-en-{{$index}}", "write-input-en-{{$index}}")'><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
+                                                @endif
                                             </div>
                                             <div class="col-sm-5">
                                                 <div class="input-group">
@@ -458,13 +546,35 @@
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="write_file_vi[{{$index}}]"
                                                                 id="write-file-vi-{{$index}}"
-                                                                onchange='getWriteFileNameVI("{{$index}}")'>
+                                                                onchange='getFileName("write-file-vi-{{$index}}", "write-input-vi-{{$index}}")'>
                                                         </span>
                                                     </label>
                                                 </div>
-                                                <span style="font-size: 13px;font-weight: bold;"
+                                                <span style="font-size: 13px;font-weight: bold;" class="audio_name"
                                                     id="write-input-vi-{{$index}}">{{$item->file_vi ? $item->file_vi :
                                                     ''}}</span>
+                                                @if($item->file_vi)
+                                                <p class="row align-items-center ml-1 my-2">
+                                                    <audio controls>
+                                                        <source src="{{ asset('storage/' . $item->file_vi) }}"
+                                                            type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick='removeFile("write-file-vi-{{$index}}", "write-input-vi-{{$index}}")'><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
+                                                @else
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src="" type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick='removeFile("write-file-vi-{{$index}}", "write-input-vi-{{$index}}")'><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
+                                                @endif
                                             </div>
                                             @if($index == 0)
                                             <div class="col-sm-2">
@@ -508,11 +618,21 @@
                                                         <span class="btn btn-sm btn-success input-file-btn">
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="write_file_en[0]"
-                                                                id="write-file-en-0" onchange="getWriteFileNameEN(0)">
+                                                                id="write-file-en-0"
+                                                                onchange="getFileName('write-file-en-0', 'write-input-en-0')">
                                                         </span>
                                                     </label>
                                                 </div>
                                                 <span style="font-size: 13px;" id="write-input-en-0"></span>
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src="" type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick="removeFile('write-file-en-0', 'write-input-en-0')"><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
                                             </div>
                                             <div class="col-sm-5">
                                                 <div class="input-group">
@@ -525,11 +645,21 @@
                                                         <span class="btn btn-sm btn-success input-file-btn">
                                                             <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                             <input type="file" hidden name="write_file_vi[0]"
-                                                                id="write-file-vi-0" onchange="getWriteFileNameVI(0)">
+                                                                id="write-file-vi-0"
+                                                                onchange="getFileName('write-file-vi-0', 'write-input-vi-0')">
                                                         </span>
                                                     </label>
                                                 </div>
                                                 <span style="font-size: 13px;" id="write-input-vi-0"></span>
+                                                <p class="row align-items-center ml-1 my-2 d-none">
+                                                    <audio controls>
+                                                        <source src="" type="audio/mpeg">
+                                                        Trình duyệt không hỗ trợ phát audio
+                                                    </audio>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2"
+                                                        onclick="removeFile('write-file-vi-0', 'write-input-vi-0')"><i
+                                                            class="fas fa-times"></i></a>
+                                                </p>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="form-group">
