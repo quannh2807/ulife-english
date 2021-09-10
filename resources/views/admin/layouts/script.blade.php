@@ -14,7 +14,8 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.13/combined/js/gijgo.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.13/combined/js/gijgo.min.js"
+    type="text/javascript"></script>
 
 <script>
     $(':input').inputmask();
@@ -165,7 +166,7 @@
         $.ajax({
             type: "GET",
             url: '{{ route('admin.question.getVideos') }}',
-            data: {id: videoId, keyName: keyName},
+            data: { id: videoId, keyName: keyName },
             success: function (response) {
                 $('.result-content').html(response);
                 $('#videoListModal').modal('show');
@@ -264,7 +265,7 @@
                     setTimeout(() => {
                         this.setEndDate(this.endDate[
                             this.endDate.valueOf() - this.startDate.valueOf() > 1440 ? 'subtract' : 'add'
-                            ](1, 'days'));
+                        ](1, 'days'));
                         $('#valRangeDate').val('');
                         $('#txtDateRange').html('Từ ngày - Đến ngày');
                     })
@@ -325,29 +326,29 @@
     });
     /* end lessons screen */
     /* toastr */
-    @if(Session::has('success'))
-        toastr.options = {
+    @if (Session:: has('success'))
+    toastr.options = {
         "closeButton": true,
         "progressBar": true
     }
     toastr.success("{{ session('success') }}");
     @endif
-        @if(Session::has('error'))
-        toastr.options = {
+    @if (Session:: has('error'))
+    toastr.options = {
         "closeButton": true,
         "progressBar": true
     }
     toastr.error("{{ session('error') }}");
     @endif
-        @if(Session::has('info'))
-        toastr.options = {
+    @if (Session:: has('info'))
+    toastr.options = {
         "closeButton": true,
         "progressBar": true
     }
     toastr.info("{{ session('info') }}");
     @endif
-        @if(Session::has('warning'))
-        toastr.options = {
+    @if (Session:: has('warning'))
+    toastr.options = {
         "closeButton": true,
         "progressBar": true
     }
@@ -612,4 +613,22 @@
     $('.date-picker').datepicker({
         uiLibrary: 'bootstrap4'
     });
+
+    function getSpeakFileNameEN(position) {
+        console.log(position)
+        let file = $(`input#speak-file-en-${position}`)[0].files[0].name
+        $(`#speak-input-en-${position}`).html(`Đã chọn file: <span style="font-weight: bold;">${file}</span>`)
+    }
+    function getSpeakFileNameVI(position) {
+        let file = $(`input#speak-file-vi-${position}`)[0].files[0].name
+        $(`#speak-input-vi-${position}`).html(`Đã chọn file: <span style="font-weight: bold;">${file}</span>`)
+    }
+    function getWriteFileNameEN(position) {
+        let file = $(`input#write-file-en-${position}`)[0].files[0].name
+        $(`#write-input-en-${position}`).html(`Đã chọn file: <span style="font-weight: bold;">${file}</span>`)
+    }
+    function getWriteFileNameVI(position) {
+        let file = $(`input#write-file-vi-${position}`)[0].files[0].name
+        $(`#write-input-vi-${position}`).html(`Đã chọn file: <span style="font-weight: bold;">${file}</span>`)
+    }
 </script>
