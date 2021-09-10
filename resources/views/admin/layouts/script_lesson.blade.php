@@ -234,11 +234,19 @@
                                                 <span class="btn btn-sm btn-success input-file-btn">
                                                     <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                     <input type="file" hidden name="speak_file_en[${indexSpeak}]"
-                                                        id="speak-file-en-${indexSpeak}" onchange="getSpeakFileNameEN(${indexSpeak})">
+                                                        id="speak-file-en-${indexSpeak}" onchange="getFileName('speak-file-en-${indexSpeak}', 'speak-input-en-${indexSpeak}')">
                                                 </span>
                                             </label>
                                         </div>
                                         <span style="font-size: 13px;" id="speak-input-en-${indexSpeak}"></span>
+                                        <p class="row align-items-center ml-1 my-2 d-none">
+                                            <audio controls>
+                                                <source src=""
+                                                    type="audio/mpeg">
+                                                Trình duyệt không hỗ trợ phát audio
+                                            </audio>
+                                            <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2" onclick="removeFile('speak-file-en-${indexSpeak}', 'speak-input-en-${indexSpeak}')"><i class="fas fa-times"></i></a>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -255,11 +263,19 @@
                                                 <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                                 <input type="file" hidden
                                                     name="speak_file_vi[${indexSpeak}]" id="speak-file-vi-${indexSpeak}"
-                                                    onchange="getSpeakFileNameVI(${indexSpeak})">
+                                                    onchange="getFileName('speak-file-vi-${indexSpeak}', 'speak-input-vi-${indexSpeak}')">
                                             </span>
                                         </label>
                                     </div>
                                     <span style="font-size: 13px;" id="speak-input-vi-${indexSpeak}"></span>
+                                    <p class="row align-items-center ml-1 my-2 d-none">
+                                        <audio controls>
+                                            <source src=""
+                                                type="audio/mpeg">
+                                            Trình duyệt không hỗ trợ phát audio
+                                        </audio>
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2" onclick="removeFile('speak-file-vi-${indexSpeak}', 'speak-input-vi-${indexSpeak}')"><i class="fas fa-times"></i></a>
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-sm-2">
@@ -308,11 +324,19 @@
                                     <span class="btn btn-sm btn-success input-file-btn">
                                         <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                         <input type="file" hidden name="write_file_en[${indexWrite}]"
-                                            id="write-file-en-${indexWrite}" onchange="getWriteFileNameEN(${indexWrite})">
+                                            id="write-file-en-${indexWrite}" onchange="getFileName('write-file-en-${indexWrite}', 'write-input-en-${indexWrite}')">
                                     </span>
                                 </label>
                             </div>
                             <span style="font-size: 13px;" id="write-input-en-${indexWrite}" ></span>
+                            <p class="row align-items-center ml-1 my-2 d-none">
+                                <audio controls>
+                                    <source src=""
+                                        type="audio/mpeg">
+                                    Trình duyệt không hỗ trợ phát audio
+                                </audio>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2" onclick="removeFile('write-file-en-${indexWrite}', 'write-input-en-${indexWrite}')"><i class="fas fa-times"></i></a>
+                            </p>
                         </div>
                         <div class="col-sm-5">
                             <div class="input-group">
@@ -326,11 +350,19 @@
                                         <i class="fas fa-file-audio"></i>&nbsp;&nbsp;Chọn file
                                         <input type="file" hidden
                                             name="write_file_vi[${indexWrite}]" id="write-file-vi-${indexWrite}"
-                                            onchange="getWriteFileNameVI(${indexWrite})">
+                                            onchange="getFileName('write-file-vi-${indexWrite}', 'write-input-vi-${indexWrite}')">
                                     </span>
                                 </label>
                             </div>
                             <span style="font-size: 13px;" id="write-input-vi-${indexWrite}"></span>
+                            <p class="row align-items-center ml-1 my-2 d-none">
+                                <audio controls>
+                                    <source src=""
+                                        type="audio/mpeg">
+                                    Trình duyệt không hỗ trợ phát audio
+                                </audio>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2" onclick="removeFile('write-file-vi-${indexWrite}', 'write-input-vi-${indexWrite}')"><i class="fas fa-times"></i></a>
+                            </p>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">

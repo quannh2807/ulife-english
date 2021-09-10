@@ -614,21 +614,37 @@
         uiLibrary: 'bootstrap4'
     });
 
-    function getSpeakFileNameEN(position) {
-        console.log(position)
-        let file = $(`input#speak-file-en-${position}`)[0].files[0].name
-        $(`#speak-input-en-${position}`).html(`Đã chọn file: <span style="font-weight: bold;">${file}</span>`)
+    // start lesson
+    $('.audio_name').each(function (index) {
+        let arrText = $(this).text().split('/');
+        if (arrText.length > 1) {
+            $(this).text(arrText[arrText.length - 1])
+        }
+    });
+    function getFileName(fileId, spanId) {
+        let file = $(`#${fileId}`)[0].files[0]
+        let urlFile = URL.createObjectURL(file);
+        let audioTag = $(`#${spanId}`).siblings('p').children('audio')
+
+        $(`#${spanId}`).html(`Đã chọn file: <span style="font-weight: bold;">${file.name}</span>`)
+        $(`#${spanId}`).siblings('p').removeClass('d-none')
+        audioTag.children('source').attr('src', urlFile);
+        audioTag[0].load()
     }
-    function getSpeakFileNameVI(position) {
-        let file = $(`input#speak-file-vi-${position}`)[0].files[0].name
-        $(`#speak-input-vi-${position}`).html(`Đã chọn file: <span style="font-weight: bold;">${file}</span>`)
+
+    function removeFile(fileId, spanId) {
+        $(`#${fileId}`).val('');
+        $(`#${spanId}`).text('')
+        $(`#${spanId}`).siblings('p').replaceWith(`
+            <p class="row align-items-center ml-1 my-2 d-none">
+                <audio controls>
+                    <source src=""
+                        type="audio/mpeg">
+                    Trình duyệt không hỗ trợ phát audio
+                </audio>
+                <a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2" onclick="removeFile('${fileId}', '${spanId}')"><i class="fas fa-times"></i></a>
+            </p>
+        `);
     }
-    function getWriteFileNameEN(position) {
-        let file = $(`input#write-file-en-${position}`)[0].files[0].name
-        $(`#write-input-en-${position}`).html(`Đã chọn file: <span style="font-weight: bold;">${file}</span>`)
-    }
-    function getWriteFileNameVI(position) {
-        let file = $(`input#write-file-vi-${position}`)[0].files[0].name
-        $(`#write-input-vi-${position}`).html(`Đã chọn file: <span style="font-weight: bold;">${file}</span>`)
-    }
+    // end lesson
 </script>
