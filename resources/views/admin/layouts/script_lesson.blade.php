@@ -221,6 +221,7 @@
                     </div>
                     <div class="content">
                         <div class="row">
+                            <input name="id_speak[${indexSpeak}]" type="text" value="0" hidden>
                             <div class="col-sm-5">
                                 <div class="form-group">
                                     <div class="form-group">
@@ -313,6 +314,7 @@
                 </div>
                 <div class="content">
                     <div class="row">
+                        <input name="id_write[${indexWrite}]" type="text" value="0" hidden>
                         <div class="col-sm-5">
                             <div class="input-group">
                                 <input type="text"
