@@ -17,12 +17,12 @@ class CreateVocabularyCatTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('thumb')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->integer('parent_id')->default(0);
             $table->integer('type')->default(1);
             $table->integer('status')->default(1);
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->default(0);
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }

@@ -14,7 +14,6 @@ class CreateVideoCategoryTable extends Migration
     public function up()
     {
         Schema::create('video_category', function (Blueprint $table) {
-            $table->id();
             $table->integer('video_id');
             $table->integer('category_id');
         });

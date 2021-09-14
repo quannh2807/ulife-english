@@ -20,8 +20,8 @@ class CreateLanguagesTable extends Migration
             $table->string('locale');
             $table->string('key');
             $table->integer('status')->default(1);
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->default(0);
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }

@@ -25,6 +25,7 @@ class CreateQuestionsTable extends Migration
             $table->string('time_start')->nullable();
             $table->string('time_end')->nullable();
             $table->string('selected_answer')->default(0);
+            $table->text('description')->nullable();
             $table->integer('is_favorite')->default(0);
             $table->integer('lang_id')->default(1);
             $table->integer('video_id')->nullable();
