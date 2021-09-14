@@ -7,6 +7,7 @@ use App\Http\Requests\CourseRequest;
 use App\Models\Course;
 use App\Repositories\CourseRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
@@ -67,6 +68,8 @@ class CourseController extends Controller
     public function store(CourseRequest $request)
     {
         $data = $request->all();
+        $data['created_by'] = Auth::user()->id;
+        $data['updated_by'] = Auth::user()->id;
         $isSave = $this->courseRepository->storeNew($data);
         return redirect()->route('admin.course.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
@@ -89,6 +92,7 @@ class CourseController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
+        $data['updated_by'] = Auth::user()->id;
         $isSave = $this->courseRepository->update($id, $data);
         return redirect()->route('admin.course.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }

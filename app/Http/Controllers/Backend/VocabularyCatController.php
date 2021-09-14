@@ -8,6 +8,7 @@ use App\Http\Requests\VocabularyCatRequestUpdate;
 use App\Models\VocabularyCat;
 use App\Repositories\VocabularyCatRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VocabularyCatController extends Controller
 {
@@ -63,6 +64,8 @@ class VocabularyCatController extends Controller
     public function store(VocabularyCatRequest $request)
     {
         $data = $request->except('_token', 'files');
+        $data['created_by'] = Auth::user()->id;
+        $data['updated_by'] = Auth::user()->id;
         if ($request->hasFile('thumb')) {
             if (!isUrl($request->thumb)) {
                 $path = $request->file('thumb')->store('thumbnails', 'public');
@@ -86,6 +89,8 @@ class VocabularyCatController extends Controller
         $request->request->remove('inlineRadioUpload');
         $detail = VocabularyCat::find($request->id);
         $data = $request->except('_token', 'files');
+        $data['updated_by'] = Auth::user()->id;
+
         if ($request->hasFile('thumb')) {
             // remove old image
             if (!empty($detail->thumb) && !isUrl($request->thumb)) {

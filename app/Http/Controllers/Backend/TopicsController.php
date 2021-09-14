@@ -8,6 +8,7 @@ use App\Models\Levels;
 use App\Models\Topics;
 use App\Repositories\TopicsRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TopicsController extends Controller
@@ -77,6 +78,8 @@ class TopicsController extends Controller
     public function store(TopicsRequest $request)
     {
         $data = $request->all();
+        $data['created_by'] = Auth::user()->id;
+        $data['updated_by'] = Auth::user()->id;
         $isSave = $this->topicsRepository->storeNew($data);
         return redirect()->route('admin.topics.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
@@ -99,6 +102,7 @@ class TopicsController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
+        $data['updated_by'] = Auth::user()->id;
         $isSave = $this->topicsRepository->update($id, $data);
         return redirect()->route('admin.topics.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }

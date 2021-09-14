@@ -48,8 +48,8 @@ class Exercises extends Model
         'level_id' => 0,
         'lesson_id' => 0,
         'status' => 1,
-        'created_by' => 1,
-        'updated_by' => 1,
+        'created_by' => 0,
+        'updated_by' => 0,
     ];
 
 }

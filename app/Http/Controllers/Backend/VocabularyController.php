@@ -9,6 +9,7 @@ use App\Models\Vocabulary;
 use App\Models\VocabularyCat;
 use App\Repositories\VocabularyRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VocabularyController extends Controller
 {
@@ -74,6 +75,9 @@ class VocabularyController extends Controller
     public function store(VocabularyRequest $request)
     {
         $data = $request->except('_token', 'files');
+        $data['created_by'] = Auth::user()->id;
+        $data['updated_by'] = Auth::user()->id;
+
         if ($request->hasFile('thumb')) {
             if (!isUrl($request->thumb)) {
                 $path = $request->file('thumb')->store('thumbnails', 'public');
@@ -98,6 +102,8 @@ class VocabularyController extends Controller
     {
         $detail = Vocabulary::find($request->id);
         $data = $request->except('_token', 'files');
+        $data['updated_by'] = Auth::user()->id;
+
         if ($request->hasFile('thumb')) {
             $path = $request->file('thumb')->store('thumbnails', 'public');
             $data['thumb'] = $path;

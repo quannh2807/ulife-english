@@ -8,6 +8,7 @@ use App\Models\Game;
 use App\Models\Levels;
 use App\Repositories\LevelRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LevelsController extends Controller
 {
@@ -64,6 +65,8 @@ class LevelsController extends Controller
     public function store(LevelsRequest $request)
     {
         $data = $request->all();
+        $data['created_by'] = Auth::user()->id;
+        $data['updated_by'] = Auth::user()->id;
         $isSave = $this->levelRepository->storeNew($data);
         return redirect()->route('admin.level.index')->with($isSave ? SUCCESS : ERROR, $isSave ? CREATE_SUCCESS : CREATE_ERROR);
     }
@@ -84,6 +87,7 @@ class LevelsController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
+        $data['updated_by'] = Auth::user()->id;
         $isSave = $this->levelRepository->update($id, $data);
         return redirect()->route('admin.level.index')->with($isSave ? SUCCESS : ERROR, $isSave ? UPDATE_SUCCESS : UPDATE_ERROR);
     }

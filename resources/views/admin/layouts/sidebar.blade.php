@@ -40,7 +40,7 @@
                         <li class="nav-item">
                             <a href="{{ route('admin.user.create') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Thêm mới người dùng</p>
+                                <p>Thêm người dùng</p>
                             </a>
                         </li>
                     </ul>
