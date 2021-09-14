@@ -25,4 +25,14 @@ class Language extends Model
         'created_by',
         'updated_by',
     ];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'created_by' => 0,
+        'updated_by' => 0,
+    ];
 }

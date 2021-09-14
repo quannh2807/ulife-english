@@ -46,7 +46,7 @@ class AuthController extends Controller
         $data = $request->except('password_confirmation');
 
         $data['password'] = Hash::make($request->password);
-        $data['status'] = 0;
+        $data['status'] = 1;
 
         User::create($data);
 

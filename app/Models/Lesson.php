@@ -45,8 +45,8 @@ class Lesson extends Model
         'position' => 0,
         'video_ids' => '',
         'status' => 1,
-        'created_by' => 1,
-        'updated_by' => 1,
+        'created_by' => 0,
+        'updated_by' => 0,
     ];
 
     /**

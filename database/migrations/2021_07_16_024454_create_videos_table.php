@@ -15,19 +15,21 @@ class CreateVideosTable extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->string('ytb_id')->unique();
+            $table->string('ytb_id');
+            $table->integer('topic_id')->default(0);
             $table->string('title');
-            $table->text('description');
-            $table->text('ytb_thumbnails');
+            $table->text('description')->nullable();
+            $table->text('ytb_thumbnails')->nullable();
             $table->string('custom_thumbnails')->nullable();
-            $table->string('publish_at');
-            $table->text('tags');
-            $table->string('channel_id');
-            $table->string('channel_title');
+            $table->string('publish_at')->nullable();
+            $table->text('tags')->nullable();
+            $table->string('channel_id')->nullable();
+            $table->string('channel_title')->nullable();
             $table->integer('type')->default(1);
+            $table->integer('position')->nullable()->default(0);
             $table->integer('status')->default(1);
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
+            $table->integer('created_by')->default(0);
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }

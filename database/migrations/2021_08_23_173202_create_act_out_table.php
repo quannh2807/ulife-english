@@ -13,7 +13,6 @@ class CreateActOutTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('act_out');
         Schema::create('act_out', function (Blueprint $table) {
             $table->id();
             $table->integer('lesson_id')->default(0);
@@ -22,10 +21,10 @@ class CreateActOutTable extends Migration
             $table->string('time_end');
             $table->text('vi')->nullable();
             $table->text('en')->nullable();
-            $table->text('ko')->nullable();
+            $table->string('user_tag')->default('');
             $table->integer('status')->default(1);
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->default(0);
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }

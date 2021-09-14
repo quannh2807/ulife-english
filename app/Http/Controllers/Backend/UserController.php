@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -56,6 +57,8 @@ class UserController extends Controller
             $avatarImg = $path;
             $data['avatar'] = $avatarImg;
         }
+        $data['created_by'] = Auth::user()->id;
+        $data['updated_by'] = Auth::user()->id;
         $data['password'] = Hash::make('password');
         $this->userRepository->storeNew($data);
 
@@ -103,7 +106,7 @@ class UserController extends Controller
             $avatarImg = $path;
             $data['avatar'] = $avatarImg ? $avatarImg : '';
         }
-
+        $data['updated_by'] = Auth::user()->id;
         $this->userRepository->update($data['id'], $data);
 
         return redirect()->route('admin.user.index');

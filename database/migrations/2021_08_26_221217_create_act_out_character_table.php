@@ -19,6 +19,8 @@ class CreateActOutCharacterTable extends Migration
             $table->string('characterName')->nullable();
             $table->string('image')->nullable();
             $table->integer('lesson_id')->default(0);
+            $table->integer('created_by')->default(0);
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }

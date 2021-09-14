@@ -11,6 +11,7 @@ use App\Repositories\VideoSubtitleRepository;
 use Benlipp\SrtParser\Parser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideoSubtitleController extends Controller
 {
@@ -48,6 +49,8 @@ class VideoSubtitleController extends Controller
         $allData = $request->all();
         $allData['time_start'] = stringHoursToFloat($request->time_start);
         $allData['time_end'] = stringHoursToFloat($request->time_end);
+        $allData['created_by'] = Auth::user()->id;
+        $allData['updated_by'] = Auth::user()->id;
 
         $currentSub = VideoSubtitle::where('id', $request->sub_id)->first();
 

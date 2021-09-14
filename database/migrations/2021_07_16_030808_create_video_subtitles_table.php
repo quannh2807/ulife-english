@@ -20,10 +20,9 @@ class CreateVideoSubtitlesTable extends Migration
             $table->string('time_end');
             $table->text('vi')->nullable();
             $table->text('en')->nullable();
-            $table->text('ko')->nullable();
             $table->integer('status')->default(1);
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->default(0);
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }

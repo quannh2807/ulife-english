@@ -11,6 +11,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\VideoRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
@@ -66,6 +67,8 @@ class VideoController extends Controller
     public function saveCreate(VideoRequest $request)
     {
         $data = $request->except('categories');
+        $data['created_by'] = Auth::user()->id;
+        $data['updated_by'] = Auth::user()->id;
         $categories = $request->categories;
         $saveVideo = $this->videoRepository->storeNew($data);
         // luu record quan he n-n vao bang video_category
@@ -102,6 +105,8 @@ class VideoController extends Controller
         $currentVideo->hasCategories()->sync($categories);
 
         $video = $request->except('_token', 'categories');
+        $video['created_by'] = Auth::user()->id;
+        $video['updated_by'] = Auth::user()->id;
         if ($request->hasFile('custom_thumbnails')) {
             // remove old image
             if (!empty($video->custom_thumbnails)) {

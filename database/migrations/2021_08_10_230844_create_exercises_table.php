@@ -21,6 +21,7 @@ class CreateExercisesTable extends Migration
             $table->string('answer_3')->nullable();
             $table->string('answer_4')->nullable();
             $table->string('answer_correct')->nullable();
+            $table->text('description')->nullable();
             $table->string('thumb')->nullable();
             $table->integer('level_id')->default(0);
             $table->integer('lesson_id')->default(0);
