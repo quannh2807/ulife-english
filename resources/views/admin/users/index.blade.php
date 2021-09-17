@@ -19,30 +19,28 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form id="frmSearch" action="{{ route('admin.level.search') }}" method="GET">
+                    <form id="frmSearch" action="{{ route('admin.user.search') }}" method="GET">
                         <div class="row">
                             <div class="item-search">
                                 <div class="btn-group" style="margin: 0px 10px">
                                     <input type="text" class="form-control form-control-sm"
                                            id="searchInput" name="keyword"
-                                           placeholder="Tìm kiếm với tiêu đề hoặc ID"
+                                           placeholder="Tìm kiếm theo tên người dùng"
                                            value="{{ request()->has('keyword') ? request()->get('keyword') : '' }}">
                                     <span id="searchClear" class="nav-icon fas fa-times-circle"></span>
                                 </div>
                             </div>
-                            <div style="margin: 0px 6px;">
-                                <div class="input-group">
-                                    <input id="valRangeDate" name="rangeDate" type="text"
-                                           value="{{ request()->has('rangeDate') ? request()->get('rangeDate') : '' }}"
-                                           hidden>
-                                    <button type="button" class="btn btn-sm btn-default float-right btn-block text-left"
-                                            id="daterange-btn">
-                                        <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;<span
-                                            id="txtDateRange">{{ request()->has('rangeDate') && !empty(request()->get('rangeDate')) ? request()->get('rangeDate') : 'Từ ngày - Đến ngày' }}</span>
-                                        <i class="fas fa-caret-down"></i>
-                                    </button>
+
+                            <div class="item-search">
+                                <div class="btn-group" style="margin: 0px 10px">
+                                    <input type="text" class="form-control form-control-sm"
+                                           id="searchInput" name="email"
+                                           placeholder="Tìm kiếm với email"
+                                           value="{{ request()->has('email') ? request()->get('email') : '' }}">
+                                    <span id="searchClear" class="nav-icon fas fa-times-circle"></span>
                                 </div>
                             </div>
+
                             <div class="col-2">
                                 <select class="form-control form-control-sm" name="status">
                                     <option value="-1">--Trạng thái--</option>
