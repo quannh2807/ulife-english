@@ -25,7 +25,7 @@ class Levels extends Model
         'sub_name' => '',
         'description' => '',
         'status' => 1,
-        'created_by' => 1,
-        'updated_by' => 1,
+        'created_by' => 0,
+        'updated_by' => 0,
     ];
 }

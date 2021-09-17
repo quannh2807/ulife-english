@@ -52,8 +52,8 @@ class Question extends Model
         'topics_id' => 0,
         'type' => 0,
         'status' => 1,
-        'created_by' => 1,
-        'updated_by' => 1,
+        'created_by' => 0,
+        'updated_by' => 0,
     ];
 
     public function getVideo()

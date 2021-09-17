@@ -10,6 +10,7 @@ use App\Models\VideoSubtitle;
 use App\Repositories\QuestionRepository;
 use App\Repositories\VideoRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
@@ -95,6 +96,8 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request)
     {
         $data = $request->all();
+        $data['created_by'] = Auth::user()->id;
+        $data['updated_by'] = Auth::user()->id;
         $data['time_start'] = stringHoursToFloat($request->input('time_start'));
         $data['time_end'] = stringHoursToFloat($request->input('time_end'));
 
@@ -127,6 +130,7 @@ class QuestionController extends Controller
     {
         $id = $request->id;
         $data = $request->except(['_token', 'id']);
+        $data['updated_by'] = Auth::user()->id;
         $data['time_start'] = stringHoursToFloat($request->input('time_start'));
         $data['time_end'] = stringHoursToFloat($request->input('time_end'));
         $isSave = $this->questionRepository->update($id, $data);

@@ -32,8 +32,8 @@ class Category extends Model
         'position' => 1,
         'parent_id' => 0,
         'type' => 1,
-        'created_by' => 1,
-        'updated_by' => 1,
+        'created_by' => 0,
+        'updated_by' => 0,
     ];
 
     /**

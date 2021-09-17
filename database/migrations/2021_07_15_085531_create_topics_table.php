@@ -19,8 +19,8 @@ class CreateTopicsTable extends Migration
             $table->integer('level_id');
             $table->string('name');
             $table->integer('status')->default(1);
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->default(0);
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }

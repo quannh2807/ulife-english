@@ -25,8 +25,8 @@ class Video extends Model
     protected $attributes = [
         'position' => 0,
         'status' => 0,
-        'created_by' => 1,
-        'updated_by' => 1,
+        'created_by' => 0,
+        'updated_by' => 0,
     ];
 
     /**

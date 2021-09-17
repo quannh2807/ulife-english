@@ -11,6 +11,7 @@ use App\Repositories\VideoSubtitleRepository;
 use Benlipp\SrtParser\Parser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideoSubtitleController extends Controller
 {
@@ -22,8 +23,7 @@ class VideoSubtitleController extends Controller
         VideoRepository $videoRepository,
         VideoSubtitleRepository $videoSubtitleRepository,
         LanguageRepository $languageRepository
-    )
-    {
+    ) {
         $this->videoRepository = $videoRepository;
         $this->videoSubtitleRepository = $videoSubtitleRepository;
         $this->languageRepository = $languageRepository;
@@ -48,8 +48,12 @@ class VideoSubtitleController extends Controller
         $allData = $request->all();
         $allData['time_start'] = stringHoursToFloat($request->time_start);
         $allData['time_end'] = stringHoursToFloat($request->time_end);
+        $allData['created_by'] = Auth::user()->id;
+        $allData['updated_by'] = Auth::user()->id;
 
-        $currentSub = VideoSubtitle::where('id', $request->sub_id)->first();
+        $currentSub = VideoSubtitle::where('video_id', $request->video_id)
+                        ->where('time_start', $allData['time_start'])
+                        ->where('time_end', $allData['time_end'])->first();
 
         if ($currentSub) {
             $this->videoSubtitleRepository->update($currentSub->id, $allData);

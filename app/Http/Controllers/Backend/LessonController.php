@@ -15,6 +15,7 @@ use App\Repositories\LevelRepository;
 use App\Repositories\VideoRepository;
 use Benlipp\SrtParser\Parser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class LessonController extends Controller
@@ -91,8 +92,6 @@ class LessonController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request);
-
         $name = $request->name;
         $description = $request->description;
         $level_id = $request->level_id;
@@ -105,9 +104,45 @@ class LessonController extends Controller
         // speak
         $speak_name_en = $request->input('speak_name_en', []);
         $speak_name_vi = $request->input('speak_name_vi', []);
+        // upload file ghi am |storeAs($path, $name, $options = [])
+        $speak_file_vi = [];
+        if ($request->hasFile('speak_file_vi')) {
+            $arr_speak_file_vi = $request->file('speak_file_vi');
+            foreach ($arr_speak_file_vi as $key => $file) {
+                $path = $file->storeAs('lesson-training/speak', 'speak_' . uniqid() . '_' . $file->getClientOriginalName(), 'public');
+                $speak_file_vi[$key] = $path;
+            }
+        }
+        $speak_file_en = [];
+        if ($request->hasFile('speak_file_en')) {
+            $arr_speak_file_en = $request->file('speak_file_en');
+            foreach ($arr_speak_file_en as $key => $file) {
+                $path = $file->storeAs('lesson-training/speak', 'speak_' . uniqid() . '_' . $file->getClientOriginalName(), 'public');
+                $speak_file_en[$key] = $path;
+            }
+        }
+
         // write
         $write_name_en = $request->input('write_name_en', []);
         $write_name_vi = $request->input('write_name_vi', []);
+        // upload file ghi am
+        $write_file_vi = [];
+        if ($request->hasFile('write_file_vi')) {
+            $write_file_vi = $request->file('write_file_vi');
+            foreach ($write_file_vi as $key => $file) {
+                $path = $file->storeAs('lesson-training/write', 'write_' . uniqid() . '_' . $file->getClientOriginalName(), 'public');
+                $write_file_vi[$key] = $path;
+            }
+        }
+        $write_file_en = [];
+        if ($request->hasFile('write_file_en')) {
+            $write_file_en = $request->file('write_file_en');
+            foreach ($write_file_en as $key => $file) {
+                $path = $file->storeAs('lesson-training/write', 'write_' . uniqid() . '_' . $file->getClientOriginalName(), 'public');
+                $write_file_en[$key] = $path;
+            }
+        }
+
         // do exercises
         $exercises_name = $request->input('exercises_name', []);
         $answer_1 = $request->input('answer_1', []);
@@ -168,8 +203,8 @@ class LessonController extends Controller
             'level_id' => $level_id,
             'course_id' => $course_id,
             'status' => $status,
-            'created_by' => 1,
-            'updated_by' => 1,
+            'created_by' => Auth::user()->id,
+            'updated_by' => Auth::user()->id,
             'created_at' => \Carbon\Carbon::now(),
         ];
 
@@ -185,8 +220,10 @@ class LessonController extends Controller
                     'vi' => $speak_name_vi[$index],
                     'type' => config('common.lesson_training_types.speaking'),
                     'lesson_id' => $lessonId,
-                    'created_by' => 1,
-                    'updated_by' => 1,
+                    'file_vi' => array_key_exists($index, $speak_file_vi) ? $speak_file_vi[$index] : null,
+                    'file_en' => array_key_exists($index, $speak_file_en) ? $speak_file_en[$index] : null,
+                    'created_by' => Auth::user()->id,
+                    'updated_by' => Auth::user()->id,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
             }
@@ -198,8 +235,10 @@ class LessonController extends Controller
                     'vi' => $write_name_vi[$index],
                     'type' => config('common.lesson_training_types.writing'),
                     'lesson_id' => $lessonId,
-                    'created_by' => 1,
-                    'updated_by' => 1,
+                    'file_vi' => array_key_exists($index, $write_file_vi) ? $write_file_vi[$index] : null,
+                    'file_en' => array_key_exists($index, $write_file_en) ? $write_file_en[$index] : null,
+                    'created_by' => Auth::user()->id,
+                    'updated_by' => Auth::user()->id,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
             }
@@ -216,8 +255,8 @@ class LessonController extends Controller
                     'lesson_id' => $lessonId,
                     'answer_correct' => $answer_correct[$index],
                     'description' => $answer_description[$index],
-                    'created_by' => 1,
-                    'updated_by' => 1,
+                    'created_by' => Auth::user()->id,
+                    'updated_by' => Auth::user()->id,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
             }
@@ -232,8 +271,8 @@ class LessonController extends Controller
                         'en' => $actOutEn[$index],
                         'vi' => $actOutVi[$index],
                         'characterId' => $actOutCharacterId[$index],
-                        'created_by' => 1,
-                        'updated_by' => 1,
+                        'created_by' => Auth::user()->id,
+                        'updated_by' => Auth::user()->id,
                         'created_at' => \Carbon\Carbon::now(),
                     ];
                 }
@@ -330,8 +369,6 @@ class LessonController extends Controller
 
     public function update(Request $request)
     {
-        //dd($request);
-
         $lessonId = $request->id;
         $name = $request->name;
         $description = $request->description;
@@ -343,11 +380,47 @@ class LessonController extends Controller
         $videoGrammarIds = $request->videoGrammarIds;
         $videoLessonIds = $request->videoLessonIds;
 
+        // speaking
         $speak_name_en = $request->speak_name_en;
         $speak_name_vi = $request->speak_name_vi;
+        // upload file ghi am |storeAs($path, $name, $options = [])
+        $speak_file_vi = [];
+        if ($request->hasFile('speak_file_vi')) {
+            $arr_speak_file_vi = $request->file('speak_file_vi');
+            foreach ($arr_speak_file_vi as $key => $file) {
+                $path = $file->storeAs('lesson-training/speak', 'speak_' . uniqid() . '_' . $file->getClientOriginalName(), 'public');
+                $speak_file_vi[$key] = $path;
+            }
+        }
+        $speak_file_en = [];
+        if ($request->hasFile('speak_file_en')) {
+            $arr_speak_file_en = $request->file('speak_file_en');
+            foreach ($arr_speak_file_en as $key => $file) {
+                $path = $file->storeAs('lesson-training/speak', 'speak_' . uniqid() . '_' . $file->getClientOriginalName(), 'public');
+                $speak_file_en[$key] = $path;
+            }
+        }
 
+        // writting
         $write_name_en = $request->write_name_en;
         $write_name_vi = $request->write_name_vi;
+        // upload file ghi am
+        $write_file_vi = [];
+        if ($request->hasFile('write_file_vi')) {
+            $write_file_vi = $request->file('write_file_vi');
+            foreach ($write_file_vi as $key => $file) {
+                $path = $file->storeAs('lesson-training/write', 'write_' . uniqid() . '_' . $file->getClientOriginalName(), 'public');
+                $write_file_vi[$key] = $path;
+            }
+        }
+        $write_file_en = [];
+        if ($request->hasFile('write_file_en')) {
+            $write_file_en = $request->file('write_file_en');
+            foreach ($write_file_en as $key => $file) {
+                $path = $file->storeAs('lesson-training/write', 'write_' . uniqid() . '_' . $file->getClientOriginalName(), 'public');
+                $write_file_en[$key] = $path;
+            }
+        }
 
         $exercises_name = $request->exercises_name;
         $answer_1 = $request->answer_1;
@@ -435,8 +508,8 @@ class LessonController extends Controller
                 'level_id' => $level_id,
                 'course_id' => $course_id,
                 'status' => $status,
-                'created_by' => 1,
-                'updated_by' => 1,
+                'created_by' => Auth::user()->id,
+                'updated_by' => Auth::user()->id,
                 'created_at' => \Carbon\Carbon::now(),
             ];
         } else {
@@ -449,8 +522,8 @@ class LessonController extends Controller
                 'level_id' => $level_id,
                 'course_id' => $course_id,
                 'status' => $status,
-                'created_by' => 1,
-                'updated_by' => 1,
+                'created_by' => Auth::user()->id,
+                'updated_by' => Auth::user()->id,
                 'created_at' => \Carbon\Carbon::now(),
             ];
         }
@@ -489,10 +562,12 @@ class LessonController extends Controller
                 $dataSpeak = [
                     'en' => $speak_name_en[$index],
                     'vi' => $speak_name_vi[$index],
+                    'file_vi' => array_key_exists($index, $speak_file_vi) ? $speak_file_vi[$index] : null,
+                    'file_en' => array_key_exists($index, $speak_file_en) ? $speak_file_en[$index] : null,
                     'type' => config('common.lesson_training_types.speaking'),
                     'lesson_id' => $lessonId,
-                    'created_by' => 1,
-                    'updated_by' => 1,
+                    'created_by' => Auth::user()->id,
+                    'updated_by' => Auth::user()->id,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
 
@@ -507,10 +582,12 @@ class LessonController extends Controller
                 $dataWrite = [
                     'en' => $write_name_en[$index],
                     'vi' => $write_name_vi[$index],
+                    'file_vi' => array_key_exists($index, $write_file_vi) ? $write_file_vi[$index] : null,
+                    'file_en' => array_key_exists($index, $write_file_en) ? $write_file_en[$index] : null,
                     'type' => config('common.lesson_training_types.writing'),
                     'lesson_id' => $lessonId,
-                    'created_by' => 1,
-                    'updated_by' => 1,
+                    'created_by' => Auth::user()->id,
+                    'updated_by' => Auth::user()->id,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
 
@@ -532,8 +609,8 @@ class LessonController extends Controller
                     'lesson_id' => $lessonId,
                     'answer_correct' => $answer_correct[$index],
                     'description' => $answer_description[$index],
-                    'created_by' => 1,
-                    'updated_by' => 1,
+                    'created_by' => Auth::user()->id,
+                    'updated_by' => Auth::user()->id,
                     'created_at' => \Carbon\Carbon::now(),
                 ];
 
@@ -554,8 +631,8 @@ class LessonController extends Controller
                         'en' => $actOutEn[$index],
                         'vi' => $actOutVi[$index],
                         'characterId' => $actOutCharacterId[$index],
-                        'created_by' => 1,
-                        'updated_by' => 1,
+                        'created_by' => Auth::user()->id,
+                        'updated_by' => Auth::user()->id,
                         //'created_at' => \Carbon\Carbon::now(),
                         //'updated_at' => \Carbon\Carbon::now(),
                     ];
@@ -705,7 +782,7 @@ class LessonController extends Controller
 
             if (!empty($subtitlesEn) && !empty($subtitlesVi)) {
                 foreach ($subtitlesEn as $index => $value) {
-                    $jsonData [] = array(
+                    $jsonData[] = array(
                         'startTime' => $value->startTime,
                         'endTime' => $value->endTime,
                         'en' => $value->text,
@@ -714,7 +791,7 @@ class LessonController extends Controller
                 }
             } else if (!empty($subtitlesEn)) {
                 foreach ($subtitlesEn as $index => $value) {
-                    $jsonData [] = array(
+                    $jsonData[] = array(
                         'startTime' => $value->startTime,
                         'endTime' => $value->endTime,
                         'en' => $value->text,
@@ -723,7 +800,7 @@ class LessonController extends Controller
                 }
             } else if (!empty($subtitlesVi)) {
                 foreach ($subtitlesVi as $index => $value) {
-                    $jsonData [] = array(
+                    $jsonData[] = array(
                         'startTime' => $value->startTime,
                         'endTime' => $value->endTime,
                         'en' => '',
@@ -734,9 +811,8 @@ class LessonController extends Controller
                 return 'No Data.';
             }
 
-            $jsonSub ['subtitles'] = $jsonData;
+            $jsonSub['subtitles'] = $jsonData;
             return json_encode($jsonSub);
-
         } else {
             return 'file_sub not found.';
         }
@@ -746,5 +822,4 @@ class LessonController extends Controller
     {
         dd($request->all());
     }
-
 }

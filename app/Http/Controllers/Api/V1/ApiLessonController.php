@@ -175,6 +175,8 @@ class ApiLessonController extends BaseApiController
                     $responseSpeak [] = [
                         'id' => $item->id,
                         'vi' => $item->vi,
+                        'file_vi' => $item->file_vi ? 'storage/' . $item->file_vi : null,
+                        'file_en' => $item->file_en ? 'storage/' . $item->file_en : null,
                         'en' => $item->en,
                         'type' => $item->type,
                         'status' => $item->status,
@@ -190,6 +192,8 @@ class ApiLessonController extends BaseApiController
                         'id' => $item->id,
                         'vi' => $item->vi,
                         'en' => $item->en,
+                        'file_vi' => $item->file_vi ? 'storage/' . $item->file_vi : null,
+                        'file_en' => $item->file_en ? 'storage/' . $item->file_en : null,
                         'type' => $item->type,
                         'status' => $item->status,
                         'created_at' => $item->created_at

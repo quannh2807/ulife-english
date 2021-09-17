@@ -18,12 +18,12 @@ class CreateVocabularyTable extends Migration
             $table->string('name');
             $table->string('spelling');
             $table->string('thumb')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->integer('is_favorite')->default(1);
             $table->integer('status')->default(1);
             $table->integer('cat_id')->default(0);
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->default(0);
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }
