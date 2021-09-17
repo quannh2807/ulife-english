@@ -35,6 +35,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [UserController::class, 'edit'])->name('edit');
         Route::post('/update', [UserController::class, 'update'])->name('update');
         Route::get('/destroy/{id}', [UserController::class, 'destroy'])->name('destroy');
+        Route::get('/search', [UserController::class, 'search'])->name('search');
     });
 
     Route::prefix('category')->name('category.')->group(function () {

@@ -23,7 +23,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 text-center mb-5">
-                    <h2 class="heading-section">Đăng ký</h2>
+                    <h2 class="heading-section">Đăng nhập</h2>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -32,7 +32,7 @@
                         <form action="{{ route('auth.saveLogin') }}" class="signin-form" method="POST">
                             @csrf
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}">
+                                <input type="text" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}" autofocus>
 
                                 @error('email')
                                 <p style="color: whitesmoke; font-weight: bold; padding-left: 20px; font-size: 14px;">{{$message}}</p>
@@ -49,7 +49,7 @@
                             </div>
                             <div class="form-">
                                 <label class="checkbox-wrap checkbox-primary">Ghi nhớ đăng nhập
-                                    <input type="checkbox" name="remember_me">
+                                    <input type="checkbox" name="remember_me" checked>
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
