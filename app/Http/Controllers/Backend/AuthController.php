@@ -25,15 +25,16 @@ class AuthController extends Controller
         if ($request->remember_me === 'on') {
             $remember = true;
         }
+
         if (Auth::attempt($data, $remember)) {
             $request->session()->regenerate();
 
             return redirect()->route('admin.dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'Email hoặc mật khẩu không đúng!',
-        ]);
+        return back()
+                ->withInput($request->input())
+                ->withErrors([ 'email' => 'Email hoặc mật khẩu không đúng!' ]);
     }
 
     public function register()
@@ -50,9 +51,7 @@ class AuthController extends Controller
 
         User::create($data);
 
-        return redirect()->route('auth.login', [
-            'msg' => 'Đăng ký thành công'
-        ]);
+        return redirect()->route('auth.login');
     }
 
     public function logout(Request $request)

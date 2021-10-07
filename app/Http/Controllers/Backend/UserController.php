@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -66,17 +67,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        dd($id);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -126,5 +116,28 @@ class UserController extends Controller
 
             return redirect()->route('admin.user.index');
         }
+    }
+
+    public function search(Request $request)
+    {
+        DB::enableQueryLog();
+        $users = User::query();
+        if (!empty(request('keyword'))) {
+            $users->where('acc_name', 'LIKE', '%' . request('keyword') . '%');
+            $users->orWhere('id', request('keyword'));
+        }
+
+        if (!empty(request('email'))) {
+            $users->where('email', 'LIKE', '%' . request('email') . '%');
+        }
+
+        if (request('status') >= 0) {
+            $users->where('status', request('status'));
+        }
+        $data = $users->orderBy('id', 'DESC')->paginate(10);
+
+        return view('admin.users.index', [
+            'data' => $data,
+        ]);
     }
 }
